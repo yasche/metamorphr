@@ -39,12 +39,12 @@ read_featuretable <- function(file, delim = ",", label_col = 1, metadata_cols = 
     #select(- {{ drop_cols }}) %>%
     dplyr::mutate(Metabolite = as.character(.data$Metabolite)) %>%
     dplyr::mutate(UID = seq(1, length(.data$Metabolite))) %>%
-    dplyr::relocate(.data$UID, .before = 1) %>%
-    dplyr::relocate(.data$Metabolite, .after = 1) %>%
+    dplyr::relocate("UID", .before = 1) %>%
+    dplyr::relocate("Metabolite", .after = 1) %>%
     #print()
     tidyr::gather(-metadata_cols, key = "Sample", value = "Intensity") %>%
-    dplyr::relocate(.data$Sample, .after = 2) %>%
-    dplyr::relocate(.data$Intensity, .after = 3) %>%
+    dplyr::relocate("Sample", .after = 2) %>%
+    dplyr::relocate("Intensity", .after = 3) %>%
     dplyr::mutate(Intensity = as.numeric(.data$Intensity)) %>%
     #replace 0 with NA
     dplyr::mutate(Intensity = dplyr::na_if(.data$Intensity, 0))
@@ -72,7 +72,7 @@ create_metadata_skeleton <- function(data) {
   # additional columns may be added
 
   sample_names <- data %>%
-    dplyr::select(.data$Sample) %>%
+    dplyr::select("Sample") %>%
     dplyr::pull() %>%
     unique()
 

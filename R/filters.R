@@ -6,7 +6,7 @@ filter_global_mv <- function(data, max_na) {
     dplyr::mutate(perc_na = .data$n_na / dplyr::n()) %>%
     dplyr::filter(.data$perc_na <= max_na) %>%
     dplyr::ungroup() %>%
-    dplyr::select(-.data$n_na, -.data$perc_na)
+    dplyr::select(-"n_na", -"perc_na")
 
 }
 
@@ -22,7 +22,7 @@ filter_grouped_mv <- function(data, grouping_column, max_na) {
     dplyr::mutate(max_perc_na = max(.data$perc_na)) %>%
     dplyr::filter(.data$max_perc_na <= max_na) %>%
     dplyr::ungroup() %>%
-    dplyr::select(-.data$n_na, -.data$perc_na, -.data$max_perc_na)
+    dplyr::select(-"n_na", -"perc_na", -"max_perc_na")
 
 }
 
@@ -41,7 +41,7 @@ filter_cv <- function(data, reference_sample, max_cv = 0.2, na_as_zero = TRUE) {
     dplyr::filter(.data$cv <= max_cv) %>%
     dplyr::ungroup() %>%
     dplyr::mutate(Intensity = dplyr::na_if(.data$Intensity, 0)) %>%
-    dplyr::select(-.data$Intensity_ref, -.data$cv)
+    dplyr::select(-"Intensity_ref", -"cv")
 
 }
 
@@ -68,6 +68,6 @@ filter_blank <- function(data, blank_sample, min_frac = 3) {
     dplyr::filter(.data$frac_sb >= min_frac & !is.nan(.data$frac_sb)) %>%
     dplyr::ungroup() %>%
     dplyr::mutate(Intensity = dplyr::na_if(.data$Intensity, 0)) %>%
-    dplyr::select(-.data$frac_sb, -.data$max_blank, -.data$max_sample)
+    dplyr::select(-"frac_sb", -"max_blank", -"max_sample")
 
 }
