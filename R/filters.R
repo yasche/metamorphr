@@ -30,8 +30,7 @@ filter_cv <- function(data, reference_sample, max_cv = 0.2, na_as_zero = TRUE) {
 
   if (na_as_zero == TRUE) {
     data <- data %>%
-      dplyr::mutate(Intensity = dplyr::case_when(is.na(.data$Intensity) ~ 0,
-                                   .default = .data$Intensity))
+      dplyr::mutate(Intensity = dplyr::case_when(is.na(.data$Intensity) ~ 0, .default = .data$Intensity))
   }
 
   data %>%
@@ -57,18 +56,15 @@ filter_blank <- function(data, blank_sample, min_frac = 3) {
   # tibble(frac_sb = c(0, 1, Inf, NaN, 10)) %>% filter(frac_sb >= 3 & !is.nan(frac_sb))
 
   data <- data %>%
-    dplyr::mutate(Intensity = dplyr::case_when(is.na(.data$Intensity) ~ 0,
-                                 .default = .data$Intensity))
+    dplyr::mutate(Intensity = dplyr::case_when(is.na(.data$Intensity) ~ 0, .default = .data$Intensity))
 
   data %>%
     dplyr::group_by(.data$UID) %>%
-    dplyr::mutate(max_blank = dplyr::case_when(.data$Sample == blank_sample ~ .data$Intensity,
-                                 .default = NA),
-           max_blank = max(.data$max_blank, na.rm = TRUE),
-           max_sample = dplyr::case_when(.data$Sample != blank_sample ~ .data$Intensity,
-                                  .default = NA),
-           max_sample = max(.data$max_sample, na.rm = TRUE),
-           frac_sb = .data$max_sample / .data$max_blank) %>%
+    dplyr::mutate(max_blank = dplyr::case_when(.data$Sample == blank_sample ~ .data$Intensity, .default = NA),
+                  max_blank = max(.data$max_blank, na.rm = TRUE),
+                  max_sample = dplyr::case_when(.data$Sample != blank_sample ~ .data$Intensity, .default = NA),
+                  max_sample = max(.data$max_sample, na.rm = TRUE),
+                  frac_sb = .data$max_sample / .data$max_blank) %>%
     dplyr::filter(.data$frac_sb >= min_frac & !is.nan(.data$frac_sb)) %>%
     dplyr::ungroup() %>%
     dplyr::mutate(Intensity = dplyr::na_if(.data$Intensity, 0)) %>%
