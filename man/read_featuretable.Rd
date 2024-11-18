@@ -24,5 +24,6 @@ A tidy tibble.
 Basically a wrapper around \code{readr::read_delim()} but performs some initial tidying operations such as \code{gather()} as well as renaming and rearranging columns.
 }
 \examples{
-feature_table <- read_featuretable("path/to/sample/data.csv", metadata_cols = c(2,3,4))
+featuretable_path <- system.file("extdata", "toy_metaboscape.csv", package = "metamorphr")
+featuretable <- read_featuretable(featuretable_path, metadata_cols = 2:5)
 }

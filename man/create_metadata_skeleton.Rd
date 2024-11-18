@@ -16,6 +16,7 @@ An empty tibble structure with the necessary columns for metadata.
 The function takes a tidy tibble created by \code{metamorph::read_featuretable()} and returns an empty tibble for sample metadata. The tibble can either be populated directly in R or exported and edited by hand (\emph{e.g.} in Excel). Metadata are necessary for several downstream functions. More columns may be added if necessary.
 }
 \examples{
-feature_table <- read_featuretable("path/to/sample/data.csv", metadata_cols = c(2,3,4))
-metadata_table <- create_metadata_skeleton(feature_table)
+featuretable_path <- system.file("extdata", "toy_metaboscape.csv", package = "metamorphr")
+metadata <- read_featuretable(featuretable_path, metadata_cols = 2:5) \%>\%
+  create_metadata_skeleton()
 }

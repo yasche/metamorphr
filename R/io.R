@@ -13,7 +13,9 @@
 #' @return A tidy tibble.
 #' @export
 #'
-#' @examples feature_table <- read_featuretable("path/to/sample/data.csv", metadata_cols = c(2,3,4))
+#' @examples
+#' featuretable_path <- system.file("extdata", "toy_metaboscape.csv", package = "metamorphr")
+#' featuretable <- read_featuretable(featuretable_path, metadata_cols = 2:5)
 read_featuretable <- function(file, delim = ",", label_col = 1, metadata_cols = NULL, ...) {
 
   # perform some checks
@@ -64,8 +66,9 @@ read_featuretable <- function(file, delim = ",", label_col = 1, metadata_cols = 
 #' @return An empty tibble structure with the necessary columns for metadata.
 #' @export
 #'
-#' @examples feature_table <- read_featuretable("path/to/sample/data.csv", metadata_cols = c(2,3,4))
-#' metadata_table <- create_metadata_skeleton(feature_table)
+#' @examples featuretable_path <- system.file("extdata", "toy_metaboscape.csv", package = "metamorphr")
+#' metadata <- read_featuretable(featuretable_path, metadata_cols = 2:5) %>%
+#'   create_metadata_skeleton()
 create_metadata_skeleton <- function(data) {
 
   # creates blank tibble for metadata with required columns
