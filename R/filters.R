@@ -23,14 +23,14 @@ filter_grouped_mv <- function(data, grouping_column, max_na) {
     dplyr::select(-"n_na", -"perc_na", -"max_perc_na")
 }
 
-filter_cv <- function(data, reference_sample, max_cv = 0.2, na_as_zero = TRUE) {
+filter_cv <- function(data, reference_samples, max_cv = 0.2, na_as_zero = TRUE) {
   if (na_as_zero == TRUE) {
     data <- data %>%
       dplyr::mutate(Intensity = dplyr::case_when(is.na(.data$Intensity) ~ 0, .default = .data$Intensity))
   }
 
   data %>%
-    dplyr::mutate(Intensity_ref = dplyr::case_when(.data$Sample == reference_sample ~ .data$Intensity, .default = NA)) %>%
+    dplyr::mutate(Intensity_ref = dplyr::case_when(.data$Sample %in% reference_sample ~ .data$Intensity, .default = NA)) %>%
     dplyr::group_by(.data$UID) %>%
     dplyr::mutate(cv = stats::sd(.data$Intensity_ref, na.rm = TRUE) / mean(.data$Intensity_ref, na.rm = TRUE)) %>%
     dplyr::filter(.data$cv <= max_cv) %>%
@@ -39,7 +39,7 @@ filter_cv <- function(data, reference_sample, max_cv = 0.2, na_as_zero = TRUE) {
     dplyr::select(-"Intensity_ref", -"cv")
 }
 
-filter_blank <- function(data, blank_sample, min_frac = 3) {
+filter_blank <- function(data, blank_samples, min_frac = 3) {
   # substitute NA with 0 for better handling:
   # 0/0 = NaN
   # 1/0 = Inf
@@ -54,9 +54,9 @@ filter_blank <- function(data, blank_sample, min_frac = 3) {
   data %>%
     dplyr::group_by(.data$UID) %>%
     dplyr::mutate(
-      max_blank = dplyr::case_when(.data$Sample == blank_sample ~ .data$Intensity, .default = NA),
+      max_blank = dplyr::case_when(.data$Sample %in% blank_sample ~ .data$Intensity, .default = NA),
       max_blank = max(.data$max_blank, na.rm = TRUE),
-      max_sample = dplyr::case_when(.data$Sample != blank_sample ~ .data$Intensity, .default = NA),
+      max_sample = dplyr::case_when(!(.data$Sample %in% blank_sample) ~ .data$Intensity, .default = NA),
       max_sample = max(.data$max_sample, na.rm = TRUE),
       frac_sb = .data$max_sample / .data$max_blank
     ) %>%

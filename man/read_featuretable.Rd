@@ -21,7 +21,7 @@ read_featuretable(file, delim = ",", label_col = 1, metadata_cols = NULL, ...)
 A tidy tibble.
 }
 \description{
-Basically a wrapper around \code{readr::read_delim()} but performs some initial tidying operations such as \code{gather()} as well as renaming and rearranging columns.
+Basically a wrapper around \code{readr::read_delim()} but performs some initial tidying operations such as \code{gather()} rearranging columns. The \code{label_col} will be renamed to \emph{Metabolite}.
 }
 \examples{
 featuretable_path <- system.file("extdata", "toy_metaboscape.csv", package = "metamorphr")
