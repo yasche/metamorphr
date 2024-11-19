@@ -37,14 +37,14 @@ read_featuretable <- function(file, delim = ",", label_col = 1, metadata_cols = 
 
   # renamed Measurement -> Sample; label -> Feature
   data <- readr::read_delim(file = file, delim = delim, show_col_types = FALSE, ...) %>%
-    dplyr::rename("Feature" = label_col) %>%
+    dplyr::rename("Feature" = dplyr::all_of(label_col)) %>%
     # select(- {{ drop_cols }}) %>%
     dplyr::mutate(Feature = as.character(.data$Feature)) %>%
     dplyr::mutate(UID = seq(1, length(.data$Feature))) %>%
     dplyr::relocate("UID", .before = 1) %>%
     dplyr::relocate("Feature", .after = 1) %>%
     # print()
-    tidyr::gather(-metadata_cols, key = "Sample", value = "Intensity") %>%
+    tidyr::gather(-dplyr::all_of(metadata_cols), key = "Sample", value = "Intensity") %>%
     dplyr::relocate("Sample", .after = 2) %>%
     dplyr::relocate("Intensity", .after = 3) %>%
     dplyr::mutate(Intensity = as.numeric(.data$Intensity)) %>%
