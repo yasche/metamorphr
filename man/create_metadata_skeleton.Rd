@@ -7,13 +7,13 @@
 create_metadata_skeleton(data)
 }
 \arguments{
-\item{data}{A tidy tibble created by \code{metamorph::read_featuretable()}.}
+\item{data}{A tidy tibble created by \code{metamorphr::read_featuretable()}.}
 }
 \value{
 An empty tibble structure with the necessary columns for metadata.
 }
 \description{
-The function takes a tidy tibble created by \code{metamorph::read_featuretable()} and returns an empty tibble for sample metadata. The tibble can either be populated directly in R or exported and edited by hand (\emph{e.g.} in Excel). Metadata are necessary for several downstream functions. More columns may be added if necessary.
+The function takes a tidy tibble created by \code{metamorphr::read_featuretable()} and returns an empty tibble for sample metadata. The tibble can either be populated directly in R or exported and edited by hand (\emph{e.g.} in Excel). Metadata are necessary for several downstream functions. More columns may be added if necessary.
 }
 \examples{
 featuretable_path <- system.file("extdata", "toy_metaboscape.csv", package = "metamorphr")

@@ -1,14 +1,48 @@
-filter_global_mv <- function(data, max_na) {
-  data %>%
+#' Filter Features based on the absolute number or fraction of missing values
+#'
+#' @param data A tidy tibble created by `metamorphr::read_featuretable()`.
+#' @param max_missing The maximum for allowed missing values. If `fraction == TRUE`, a value between 0 and 1 (_e.g._, 0.5 if a Feature must be present in at least half the samples in order for it not to be filtered out). If `fraction == FALSE` the absolute maximum number of samples (_e.g._, 5 if a specific Feature can be missing in 5 samples for it not to be filtered out).
+#' @param fraction Either `TRUE` or `FALSE`. Should `max_missing` be the absolute number of samples or a fraction?
+#'
+#' @return A filtered tibble.
+#' @export
+#'
+#' @examples
+#' #Example 1: A feature can be missing in up to 50 % of the samples
+#' toy_metaboscape %>%
+#'   filter_global_mv(max_missing = 0.5)
+#'
+#' #Example 2: A feature can be missing in up to 3 samples
+#' toy_metaboscape %>%
+#'   filter_global_mv(max_missing = 3, fraction = FALSE)
+filter_global_mv <- function(data, max_missing, fraction = TRUE) {
+  data <- data %>%
     dplyr::add_count(.data$UID, wt = is.na(.data$Intensity), name = "n_na") %>%
-    dplyr::group_by(.data$UID) %>%
-    dplyr::mutate(perc_na = .data$n_na / dplyr::n()) %>%
-    dplyr::filter(.data$perc_na <= max_na) %>%
-    dplyr::ungroup() %>%
-    dplyr::select(-"n_na", -"perc_na")
+    dplyr::group_by(.data$UID)
+
+  if (fraction == TRUE) {
+    if (max_missing > 1) {
+      stop("Argument max_missing must be < 1 if argument fraction is TRUE.")
+    }
+
+     data %>%
+       dplyr::mutate(perc_na = .data$n_na / dplyr::n()) %>%
+       dplyr::filter(.data$perc_na <= max_missing) %>%
+       dplyr::ungroup() %>%
+       dplyr::select(-"n_na", -"perc_na")
+
+  } else {
+
+    data %>%
+      dplyr::filter(.data$n_na <= max_missing) %>%
+      dplyr::ungroup() %>%
+      dplyr::select(-"n_na")
+  }
+
+
 }
 
-filter_grouped_mv <- function(data, grouping_column, max_na) {
+filter_grouped_mv <- function(data, grouping_column, max_missing) {
   # using injection: https://rlang.r-lib.org/reference/topic-inject.html
 
   data %>%
@@ -18,7 +52,7 @@ filter_grouped_mv <- function(data, grouping_column, max_na) {
     dplyr::ungroup() %>%
     dplyr::group_by(.data$UID) %>%
     dplyr::mutate(max_perc_na = max(.data$perc_na)) %>%
-    dplyr::filter(.data$max_perc_na <= max_na) %>%
+    dplyr::filter(.data$max_perc_na <= max_missing) %>%
     dplyr::ungroup() %>%
     dplyr::select(-"n_na", -"perc_na", -"max_perc_na")
 }

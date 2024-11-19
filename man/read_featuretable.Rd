@@ -11,7 +11,7 @@ read_featuretable(file, delim = ",", label_col = 1, metadata_cols = NULL, ...)
 
 \item{delim}{The field separator or delimiter. For example "," in csv files.}
 
-\item{label_col}{The index of the column that will be used to label metabolites. For example an identifier (\emph{e.g.}, KEGG, CAS, HMDB) or a \emph{m/z}-RT pair.}
+\item{label_col}{The index of the column that will be used to label Features. For example an identifier (\emph{e.g.}, KEGG, CAS, HMDB) or a \emph{m/z}-RT pair.}
 
 \item{metadata_cols}{The index/indices of column(s) that hold additional metadata (\emph{e.g.}, retention times, additional identifiers or \emph{m/z} values).}
 
@@ -21,9 +21,10 @@ read_featuretable(file, delim = ",", label_col = 1, metadata_cols = NULL, ...)
 A tidy tibble.
 }
 \description{
-Basically a wrapper around \code{readr::read_delim()} but performs some initial tidying operations such as \code{gather()} rearranging columns. The \code{label_col} will be renamed to \emph{Metabolite}.
+Basically a wrapper around \code{readr::read_delim()} but performs some initial tidying operations such as \code{gather()} rearranging columns. The \code{label_col} will be renamed to \emph{Feature}.
 }
 \examples{
+#Read a toy dataset in the format produced with Bruker MetaboScape (Version 2021).
 featuretable_path <- system.file("extdata", "toy_metaboscape.csv", package = "metamorphr")
 featuretable <- read_featuretable(featuretable_path, metadata_cols = 2:5)
 }

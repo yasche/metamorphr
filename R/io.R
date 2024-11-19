@@ -14,6 +14,7 @@
 #' @export
 #'
 #' @examples
+#' #Read a toy dataset in the format produced with Bruker MetaboScape (Version 2021).
 #' featuretable_path <- system.file("extdata", "toy_metaboscape.csv", package = "metamorphr")
 #' featuretable <- read_featuretable(featuretable_path, metadata_cols = 2:5)
 read_featuretable <- function(file, delim = ",", label_col = 1, metadata_cols = NULL, ...) {
@@ -57,10 +58,10 @@ read_featuretable <- function(file, delim = ",", label_col = 1, metadata_cols = 
 #' Create a blank metadata skeleton
 #'
 #' @description
-#' The function takes a tidy tibble created by `metamorph::read_featuretable()` and returns an empty tibble for sample metadata. The tibble can either be populated directly in R or exported and edited by hand (_e.g._ in Excel). Metadata are necessary for several downstream functions. More columns may be added if necessary.
+#' The function takes a tidy tibble created by `metamorphr::read_featuretable()` and returns an empty tibble for sample metadata. The tibble can either be populated directly in R or exported and edited by hand (_e.g._ in Excel). Metadata are necessary for several downstream functions. More columns may be added if necessary.
 #'
 #'
-#' @param data A tidy tibble created by `metamorph::read_featuretable()`.
+#' @param data A tidy tibble created by `metamorphr::read_featuretable()`.
 #'
 #' @return An empty tibble structure with the necessary columns for metadata.
 #' @export
