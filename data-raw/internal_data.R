@@ -1,3 +1,13 @@
+## code to prepare `test_create_metadata_skeleton` dataset goes here
+
+test_create_metadata_skeleton <- tibble::tribble(
+  ~Sample, ~Group, ~Replicate, ~Batch, ~Factor,
+  "s1", NA, NA, NA, 1,
+  "s2", NA, NA, NA, 1,
+  "s3", NA, NA, NA, 1,
+)
+
+
 ## code to prepare `test_read_featuretable` dataset goes here
 
 test_read_featuretable <- tibble::tribble(
@@ -11,4 +21,4 @@ test_read_featuretable <- tibble::tribble(
 ) %>%
   dplyr::mutate(UID = as.integer(UID))
 
-usethis::use_data(test_read_featuretable, overwrite = TRUE, internal = TRUE)
+usethis::use_data(test_read_featuretable, test_create_metadata_skeleton, overwrite = TRUE, internal = TRUE)
