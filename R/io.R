@@ -6,8 +6,8 @@
 #'
 #' @param file A path to a file but can also be a connection or literal data.
 #' @param delim The field separator or delimiter. For example "," in csv files.
-#' @param label_col The index of the column that will be used to label Features. For example an identifier (_e.g._, KEGG, CAS, HMDB) or a _m/z_-RT pair.
-#' @param metadata_cols The index/indices of column(s) that hold additional metadata (_e.g._, retention times, additional identifiers or _m/z_ values).
+#' @param label_col The index or name of the column that will be used to label Features. For example an identifier (_e.g._, KEGG, CAS, HMDB) or a _m/z_-RT pair.
+#' @param metadata_cols The index/indices or name(s) of column(s) that hold additional metadata (_e.g._, retention times, additional identifiers or _m/z_ values).
 #' @param ... Additional arguments passed on to `readr::read_delim()`
 #'
 #' @return A tidy tibble.
@@ -23,11 +23,26 @@ read_featuretable <- function(file, delim = ",", label_col = 1, metadata_cols = 
     stop("label_col must be of length 1.")
   }
 
+
   # if (!is.null(drop_cols)) {
   #  if (label_col %in% drop_cols) {
   #    stop("label_col can not be dropped.")
   #  }
   # }
+
+
+  data <- readr::read_delim(file = file, delim = delim, show_col_types = FALSE, ...)
+  data_colnames <- colnames(data)
+
+  # functionality for when label_col is a character
+  if (is.character(label_col)) {
+    label_col <- which(data_colnames == label_col)
+  }
+
+  # functionality for when metadata_cols is a character
+  if (all(!(is.null(metadata_cols)), is.character(metadata_cols))) {
+    metadata_cols <- which(data_colnames == metadata_cols)
+  }
 
   # 1: always UID
   metadata_cols <- c(1, metadata_cols + 1, label_col + 1)
@@ -36,7 +51,7 @@ read_featuretable <- function(file, delim = ",", label_col = 1, metadata_cols = 
   # print(metadata_cols)
 
   # renamed Measurement -> Sample; label -> Feature
-  data <- readr::read_delim(file = file, delim = delim, show_col_types = FALSE, ...) %>%
+  data <- data %>%
     dplyr::rename("Feature" = dplyr::all_of(label_col)) %>%
     # select(- {{ drop_cols }}) %>%
     dplyr::mutate(Feature = as.character(.data$Feature)) %>%
