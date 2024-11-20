@@ -13,7 +13,7 @@ read_featuretable(file, delim = ",", label_col = 1, metadata_cols = NULL, ...)
 
 \item{label_col}{The index or name of the column that will be used to label Features. For example an identifier (\emph{e.g.}, KEGG, CAS, HMDB) or a \emph{m/z}-RT pair.}
 
-\item{metadata_cols}{The index/indices or name(s) of column(s) that hold additional metadata (\emph{e.g.}, retention times, additional identifiers or \emph{m/z} values).}
+\item{metadata_cols}{The index/indices or name(s) of column(s) that hold additional feature metadata (\emph{e.g.}, retention times, additional identifiers or \emph{m/z} values).}
 
 \item{...}{Additional arguments passed on to \code{readr::read_delim()}}
 }

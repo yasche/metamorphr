@@ -7,7 +7,7 @@
 #' @param file A path to a file but can also be a connection or literal data.
 #' @param delim The field separator or delimiter. For example "," in csv files.
 #' @param label_col The index or name of the column that will be used to label Features. For example an identifier (_e.g._, KEGG, CAS, HMDB) or a _m/z_-RT pair.
-#' @param metadata_cols The index/indices or name(s) of column(s) that hold additional metadata (_e.g._, retention times, additional identifiers or _m/z_ values).
+#' @param metadata_cols The index/indices or name(s) of column(s) that hold additional feature metadata (_e.g._, retention times, additional identifiers or _m/z_ values).
 #' @param ... Additional arguments passed on to `readr::read_delim()`
 #'
 #' @return A tidy tibble.
@@ -95,12 +95,22 @@ read_featuretable <- function(file, delim = ",", label_col = 1, metadata_cols = 
 #' Create a blank metadata skeleton
 #'
 #' @description
-#' The function takes a tidy tibble created by `metamorphr::read_featuretable()` and returns an empty tibble for sample metadata. The tibble can either be populated directly in R or exported and edited by hand (_e.g._ in Excel). Metadata are necessary for several downstream functions. More columns may be added if necessary.
+#' The function takes a tidy tibble created by `metamorphr::read_featuretable()` and returns an empty tibble for sample metadata. The tibble can either be populated directly in R or exported and edited by hand (_e.g._ in Excel). Metadata are necessary for several downstream functions. __More columns may be added if necessary__.
 #'
 #'
 #' @param data A tidy tibble created by `metamorphr::read_featuretable()`.
 #'
-#' @return An empty tibble structure with the necessary columns for metadata.
+#' @return An empty tibble structure with the necessary columns for metadata:
+#' \describe{
+#'   \item{Sample}{The sample name}
+#'   \item{Group}{To which group does the samples belong? For example a treamtment or a background. Note that additional columns with additional grouping information can be freely added if necessary.}
+#'   \item{Replicate}{If multiple technical replicates exist in the data set,
+#'   they must have the same value for Replicate and the same value for Group so that they can be collapsed.
+#'   Examples for technical replicates are: the same sample was injected multiple times or workup was performed multiple times with the same starting material.}
+#'   \item{Batch}{The batch in which the samples were prepared or measured.}
+#'   \item{Factor}{A sample-specific factor, for example dry weight or protein content.}
+#'   ...
+#' }
 #' @export
 #'
 #' @examples featuretable_path <- system.file("extdata", "toy_metaboscape.csv", package = "metamorphr")

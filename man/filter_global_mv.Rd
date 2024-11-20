@@ -17,7 +17,8 @@ filter_global_mv(data, max_missing, fraction = TRUE)
 A filtered tibble.
 }
 \description{
-One of several filter functions. Can be used to filter features based on the number or fraction of samples they are missing in. This is usually one of the first steps in metabolomics data analysis and often already performed when the feature table is first created.
+One of several filter functions. Can be used to filter features based on the number or fraction of samples they are missing in.
+This is usually one of the first steps in metabolomics data analysis and often already performed when the feature table is first created.
 }
 \examples{
 #Example 1: A feature can be missing in up to 50 \% of the samples

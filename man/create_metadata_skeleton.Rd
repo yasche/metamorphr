@@ -10,10 +10,20 @@ create_metadata_skeleton(data)
 \item{data}{A tidy tibble created by \code{metamorphr::read_featuretable()}.}
 }
 \value{
-An empty tibble structure with the necessary columns for metadata.
+An empty tibble structure with the necessary columns for metadata:
+\describe{
+\item{Sample}{The sample name}
+\item{Group}{To which group does the samples belong? For example a treamtment or a background. Note that additional columns with additional grouping information can be freely added if necessary.}
+\item{Replicate}{If multiple technical replicates exist in the data set,
+they must have the same value for Replicate and the same value for Group so that they can be collapsed.
+Examples for technical replicates are: the same sample was injected multiple times or workup was performed multiple times with the same starting material.}
+\item{Batch}{The batch in which the samples were prepared or measured.}
+\item{Factor}{A sample-specific factor, for example dry weight or protein content.}
+...
+}
 }
 \description{
-The function takes a tidy tibble created by \code{metamorphr::read_featuretable()} and returns an empty tibble for sample metadata. The tibble can either be populated directly in R or exported and edited by hand (\emph{e.g.} in Excel). Metadata are necessary for several downstream functions. More columns may be added if necessary.
+The function takes a tidy tibble created by \code{metamorphr::read_featuretable()} and returns an empty tibble for sample metadata. The tibble can either be populated directly in R or exported and edited by hand (\emph{e.g.} in Excel). Metadata are necessary for several downstream functions. \strong{More columns may be added if necessary}.
 }
 \examples{
 featuretable_path <- system.file("extdata", "toy_metaboscape.csv", package = "metamorphr")
