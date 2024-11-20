@@ -4,14 +4,14 @@
 \alias{filter_grouped_mv}
 \title{Group-based feature filtering}
 \usage{
-filter_grouped_mv(data, grouping_column, max_missing, fraction = TRUE)
+filter_grouped_mv(data, grouping_column, min_found, fraction = TRUE)
 }
 \arguments{
 \item{data}{abc}
 
 \item{grouping_column}{def}
 
-\item{max_missing}{ghi}
+\item{min_found}{ghi}
 
 \item{fraction}{jkl}
 }
@@ -21,7 +21,7 @@ A filtered tibble.
 \description{
 One of several filter functions. Similar to \code{filter_global_mv()} it filters features that are missing in a specified number of samples.
 The key difference is, that \code{filter_grouped_mv()} takes groups into consideration and therefore relies on sample metadata.
-For example, if \code{fraction = TRUE} and \code{max_missing = 0.25}, a feature must be found in at least 75 \% of the samples of at least one group.
+For example, if \code{fraction = TRUE} and \code{min_found = 0.75}, a feature must be found in at least 75 \% of the samples of at least one group.
 It is very similar to the \emph{Filter features by occurrences in groups} option in Bruker MetaboScape.
 }
 \examples{

@@ -4,12 +4,12 @@
 \alias{filter_global_mv}
 \title{Filter Features based on the absolute number or fraction of samples it was not found in}
 \usage{
-filter_global_mv(data, max_missing, fraction = TRUE)
+filter_global_mv(data, min_found, fraction = TRUE)
 }
 \arguments{
 \item{data}{A tidy tibble created by \code{metamorphr::read_featuretable()}.}
 
-\item{max_missing}{In how many samples can a Feature be missing? If \code{fraction == TRUE}, a value between 0 and 1 (\emph{e.g.}, 0.5 if a Feature can be missing in half the samples and not to be filtered out). If \code{fraction == FALSE} the absolute maximum number of samples (\emph{e.g.}, 5 if a specific Feature can be missing in up to 5 samples for it not to be filtered out).}
+\item{min_found}{In how many samples must a Feature be found? If \code{fraction == TRUE}, a value between 0 and 1 (\emph{e.g.}, 0.5 if a Feature must be found un at least half the samples). If \code{fraction == FALSE} the absolute maximum number of samples (\emph{e.g.}, 5 if a specific Feature must be found in at least 5 samples).}
 
 \item{fraction}{Either \code{TRUE} or \code{FALSE}. Should \code{max_missing} be the absolute number of samples or a fraction?}
 }
@@ -21,11 +21,11 @@ One of several filter functions. Can be used to filter features based on the num
 This is usually one of the first steps in metabolomics data analysis and often already performed when the feature table is first created.
 }
 \examples{
-#Example 1: A feature can be missing in up to 50 \% of the samples
+#Example 1: A feature must be found in at least 50 \% of the samples
 toy_metaboscape \%>\%
-  filter_global_mv(max_missing = 0.5)
+  filter_global_mv(min_found = 0.5)
 
-#Example 2: A feature can be missing in up to 3 samples
+#Example 2: A feature must be found in at least 8 samples
 toy_metaboscape \%>\%
-  filter_global_mv(max_missing = 3, fraction = FALSE)
+  filter_global_mv(min_found = 8, fraction = FALSE)
 }

@@ -5,42 +5,42 @@
 #' This is usually one of the first steps in metabolomics data analysis and often already performed when the feature table is first created.
 #'
 #' @param data A tidy tibble created by `metamorphr::read_featuretable()`.
-#' @param max_missing In how many samples can a Feature be missing? If `fraction == TRUE`, a value between 0 and 1 (_e.g._, 0.5 if a Feature can be missing in half the samples and not to be filtered out). If `fraction == FALSE` the absolute maximum number of samples (_e.g._, 5 if a specific Feature can be missing in up to 5 samples for it not to be filtered out).
+#' @param min_found In how many samples must a Feature be found? If `fraction == TRUE`, a value between 0 and 1 (_e.g._, 0.5 if a Feature must be found un at least half the samples). If `fraction == FALSE` the absolute maximum number of samples (_e.g._, 5 if a specific Feature must be found in at least 5 samples).
 #' @param fraction Either `TRUE` or `FALSE`. Should `max_missing` be the absolute number of samples or a fraction?
 #'
 #' @return A filtered tibble.
 #' @export
 #'
 #' @examples
-#' #Example 1: A feature can be missing in up to 50 % of the samples
+#' #Example 1: A feature must be found in at least 50 % of the samples
 #' toy_metaboscape %>%
-#'   filter_global_mv(max_missing = 0.5)
+#'   filter_global_mv(min_found = 0.5)
 #'
-#' #Example 2: A feature can be missing in up to 3 samples
+#' #Example 2: A feature must be found in at least 8 samples
 #' toy_metaboscape %>%
-#'   filter_global_mv(max_missing = 3, fraction = FALSE)
-filter_global_mv <- function(data, max_missing, fraction = TRUE) {
+#'   filter_global_mv(min_found = 8, fraction = FALSE)
+filter_global_mv <- function(data, min_found, fraction = TRUE) {
   data <- data %>%
-    dplyr::add_count(.data$UID, wt = is.na(.data$Intensity), name = "n_na") %>%
+    dplyr::add_count(.data$UID, wt = !is.na(.data$Intensity), name = "not_na") %>%
     dplyr::group_by(.data$UID)
 
   if (fraction == TRUE) {
-    if (max_missing > 1) {
+    if (min_found > 1) {
       stop("Argument max_missing must be <= 1 if argument fraction is TRUE.")
     }
 
      data %>%
-       dplyr::mutate(perc_na = .data$n_na / dplyr::n()) %>%
-       dplyr::filter(.data$perc_na <= max_missing) %>%
+       dplyr::mutate(perc_not_na = .data$not_na / dplyr::n()) %>%
+       dplyr::filter(.data$perc_not_na >= min_found) %>%
        dplyr::ungroup() %>%
-       dplyr::select(-"n_na", -"perc_na")
+       dplyr::select(-"not_na", -"perc_not_na")
 
   } else {
 
     data %>%
-      dplyr::filter(.data$n_na <= max_missing) %>%
+      dplyr::filter(.data$not_na >= min_found) %>%
       dplyr::ungroup() %>%
-      dplyr::select(-"n_na")
+      dplyr::select(-"not_na")
   }
 
 
@@ -51,48 +51,50 @@ filter_global_mv <- function(data, max_missing, fraction = TRUE) {
 #' @description
 #' One of several filter functions. Similar to `filter_global_mv()` it filters features that are missing in a specified number of samples.
 #' The key difference is, that `filter_grouped_mv()` takes groups into consideration and therefore relies on sample metadata.
-#' For example, if `fraction = TRUE` and `max_missing = 0.25`, a feature must be found in at least 75 % of the samples of at least one group.
+#' For example, if `fraction = TRUE` and `min_found = 0.75`, a feature must be found in at least 75 % of the samples of at least one group.
 #' It is very similar to the _Filter features by occurrences in groups_ option in Bruker MetaboScape.
 #'
 #' @param data abc
 #' @param grouping_column def
-#' @param max_missing ghi
+#' @param min_found ghi
 #' @param fraction jkl
 #'
 #' @return A filtered tibble.
 #' @export
 #'
 #' @examples #abc
-filter_grouped_mv <- function(data, grouping_column, max_missing, fraction = TRUE) {
+filter_grouped_mv <- function(data, grouping_column, min_found, fraction = TRUE) {
   # using injection: https://rlang.r-lib.org/reference/topic-inject.html
 
   data <- data %>%
-    dplyr::add_count(.data$UID, {{ grouping_column }}, wt = is.na(.data$Intensity), name = "n_na")
+    dplyr::add_count(.data$UID, {{ grouping_column }}, wt = !is.na(.data$Intensity), name = "not_na") %>%
+    dplyr::ungroup()
 
   if (fraction == TRUE) {
-    if (max_missing > 1) {
+    if (min_found > 1) {
       stop("Argument max_missing must be <= 1 if argument fraction is TRUE.")
     }
 
     data %>%
       dplyr::group_by(.data$UID, {{ grouping_column }}) %>%
-      dplyr::mutate(perc_na = .data$n_na / dplyr::n()) %>%
-      #print()
+      dplyr::mutate(perc_not_na = .data$not_na / dplyr::n()) %>%
       dplyr::ungroup() %>%
       dplyr::group_by(.data$UID) %>%
-      dplyr::mutate(min_perc_na = min(.data$perc_na)) %>%
-      dplyr::filter(.data$min_perc_na <= max_missing) %>%
+      dplyr::mutate(max_perc_not_na = max(.data$perc_not_na)) %>%
+      dplyr::filter(.data$max_perc_not_na >= min_found) %>%
       dplyr::ungroup() %>%
-      dplyr::select(-"n_na", -"perc_na", -"min_perc_na")
+      print(n = 1000)
+      #dplyr::select(-"not_na", -"perc_not_na", -"max_perc_not_na")
 
   } else {
 
     data %>%
       dplyr::group_by(.data$UID) %>%
-      dplyr::mutate(min_na = min(.data$n_na)) %>%
-      dplyr::filter(.data$min_na <= max_missing) %>%
+      dplyr::mutate(max_not_na = max(.data$n_na)) %>%
+      dplyr::filter(.data$max_not_na >= min_found) %>%
       dplyr::ungroup() %>%
-      dplyr::select(-"n_na", -"min_na")
+      print(n = 1000)
+      #dplyr::select(-"not_na", -"max_not_na")
 
   }
 

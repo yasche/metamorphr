@@ -1,6 +1,6 @@
 test_that("filter_global_mv() does not change the structure of the input in an unexpected way", {
   filtered_features <- toy_metaboscape %>%
-    filter_global_mv(fraction = TRUE, max_missing = 1)
+    filter_global_mv(fraction = TRUE, min_found = 0)
 
   expect_equal(filtered_features, toy_metaboscape)
 })
@@ -8,7 +8,7 @@ test_that("filter_global_mv() does not change the structure of the input in an u
 
 test_that("filter_global_mv() filters the correct features for a 0.1 fraction cutoff", {
   filtered_features <- toy_metaboscape %>%
-    filter_global_mv(fraction = TRUE, max_missing = 0.1) %>%
+    filter_global_mv(fraction = TRUE, min_found = 0.9) %>%
     dplyr::select(Feature) %>%
     dplyr::pull() %>%
     unique()
@@ -19,7 +19,7 @@ test_that("filter_global_mv() filters the correct features for a 0.1 fraction cu
 
 test_that("filter_global_mv() filters the correct features for a 0.5 fraction cutoff", {
   filtered_features <- toy_metaboscape %>%
-    filter_global_mv(fraction = TRUE, max_missing = 0.5) %>%
+    filter_global_mv(fraction = TRUE, min_found = 0.5) %>%
     dplyr::select(Feature) %>%
     dplyr::pull() %>%
     unique()
@@ -37,7 +37,7 @@ test_that("filter_global_mv() filters the correct features for a 0.5 fraction cu
 
 test_that("filter_global_mv() filters the correct features for a 3 sample cutoff", {
   filtered_features <- toy_metaboscape %>%
-    filter_global_mv(fraction = FALSE, max_missing = 3) %>%
+    filter_global_mv(fraction = FALSE, min_found = 8) %>%
     dplyr::select(Feature) %>%
     dplyr::pull() %>%
     unique()
@@ -54,7 +54,7 @@ test_that("filter_global_mv() filters the correct features for a 3 sample cutoff
 
 test_that("filter_global_mv() filters the correct features for a 1 sample cutoff", {
   filtered_features <- toy_metaboscape %>%
-    filter_global_mv(fraction = FALSE, max_missing = 1) %>%
+    filter_global_mv(fraction = FALSE, min_found = 10) %>%
     dplyr::select(Feature) %>%
     dplyr::pull() %>%
     unique()
