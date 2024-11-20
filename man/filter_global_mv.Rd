@@ -2,14 +2,14 @@
 % Please edit documentation in R/filters.R
 \name{filter_global_mv}
 \alias{filter_global_mv}
-\title{Filter Features based on the absolute number or fraction of missing values}
+\title{Filter Features based on the absolute number or fraction of samples it was not found in}
 \usage{
 filter_global_mv(data, max_missing, fraction = TRUE)
 }
 \arguments{
 \item{data}{A tidy tibble created by \code{metamorphr::read_featuretable()}.}
 
-\item{max_missing}{The maximum for allowed missing values. If \code{fraction == TRUE}, a value between 0 and 1 (\emph{e.g.}, 0.5 if a Feature must be present in at least half the samples in order for it not to be filtered out). If \code{fraction == FALSE} the absolute maximum number of samples (\emph{e.g.}, 5 if a specific Feature can be missing in 5 samples for it not to be filtered out).}
+\item{max_missing}{In how many samples can a Feature be missing? If \code{fraction == TRUE}, a value between 0 and 1 (\emph{e.g.}, 0.5 if a Feature can be missing in half the samples and not to be filtered out). If \code{fraction == FALSE} the absolute maximum number of samples (\emph{e.g.}, 5 if a specific Feature can be missing in up to 5 samples for it not to be filtered out).}
 
 \item{fraction}{Either \code{TRUE} or \code{FALSE}. Should \code{max_missing} be the absolute number of samples or a fraction?}
 }
@@ -17,7 +17,7 @@ filter_global_mv(data, max_missing, fraction = TRUE)
 A filtered tibble.
 }
 \description{
-Filter Features based on the absolute number or fraction of missing values
+One of several filter functions. Can be used to filter features based on the number or fraction of samples they are missing in. This is usually one of the first steps in metabolomics data analysis and often already performed when the feature table is first created.
 }
 \examples{
 #Example 1: A feature can be missing in up to 50 \% of the samples
