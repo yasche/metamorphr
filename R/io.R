@@ -14,9 +14,32 @@
 #' @export
 #'
 #' @examples
-#' #Read a toy dataset in the format produced with Bruker MetaboScape (Version 2021).
+#' # Read a toy dataset in the format produced with Bruker MetaboScape (Version 2021).
 #' featuretable_path <- system.file("extdata", "toy_metaboscape.csv", package = "metamorphr")
+#'
+#' # Example 1: Provide indices for metadata_cols
 #' featuretable <- read_featuretable(featuretable_path, metadata_cols = 2:5)
+#'
+#' featuretable
+#'
+#' # Example 2: Provide a name for label_col and indices for metadata_cols
+#' featuretable <- read_featuretable(
+#'   featuretable_path,
+#'   label_col = "m/z",
+#'   metadata_cols = c(1, 2, 4, 5)
+#' )
+#'
+#' featuretable
+#'
+#' # Example 3: Provide names for both, label_col and metadata_cols
+#' featuretable <- read_featuretable(
+#'   featuretable_path,
+#'   label_col = "m/z",
+#'   metadata_cols = c("Bucket label", "RT", "Name", "Formula")
+#' )
+#'
+#' featuretable
+#'
 read_featuretable <- function(file, delim = ",", label_col = 1, metadata_cols = NULL, ...) {
   # perform some checks
   if (length(label_col) > 1) {
@@ -41,14 +64,13 @@ read_featuretable <- function(file, delim = ",", label_col = 1, metadata_cols = 
 
   # functionality for when metadata_cols is a character
   if (all(!(is.null(metadata_cols)), is.character(metadata_cols))) {
-    metadata_cols <- which(data_colnames == metadata_cols)
+    metadata_cols <- which(data_colnames %in% metadata_cols)
   }
 
   # 1: always UID
   metadata_cols <- c(1, metadata_cols + 1, label_col + 1)
 
   metadata_cols <- unique(metadata_cols)
-  # print(metadata_cols)
 
   # renamed Measurement -> Sample; label -> Feature
   data <- data %>%

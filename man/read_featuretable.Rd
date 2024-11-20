@@ -11,9 +11,9 @@ read_featuretable(file, delim = ",", label_col = 1, metadata_cols = NULL, ...)
 
 \item{delim}{The field separator or delimiter. For example "," in csv files.}
 
-\item{label_col}{The index of the column that will be used to label Features. For example an identifier (\emph{e.g.}, KEGG, CAS, HMDB) or a \emph{m/z}-RT pair.}
+\item{label_col}{The index or name of the column that will be used to label Features. For example an identifier (\emph{e.g.}, KEGG, CAS, HMDB) or a \emph{m/z}-RT pair.}
 
-\item{metadata_cols}{The index/indices of column(s) that hold additional metadata (\emph{e.g.}, retention times, additional identifiers or \emph{m/z} values).}
+\item{metadata_cols}{The index/indices or name(s) of column(s) that hold additional metadata (\emph{e.g.}, retention times, additional identifiers or \emph{m/z} values).}
 
 \item{...}{Additional arguments passed on to \code{readr::read_delim()}}
 }
@@ -24,7 +24,30 @@ A tidy tibble.
 Basically a wrapper around \code{readr::read_delim()} but performs some initial tidying operations such as \code{gather()} rearranging columns. The \code{label_col} will be renamed to \emph{Feature}.
 }
 \examples{
-#Read a toy dataset in the format produced with Bruker MetaboScape (Version 2021).
+# Read a toy dataset in the format produced with Bruker MetaboScape (Version 2021).
 featuretable_path <- system.file("extdata", "toy_metaboscape.csv", package = "metamorphr")
+
+# Example 1: Provide indices for metadata_cols
 featuretable <- read_featuretable(featuretable_path, metadata_cols = 2:5)
+
+featuretable
+
+# Example 2: Provide a name for label_col and indices for metadata_cols
+featuretable <- read_featuretable(
+  featuretable_path,
+  label_col = "m/z",
+  metadata_cols = c(1, 2, 4, 5)
+)
+
+featuretable
+
+# Example 3: Provide names for both, label_col and metadata_cols
+featuretable <- read_featuretable(
+  featuretable_path,
+  label_col = "m/z",
+  metadata_cols = c("Bucket label", "RT", "Name", "Formula")
+)
+
+featuretable
+
 }

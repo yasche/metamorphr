@@ -1,7 +1,10 @@
-#' Filter Features based on the absolute number or fraction of missing values
+#' Filter Features based on the absolute number or fraction of samples it was not found in
+#'
+#' @description
+#' One of several filter functions. Can be used to filter features based on the number or fraction of samples they are missing in. This is usually one of the first steps in metabolomics data analysis and often already performed when the feature table is first created.
 #'
 #' @param data A tidy tibble created by `metamorphr::read_featuretable()`.
-#' @param max_missing The maximum for allowed missing values. If `fraction == TRUE`, a value between 0 and 1 (_e.g._, 0.5 if a Feature must be present in at least half the samples in order for it not to be filtered out). If `fraction == FALSE` the absolute maximum number of samples (_e.g._, 5 if a specific Feature can be missing in 5 samples for it not to be filtered out).
+#' @param max_missing In how many samples can a Feature be missing? If `fraction == TRUE`, a value between 0 and 1 (_e.g._, 0.5 if a Feature can be missing in half the samples and not to be filtered out). If `fraction == FALSE` the absolute maximum number of samples (_e.g._, 5 if a specific Feature can be missing in up to 5 samples for it not to be filtered out).
 #' @param fraction Either `TRUE` or `FALSE`. Should `max_missing` be the absolute number of samples or a fraction?
 #'
 #' @return A filtered tibble.
