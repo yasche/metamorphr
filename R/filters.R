@@ -83,8 +83,8 @@ filter_grouped_mv <- function(data, grouping_column, min_found, fraction = TRUE)
       dplyr::mutate(max_perc_not_na = max(.data$perc_not_na)) %>%
       dplyr::filter(.data$max_perc_not_na >= min_found) %>%
       dplyr::ungroup() %>%
-      print(n = 1000)
-      #dplyr::select(-"not_na", -"perc_not_na", -"max_perc_not_na")
+      #print(n = 1000)
+      dplyr::select(-"not_na", -"perc_not_na", -"max_perc_not_na")
 
   } else {
 
@@ -93,8 +93,8 @@ filter_grouped_mv <- function(data, grouping_column, min_found, fraction = TRUE)
       dplyr::mutate(max_not_na = max(.data$n_na)) %>%
       dplyr::filter(.data$max_not_na >= min_found) %>%
       dplyr::ungroup() %>%
-      print(n = 1000)
-      #dplyr::select(-"not_na", -"max_not_na")
+      #print(n = 1000)
+      dplyr::select(-"not_na", -"max_not_na")
 
   }
 
