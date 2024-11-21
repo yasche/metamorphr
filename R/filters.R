@@ -110,7 +110,7 @@ filter_cv <- function(data, reference_samples, max_cv = 0.2, na_as_zero = TRUE) 
   }
 
   data %>%
-    dplyr::mutate(Intensity_ref = dplyr::case_when(.data$Sample %in% reference_sample ~ .data$Intensity, .default = NA)) %>%
+    dplyr::mutate(Intensity_ref = dplyr::case_when(.data$Sample %in% reference_samples ~ .data$Intensity, .default = NA)) %>%
     dplyr::group_by(.data$UID) %>%
     dplyr::mutate(cv = stats::sd(.data$Intensity_ref, na.rm = TRUE) / mean(.data$Intensity_ref, na.rm = TRUE)) %>%
     dplyr::filter(.data$cv <= max_cv) %>%
