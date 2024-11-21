@@ -54,16 +54,19 @@ filter_global_mv <- function(data, min_found, fraction = TRUE) {
 #' For example, if `fraction = TRUE` and `min_found = 0.75`, a feature must be found in at least 75 % of the samples of at least one group.
 #' It is very similar to the _Filter features by occurrences in groups_ option in Bruker MetaboScape.
 #'
-#' @param data abc
-#' @param grouping_column def
-#' @param min_found ghi
-#' @param fraction jkl
+#' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}} with added sample metadata. See ?\code{\link[metamorphr]{create_metadata_skeleton}} for help.
+#' @param grouping_column Which column should be used for grouping? The default is `Group`. Uses \code{\link[dplyr]{dplyr_tidy_select}}.
+#' @param min_found Defines in how many samples of at least 1 group a Feature must be found not to be filtered out. If `fraction == TRUE`, a value between 0 and 1 (_e.g._, 0.5 if a Feature must be found in at least half the samples of at least 1 group). If `fraction == FALSE` the absolute maximum number of samples (_e.g._, 5 if a specific Feature must be found in at least 5 samples of at least 1 group).
+#' @param fraction Either `TRUE` or `FALSE`. Should `max_missing` be the absolute number of samples or a fraction?
 #'
 #' @return A filtered tibble.
 #' @export
 #'
-#' @examples #abc
-filter_grouped_mv <- function(data, grouping_column, min_found, fraction = TRUE) {
+#' @examples
+#' toy_metaboscape %>%
+#'   dplyr::left_join(toy_metaboscape_metadata, by = "Sample") %>%
+#'   filter_grouped_mv(min_found = 1)
+filter_grouped_mv <- function(data, grouping_column = .data$Group, min_found, fraction = TRUE) {
   # using injection: https://rlang.r-lib.org/reference/topic-inject.html
 
   data <- data %>%
@@ -97,17 +100,6 @@ filter_grouped_mv <- function(data, grouping_column, min_found, fraction = TRUE)
       dplyr::select(-"not_na", -"max_not_na")
 
   }
-
-  #data %>%
-  #  dplyr::add_count(.data$UID, {{ grouping_column }}, wt = is.na(.data$Intensity), name = "n_na") %>%
-  #  dplyr::group_by(.data$UID, {{ grouping_column }}) %>%
-  #  dplyr::mutate(perc_na = .data$n_na / dplyr::n()) %>%
-  #  dplyr::ungroup() %>%
-  #  dplyr::group_by(.data$UID) %>%
-  #  dplyr::mutate(max_perc_na = max(.data$perc_na)) %>%
-  #  dplyr::filter(.data$max_perc_na <= max_missing) %>%
-  #  dplyr::ungroup() %>%
-  #  dplyr::select(-"n_na", -"perc_na", -"max_perc_na")
 }
 
 filter_cv <- function(data, reference_samples, max_cv = 0.2, na_as_zero = TRUE) {

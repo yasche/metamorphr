@@ -4,16 +4,21 @@
 \alias{filter_grouped_mv}
 \title{Group-based feature filtering}
 \usage{
-filter_grouped_mv(data, grouping_column, min_found, fraction = TRUE)
+filter_grouped_mv(
+  data,
+  grouping_column = .data$Group,
+  min_found,
+  fraction = TRUE
+)
 }
 \arguments{
-\item{data}{abc}
+\item{data}{A tidy tibble created by \code{\link[metamorphr]{read_featuretable}} with added sample metadata. See ?\code{\link[metamorphr]{create_metadata_skeleton}} for help.}
 
-\item{grouping_column}{def}
+\item{grouping_column}{Which column should be used for grouping? The default is \code{Group}. Uses \code{\link[dplyr]{dplyr_tidy_select}}.}
 
-\item{min_found}{ghi}
+\item{min_found}{Defines in how many samples of at least 1 group a Feature must be found not to be filtered out. If \code{fraction == TRUE}, a value between 0 and 1 (\emph{e.g.}, 0.5 if a Feature must be found in at least half the samples of at least 1 group). If \code{fraction == FALSE} the absolute maximum number of samples (\emph{e.g.}, 5 if a specific Feature must be found in at least 5 samples of at least 1 group).}
 
-\item{fraction}{jkl}
+\item{fraction}{Either \code{TRUE} or \code{FALSE}. Should \code{max_missing} be the absolute number of samples or a fraction?}
 }
 \value{
 A filtered tibble.
@@ -25,5 +30,7 @@ For example, if \code{fraction = TRUE} and \code{min_found = 0.75}, a feature mu
 It is very similar to the \emph{Filter features by occurrences in groups} option in Bruker MetaboScape.
 }
 \examples{
-#abc
+toy_metaboscape \%>\%
+  dplyr::left_join(toy_metaboscape_metadata, by = "Sample") \%>\%
+  filter_grouped_mv(min_found = 1)
 }
