@@ -55,7 +55,7 @@ filter_global_mv <- function(data, min_found, fraction = TRUE) {
 #' It is very similar to the _Filter features by occurrences in groups_ option in Bruker MetaboScape.
 #'
 #' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}} with added sample metadata. See ?\code{\link[metamorphr]{create_metadata_skeleton}} for help.
-#' @param grouping_column Which column should be used for grouping? The default is `Group`. Uses \code{\link[dplyr]{dplyr_tidy_select}}.
+#' @param grouping_column Which column should be used for grouping? Uses \code{\link[rlang]{args_data_masking}}.
 #' @param min_found Defines in how many samples of at least 1 group a Feature must be found not to be filtered out. If `fraction == TRUE`, a value between 0 and 1 (_e.g._, 0.5 if a Feature must be found in at least half the samples of at least 1 group). If `fraction == FALSE` the absolute maximum number of samples (_e.g._, 5 if a specific Feature must be found in at least 5 samples of at least 1 group).
 #' @param fraction Either `TRUE` or `FALSE`. Should `max_missing` be the absolute number of samples or a fraction?
 #'
@@ -63,10 +63,11 @@ filter_global_mv <- function(data, min_found, fraction = TRUE) {
 #' @export
 #'
 #' @examples
+#' # A Feature must be found in all samples of at least 1 group.
 #' toy_metaboscape %>%
 #'   dplyr::left_join(toy_metaboscape_metadata, by = "Sample") %>%
-#'   filter_grouped_mv(min_found = 1)
-filter_grouped_mv <- function(data, grouping_column = .data$Group, min_found, fraction = TRUE) {
+#'   filter_grouped_mv(grouping_column = Group, min_found = 1)
+filter_grouped_mv <- function(data, grouping_column, min_found, fraction = TRUE) {
   # using injection: https://rlang.r-lib.org/reference/topic-inject.html
 
   data <- data %>%
@@ -93,7 +94,7 @@ filter_grouped_mv <- function(data, grouping_column = .data$Group, min_found, fr
 
     data %>%
       dplyr::group_by(.data$UID) %>%
-      dplyr::mutate(max_not_na = max(.data$n_na)) %>%
+      dplyr::mutate(max_not_na = max(.data$not_na)) %>%
       dplyr::filter(.data$max_not_na >= min_found) %>%
       dplyr::ungroup() %>%
       #print(n = 1000)

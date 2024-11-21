@@ -9,7 +9,7 @@ test_that("filter_global_mv() does not change the structure of the input in an u
 test_that("filter_global_mv() filters the correct features for a 0.1 fraction cutoff", {
   filtered_features <- toy_metaboscape %>%
     filter_global_mv(fraction = TRUE, min_found = 0.9) %>%
-    dplyr::select(Feature) %>%
+    dplyr::select(2) %>%
     dplyr::pull() %>%
     unique()
 
@@ -20,7 +20,7 @@ test_that("filter_global_mv() filters the correct features for a 0.1 fraction cu
 test_that("filter_global_mv() filters the correct features for a 0.5 fraction cutoff", {
   filtered_features <- toy_metaboscape %>%
     filter_global_mv(fraction = TRUE, min_found = 0.5) %>%
-    dplyr::select(Feature) %>%
+    dplyr::select(2) %>%
     dplyr::pull() %>%
     unique()
 
@@ -38,7 +38,7 @@ test_that("filter_global_mv() filters the correct features for a 0.5 fraction cu
 test_that("filter_global_mv() filters the correct features for a 8 sample cutoff", {
   filtered_features <- toy_metaboscape %>%
     filter_global_mv(fraction = FALSE, min_found = 8) %>%
-    dplyr::select(Feature) %>%
+    dplyr::select(2) %>%
     dplyr::pull() %>%
     unique()
 
@@ -55,7 +55,7 @@ test_that("filter_global_mv() filters the correct features for a 8 sample cutoff
 test_that("filter_global_mv() filters the correct features for a 10 sample cutoff", {
   filtered_features <- toy_metaboscape %>%
     filter_global_mv(fraction = FALSE, min_found = 10) %>%
-    dplyr::select(Feature) %>%
+    dplyr::select(2) %>%
     dplyr::pull() %>%
     unique()
 
@@ -65,11 +65,11 @@ test_that("filter_global_mv() filters the correct features for a 10 sample cutof
 # new tests with a better data set
 # if blanks and qc are filterd out, then f0 is found in 0 samples, f1 in 1, f2 in 2, f3 in 3...
 test_that("filter_global_mv() filters the correct features for a 0 sample cutoff", {
-  filtered_features <- test_mv_filters %>%
+  filtered_features <- test_filters %>%
     #only look at "samples"
     dplyr::filter(!(Sample %in% c("q1", "q2", "q3", "b1"))) %>%
     filter_global_mv(fraction = FALSE, min_found = 0) %>%
-    dplyr::select(Feature) %>%
+    dplyr::select(2) %>%
     dplyr::pull() %>%
     unique()
 
@@ -77,11 +77,11 @@ test_that("filter_global_mv() filters the correct features for a 0 sample cutoff
 })
 
 test_that("filter_global_mv() filters the correct features for a 1 sample cutoff", {
-  filtered_features <- test_mv_filters %>%
+  filtered_features <- test_filters %>%
     #only look at "samples"
     dplyr::filter(!(Sample %in% c("q1", "q2", "q3", "b1"))) %>%
     filter_global_mv(fraction = FALSE, min_found = 1) %>%
-    dplyr::select(Feature) %>%
+    dplyr::select(2) %>%
     dplyr::pull() %>%
     unique()
 
@@ -90,11 +90,11 @@ test_that("filter_global_mv() filters the correct features for a 1 sample cutoff
 
 
 test_that("filter_global_mv() filters the correct features for a 5 sample cutoff", {
-  filtered_features <- test_mv_filters %>%
+  filtered_features <- test_filters %>%
     #only look at "samples"
     dplyr::filter(!(Sample %in% c("q1", "q2", "q3", "b1"))) %>%
     filter_global_mv(fraction = FALSE, min_found = 5) %>%
-    dplyr::select(Feature) %>%
+    dplyr::select(2) %>%
     dplyr::pull() %>%
     unique()
 
@@ -102,11 +102,11 @@ test_that("filter_global_mv() filters the correct features for a 5 sample cutoff
 })
 
 test_that("filter_global_mv() filters the correct features for a 8 sample cutoff", {
-  filtered_features <- test_mv_filters %>%
+  filtered_features <- test_filters %>%
     #only look at "samples"
     dplyr::filter(!(Sample %in% c("q1", "q2", "q3", "b1"))) %>%
     filter_global_mv(fraction = FALSE, min_found = 8) %>%
-    dplyr::select(Feature) %>%
+    dplyr::select(2) %>%
     dplyr::pull() %>%
     unique()
 
@@ -114,11 +114,11 @@ test_that("filter_global_mv() filters the correct features for a 8 sample cutoff
 })
 
 test_that("filter_global_mv() filters the correct features for a 12 sample cutoff", {
-  filtered_features <- test_mv_filters %>%
+  filtered_features <- test_filters %>%
     #only look at "samples"
     dplyr::filter(!(Sample %in% c("q1", "q2", "q3", "b1"))) %>%
     filter_global_mv(fraction = FALSE, min_found = 12) %>%
-    dplyr::select(Feature) %>%
+    dplyr::select(2) %>%
     dplyr::pull() %>%
     unique()
 
@@ -127,11 +127,11 @@ test_that("filter_global_mv() filters the correct features for a 12 sample cutof
 
 
 test_that("filter_global_mv() filters the correct features for a 0/12 cutoff", {
-  filtered_features <- test_mv_filters %>%
+  filtered_features <- test_filters %>%
     #only look at "samples"
     dplyr::filter(!(Sample %in% c("q1", "q2", "q3", "b1"))) %>%
     filter_global_mv(fraction = TRUE, min_found = 0/12) %>%
-    dplyr::select(Feature) %>%
+    dplyr::select(2) %>%
     dplyr::pull() %>%
     unique()
 
@@ -139,11 +139,11 @@ test_that("filter_global_mv() filters the correct features for a 0/12 cutoff", {
 })
 
 test_that("filter_global_mv() filters the correct features for a 1/12 sample cutoff", {
-  filtered_features <- test_mv_filters %>%
+  filtered_features <- test_filters %>%
     #only look at "samples"
     dplyr::filter(!(Sample %in% c("q1", "q2", "q3", "b1"))) %>%
     filter_global_mv(fraction = TRUE, min_found = 1/12) %>%
-    dplyr::select(Feature) %>%
+    dplyr::select(2) %>%
     dplyr::pull() %>%
     unique()
 
@@ -152,11 +152,11 @@ test_that("filter_global_mv() filters the correct features for a 1/12 sample cut
 
 
 test_that("filter_global_mv() filters the correct features for a 5/12 cutoff", {
-  filtered_features <- test_mv_filters %>%
+  filtered_features <- test_filters %>%
     #only look at "samples"
     dplyr::filter(!(Sample %in% c("q1", "q2", "q3", "b1"))) %>%
     filter_global_mv(fraction = TRUE, min_found = 5/12) %>%
-    dplyr::select(Feature) %>%
+    dplyr::select(2) %>%
     dplyr::pull() %>%
     unique()
 
@@ -164,11 +164,11 @@ test_that("filter_global_mv() filters the correct features for a 5/12 cutoff", {
 })
 
 test_that("filter_global_mv() filters the correct features for a 8/12 cutoff", {
-  filtered_features <- test_mv_filters %>%
+  filtered_features <- test_filters %>%
     #only look at "samples"
     dplyr::filter(!(Sample %in% c("q1", "q2", "q3", "b1"))) %>%
     filter_global_mv(fraction = TRUE, min_found = 8/12) %>%
-    dplyr::select(Feature) %>%
+    dplyr::select(2) %>%
     dplyr::pull() %>%
     unique()
 
@@ -176,11 +176,11 @@ test_that("filter_global_mv() filters the correct features for a 8/12 cutoff", {
 })
 
 test_that("filter_global_mv() filters the correct features for a 12/12 cutoff", {
-  filtered_features <- test_mv_filters %>%
+  filtered_features <- test_filters %>%
     #only look at "samples"
     dplyr::filter(!(Sample %in% c("q1", "q2", "q3", "b1"))) %>%
     filter_global_mv(fraction = TRUE, min_found = 12/12) %>%
-    dplyr::select(Feature) %>%
+    dplyr::select(2) %>%
     dplyr::pull() %>%
     unique()
 
