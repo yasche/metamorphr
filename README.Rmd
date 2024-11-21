@@ -32,9 +32,11 @@ pak::pak("yasche/metamorphr")
 
 ## Example
 
+### Easy dplyr and ggplot2 integration
+
 Easily plot the distribution of all intensities across samples
 
-```{r example-dplyr-1, warning=FALSE}
+```{r example-dplyr-1, warning=FALSE, message=FALSE}
 library(metamorphr)
 library(dplyr)
 library(ggplot2)
