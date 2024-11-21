@@ -103,7 +103,30 @@ filter_grouped_mv <- function(data, grouping_column, min_found, fraction = TRUE)
   }
 }
 
-filter_cv <- function(data, reference_samples, max_cv = 0.2, na_as_zero = TRUE) {
+#' Filter Features based on their coefficient of variation
+#'
+#' @description
+#' One of several filter functions. It filters Features based on their coefficient of variation (CV).
+#' It is defined as \eqn{CV = \frac{\sigma }{\mu }} with \eqn{\sigma} = Standard deviation and \eqn{\mu} = Mean.
+#'
+#'
+#' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
+#' @param reference_samples The names of the samples which will be used to calculate the CV of a feature. Often Quality Control samples.
+#' @param max_cv The maximum allowed CV. 0.2 is a reasonable start.
+#' @param na_as_zero Should `NA` be replaced with 0 prior to calculation?
+#' Under the hood `filter_cv` calculates the CV by `stats::sd(..., na.rm = TRUE) / mean(..., na.rm = TRUE)`.
+#' If there are 3 samples to calculate the CV from and 2 of them are `NA` for a specific feature, then the CV for that Feature will be `NA`
+#' if `na_as_zero = FALSE`. This might lead to problems. `na_as_zero = TRUE` is the safer pick.
+#' Zeros will be replaced with `NA` after calculation no matter if it is `TRUE` or `FALSE`.
+#'
+#' @return A filtered tibble.
+#' @references <a href="https://en.wikipedia.org/wiki/Coefficient_of_variation">Coefficient of Variation on Wikipedia</a>
+#' @export
+#'
+#' @examples
+#' toy_metaboscape %>%
+#'   filter_cv(reference_samples = c("QC1", "QC2", "QC3"), max_cv = 0.2)
+filter_cv <- function(data, reference_samples, max_cv, na_as_zero = TRUE) {
   if (na_as_zero == TRUE) {
     data <- data %>%
       dplyr::mutate(Intensity = dplyr::case_when(is.na(.data$Intensity) ~ 0, .default = .data$Intensity))
