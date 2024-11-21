@@ -1,12 +1,12 @@
-#' Filter Features based on the absolute number or fraction of samples it was not found in
+#' Filter Features based on the absolute number or fraction of samples it was found in
 #'
 #' @description
-#' One of several filter functions. Can be used to filter features based on the number or fraction of samples they are missing in.
+#' One of several filter functions. Can be used to filter features based on the number or fraction of samples they are found in.
 #' This is usually one of the first steps in metabolomics data analysis and often already performed when the feature table is first created.
 #'
 #' @param data A tidy tibble created by `metamorphr::read_featuretable()`.
 #' @param min_found In how many samples must a Feature be found? If `fraction == TRUE`, a value between 0 and 1 (_e.g._, 0.5 if a Feature must be found un at least half the samples). If `fraction == FALSE` the absolute maximum number of samples (_e.g._, 5 if a specific Feature must be found in at least 5 samples).
-#' @param fraction Either `TRUE` or `FALSE`. Should `max_missing` be the absolute number of samples or a fraction?
+#' @param fraction Either `TRUE` or `FALSE`. Should `min_found` be the absolute number of samples or a fraction?
 #'
 #' @return A filtered tibble.
 #' @export
@@ -49,15 +49,15 @@ filter_global_mv <- function(data, min_found, fraction = TRUE) {
 #' Group-based feature filtering
 #'
 #' @description
-#' One of several filter functions. Similar to `filter_global_mv()` it filters features that are missing in a specified number of samples.
-#' The key difference is, that `filter_grouped_mv()` takes groups into consideration and therefore relies on sample metadata.
-#' For example, if `fraction = TRUE` and `min_found = 0.75`, a feature must be found in at least 75 % of the samples of at least one group.
+#' One of several filter functions. Similar to `filter_global_mv()` it filters features that are found in a specified number of samples.
+#' The key difference is that `filter_grouped_mv()` takes groups into consideration and therefore needs sample metadata.
+#' For example, if `fraction = TRUE` and `min_found = 0.75`, a feature must be found in at least 75 % of the samples of at least 1 group.
 #' It is very similar to the _Filter features by occurrences in groups_ option in Bruker MetaboScape.
 #'
 #' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}} with added sample metadata. See ?\code{\link[metamorphr]{create_metadata_skeleton}} for help.
 #' @param grouping_column Which column should be used for grouping? Uses \code{\link[rlang]{args_data_masking}}.
 #' @param min_found Defines in how many samples of at least 1 group a Feature must be found not to be filtered out. If `fraction == TRUE`, a value between 0 and 1 (_e.g._, 0.5 if a Feature must be found in at least half the samples of at least 1 group). If `fraction == FALSE` the absolute maximum number of samples (_e.g._, 5 if a specific Feature must be found in at least 5 samples of at least 1 group).
-#' @param fraction Either `TRUE` or `FALSE`. Should `max_missing` be the absolute number of samples or a fraction?
+#' @param fraction Either `TRUE` or `FALSE`. Should `min_found` be the absolute number of samples or a fraction?
 #'
 #' @return A filtered tibble.
 #' @export
