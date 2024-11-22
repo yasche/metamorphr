@@ -54,17 +54,17 @@ readr::read_csv(ftable_string) %>%
 
 The convenience function `read_featuretable()` can read a delimited file (like csv or tsv), a connection or literal data and transform it to a (somewhat) tidy tibble:
 
+```{r example-featuretable-3, eval=FALSE}
+library(metamorphr)
+
+read_featuretable("my_featuretable.csv", label_col = 1, metadata_cols = c(2,3))
+```
+
 ```{r example-featuretable-2, echo=FALSE, warning=FALSE, message=FALSE}
 library(metamorphr)
 
 read_featuretable(ftable_string, label_col = 1, metadata_cols = c(2,3)) %>%
   knitr::kable()
-```
-
-```{r example-featuretable-3, eval=FALSE}
-library(metamorphr)
-
-read_featuretable("my_featuretable.csv", label_col = 1, metadata_cols = c(2,3))
 ```
 
 As you can see, the function reads the file and performs some transformation. The first column is a unique identifier (`UID`) for the features. Column 2 (`Feature`) holds the labels from the original feature table. The third column (`Sample`) specifies the sample and the fourth (`Intensity`) holds the measured intensity (or area). Columns 5 and 6 (`feature_metadata1` and `feature_metadata2`) hold additional feature metadata. These columns are redundant because they can be predicted from the `UID` column. It is up to the user to drop them or leave them in. They don't do any harm and might even be useful for downstream filtering or plotting.

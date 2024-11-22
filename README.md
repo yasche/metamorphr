@@ -55,18 +55,18 @@ The convenience function `read_featuretable()` can read a delimited file
 (like csv or tsv), a connection or literal data and transform it to a
 (somewhat) tidy tibble:
 
+``` r
+library(metamorphr)
+
+read_featuretable("my_featuretable.csv", label_col = 1, metadata_cols = c(2,3))
+```
+
 | UID | Feature  | Sample  | Intensity | feature_metadata1 | feature_metadata2 |
 |----:|:---------|:--------|----------:|:------------------|:------------------|
 |   1 | feature1 | sample1 |         1 | metadata1_1       | metadata2_1       |
 |   2 | feature2 | sample1 |         3 | metadata2_1       | metadata2_2       |
 |   1 | feature1 | sample2 |         2 | metadata1_1       | metadata2_1       |
 |   2 | feature2 | sample2 |         4 | metadata2_1       | metadata2_2       |
-
-``` r
-library(metamorphr)
-
-read_featuretable("my_featuretable.csv", label_col = 1, metadata_cols = c(2,3))
-```
 
 As you can see, the function reads the file and performs some
 transformation. The first column is a unique identifier (`UID`) for the
