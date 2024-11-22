@@ -27,10 +27,10 @@ pak::pak("yasche/metamorphr")
 
 ## 🧹 Introducing a (somewhat) tidy data format
 
-**TL;DR** Skip to [📑 Examples](#examples).
+**TL;DR** Skip to [📑 Examples](#-examples).
 
 A prerequisite for frictionless working with
-[tidyverse](https://www.tidyverse.org/) packages is, that data is stored
+[tidyverse](https://www.tidyverse.org/) packages is that data is stored
 in a
 [tidy](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html)
 format. Metabolomics feature tables usually do not fulfill the criteria
@@ -133,16 +133,16 @@ Finally, `my_featuretable` and `my_metadata` can be joined via
 `join_metadata()`.
 
 ``` r
-my_metadata <- my_featuretable %>%
+my_featuretable <- my_featuretable %>%
   join_metadata(my_metadata)
 ```
 
-| UID | Feature  | Sample  | Intensity | feature_metadata1 | feature_metadata2 |
-|----:|:---------|:--------|----------:|:------------------|:------------------|
-|   1 | feature1 | sample1 |         1 | metadata1_1       | metadata2_1       |
-|   2 | feature2 | sample1 |         3 | metadata2_1       | metadata2_2       |
-|   1 | feature1 | sample2 |         2 | metadata1_1       | metadata2_1       |
-|   2 | feature2 | sample2 |         4 | metadata2_1       | metadata2_2       |
+| UID | Feature | Sample | Intensity | feature_metadata1 | feature_metadata2 | Group | Replicate | Batch | Factor |
+|---:|:---|:---|---:|:---|:---|:---|---:|---:|---:|
+| 1 | feature1 | sample1 | 1 | metadata1_1 | metadata2_1 | treatment | 1 | 1 | 0.976 |
+| 2 | feature2 | sample1 | 3 | metadata2_1 | metadata2_2 | treatment | 1 | 1 | 0.976 |
+| 1 | feature1 | sample2 | 2 | metadata1_1 | metadata2_1 | control | 1 | 1 | 1.035 |
+| 2 | feature2 | sample2 | 4 | metadata2_1 | metadata2_2 | control | 1 | 1 | 1.035 |
 
 ## 📑 Examples
 
