@@ -43,7 +43,7 @@ toy_metaboscape %>%
     theme_bw()
 ```
 
-<img src="man/figures/README-example-dplyr-1-1.png" width="100%" />
+<img src="man/figures/README-example-dplyr-1-1.svg" width="100%" />
 
 … or compare the intensity of specific features across groups
 
@@ -58,4 +58,4 @@ toy_metaboscape %>%
     ggplot2::theme_bw()
 ```
 
-<img src="man/figures/README-example-dplyr-2-1.png" width="100%" />
+<img src="man/figures/README-example-dplyr-2-1.svg" width="100%" />
