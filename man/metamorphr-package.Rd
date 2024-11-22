@@ -8,6 +8,14 @@
 \description{
 This package contains functions and wrapper functions to facilitate tasks typically encountered during metabolomics data analysis including data import, filtering, missing value imputation, transformation, centering and scaling as well as some statistical tests and plotting. It offers easy integration with other Tidyverse packages including dplyr and ggplot2.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/yasche/metamorphr}
+  \item Report bugs at \url{https://github.com/yasche/metamorphr/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Yannik Schermer \email{yannik.schermer@chem.rptu.de} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
 
