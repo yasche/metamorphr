@@ -27,6 +27,8 @@ pak::pak("yasche/metamorphr")
 
 ## 🧹 Introducing a (somewhat) tidy data format
 
+**TL;DR** Skip to [📑 Examples](#examples).
+
 A prerequisite for frictionless working with
 [tidyverse](https://www.tidyverse.org/) packages is, that data is stored
 in a
@@ -39,12 +41,12 @@ frustration when applying [dplyr](https://dplyr.tidyverse.org/) or
 convenience functions to read feature tables into a (somewhat) tidy
 format and add sample metadata.
 
-Consider this small feature table saved as `my_featuretable.csv` with a
-label column, `label`, 2 columns that hold additional feature metadata,
-`feature_metadata1` and `feature_metadata2` (*e.g.*, retention time and
-*m/z* or some identifier like HMDB or KEGG) and 2 samples, `sample1` and
-`sample2`. It further holds the the measured intensity (or area) of 2
-features, `feature1` and `feature2` for both samples:
+Consider this small feature table saved under `my_featuretable.csv` with
+a label column, `label`, 2 columns that hold additional feature
+metadata, `feature_metadata1` and `feature_metadata2` (*e.g.*, retention
+time and *m/z* or some identifier like HMDB or KEGG) and 2 samples,
+`sample1` and `sample2`. It further holds the measured intensity (or
+area) of 2 features, `feature1` and `feature2` for both samples:
 
 | label    | feature_metadata1 | feature_metadata2 | sample1 | sample2 |
 |:---------|:------------------|:------------------|--------:|--------:|
@@ -58,8 +60,10 @@ The convenience function `read_featuretable()` can read a delimited file
 ``` r
 library(metamorphr)
 
-read_featuretable("my_featuretable.csv", label_col = 1, metadata_cols = c(2,3))
+my_featuretable <- read_featuretable("my_featuretable.csv", label_col = 1, metadata_cols = c(2,3))
 ```
+
+The tibble `my_featuretable` looks like this:
 
 | UID | Feature  | Sample  | Intensity | feature_metadata1 | feature_metadata2 |
 |----:|:---------|:--------|----------:|:------------------|:------------------|
@@ -79,6 +83,67 @@ predicted from the `UID` column. It is up to the user to drop them or
 leave them in. They don’t do any harm and might even be useful for
 downstream filtering or plotting.
 
+Sample metadata like (treatment) groups or backgrounds can easily be
+added with the 2 functions `create_metadata_skeleton()` and
+`join_metadata`. `create_metadata_skeleton()` creates an empty tibble
+for you to populate with metadata:
+
+``` r
+my_metadata <- my_featuretable %>%
+  create_metadata_skeleton()
+```
+
+This is the resulting `my_metadata` tibble:
+
+| Sample  | Group | Replicate | Batch | Factor |
+|:--------|:------|:----------|:------|-------:|
+| sample1 | NA    | NA        | NA    |      1 |
+| sample2 | NA    | NA        | NA    |      1 |
+
+By default it has 5 columns and as many rows as there are unique samples
+in the underlying featuretable (2 in this case). The first column,
+`Sample`, holds the samples. It is already populated with the names of
+the samples. The `Group` column is empty and can store grouping
+information, for example information about treatments or backgrounds.
+The third column, `Replicate` is important if there are multiple
+technical replicates, for example if a sample was injected multiple
+times or workup was performed with the same starting material multiple
+times. Then, the same samples should have the same `Replicate` number
+(or character) and `Group` name. `Batch` specifies the batch. It is only
+applicable if the sample or measurement was performed in multiple
+batches. Finally, `Factor` can hold a numeric factor like dry weight or
+protein concentration for sample-specific normalization.
+
+Below is an example for how to populate the metadata table in R.
+Alternatively, it can also be saved to disk (e.g., with
+`readr::write_csv()`), edited manually and read again (e.g., with
+`readr::read_csv()`).
+
+``` r
+my_metadata <- my_metadata %>%
+  dplyr::mutate(
+    Group = c("treatment", "control"),
+    Replicate = c(1L, 1L),
+    Batch = c(1L, 1L),
+    Factor = c(0.976, 1.035)
+  )
+```
+
+Finally, `my_featuretable` and `my_metadata` can be joined via
+`join_metadata()`.
+
+``` r
+my_metadata <- my_featuretable %>%
+  join_metadata(my_metadata)
+```
+
+| UID | Feature  | Sample  | Intensity | feature_metadata1 | feature_metadata2 |
+|----:|:---------|:--------|----------:|:------------------|:------------------|
+|   1 | feature1 | sample1 |         1 | metadata1_1       | metadata2_1       |
+|   2 | feature2 | sample1 |         3 | metadata2_1       | metadata2_2       |
+|   1 | feature1 | sample2 |         2 | metadata1_1       | metadata2_1       |
+|   2 | feature2 | sample2 |         4 | metadata2_1       | metadata2_2       |
+
 ## 📑 Examples
 
 ### 📊 Easy dplyr and ggplot2 integration
@@ -90,7 +155,7 @@ library(dplyr)
 library(ggplot2)
 
 toy_metaboscape %>%
-  dplyr::left_join(toy_metaboscape_metadata, by = "Sample") %>%
+  join_metadata(toy_metaboscape_metadata) %>%
   ggplot2::ggplot(ggplot2::aes(Sample, Intensity, color = Group)) +
     ggplot2::geom_boxplot() +
     theme_bw()
@@ -102,7 +167,7 @@ toy_metaboscape %>%
 
 ``` r
 toy_metaboscape %>%
-  dplyr::left_join(toy_metaboscape_metadata, by = "Sample") %>%
+  join_metadata(toy_metaboscape_metadata) %>%
   dplyr::filter(Name %in% c("Arachidonic acid", "ADP", "NADPH")) %>%
   dplyr::filter(Group %in% c("control", "treatment")) %>%
   ggplot2::ggplot(ggplot2::aes(Group, Intensity, color = Group)) +
