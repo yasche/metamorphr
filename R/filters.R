@@ -179,17 +179,32 @@ filter_blank <- function(data, blank_samples, blank_as_group = FALSE, min_frac =
   # tibble(frac_sb = c(0, 1, Inf, NaN, 10)) %>% filter(frac_sb >= 3 & !is.nan(frac_sb))
 
   data <- data %>%
-    dplyr::mutate(Intensity = dplyr::case_when(is.na(.data$Intensity) ~ 0, .default = .data$Intensity))
+    dplyr::mutate(Intensity = dplyr::case_when(is.na(.data$Intensity) ~ 0, .default = .data$Intensity)) %>%
+    dplyr::group_by(.data$UID)
 
-  data %>%
-    dplyr::group_by(.data$UID) %>%
+  if (blank_as_group == FALSE) {
+  data <- data %>%
     dplyr::mutate(
-      max_blank = dplyr::case_when(.data$Sample %in% blank_sample ~ .data$Intensity, .default = NA),
+      max_blank = dplyr::case_when(.data$Sample %in% blank_samples ~ .data$Intensity, .default = NA),
       max_blank = max(.data$max_blank, na.rm = TRUE),
-      max_sample = dplyr::case_when(!(.data$Sample %in% blank_sample) ~ .data$Intensity, .default = NA),
+      max_sample = dplyr::case_when(!(.data$Sample %in% blank_samples) ~ .data$Intensity, .default = NA),
       max_sample = max(.data$max_sample, na.rm = TRUE),
       frac_sb = .data$max_sample / .data$max_blank
-    ) %>%
+    )
+  } else {
+    if (!("Group" %in% colnames(data))) {
+      stop("'Group' column was not found in 'data'. Did you forget to add metadata?")
+    }
+    data <- data %>%
+      dplyr::mutate(
+        max_blank = dplyr::case_when(.data$Group %in% blank_samples ~ .data$Intensity, .default = NA),
+        max_blank = max(.data$max_blank, na.rm = TRUE),
+        max_sample = dplyr::case_when(!(.data$Group %in% blank_samples) ~ .data$Intensity, .default = NA),
+        max_sample = max(.data$max_sample, na.rm = TRUE),
+        frac_sb = .data$max_sample / .data$max_blank
+      )
+  }
+  data %>%
     dplyr::filter(.data$frac_sb >= min_frac & !is.nan(.data$frac_sb)) %>%
     dplyr::ungroup() %>%
     dplyr::mutate(Intensity = dplyr::na_if(.data$Intensity, 0)) %>%
