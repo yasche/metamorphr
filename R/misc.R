@@ -101,7 +101,7 @@ summary_featuretable_pull <- function(data, select_what) {
 
 summary_featuretable_cat <- function(txt, title, n, n_max) {
   if (n > n_max) {
-    txt <- c(head(txt, n = n_max))
+    txt <- c(utils::head(txt, n = n_max))
   }
 
   cat(crayon::blue(as.character(n), " ", title, ": ", sep = ""), paste(txt, collapse = ", "), "\n", sep = "")
