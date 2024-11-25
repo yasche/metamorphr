@@ -19,23 +19,46 @@ join_metadata <- function(data, metadata) {
 
 
 
-featuretable_summary <- function(data) {
+summary_featuretable <- function(data, n_groups_max = 5, n_samples_max = 5, n_features_max = 5, n_batches_max = 5) {
 
   column_names <- colnames(data)
 
-  samples <- featuretable_summary_pull(data = data, select_what = "Sample")
-  features <- featuretable_summary_pull(data = data, select_what = 2)
+  samples <- summary_featuretable_pull(data = data, select_what = "Sample")
+  features <- summary_featuretable_pull(data = data, select_what = 2)
 
-  n_samples <- samples %>%
-    length()
-  n_features <- features %>%
-    length()
+  n_samples <- length(samples)
+  n_features <- length(features)
 
-  n_samples_max <- 5L
-  featuretable_summary_cat(txt = samples, title = "Samples", n = n_samples, n_max = n_samples_max)
+  summary_featuretable_cat(txt = samples, title = "Samples", n = n_samples, n_max = n_samples_max)
+  summary_featuretable_cat(txt = features, title = "Features", n = n_features, n_max = n_samples_max)
 
-  n_features_max <- 5L
-  featuretable_summary_cat(txt = features, title = "Features", n = n_features, n_max = n_samples_max)
+  #is metadata present?
+  if ("Group" %in% column_names) {
+    groups <- summary_featuretable_pull(data = data, select_what = "Group")
+
+    n_groups <- groups %>%
+      length()
+
+    summary_featuretable_cat(txt = groups, title = "Groups", n = n_groups, n_max = n_groups_max)
+  }
+
+  if ("Batch" %in% column_names) {
+    batches <- summary_featuretable_pull(data = data, select_what = "Batch")
+
+    n_batches <- length(batches)
+
+    summary_featuretable_cat(txt = batches, title = "Batches", n = n_batches, n_max = n_batches_max)
+  }
+
+  if ("Replicate" %in% column_names) {
+    replicates <- summary_featuretable_pull(data = data, select_what = "Replicate")
+
+    n_replicates <- length(replicates)
+
+    if (n_replicates > 1) {
+      cat(crayon::blue("Replicates detected: ", min(replicates), "...", max(replicates), "\n", sep = ""))
+    }
+  }
 
   data <- data %>%
     dplyr::group_by(.data$Sample) %>%
@@ -43,44 +66,28 @@ featuretable_summary <- function(data) {
     dplyr::mutate(summary = purrr::map(.data$data, function(x) {summary(x$Intensity)})) %>%
     dplyr::pull(summary)
 
-  #is metadata present?
-  if ("Group" %in% column_names) {
-    groups <- data %>%
-      dplyr::select("Group") %>%
-      dplyr::distinct() %>%
-      dplyr::pull()
+  names(data) <- samples
 
-    n_groups <- groups %>%
-      length()
-
-    n_groups_max <- 5L
-    if (n_groups > n_groups_max) {
-      features <- c(head(groups, n = n_groups_max))
-    }
-
-    #general information
-    #cat(crayon::blue(as.character(n_samples), "Samples: "), paste(samples, collapse = ", "), "\n")
-    #if (n_samples > n_samples_max) {
-    #  cat(crayon::silver("#", as.character(n_samples - n_samples_max), "more samples\n"), sep = " ")
-    #}
-  }
+  data
 }
 
 
-featuretable_summary_pull <- function(data, select_what) {
+summary_featuretable_pull <- function(data, select_what) {
   data %>%
     dplyr::select(select_what) %>%
     dplyr::distinct() %>%
     dplyr::pull()
 }
 
-featuretable_summary_cat <- function(txt, title, n, n_max) {
+
+summary_featuretable_cat <- function(txt, title, n, n_max) {
   if (n > n_max) {
     txt <- c(head(txt, n = n_max))
   }
 
-  cat(crayon::blue(as.character(n), title, ": "), paste(txt, collapse = ", "), "\n")
+  cat(crayon::blue(as.character(n), " ", title, ": ", sep = ""), paste(txt, collapse = ", "), "\n", sep = "")
   if (n > n_max) {
-    cat(crayon::silver("#", as.character(n - n_max), "more",  tolower(title), "\n"), sep = " ")
+    cat(crayon::silver("# ", as.character(n - n_max), " more ",  tolower(title), "\n", sep = ""))
+    cat(crayon::silver("# ", "Use the n_", tolower(title), "_max", " argument to see more", "\n", sep = ""))
   }
 }
