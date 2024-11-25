@@ -2,6 +2,7 @@
 
 export("%>%")
 export(create_metadata_skeleton)
+export(filter_blank)
 export(filter_cv)
 export(filter_global_mv)
 export(filter_grouped_mv)

@@ -142,7 +142,34 @@ filter_cv <- function(data, reference_samples, max_cv, na_as_zero = TRUE) {
     dplyr::select(-"Intensity_ref", -"cv")
 }
 
-filter_blank <- function(data, blank_samples, min_frac = 3) {
+#' Filter Features based on their occurrence in blank samples
+#'
+#' @description
+#' One of several filter functions. It filters Features based on their occurrence in blank samples.
+#' For example, if `min_frac = 3` the maximum intensity in samples must be at least 3 times as high as in blanks
+#' for a Feature not to be filtered out.
+#'
+#'
+#' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
+#' @param blank_samples Defines the blanks. If `blank_as_group = FALSE` a character vector containing the names of the blank samples
+#' as in the `Sample` column of `data`. If `blank_as_group = TRUE` the name(s) of the group(s) that define blanks, as in the `Group` column of `data`.
+#' The latter can only be used if sample metadata is provided.
+#' @param blank_as_group A logical indicating if `blank_samples` are the names of samples or group(s).
+#' @param min_frac A numeric defining how many times higher the maximum intensity in samples must be in relation to blanks.
+#'
+#' @return A filtered tibble.
+#' @export
+#'
+#' @examples
+#' #Example 1: Define blanks by sample name
+#' toy_metaboscape %>%
+#'   filter_blank(blank_samples = c("Blank1", "Blank2"), blank_as_group = FALSE, min_frac = 3)
+#'
+#' #Example 2: Define blanks by group name
+#' toy_metaboscape %>%
+#'   join_metadata(toy_metaboscape_metadata) %>%
+#'   filter_blank(blank_samples = "blank", blank_as_group = TRUE, min_frac = 3)
+filter_blank <- function(data, blank_samples, blank_as_group = FALSE, min_frac = 3) {
   # substitute NA with 0 for better handling:
   # 0/0 = NaN
   # 1/0 = Inf
