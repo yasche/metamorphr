@@ -13,6 +13,7 @@ RoxygenNote: 7.3.2
 Imports: 
     dplyr,
     magrittr,
+    purrr,
     readr,
     rlang,
     stats,
