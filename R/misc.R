@@ -19,7 +19,26 @@ join_metadata <- function(data, metadata) {
 
 
 
-summary_featuretable <- function(data, n_groups_max = 5, n_samples_max = 5, n_features_max = 5, n_batches_max = 5) {
+#' General information about a feature table and sample-wise summary
+#'
+#' @description
+#' Information on a feature table. Prints information to the console (number of samples, number of features and if applicable number of groups,
+#' replicates and batches) and returns a sample-wise summary as a list.
+#'
+#' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
+#' @param n_samples_max How many Samples should be printed to the console?
+#' @param n_features_max How many Features should be printed to the console?
+#' @param n_groups_max How many groups should be printed to the console?
+#' @param n_batches_max How many Batches should be printed to the console?
+#'
+#' @return A sample-wise summary as a list.
+#' @export
+#'
+#' @examples
+#' toy_metaboscape %>%
+#'   join_metadata(toy_metaboscape_metadata) %>%
+#'   summary_featuretable()
+summary_featuretable <- function(data, n_samples_max = 5, n_features_max = 5, n_groups_max = 5, n_batches_max = 5) {
 
   column_names <- colnames(data)
 
@@ -42,14 +61,6 @@ summary_featuretable <- function(data, n_groups_max = 5, n_samples_max = 5, n_fe
     summary_featuretable_cat(txt = groups, title = "Groups", n = n_groups, n_max = n_groups_max)
   }
 
-  if ("Batch" %in% column_names) {
-    batches <- summary_featuretable_pull(data = data, select_what = "Batch")
-
-    n_batches <- length(batches)
-
-    summary_featuretable_cat(txt = batches, title = "Batches", n = n_batches, n_max = n_batches_max)
-  }
-
   if ("Replicate" %in% column_names) {
     replicates <- summary_featuretable_pull(data = data, select_what = "Replicate")
 
@@ -58,6 +69,14 @@ summary_featuretable <- function(data, n_groups_max = 5, n_samples_max = 5, n_fe
     if (n_replicates > 1) {
       cat(crayon::blue("Replicates detected: ", min(replicates), "...", max(replicates), "\n", sep = ""))
     }
+  }
+
+  if ("Batch" %in% column_names) {
+    batches <- summary_featuretable_pull(data = data, select_what = "Batch")
+
+    n_batches <- length(batches)
+
+    summary_featuretable_cat(txt = batches, title = "Batches", n = n_batches, n_max = n_batches_max)
   }
 
   data <- data %>%
