@@ -4,14 +4,14 @@
 \alias{filter_grouped_mv}
 \title{Group-based feature filtering}
 \usage{
-filter_grouped_mv(data, grouping_column, min_found, fraction = TRUE)
+filter_grouped_mv(data, min_found, grouping_column, fraction = TRUE)
 }
 \arguments{
 \item{data}{A tidy tibble created by \code{\link[metamorphr]{read_featuretable}} with added sample metadata. See ?\code{\link[metamorphr]{create_metadata_skeleton}} for help.}
 
-\item{grouping_column}{Which column should be used for grouping? Uses \code{\link[rlang]{args_data_masking}}.}
-
 \item{min_found}{Defines in how many samples of at least 1 group a Feature must be found not to be filtered out. If \code{fraction == TRUE}, a value between 0 and 1 (\emph{e.g.}, 0.5 if a Feature must be found in at least half the samples of at least 1 group). If \code{fraction == FALSE} the absolute maximum number of samples (\emph{e.g.}, 5 if a specific Feature must be found in at least 5 samples of at least 1 group).}
+
+\item{grouping_column}{Which column should be used for grouping? Usually \code{grouping_column = Group}. Uses \code{\link[rlang]{args_data_masking}}.}
 
 \item{fraction}{Either \code{TRUE} or \code{FALSE}. Should \code{min_found} be the absolute number of samples or a fraction?}
 }
@@ -27,6 +27,6 @@ It is very similar to the \emph{Filter features by occurrences in groups} option
 \examples{
 # A Feature must be found in all samples of at least 1 group.
 toy_metaboscape \%>\%
-  dplyr::left_join(toy_metaboscape_metadata, by = "Sample") \%>\%
-  filter_grouped_mv(grouping_column = Group, min_found = 1)
+  join_metadata(toy_metaboscape_metadata) \%>\%
+  filter_grouped_mv(min_found = 1, grouping_column = Group)
 }

@@ -4,14 +4,21 @@
 \alias{filter_cv}
 \title{Filter Features based on their coefficient of variation}
 \usage{
-filter_cv(data, reference_samples, max_cv, na_as_zero = TRUE)
+filter_cv(
+  data,
+  max_cv,
+  reference_samples,
+  ref_as_group = FALSE,
+  grouping_column = NULL,
+  na_as_zero = TRUE
+)
 }
 \arguments{
 \item{data}{A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.}
 
-\item{reference_samples}{The names of the samples which will be used to calculate the CV of a feature. Often Quality Control samples.}
-
 \item{max_cv}{The maximum allowed CV. 0.2 is a reasonable start.}
+
+\item{reference_samples}{The names of the samples which will be used to calculate the CV of a feature. Often Quality Control samples.}
 
 \item{na_as_zero}{Should \code{NA} be replaced with 0 prior to calculation?
 Under the hood \code{filter_cv} calculates the CV by \code{stats::sd(..., na.rm = TRUE) / mean(..., na.rm = TRUE)}.
@@ -28,7 +35,7 @@ It is defined as \eqn{CV = \frac{\sigma }{\mu }} with \eqn{\sigma} = Standard de
 }
 \examples{
 toy_metaboscape \%>\%
-  filter_cv(reference_samples = c("QC1", "QC2", "QC3"), max_cv = 0.2)
+  filter_cv(max_cv = 0.2, reference_samples = c("QC1", "QC2", "QC3"))
 }
 \references{
 \if{html}{\out{<a href="https://en.wikipedia.org/wiki/Coefficient_of_variation">}}Coefficient of Variation on Wikipedia\if{html}{\out{</a>}}

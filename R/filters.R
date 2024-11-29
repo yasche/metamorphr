@@ -55,8 +55,8 @@ filter_global_mv <- function(data, min_found, fraction = TRUE) {
 #' It is very similar to the _Filter features by occurrences in groups_ option in Bruker MetaboScape.
 #'
 #' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}} with added sample metadata. See ?\code{\link[metamorphr]{create_metadata_skeleton}} for help.
-#' @param grouping_column Which column should be used for grouping? Usually `grouping_column = Group`. Uses \code{\link[rlang]{args_data_masking}}.
 #' @param min_found Defines in how many samples of at least 1 group a Feature must be found not to be filtered out. If `fraction == TRUE`, a value between 0 and 1 (_e.g._, 0.5 if a Feature must be found in at least half the samples of at least 1 group). If `fraction == FALSE` the absolute maximum number of samples (_e.g._, 5 if a specific Feature must be found in at least 5 samples of at least 1 group).
+#' @param grouping_column Which column should be used for grouping? Usually `grouping_column = Group`. Uses \code{\link[rlang]{args_data_masking}}.
 #' @param fraction Either `TRUE` or `FALSE`. Should `min_found` be the absolute number of samples or a fraction?
 #'
 #' @return A filtered tibble.
@@ -66,8 +66,8 @@ filter_global_mv <- function(data, min_found, fraction = TRUE) {
 #' # A Feature must be found in all samples of at least 1 group.
 #' toy_metaboscape %>%
 #'   join_metadata(toy_metaboscape_metadata) %>%
-#'   filter_grouped_mv(grouping_column = Group, min_found = 1)
-filter_grouped_mv <- function(data, grouping_column, min_found, fraction = TRUE) {
+#'   filter_grouped_mv(min_found = 1, grouping_column = Group)
+filter_grouped_mv <- function(data, min_found, grouping_column, fraction = TRUE) {
   # using injection: https://rlang.r-lib.org/reference/topic-inject.html
 
   data <- data %>%
@@ -111,8 +111,8 @@ filter_grouped_mv <- function(data, grouping_column, min_found, fraction = TRUE)
 #'
 #'
 #' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
-#' @param reference_samples The names of the samples which will be used to calculate the CV of a feature. Often Quality Control samples.
 #' @param max_cv The maximum allowed CV. 0.2 is a reasonable start.
+#' @param reference_samples The names of the samples which will be used to calculate the CV of a feature. Often Quality Control samples.
 #' @param na_as_zero Should `NA` be replaced with 0 prior to calculation?
 #' Under the hood `filter_cv` calculates the CV by `stats::sd(..., na.rm = TRUE) / mean(..., na.rm = TRUE)`.
 #' If there are 3 samples to calculate the CV from and 2 of them are `NA` for a specific feature, then the CV for that Feature will be `NA`
@@ -125,15 +125,29 @@ filter_grouped_mv <- function(data, grouping_column, min_found, fraction = TRUE)
 #'
 #' @examples
 #' toy_metaboscape %>%
-#'   filter_cv(reference_samples = c("QC1", "QC2", "QC3"), max_cv = 0.2)
-filter_cv <- function(data, reference_samples, max_cv, ref_as_group = FALSE, na_as_zero = TRUE) {
+#'   filter_cv(max_cv = 0.2, reference_samples = c("QC1", "QC2", "QC3"))
+filter_cv <- function(data, max_cv, reference_samples, ref_as_group = FALSE, grouping_column = NULL, na_as_zero = TRUE) {
+  #perform  checks
+  #if (ref_as_group == TRUE) {
+  #  if (is.null(grouping_column)) {
+  #    stop("A grouping column must be provided if argument ref_as_group is TRUE. See ?metamorphr::filter_cv for details.")
+  #  }
+  #}
+
   if (na_as_zero == TRUE) {
     data <- data %>%
       dplyr::mutate(Intensity = dplyr::case_when(is.na(.data$Intensity) ~ 0, .default = .data$Intensity))
   }
 
+  if (ref_as_group == TRUE) {
+    data <- data %>%
+      dplyr::mutate(Intensity_ref = dplyr::case_when({{ grouping_column }} == reference_samples ~ .data$Intensity, .default = NA))
+  } else {
+    data <- data %>%
+      dplyr::mutate(Intensity_ref = dplyr::case_when(.data$Sample %in% reference_samples ~ .data$Intensity, .default = NA))
+  }
+
   data %>%
-    dplyr::mutate(Intensity_ref = dplyr::case_when(.data$Sample %in% reference_samples ~ .data$Intensity, .default = NA)) %>%
     dplyr::group_by(.data$UID) %>%
     dplyr::mutate(cv = stats::sd(.data$Intensity_ref, na.rm = TRUE) / mean(.data$Intensity_ref, na.rm = TRUE)) %>%
     dplyr::filter(.data$cv <= max_cv) %>%
