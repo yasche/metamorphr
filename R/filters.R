@@ -112,7 +112,9 @@ filter_grouped_mv <- function(data, min_found, grouping_column, fraction = TRUE)
 #'
 #' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
 #' @param max_cv The maximum allowed CV. 0.2 is a reasonable start.
-#' @param reference_samples The names of the samples which will be used to calculate the CV of a feature. Often Quality Control samples.
+#' @param reference_samples The names of the samples or group which will be used to calculate the CV of a feature. Often Quality Control samples.
+#' @param ref_as_group A logical indicating if `reference_samples` are the names of samples or group(s).
+#' @param grouping_column Which column should be used for grouping reference and non-reference samples? Usually `grouping_column = Group`. Uses \code{\link[rlang]{args_data_masking}}.
 #' @param na_as_zero Should `NA` be replaced with 0 prior to calculation?
 #' Under the hood `filter_cv` calculates the CV by `stats::sd(..., na.rm = TRUE) / mean(..., na.rm = TRUE)`.
 #' If there are 3 samples to calculate the CV from and 2 of them are `NA` for a specific feature, then the CV for that Feature will be `NA`
@@ -124,9 +126,15 @@ filter_grouped_mv <- function(data, min_found, grouping_column, fraction = TRUE)
 #' @export
 #'
 #' @examples
+#' #Example 1: Define reference samples by sample names
 #' toy_metaboscape %>%
 #'   filter_cv(max_cv = 0.2, reference_samples = c("QC1", "QC2", "QC3"))
-filter_cv <- function(data, max_cv, reference_samples, ref_as_group = FALSE, grouping_column = NULL, na_as_zero = TRUE) {
+#'
+#' #Example 2: Define reference samples by group name
+#' toy_metaboscape %>%
+#'   join_metadata(toy_metaboscape_metadata) %>%
+#'   filter_cv(max_cv = 0.2, reference_samples = "QC", ref_as_group = TRUE, grouping_column = Group)
+filter_cv <- function(data, max_cv = 0.2, reference_samples, ref_as_group = FALSE, grouping_column = NULL, na_as_zero = TRUE) {
   #perform  checks
   #if (ref_as_group == TRUE) {
   #  if (is.null(grouping_column)) {
