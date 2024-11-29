@@ -55,7 +55,7 @@ filter_global_mv <- function(data, min_found, fraction = TRUE) {
 #' It is very similar to the _Filter features by occurrences in groups_ option in Bruker MetaboScape.
 #'
 #' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}} with added sample metadata. See ?\code{\link[metamorphr]{create_metadata_skeleton}} for help.
-#' @param grouping_column Which column should be used for grouping? Uses \code{\link[rlang]{args_data_masking}}.
+#' @param grouping_column Which column should be used for grouping? Usually `grouping_column = Group`. Uses \code{\link[rlang]{args_data_masking}}.
 #' @param min_found Defines in how many samples of at least 1 group a Feature must be found not to be filtered out. If `fraction == TRUE`, a value between 0 and 1 (_e.g._, 0.5 if a Feature must be found in at least half the samples of at least 1 group). If `fraction == FALSE` the absolute maximum number of samples (_e.g._, 5 if a specific Feature must be found in at least 5 samples of at least 1 group).
 #' @param fraction Either `TRUE` or `FALSE`. Should `min_found` be the absolute number of samples or a fraction?
 #'
@@ -65,7 +65,7 @@ filter_global_mv <- function(data, min_found, fraction = TRUE) {
 #' @examples
 #' # A Feature must be found in all samples of at least 1 group.
 #' toy_metaboscape %>%
-#'   dplyr::left_join(toy_metaboscape_metadata, by = "Sample") %>%
+#'   join_metadata(toy_metaboscape_metadata) %>%
 #'   filter_grouped_mv(grouping_column = Group, min_found = 1)
 filter_grouped_mv <- function(data, grouping_column, min_found, fraction = TRUE) {
   # using injection: https://rlang.r-lib.org/reference/topic-inject.html
@@ -126,7 +126,7 @@ filter_grouped_mv <- function(data, grouping_column, min_found, fraction = TRUE)
 #' @examples
 #' toy_metaboscape %>%
 #'   filter_cv(reference_samples = c("QC1", "QC2", "QC3"), max_cv = 0.2)
-filter_cv <- function(data, reference_samples, max_cv, na_as_zero = TRUE) {
+filter_cv <- function(data, reference_samples, max_cv, ref_as_group = FALSE, na_as_zero = TRUE) {
   if (na_as_zero == TRUE) {
     data <- data %>%
       dplyr::mutate(Intensity = dplyr::case_when(is.na(.data$Intensity) ~ 0, .default = .data$Intensity))
