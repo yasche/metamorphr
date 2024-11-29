@@ -114,7 +114,7 @@ filter_grouped_mv <- function(data, min_found, grouping_column, fraction = TRUE)
 #' @param max_cv The maximum allowed CV. 0.2 is a reasonable start.
 #' @param reference_samples The names of the samples or group which will be used to calculate the CV of a feature. Often Quality Control samples.
 #' @param ref_as_group A logical indicating if `reference_samples` are the names of samples or group(s).
-#' @param grouping_column Which column should be used for grouping reference and non-reference samples? Usually `grouping_column = Group`. Uses \code{\link[rlang]{args_data_masking}}.
+#' @param grouping_column Only relevant if `ref_as_group = TRUE`. Which column should be used for grouping reference and non-reference samples? Usually `grouping_column = Group`. Uses \code{\link[rlang]{args_data_masking}}.
 #' @param na_as_zero Should `NA` be replaced with 0 prior to calculation?
 #' Under the hood `filter_cv` calculates the CV by `stats::sd(..., na.rm = TRUE) / mean(..., na.rm = TRUE)`.
 #' If there are 3 samples to calculate the CV from and 2 of them are `NA` for a specific feature, then the CV for that Feature will be `NA`
@@ -149,7 +149,7 @@ filter_cv <- function(data, max_cv = 0.2, reference_samples, ref_as_group = FALS
 
   if (ref_as_group == TRUE) {
     data <- data %>%
-      dplyr::mutate(Intensity_ref = dplyr::case_when({{ grouping_column }} == reference_samples ~ .data$Intensity, .default = NA))
+      dplyr::mutate(Intensity_ref = dplyr::case_when(dplyr::select(data, {{ grouping_column }}) == reference_samples ~ .data$Intensity, .default = NA))
   } else {
     data <- data %>%
       dplyr::mutate(Intensity_ref = dplyr::case_when(.data$Sample %in% reference_samples ~ .data$Intensity, .default = NA))
@@ -173,11 +173,12 @@ filter_cv <- function(data, max_cv = 0.2, reference_samples, ref_as_group = FALS
 #'
 #'
 #' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
+#' @param min_frac A numeric defining how many times higher the maximum intensity in samples must be in relation to blanks.
 #' @param blank_samples Defines the blanks. If `blank_as_group = FALSE` a character vector containing the names of the blank samples
 #' as in the `Sample` column of `data`. If `blank_as_group = TRUE` the name(s) of the group(s) that define blanks, as in the `Group` column of `data`.
 #' The latter can only be used if sample metadata is provided.
 #' @param blank_as_group A logical indicating if `blank_samples` are the names of samples or group(s).
-#' @param min_frac A numeric defining how many times higher the maximum intensity in samples must be in relation to blanks.
+#' @param grouping_column Only relevant if `blank_as_group = TRUE`. Which column should be used for grouping blank and non-blank samples? Usually `grouping_column = Group`. Uses \code{\link[rlang]{args_data_masking}}.
 #'
 #' @return A filtered tibble.
 #' @export
@@ -191,7 +192,7 @@ filter_cv <- function(data, max_cv = 0.2, reference_samples, ref_as_group = FALS
 #' toy_metaboscape %>%
 #'   join_metadata(toy_metaboscape_metadata) %>%
 #'   filter_blank(blank_samples = "blank", blank_as_group = TRUE, min_frac = 3)
-filter_blank <- function(data, blank_samples, blank_as_group = FALSE, min_frac = 3) {
+filter_blank <- function(data, min_frac = 3, blank_samples, blank_as_group = FALSE, grouping_column = NULL) {
   # substitute NA with 0 for better handling:
   # 0/0 = NaN
   # 1/0 = Inf
@@ -201,11 +202,11 @@ filter_blank <- function(data, blank_samples, blank_as_group = FALSE, min_frac =
   # tibble(frac_sb = c(0, 1, Inf, NaN, 10)) %>% filter(frac_sb >= 3 & !is.nan(frac_sb))
 
   data <- data %>%
-    dplyr::mutate(Intensity = dplyr::case_when(is.na(.data$Intensity) ~ 0, .default = .data$Intensity)) %>%
-    dplyr::group_by(.data$UID)
+    dplyr::mutate(Intensity = dplyr::case_when(is.na(.data$Intensity) ~ 0, .default = .data$Intensity))
 
   if (blank_as_group == FALSE) {
   data <- data %>%
+    dplyr::group_by(.data$UID) %>%
     dplyr::mutate(
       max_blank = dplyr::case_when(.data$Sample %in% blank_samples ~ .data$Intensity, .default = NA),
       max_blank = max(.data$max_blank, na.rm = TRUE),
@@ -214,19 +215,25 @@ filter_blank <- function(data, blank_samples, blank_as_group = FALSE, min_frac =
       frac_sb = .data$max_sample / .data$max_blank
     )
   } else {
-    if (!("Group" %in% colnames(data))) {
-      stop("'Group' column was not found in 'data'. Did you forget to add metadata?")
-    }
+    #print("{toString(grouping_column)}")
+    #if (!(stringr::str_glue("{grouping_column}") %in% colnames(data))) {
+    #  stop("'Group' column was not found in 'data'. Did you forget to add metadata?")
+    #}
     data <- data %>%
       dplyr::mutate(
-        max_blank = dplyr::case_when(.data$Group %in% blank_samples ~ .data$Intensity, .default = NA),
+        max_blank = dplyr::case_when(dplyr::select(data, {{ grouping_column }}) == blank_samples ~ .data$Intensity, .default = NA),
+        max_sample = dplyr::case_when(!(dplyr::select(data, {{ grouping_column }}) == blank_samples) ~ .data$Intensity, .default = NA)
+      ) %>%
+      dplyr::group_by(.data$UID) %>%
+      dplyr::mutate(
         max_blank = max(.data$max_blank, na.rm = TRUE),
-        max_sample = dplyr::case_when(!(.data$Group %in% blank_samples) ~ .data$Intensity, .default = NA),
         max_sample = max(.data$max_sample, na.rm = TRUE),
         frac_sb = .data$max_sample / .data$max_blank
       )
   }
   data %>%
+    #how should the case 0/0 be handled? -> 0/0 = NaN -> currently filtered out
+    #other approach: replace 0/0 with 0
     dplyr::filter(.data$frac_sb >= min_frac & !is.nan(.data$frac_sb)) %>%
     dplyr::ungroup() %>%
     dplyr::mutate(Intensity = dplyr::na_if(.data$Intensity, 0)) %>%

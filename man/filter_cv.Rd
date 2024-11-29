@@ -22,7 +22,7 @@ filter_cv(
 
 \item{ref_as_group}{A logical indicating if \code{reference_samples} are the names of samples or group(s).}
 
-\item{grouping_column}{Which column should be used for grouping reference and non-reference samples? Usually \code{grouping_column = Group}. Uses \code{\link[rlang]{args_data_masking}}.}
+\item{grouping_column}{Only relevant if \code{ref_as_group = TRUE}. Which column should be used for grouping reference and non-reference samples? Usually \code{grouping_column = Group}. Uses \code{\link[rlang]{args_data_masking}}.}
 
 \item{na_as_zero}{Should \code{NA} be replaced with 0 prior to calculation?
 Under the hood \code{filter_cv} calculates the CV by \code{stats::sd(..., na.rm = TRUE) / mean(..., na.rm = TRUE)}.

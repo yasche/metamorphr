@@ -4,10 +4,18 @@
 \alias{filter_blank}
 \title{Filter Features based on their occurrence in blank samples}
 \usage{
-filter_blank(data, blank_samples, blank_as_group = FALSE, min_frac = 3)
+filter_blank(
+  data,
+  min_frac = 3,
+  blank_samples,
+  blank_as_group = FALSE,
+  grouping_column = NULL
+)
 }
 \arguments{
 \item{data}{A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.}
+
+\item{min_frac}{A numeric defining how many times higher the maximum intensity in samples must be in relation to blanks.}
 
 \item{blank_samples}{Defines the blanks. If \code{blank_as_group = FALSE} a character vector containing the names of the blank samples
 as in the \code{Sample} column of \code{data}. If \code{blank_as_group = TRUE} the name(s) of the group(s) that define blanks, as in the \code{Group} column of \code{data}.
@@ -15,7 +23,7 @@ The latter can only be used if sample metadata is provided.}
 
 \item{blank_as_group}{A logical indicating if \code{blank_samples} are the names of samples or group(s).}
 
-\item{min_frac}{A numeric defining how many times higher the maximum intensity in samples must be in relation to blanks.}
+\item{grouping_column}{Only relevant if \code{blank_as_group = TRUE}. Which column should be used for grouping blank and non-blank samples? Usually \code{grouping_column = Group}. Uses \code{\link[rlang]{args_data_masking}}.}
 }
 \value{
 A filtered tibble.
