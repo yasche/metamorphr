@@ -15,7 +15,7 @@ impute_user_value(data, value)
 A tibble with imputed missing values.
 }
 \description{
-Replace missing intensity values (\code{NA}) with a user-provided value (e.g., 1). This imputation method is very rudimentary and other methods might provide better results.
+Replace missing intensity values (\code{NA}) with a user-provided value (e.g., 1).
 }
 \examples{
 toy_metaboscape \%>\%

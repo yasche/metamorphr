@@ -13,7 +13,7 @@ impute_global_lowest(data)
 A tibble with imputed missing values.
 }
 \description{
-Replace missing intensity values (\code{NA}) with the lowest observed intensity. This imputation method is very rudimentary and other methods might provide better results.
+Replace missing intensity values (\code{NA}) with the lowest observed intensity.
 }
 \examples{
 toy_metaboscape \%>\%
