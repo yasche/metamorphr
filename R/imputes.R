@@ -46,8 +46,8 @@ impute_user_value <- function(data, value) {
 #' Impute missing values by replacing them with the Feature mean
 #'
 #' @description
-#' Replace missing intensity values (`NA`) with the Feature mean of non-`NA` values. For example, if a Feature has the measured intensities `NA, 1, NA, 3` in samples 1-4,
-#' the intensities after `impute_mean()` would be `2, 1, 2, 3`.
+#' Replace missing intensity values (`NA`) with the Feature mean of non-`NA` values. For example, if a Feature has the measured intensities `NA, 1, NA, 3, 2` in samples 1-4,
+#' the intensities after `impute_mean()` would be `2, 1, 2, 3, 2`.
 #'
 #' @param data A tidy tibble created by `metamorphr::read_featuretable()`.
 #'
@@ -68,8 +68,29 @@ impute_mean <- function(data) {
     dplyr::select(-"LoD")
 }
 
-impute_median <- function() {
+#' Impute missing values by replacing them with the Feature median
+#'
+#' @description
+#' Replace missing intensity values (`NA`) with the Feature median of non-`NA` values. For example, if a Feature has the measured intensities `NA, 1, NA, 3, 2` in samples 1-4,
+#' the intensities after `impute_median()` would be `2, 1, 2, 3, 2`.
+#'
+#' @param data A tidy tibble created by `metamorphr::read_featuretable()`.
+#'
+#' @return A tibble with imputed missing values.
+#' @export
+#'
+#' @examples
+#' toy_metaboscape %>%
+#'   impute_mean()
 
+impute_median <- function(data) {
+  data %>%
+    dplyr::group_by(.data$UID) %>%
+    dplyr::mutate(LoD = stats::median(.data$Intensity, na.rm = T)) %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(Intensity = dplyr::case_when(is.na(.data$Intensity) ~ .data$LoD,
+                                               .default = .data$Intensity)) %>%
+    dplyr::select(-"LoD")
 }
 
 impute_min <- function() {
