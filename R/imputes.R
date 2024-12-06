@@ -81,7 +81,7 @@ impute_mean <- function(data) {
 #'
 #' @examples
 #' toy_metaboscape %>%
-#'   impute_mean()
+#'   impute_median()
 
 impute_median <- function(data) {
   data %>%
@@ -93,8 +93,28 @@ impute_median <- function(data) {
     dplyr::select(-"LoD")
 }
 
-impute_min <- function() {
 
+#' Impute missing values by replacing them with the Feature minimum
+#'
+#' @description
+#' Replace missing intensity values (`NA`) with the Feature minimum of non-`NA` values.
+#'
+#' @param data A tidy tibble created by `metamorphr::read_featuretable()`.
+#'
+#' @return A tibble with imputed missing values.
+#' @export
+#'
+#' @examples
+#' toy_metaboscape %>%
+#'   impute_min()
+impute_min <- function(data) {
+  data %>%
+    dplyr::group_by(.data$UID) %>%
+    dplyr::mutate(LoD = min(.data$Intensity, na.rm = T)) %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(Intensity = dplyr::case_when(is.na(.data$Intensity) ~ .data$LoD,
+                                               .default = .data$Intensity)) %>%
+    dplyr::select(-"LoD")
 }
 
 impute_lod <- function() {

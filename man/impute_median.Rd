@@ -18,5 +18,5 @@ the intensities after \code{impute_median()} would be \verb{2, 1, 2, 3, 2}.
 }
 \examples{
 toy_metaboscape \%>\%
-  impute_mean()
+  impute_median()
 }
