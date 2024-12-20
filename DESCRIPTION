@@ -12,6 +12,7 @@ RoxygenNote: 7.3.2
 Imports: 
     crayon,
     dplyr,
+    impute,
     magrittr,
     purrr,
     readr,
@@ -19,7 +20,8 @@ Imports:
     stats,
     tibble,
     tidyr,
-    utils
+    utils,
+    withr
 Depends: 
     R (>= 2.10)
 LazyData: true
