@@ -124,7 +124,7 @@ impute_min <- function(data) {
 #' It is estimated by dividing the Feature minimum by the provided denominator, usually 5. See the References section for more information.
 #'
 #' @param data A tidy tibble created by `metamorphr::read_featuretable()`.
-#' @param denominator A numeric value that specifies by which the Feature minimum will be divided
+#' @param div_by A numeric value that specifies by which number the Feature minimum will be divided
 #'
 #' @return A tibble with imputed missing values.
 #' @references <a href="https://omicsforum.ca/t/how-to-deal-with-missing-values/75">LoD on OmicsForum</a>
@@ -133,11 +133,11 @@ impute_min <- function(data) {
 #' @examples
 #' toy_metaboscape %>%
 #'   impute_lod()
-impute_lod <- function(data, denominator = 5) {
+impute_lod <- function(data, div_by = 5) {
   #https://omicsforum.ca/t/how-to-deal-with-missing-values/75
   data %>%
     dplyr::group_by(.data$UID) %>%
-    dplyr::mutate(LoD = min(.data$Intensity, na.rm = T) / .env$denominator) %>%
+    dplyr::mutate(LoD = min(.data$Intensity, na.rm = T) / .env$div_by) %>%
     dplyr::ungroup() %>%
     dplyr::mutate(Intensity = dplyr::case_when(is.na(.data$Intensity) ~ .data$LoD,
                                                .default = .data$Intensity)) %>%
