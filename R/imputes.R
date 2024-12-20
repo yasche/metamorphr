@@ -144,8 +144,72 @@ impute_lod <- function(data, div_by = 5) {
     dplyr::select(-"LoD")
 }
 
-impute_knn <- function() {
+impute_knn <- function(data, ...) {
+  #impute is a bioconductor package so it is not installed with metamorphr if installed via install.packages().
+  #check if it installed first
+  #also check, if pak is installed
+  if(!rlang::is_installed("impute")) {
+    if(!rlang::is_installed("pak")) {
+      rlang::check_installed("pak")
+      rlang::check_installed("impute")
+    }
+    rlang::check_installed("impute")
+  }
+  data_colnames <- colnames(data)
 
+  data_obs <- data %>%
+    dplyr::select("UID", "Intensity", "Sample")
+
+  #preserve order for later
+  data_obs_sample_order <- data_obs %>%
+    dplyr::select("Sample") %>%
+    dplyr::pull() %>%
+    unique()
+
+  data_meta <- data %>%
+    dplyr::select(-"Intensity")
+
+  data_obs <- data_obs %>%
+    dplyr::mutate(Intensity = log(.data$Intensity)) %>%
+    tidyr::spread(key = "Sample", value = "Intensity")
+
+  uids <- data_obs %>%
+    dplyr::select("UID")
+
+  data_obs <- data_obs %>%
+    dplyr::select(-"UID")
+
+  #preserve colnames
+  data_obs_colnames <- colnames(data_obs)
+
+  data_obs <- data_obs %>%
+    as.matrix()
+
+
+  #used with_preserve_seed to preserve random seed
+  #write a test to check if it works
+  data_obs <- withr::with_preserve_seed(impute::impute.knn(data_obs, ...))
+
+  data_obs <- data_obs$data %>%
+    tidyr::as_tibble()
+
+  #restore colnames
+  colnames(data_obs) <- data_obs_colnames
+
+  data_obs <- data_obs[data_obs_sample_order]
+
+  print(data_obs)
+  data <- data_obs %>%
+    cbind(uids) %>%
+    tidyr::gather(-"UID", key = "Sample", value = "Intensity") %>%
+    #reverse ln-transformation
+    dplyr::mutate(Intensity = exp(.data$Intensity)) %>%
+    dplyr::left_join(data_meta, by = c("UID", "Sample"))
+
+  #bring columns to correct order
+  data <- data[data_colnames]
+
+  data
 }
 
 impute_rf <- function() {

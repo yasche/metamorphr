@@ -4,12 +4,12 @@
 \alias{impute_lod}
 \title{Impute missing values by replacing them with the Feature 'Limit of Detection'}
 \usage{
-impute_lod(data, denominator = 5)
+impute_lod(data, div_by = 5)
 }
 \arguments{
 \item{data}{A tidy tibble created by \code{metamorphr::read_featuretable()}.}
 
-\item{denominator}{A numeric value that specifies by which the Feature minimum will be divided}
+\item{div_by}{A numeric value that specifies by which number the Feature minimum will be divided}
 }
 \value{
 A tibble with imputed missing values.
