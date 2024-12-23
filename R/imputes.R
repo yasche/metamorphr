@@ -187,7 +187,7 @@ impute_knn <- function(data, ...) {
 
 
   #used with_preserve_seed to preserve random seed
-  #write a test to check if it works
+  #write a test to check if it works (i.e., .Random.seed before == .Random.seed after)
   data_obs <- withr::with_preserve_seed(impute::impute.knn(data_obs, ...))
 
   data_obs <- data_obs$data %>%
@@ -198,7 +198,7 @@ impute_knn <- function(data, ...) {
 
   data_obs <- data_obs[data_obs_sample_order]
 
-  print(data_obs)
+  #print(data_obs)
   data <- data_obs %>%
     cbind(uids) %>%
     tidyr::gather(-"UID", key = "Sample", value = "Intensity") %>%
