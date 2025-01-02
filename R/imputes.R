@@ -240,6 +240,8 @@ impute_knn <- function(data, ...) {
   #bring columns to correct order
   data <- data[data_colnames]
 
+  data <- tidyr::as_tibble(data)
+
   data
 }
 
