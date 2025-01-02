@@ -7,7 +7,7 @@
 impute_user_value(data, value)
 }
 \arguments{
-\item{data}{A tidy tibble created by \code{metamorphr::read_featuretable()}.}
+\item{data}{A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.}
 
 \item{value}{Numeric that replaces missing values}
 }

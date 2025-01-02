@@ -7,7 +7,7 @@
 impute_min(data)
 }
 \arguments{
-\item{data}{A tidy tibble created by \code{metamorphr::read_featuretable()}.}
+\item{data}{A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.}
 }
 \value{
 A tibble with imputed missing values.

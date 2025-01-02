@@ -7,7 +7,7 @@
 impute_lod(data, div_by = 5)
 }
 \arguments{
-\item{data}{A tidy tibble created by \code{metamorphr::read_featuretable()}.}
+\item{data}{A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.}
 
 \item{div_by}{A numeric value that specifies by which number the Feature minimum will be divided}
 }

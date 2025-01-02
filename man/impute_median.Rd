@@ -7,13 +7,13 @@
 impute_median(data)
 }
 \arguments{
-\item{data}{A tidy tibble created by \code{metamorphr::read_featuretable()}.}
+\item{data}{A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.}
 }
 \value{
 A tibble with imputed missing values.
 }
 \description{
-Replace missing intensity values (\code{NA}) with the Feature median of non-\code{NA} values. For example, if a Feature has the measured intensities \verb{NA, 1, NA, 3, 2} in samples 1-4,
+Replace missing intensity values (\code{NA}) with the Feature median of non-\code{NA} values. For example, if a Feature has the measured intensities \verb{NA, 1, NA, 3, 2} in samples 1-5,
 the intensities after \code{impute_median()} would be \verb{2, 1, 2, 3, 2}.
 }
 \examples{

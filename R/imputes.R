@@ -3,7 +3,7 @@
 #' @description
 #' Replace missing intensity values (`NA`) with the lowest observed intensity.
 #'
-#' @param data A tidy tibble created by `metamorphr::read_featuretable()`.
+#' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
 #'
 #' @return A tibble with imputed missing values.
 #' @export
@@ -27,7 +27,7 @@ impute_global_lowest <- function(data) {
 #' @description
 #' Replace missing intensity values (`NA`) with a user-provided value (e.g., 1).
 #'
-#' @param data A tidy tibble created by `metamorphr::read_featuretable()`.
+#' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
 #' @param value Numeric that replaces missing values
 #'
 #' @return A tibble with imputed missing values.
@@ -46,10 +46,10 @@ impute_user_value <- function(data, value) {
 #' Impute missing values by replacing them with the Feature mean
 #'
 #' @description
-#' Replace missing intensity values (`NA`) with the Feature mean of non-`NA` values. For example, if a Feature has the measured intensities `NA, 1, NA, 3, 2` in samples 1-4,
+#' Replace missing intensity values (`NA`) with the Feature mean of non-`NA` values. For example, if a Feature has the measured intensities `NA, 1, NA, 3, 2` in samples 1-5,
 #' the intensities after `impute_mean()` would be `2, 1, 2, 3, 2`.
 #'
-#' @param data A tidy tibble created by `metamorphr::read_featuretable()`.
+#' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
 #'
 #' @return A tibble with imputed missing values.
 #' @export
@@ -71,10 +71,10 @@ impute_mean <- function(data) {
 #' Impute missing values by replacing them with the Feature median
 #'
 #' @description
-#' Replace missing intensity values (`NA`) with the Feature median of non-`NA` values. For example, if a Feature has the measured intensities `NA, 1, NA, 3, 2` in samples 1-4,
+#' Replace missing intensity values (`NA`) with the Feature median of non-`NA` values. For example, if a Feature has the measured intensities `NA, 1, NA, 3, 2` in samples 1-5,
 #' the intensities after `impute_median()` would be `2, 1, 2, 3, 2`.
 #'
-#' @param data A tidy tibble created by `metamorphr::read_featuretable()`.
+#' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
 #'
 #' @return A tibble with imputed missing values.
 #' @export
@@ -99,7 +99,7 @@ impute_median <- function(data) {
 #' @description
 #' Replace missing intensity values (`NA`) with the Feature minimum of non-`NA` values.
 #'
-#' @param data A tidy tibble created by `metamorphr::read_featuretable()`.
+#' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
 #'
 #' @return A tibble with imputed missing values.
 #' @export
@@ -123,7 +123,7 @@ impute_min <- function(data) {
 #' Replace missing intensity values (`NA`) by what is assumed to be the detector limit of detection (LoD).
 #' It is estimated by dividing the Feature minimum by the provided denominator, usually 5. See the References section for more information.
 #'
-#' @param data A tidy tibble created by `metamorphr::read_featuretable()`.
+#' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
 #' @param div_by A numeric value that specifies by which number the Feature minimum will be divided
 #'
 #' @return A tibble with imputed missing values.
@@ -144,9 +144,39 @@ impute_lod <- function(data, div_by = 5) {
     dplyr::select(-"LoD")
 }
 
+#' Impute missing values using nearest neighbor averaging
+#'
+#' @description
+#' Basically a wrapper function around `impute::impute.knn()`. Imputes missing values using the k-th nearest neighbor algorithm.
+#'
+#'
+#' Note that the function ln-transforms the data prior to imputation and transforms it back to the original scale afterwards. **Please do not do it manually prior to calling `impute_knn()`!**
+#' See References for more information.
+#'
+#' <b>Important Note</b><br>
+#' `impute_knn()` depends on the `impute` package from Bioconductor. If `metamorphr` was installed via `install.packages()`, dependencies from Bioconductor were not
+#' automatically installed. When `impute_knn()` is called without the `impute` package installed, you should be asked if you want to install `pak` and `impute`.
+#' If you want to use `impute_knn()` you have to install those. In case you run into trouble with the automatic installation, please install `impute` manually. See
+#' <a href = "https://bioconductor.org/packages/release/bioc/html/impute.html">impute: Imputation for microarray data</a> for instructions on manual installation.
+#'
+#' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
+#' @param ... Additional parameters passed to A tidy tibble created by \code{\link[impute]{impute.knn}}.
+#'
+#' @return A tibble with imputed missing values.
+#' @export
+#'
+#' @references
+#' <ul>
+#' <li>Robert Tibshirani Trevor Hastie, <b>2017</b>, DOI <a href = "https://doi.org/10.18129/B9.BIOC.IMPUTE">10.18129/B9.BIOC.IMPUTE</a>.</li>
+#' <li>J. Khan, J. S. Wei, M. Ringnér, L. H. Saal, M. Ladanyi, F. Westermann, F. Berthold, M. Schwab, C. R. Antonescu, C. Peterson, P. S. Meltzer, <i>Nat Med</i> <b>2001</b>, <i>7</i>, 673–679, DOI <a href = "https://doi.org/10.1038/89044">10.1038/89044</a>.</li>
+#' </ul>
+#'
+#' @examples
+#' toy_metaboscape %>%
+#'   impute_knn()
 impute_knn <- function(data, ...) {
   #impute is a bioconductor package so it is not installed with metamorphr if installed via install.packages().
-  #check if it installed first
+  # check if it installed first
   #also check, if pak is installed
   if(!rlang::is_installed("impute")) {
     if(!rlang::is_installed("pak")) {
@@ -188,6 +218,7 @@ impute_knn <- function(data, ...) {
 
   #used with_preserve_seed to preserve random seed
   #write a test to check if it works (i.e., .Random.seed before == .Random.seed after)
+  cat("Messages from impute.knn:\n")
   data_obs <- withr::with_preserve_seed(impute::impute.knn(data_obs, ...))
 
   data_obs <- data_obs$data %>%
