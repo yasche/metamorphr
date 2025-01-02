@@ -147,7 +147,7 @@ impute_lod <- function(data, div_by = 5) {
 #' Impute missing values using nearest neighbor averaging
 #'
 #' @description
-#' Basically a wrapper function around `impute::impute.knn()`. Imputes missing values using the k-th nearest neighbor algorithm.
+#' Basically a wrapper function around `impute::`\code{\link[impute]{impute.knn}}. Imputes missing values using the k-th nearest neighbor algorithm.
 #'
 #'
 #' Note that the function ln-transforms the data prior to imputation and transforms it back to the original scale afterwards. **Please do not do it manually prior to calling `impute_knn()`!**
@@ -249,12 +249,12 @@ impute_knn <- function(data, ...) {
 #' Impute missing values using random forest
 #'
 #' @description
-#' Basically a wrapper function around `missForest::missForest()`. Imputes missing values using the random forest algorithm.
+#' Basically a wrapper function around `missForest::`\code{\link[missForest]{missForest}}. Imputes missing values using the random forest algorithm.
 #'
 #'
 #' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
 #' @param random_seed A seed for the random number generator. Can be an integer or `NULL` (in case no particular seed should be used) but for reproducibility reasons it is **strongly advised** to provide an integer.
-#' @param ...
+#' @param ... Additional parameters passed to \code{\link[missForest]{missForest}}.
 #'
 #' @return A tibble with imputed missing values.
 #' @export
@@ -267,7 +267,7 @@ impute_knn <- function(data, ...) {
 #'
 #' @examples
 #' toy_metaboscape %>%
-#'   impute_knn()
+#'   impute_rf()
 impute_rf <- function(data, random_seed = 1L, ...) {
   #to preserve order of columns of initial tibble
   data_colnames <- colnames(data)

@@ -15,7 +15,7 @@ impute_knn(data, ...)
 A tibble with imputed missing values.
 }
 \description{
-Basically a wrapper function around \code{impute::impute.knn()}. Imputes missing values using the k-th nearest neighbor algorithm.
+Basically a wrapper function around \verb{impute::}\code{\link[impute]{impute.knn}}. Imputes missing values using the k-th nearest neighbor algorithm.
 
 Note that the function ln-transforms the data prior to imputation and transforms it back to the original scale afterwards. \strong{Please do not do it manually prior to calling \code{impute_knn()}!}
 See References for more information.

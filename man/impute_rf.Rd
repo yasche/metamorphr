@@ -11,17 +11,17 @@ impute_rf(data, random_seed = 1L, ...)
 
 \item{random_seed}{A seed for the random number generator. Can be an integer or \code{NULL} (in case no particular seed should be used) but for reproducibility reasons it is \strong{strongly advised} to provide an integer.}
 
-\item{...}{}
+\item{...}{Additional parameters passed to \code{\link[missForest]{missForest}}.}
 }
 \value{
 A tibble with imputed missing values.
 }
 \description{
-Basically a wrapper function around \code{missForest::missForest()}. Imputes missing values using the random forest algorithm.
+Basically a wrapper function around \verb{missForest::}\code{\link[missForest]{missForest}}. Imputes missing values using the random forest algorithm.
 }
 \examples{
 toy_metaboscape \%>\%
-  impute_knn()
+  impute_rf()
 }
 \references{
 For further information, see\if{html}{\out{
