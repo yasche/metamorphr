@@ -160,14 +160,14 @@ impute_lod <- function(data, div_by = 5) {
 #' <a href = "https://bioconductor.org/packages/release/bioc/html/impute.html">impute: Imputation for microarray data</a> for instructions on manual installation.
 #'
 #' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
-#' @param ... Additional parameters passed to A tidy tibble created by \code{\link[impute]{impute.knn}}.
+#' @param ... Additional parameters passed to \code{\link[impute]{impute.knn}}.
 #'
 #' @return A tibble with imputed missing values.
 #' @export
 #'
-#' @references
+#' @references For further information, see
 #' <ul>
-#' <li>Robert Tibshirani Trevor Hastie, <b>2017</b>, DOI <a href = "https://doi.org/10.18129/B9.BIOC.IMPUTE">10.18129/B9.BIOC.IMPUTE</a>.</li>
+#' <li>Robert Tibshirani, Trevor Hastie, <b>2017</b>, DOI <a href = "https://doi.org/10.18129/B9.BIOC.IMPUTE">10.18129/B9.BIOC.IMPUTE</a>.</li>
 #' <li>J. Khan, J. S. Wei, M. Ringnér, L. H. Saal, M. Ladanyi, F. Westermann, F. Berthold, M. Schwab, C. R. Antonescu, C. Peterson, P. S. Meltzer, <i>Nat Med</i> <b>2001</b>, <i>7</i>, 673–679, DOI <a href = "https://doi.org/10.1038/89044">10.1038/89044</a>.</li>
 #' </ul>
 #'

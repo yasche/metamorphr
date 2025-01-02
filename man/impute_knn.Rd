@@ -9,7 +9,7 @@ impute_knn(data, ...)
 \arguments{
 \item{data}{A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.}
 
-\item{...}{Additional parameters passed to A tidy tibble created by \code{\link[impute]{impute.knn}}.}
+\item{...}{Additional parameters passed to \code{\link[impute]{impute.knn}}.}
 }
 \value{
 A tibble with imputed missing values.
@@ -31,9 +31,9 @@ toy_metaboscape \%>\%
   impute_knn()
 }
 \references{
-\if{html}{\out{
+For further information, see\if{html}{\out{
 <ul>
-<li>Robert Tibshirani Trevor Hastie, <b>2017</b>, DOI <a href = "https://doi.org/10.18129/B9.BIOC.IMPUTE">10.18129/B9.BIOC.IMPUTE</a>.</li>
+<li>Robert Tibshirani, Trevor Hastie, <b>2017</b>, DOI <a href = "https://doi.org/10.18129/B9.BIOC.IMPUTE">10.18129/B9.BIOC.IMPUTE</a>.</li>
 <li>J. Khan, J. S. Wei, M. Ringnér, L. H. Saal, M. Ladanyi, F. Westermann, F. Berthold, M. Schwab, C. R. Antonescu, C. Peterson, P. S. Meltzer, <i>Nat Med</i> <b>2001</b>, <i>7</i>, 673–679, DOI <a href = "https://doi.org/10.1038/89044">10.1038/89044</a>.</li>
 </ul>
 }}

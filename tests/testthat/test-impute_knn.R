@@ -13,7 +13,7 @@ test_that(".Random.seed stays untouched with impute_knn", {
     dplyr::mutate(UID = seq(1, length(.data$sample1))) %>%
     tidyr::gather(-UID, key = "Sample", value = "Intensity") %>%
     #dplyr::mutate(Intensity = as.numeric(.data$Intensity)) %>%
-    dplyr::mutate(Intensity = exp(Intensity))
+    dplyr::mutate(Intensity = exp(.data$Intensity))
 
   #print(khan.expr)
   seed_before <- .Random.seed
@@ -24,7 +24,7 @@ test_that(".Random.seed stays untouched with impute_knn", {
 })
 
 test_that(".Random.seed changes with impute.knn", {
-  set.seed(2)
+  set.seed(1)
 
   data(khanmiss, package = "impute")
   khan.expr <- khanmiss[-1, -(1:2)]
@@ -37,4 +37,42 @@ test_that(".Random.seed changes with impute.knn", {
   expect_false(all(seed_before == seed_after))
 })
 
-#test khan expr gives the same result
+
+test_that("impute.knn and impute_knn give the same results", {
+  #prepare data for impute_knn
+  data(khanmiss, package = "impute")
+
+  khan_impute_knn <- khanmiss[-1, -(1:2)] %>%
+    as.matrix() %>%
+    tibble::as_tibble() %>%
+    purrr::map(as.numeric) %>%
+    tibble::as_tibble() %>%
+    dplyr::mutate(UID = seq(1, length(.data$sample1))) %>%
+    tidyr::gather(-UID, key = "Sample", value = "Intensity") %>%
+    #dplyr::mutate(Intensity = as.numeric(.data$Intensity)) %>%
+    dplyr::mutate(Intensity = exp(.data$Intensity))
+
+  khan_impute_knn_imputed <- impute_knn(khan_impute_knn) %>%
+    #data from impute.knn is still ln-transformed
+    dplyr::mutate(Intensity = log(.data$Intensity)) %>%
+    tidyr::spread(key = "Sample", value = "Intensity") %>%
+    dplyr::select(-UID)
+
+  khan_impute.knn <- khanmiss[-1, -(1:2)] %>%
+    as.matrix()
+
+  khan_impute.knn_imputed <- impute::impute.knn(khan_impute.knn)
+
+  khan_impute.knn_imputed <- khan_impute.knn_imputed$data %>%
+    tidyr::as_tibble()
+
+  #restore column order
+  khan_impute_knn_imputed <- khan_impute_knn_imputed[colnames(khan_impute.knn_imputed)] %>%
+    tidyr::as_tibble()
+
+  expect_equal(khan_impute_knn_imputed, khan_impute.knn_imputed)
+})
+
+#test_that("impute_knn does not alter the input", {
+#
+#})
