@@ -246,7 +246,29 @@ impute_knn <- function(data, ...) {
   data
 }
 
-impute_rf <- function(data, random_seed = NULL, ...) {
+#' Impute missing values using random forest
+#'
+#' @description
+#' Basically a wrapper function around `missForest::missForest()`. Imputes missing values using the random forest algorithm.
+#'
+#'
+#' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
+#' @param random_seed A seed for the random number generator. Can be an integer or `NULL` (in case no particular seed should be used) but for reproducibility reasons it is **strongly advised** to provide an integer.
+#' @param ...
+#'
+#' @return A tibble with imputed missing values.
+#' @export
+#'
+#' @references For further information, see
+#' <ul>
+#' <li>Daniel J. Stekhoven <stekhoven@stat.math.ethz.ch>, <b>2011</b>, DOI <a href = "https://doi.org/10.32614/CRAN.package.missForest">10.32614/CRAN.package.missForest</a>.</li>
+#' <li>D. J. Stekhoven, P. Bühlmann, <i>Bioinformatics</i> <b>2012</b>, <i>28</i>, 112–118, DOI <a href = "https://doi.org/10.1093/bioinformatics/btr597">10.1093/bioinformatics/btr597</a>.</li>
+#' </ul>
+#'
+#' @examples
+#' toy_metaboscape %>%
+#'   impute_knn()
+impute_rf <- function(data, random_seed = 1L, ...) {
   #to preserve order of columns of initial tibble
   data_colnames <- colnames(data)
 
