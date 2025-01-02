@@ -185,6 +185,7 @@ impute_knn <- function(data, ...) {
     }
     rlang::check_installed("impute")
   }
+  #to preserve order
   data_colnames <- colnames(data)
 
   data_obs <- data %>%
@@ -245,8 +246,53 @@ impute_knn <- function(data, ...) {
   data
 }
 
-impute_rf <- function() {
+impute_rf <- function(data, random_seed = NULL, ...) {
+  #to preserve order of columns of initial tibble
+  data_colnames <- colnames(data)
 
+  data_obs <- data %>%
+    dplyr::select("UID", "Intensity", "Sample")
+
+  #preserve order for later
+  data_obs_sample_order <- data_obs %>%
+    dplyr::select("Sample") %>%
+    dplyr::pull() %>%
+    unique()
+
+  data_meta <- data %>%
+    dplyr::select(-"Intensity")
+
+  data_obs <- data_obs %>%
+    tidyr::spread(key = "UID", value = "Intensity") %>%
+    as.data.frame()
+
+  #preserve rownames (Sample names)
+  data_obs_rownames <- data_obs %>%
+    dplyr::select("Sample")
+
+  data_obs <- dplyr::select(data_obs, -"Sample")
+
+
+  if(!is.null(random_seed)) {
+    data_obs_imp <- withr::with_seed(seed = random_seed, missForest::missForest(data_obs, ...))
+  } else {
+    #with_preserve_seed might not be necessary
+    data_obs_imp <- withr::with_preserve_seed(missForest::missForest(data_obs, ...))
+  }
+
+  data_obs_imp <- data_obs_imp$ximp
+
+  data_obs_imp <- data_obs_imp %>%
+    cbind(data_obs_rownames) %>%
+    tidyr::gather(-"Sample", key = "UID", value = "Intensity") %>%
+    dplyr::mutate(UID = as.integer(.data$UID))
+
+  data_obs_imp <- dplyr::left_join(data_meta, data_obs_imp, by = c("UID", "Sample")) %>%
+    tidyr::as_tibble()
+
+  data_obs_imp <- data_obs_imp[data_colnames]
+
+  data_obs_imp
 }
 
 impute_svd <- function() {
