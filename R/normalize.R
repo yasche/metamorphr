@@ -22,8 +22,35 @@ normalize_median <- function(data) {
     dplyr::ungroup()
 }
 
-normalize_sum <- function() {
-
+#' Normalize intensities across samples by dividing by the sample sum
+#'
+#' @description
+#' Normalize across samples by dividing feature intensities by the sum of all intensities in a sample, making the sum 1 in all samples.
+#'
+#' <b>Important Note</b><br>
+#' Intensities of individual features will be very small after this normalization approach. It is therefore advised to multiply all intensities with a fixed number (e.g., 1000) after normalization.
+#' See <a href = "https://omicsforum.ca/t/sum-normalization-needs-clarification-or-potentially-has-an-issue/3244">this discussion on OMICSForum.ca</a> and the examples below
+#' for further information.
+#'
+#' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
+#'
+#' @return A tibble with intensities normalized across samples.
+#' @export
+#'
+#' @examples
+#' #Example 1: Normalization only
+#' toy_metaboscape %>%
+#'   normalize_sum()
+#'
+#' #Example 2: Multiply with 1000 after normalization
+#' toy_metaboscape %>%
+#'   normalize_sum() %>%
+#'   dplyr::mutate(Intensity = .data$Intensity * 1000)
+normalize_sum <- function(data) {
+  data %>%
+    dplyr::group_by(.data$Sample) %>%
+    dplyr::mutate(Intensity = .data$Intensity / sum(.data$Intensity, na.rm = T)) %>%
+    dplyr::ungroup()
 }
 
 normalize_quantile_all <- function()  {
