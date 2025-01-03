@@ -76,3 +76,43 @@ test_that("impute.knn and impute_knn give the same results", {
 #test_that("impute_knn does not alter the input", {
 #
 #})
+
+test_that("impute_knn is reproducible if random seed is provided", {
+  data(khanmiss, package = "impute")
+  khan.expr <- khanmiss[-1, -(1:2)] %>%
+    as.matrix() %>%
+    tibble::as_tibble() %>%
+    purrr::map(as.numeric) %>%
+    tibble::as_tibble() %>%
+    dplyr::mutate(UID = seq(1, length(.data$sample1))) %>%
+    tidyr::gather(-UID, key = "Sample", value = "Intensity") %>%
+    #dplyr::mutate(Intensity = as.numeric(.data$Intensity)) %>%
+    dplyr::mutate(Intensity = exp(.data$Intensity))
+
+  imputed_1 <- impute_knn(khan.expr, rng.seed = 123)
+  imputed_2 <- impute_knn(khan.expr, rng.seed = 123)
+  imputed_3 <- impute_knn(khan.expr, rng.seed = 123)
+
+  expect_true(all(imputed_1 == imputed_2))
+  expect_true(all(imputed_1 == imputed_3))
+})
+
+test_that("control for previous test", {
+  data(khanmiss, package = "impute")
+  khan.expr <- khanmiss[-1, -(1:2)] %>%
+    as.matrix() %>%
+    tibble::as_tibble() %>%
+    purrr::map(as.numeric) %>%
+    tibble::as_tibble() %>%
+    dplyr::mutate(UID = seq(1, length(.data$sample1))) %>%
+    tidyr::gather(-UID, key = "Sample", value = "Intensity") %>%
+    #dplyr::mutate(Intensity = as.numeric(.data$Intensity)) %>%
+    dplyr::mutate(Intensity = exp(.data$Intensity))
+
+  imputed_1 <- impute_knn(khan.expr, rng.seed = 123)
+  imputed_2 <- impute_knn(khan.expr, rng.seed = 456)
+  imputed_3 <- impute_knn(khan.expr, rng.seed = 789)
+
+  expect_false(all(imputed_1 == imputed_2))
+  expect_false(all(imputed_1 == imputed_3))
+})
