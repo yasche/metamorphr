@@ -53,6 +53,26 @@ normalize_sum <- function(data) {
     dplyr::ungroup()
 }
 
+#' Normalize intensities across samples using standard Quantile Normalization
+#'
+#' @description
+#' This is the standard approach for Quantile Normalization. Other sub-flavors are also available:
+#' - \code{\link[metamorphr]{normalize_quantile_group}}
+#' - \code{\link[metamorphr]{normalize_quantile_batch}}
+#' - \code{\link[metamorphr]{normalize_quantile_smooth}}
+#'
+#' See References for more information.
+#'
+#' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
+#'
+#' @return A tibble with intensities normalized across samples.
+#' @export
+#'
+#' @references Y. Zhao, L. Wong, W. W. B. Goh, <i>Sci Rep</i> <b>2020</b>, <i>10</i>, 15534, DOI <a href = "https://doi.org/10.1038/s41598-020-72664-6">10.1038/s41598-020-72664-6</a>.
+#'
+#' @examples
+#' toy_metaboscape %>%
+#'   normalize_quantile_all()
 normalize_quantile_all <- function(data)  {
   data %>%
     dplyr::group_by(.data$Sample) %>%
