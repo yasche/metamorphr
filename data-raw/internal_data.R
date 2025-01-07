@@ -116,11 +116,11 @@ test_qn_metadata <- test_qn_data %>%
 ## code to prepare `test_qn_all_results` dataset goes here
 test_qn_all_results <- metamorphr::read_featuretable(
   "label,S1,S2,S3,S4,S5,S6,S7,S8
-A,2,3,6,5,7,5,8,8
-B,4,3,5,3,6,7,6,7
-C,5,4,3,4,9,4,7,7
-D,3,5,4,4,7,8,5,6
-E,4,5,5,6,8,7,7,9"
+A,4,4.44,7,6.13,5.25,4.88,7,6.13
+B,5.88,4.44,5.88,4,4,5.88,4.88,5.25
+C,7,5.63,4,5.25,7,4,5.88,5.25
+D,4.88,6.56,4.88,5.25,5.25,7,4,4
+E,5.88,6.56,5.88,7,6.13,5.88,5.88,7"
 )
 
 
@@ -130,4 +130,7 @@ usethis::use_data(test_read_featuretable,
                   test_filters,
                   test_filters_metadata1,
                   test_filters_metadata2,
+                  test_qn_data,
+                  test_qn_metadata,
+                  test_qn_all_results,
                   overwrite = TRUE, internal = TRUE)
