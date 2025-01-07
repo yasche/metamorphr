@@ -88,9 +88,46 @@ f10,1,1,1,1,1,1,1,1,1,1,0,0,1,1,5,0
 f11,1,1,1,1,1,1,1,1,1,1,1,0,1,1,6,0.5
 f12,1,1,1,1,1,1,1,1,1,1,1,1,1,1,7.5,1"
 ) %>%
-  create_metadata_skeleton() %>%
+  metamorphr::create_metadata_skeleton() %>%
   dplyr::mutate(Group = c(rep("g1", 3), rep("g2", 3), rep("g3", 3), rep("g4", 3), rep("q", 3), "b")) %>%
   dplyr::mutate(Replicate = c(rep(1:3, 4), 1:3, 1L)) %>%
   dplyr::mutate(Batch = 1L)
 
-usethis::use_data(test_read_featuretable, test_create_metadata_skeleton, test_filters, test_filters_metadata1, test_filters_metadata2, overwrite = TRUE, internal = TRUE)
+## code to prepare `test_qn_data` dataset goes here
+# data is from
+# Y. Zhao, L. Wong, W. W. B. Goh, Sci Rep 2020, 10, 15534, DOI 10.1038/s41598-020-72664-6.
+# A1 - B2 are labeled S1 - S8
+test_qn_data <- metamorphr::read_featuretable(
+  "label,S1,S2,S3,S4,S5,S6,S7,S8
+A,2,3,6,5,7,5,8,8
+B,4,3,5,3,6,7,6,7
+C,5,4,3,4,9,4,7,7
+D,3,5,4,4,7,8,5,6
+E,4,5,5,6,8,7,7,9"
+)
+
+## code to prepare `test_qn_metadata` dataset goes here
+test_qn_metadata <- test_qn_data %>%
+  metamorphr::create_metadata_skeleton() %>%
+  dplyr::mutate(Group  = c(rep("A", 4), rep("B", 4)),
+                Replicate = c(1:4, 1:4),
+                Batch = rep(c(1L, 2L), each = 2, times = 2))
+
+## code to prepare `test_qn_all_results` dataset goes here
+test_qn_all_results <- metamorphr::read_featuretable(
+  "label,S1,S2,S3,S4,S5,S6,S7,S8
+A,2,3,6,5,7,5,8,8
+B,4,3,5,3,6,7,6,7
+C,5,4,3,4,9,4,7,7
+D,3,5,4,4,7,8,5,6
+E,4,5,5,6,8,7,7,9"
+)
+
+
+
+usethis::use_data(test_read_featuretable,
+                  test_create_metadata_skeleton,
+                  test_filters,
+                  test_filters_metadata1,
+                  test_filters_metadata2,
+                  overwrite = TRUE, internal = TRUE)
