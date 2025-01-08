@@ -4,10 +4,12 @@
 \alias{impute_knn}
 \title{Impute missing values using nearest neighbor averaging}
 \usage{
-impute_knn(data, ...)
+impute_knn(data, quietly = TRUE, ...)
 }
 \arguments{
 \item{data}{A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.}
+
+\item{quietly}{\code{TRUE} or \code{FALSE}. Should messages and warnings from \code{\link[impute]{impute.knn}} be printed to the console?}
 
 \item{...}{Additional parameters passed to \code{\link[impute]{impute.knn}}.}
 }

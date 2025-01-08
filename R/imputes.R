@@ -160,6 +160,7 @@ impute_lod <- function(data, div_by = 5) {
 #' <a href = "https://bioconductor.org/packages/release/bioc/html/impute.html">impute: Imputation for microarray data</a> for instructions on manual installation.
 #'
 #' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
+#' @param quietly `TRUE` or `FALSE`. Should messages and warnings from \code{\link[impute]{impute.knn}} be printed to the console?
 #' @param ... Additional parameters passed to \code{\link[impute]{impute.knn}}.
 #'
 #' @return A tibble with imputed missing values.
@@ -174,7 +175,7 @@ impute_lod <- function(data, div_by = 5) {
 #' @examples
 #' toy_metaboscape %>%
 #'   impute_knn()
-impute_knn <- function(data, ...) {
+impute_knn <- function(data, quietly = TRUE, ...) {
   #impute is a bioconductor package so it is not installed with metamorphr if installed via install.packages().
   # check if it installed first
   #also check, if pak is installed
@@ -216,11 +217,14 @@ impute_knn <- function(data, ...) {
   data_obs <- data_obs %>%
     as.matrix()
 
-
   #used with_preserve_seed to preserve random seed
-  #write a test to check if it works (i.e., .Random.seed before == .Random.seed after)
-  cat("Messages from impute.knn:\n")
-  data_obs <- withr::with_preserve_seed(impute::impute.knn(data_obs, ...))
+  if(quietly == TRUE) {
+    data_obs <- knn_impute_quiet(data_obs, ...)
+    data_obs <- data_obs$result
+  } else {
+    data_obs <- withr::with_preserve_seed(impute::impute.knn(data_obs, ...))
+  }
+
 
   data_obs <- data_obs$data %>%
     tidyr::as_tibble()
@@ -242,6 +246,7 @@ impute_knn <- function(data, ...) {
   data <- data[data_colnames]
 
   data <- tidyr::as_tibble(data)
+
 
   data
 }
