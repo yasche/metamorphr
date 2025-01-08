@@ -134,3 +134,8 @@ test_that("quiet = TRUE and quiet = FALSE produce the same results", {
 
   expect_equal(khan_imputed_t, khan_imputed_f)
 })
+
+test_that("wanrings are printed if quietly = TRUE", {
+  expect_warning(impute_knn(toy_metaboscape, quietly = F))
+  expect_warning(impute_knn(toy_metaboscape, quietly = T))
+})
