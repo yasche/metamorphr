@@ -92,8 +92,24 @@ normalize_quantile_all <- function(data)  {
     dplyr::select(-"Rank", -"tmp_Intensity", -"tie")
 }
 
-normalize_quantile_group <- function() {
+normalize_quantile_group <- function(data, group_column) {
   #also called class-specific; named group to make it consistent
+  data %>%
+    dplyr::group_by({{ group_column }}, .data$Sample) %>%
+    dplyr::mutate(Rank = rank(.data$Intensity, ties.method = "first")) %>%
+    dplyr::ungroup() %>%
+    dplyr::group_by({{ group_column }}, .data$Rank) %>%
+    dplyr::mutate(tmp_Intensity = mean(.data$Intensity, na.rm = T)) %>%
+    dplyr::ungroup() %>%
+    #calculate mean of ties
+    dplyr::group_by({{ group_column }}, .data$Sample) %>%
+    dplyr::mutate(Rank = rank(.data$Intensity, ties.method = "min")) %>%
+    dplyr::mutate(tie = vctrs::vec_duplicate_detect(.data$Rank)) %>%
+    dplyr::ungroup() %>%
+    dplyr::group_by({{ group_column }}, .data$Sample, .data$Rank) %>%
+    dplyr::mutate(Intensity = mean(.data$tmp_Intensity, na.rm = T)) %>%
+    dplyr::ungroup() %>%
+    dplyr::select(-"Rank", -"tmp_Intensity", -"tie")
 }
 
 normalize_quantile_batch <- function() {
