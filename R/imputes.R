@@ -220,6 +220,10 @@ impute_knn <- function(data, quietly = TRUE, ...) {
   #used with_preserve_seed to preserve random seed
   if(quietly == TRUE) {
     data_obs <- knn_impute_quiet(data_obs, ...)
+    #warnings will be printed anyways
+    if(length(data_obs$warnings) > 0) {
+      warning(data_obs$warnings)
+    }
     data_obs <- data_obs$result
   } else {
     data_obs <- withr::with_preserve_seed(impute::impute.knn(data_obs, ...))
