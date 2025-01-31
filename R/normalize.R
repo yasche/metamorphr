@@ -148,11 +148,11 @@ normalize_quantile_smooth <- function() {
 
 }
 
-normalize_reference_feature <- function() {
+normalize_ref <- function() {
 
 }
 
-normalize_sample_specific <- function() {
+normalize_factor <- function() {
 
 }
 
