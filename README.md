@@ -25,6 +25,21 @@ You can install the development version of metamorphr from
 pak::pak("yasche/metamorphr")
 ```
 
+## 🔧 Work in progress
+
+This package is work in progress. Some function names and the way they
+work, including their arguments and values, may still change at this
+point. To be clear, **the code you write with the current version of
+metamorphr might not be compatible with future versions!** You can track
+the progress with the figure below.
+
+<figure>
+<img src="man/figures/250131_progress.svg"
+alt="Current progress as of January 2025" />
+<figcaption aria-hidden="true">Current progress as of January
+2025</figcaption>
+</figure>
+
 ## 🧹 Introducing a (somewhat) tidy data format
 
 **TL;DR** Skip to [📑 Examples](#-examples).
