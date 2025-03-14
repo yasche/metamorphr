@@ -140,8 +140,23 @@ normalize_quantile_group <- function(data, group_column) {
     dplyr::select(-"Rank", -"tmp_Intensity", -"tie")
 }
 
-normalize_quantile_batch <- function() {
-  #also called descrete; named batch to make it more consistent
+normalize_quantile_batch <- function(data, group_column, batch_column) {
+  data %>%
+    dplyr::group_by({{ group_column }}, {{ batch_column }}, .data$Sample) %>%
+    dplyr::mutate(Rank = rank(.data$Intensity, ties.method = "first")) %>%
+    dplyr::ungroup() %>%
+    dplyr::group_by({{ group_column }}, {{ batch_column }}, .data$Rank) %>%
+    dplyr::mutate(tmp_Intensity = mean(.data$Intensity, na.rm = T)) %>%
+    dplyr::ungroup() %>%
+    #calculate mean of ties
+    dplyr::group_by({{ group_column }}, {{ batch_column }}, .data$Sample) %>%
+    dplyr::mutate(Rank = rank(.data$Intensity, ties.method = "min")) %>%
+    dplyr::mutate(tie = vctrs::vec_duplicate_detect(.data$Rank)) %>%
+    dplyr::ungroup() %>%
+    dplyr::group_by({{ group_column }}, {{ batch_column }}, .data$Sample, .data$Rank) %>%
+    dplyr::mutate(Intensity = mean(.data$tmp_Intensity, na.rm = T)) %>%
+    dplyr::ungroup() %>%
+    dplyr::select(-"Rank", -"tmp_Intensity", -"tie", -"Batch")
 }
 
 normalize_quantile_smooth <- function() {
