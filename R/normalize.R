@@ -270,7 +270,8 @@ normalize_quantile_smooth <- function(data, group_column, rolling_window = 0.05)
     dplyr::group_by({{ group_column }}, .data$Sample, .data$Rank) %>%
     dplyr::mutate(Intensity = mean(.data$tmp_Intensity, na.rm = T)) %>%
     dplyr::ungroup() %>%
-    dplyr::select(-"Rank", -"tmp_Intensity", -"tie", -"orig_Intensity")
+    dplyr::select(-"Rank", -"tmp_Intensity", -"tie", -"orig_Intensity") %>%
+    dplyr::arrange(UID)
 }
 
 normalize_ref <- function() {
