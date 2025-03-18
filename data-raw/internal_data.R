@@ -143,6 +143,17 @@ D,3,4.75,4,4.25,6.5,8.5,5.5,5.5
 E,4.25,4.75,4.75,6,7.5,7.25,7.25,8.5"
 )
 
+
+## code to prepare `test_qn_group_results` dataset goes here
+test_qn_smooth_results <- metamorphr::read_featuretable(
+  "label,S1,S2,S3,S4,S5,S6,S7,S8
+A,3.02,3.4,5.65,4.89,6.46,5.98,8.35,7.36
+B,4.6,3.4,4.6,3.02,4.98,7.15,5.98,6.46
+C,5.65,4.31,3.02,4.04,8.35,4.98,7.15,6.46
+D,3.77,5.27,3.77,4.04,6.46,8.35,4.98,4.98
+E,4.6,5.27,4.6,5.65,7.36,7.15,7.15,8.35"
+)
+
 usethis::use_data(test_read_featuretable,
                   test_create_metadata_skeleton,
                   test_filters,
@@ -153,4 +164,5 @@ usethis::use_data(test_read_featuretable,
                   test_qn_all_results,
                   test_qn_group_results,
                   test_qn_batch_results,
+                  test_qn_smooth_results,
                   overwrite = TRUE, internal = TRUE)
