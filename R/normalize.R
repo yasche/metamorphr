@@ -274,7 +274,48 @@ normalize_quantile_smooth <- function(data, group_column, rolling_window = 0.05)
     dplyr::arrange(.data$UID)
 }
 
-normalize_ref <- function() {
+normalize_ref <- function(data, reference_feature, identifier_column) {
+
+  #check if reference_feature is unique
+  #it has to be unique because .data$Intensity will be divided by the reference feature.
+  multiple_ids <- data %>%
+    dplyr::select(.data$Sample, {{ identifier_column }}) %>%
+    dplyr::filter({{ identifier_column }} == reference_feature) %>%
+    dplyr::select(.data$Sample) %>%
+    dplyr::pull() %>%
+    table()
+
+  ref_ints <- data %>%
+    dplyr::select(.data$Sample, .data$Intensity, {{ identifier_column }}) %>%
+    dplyr::filter({{ identifier_column }} == reference_feature)
+
+  if(length(multiple_ids) == 0) {
+    stop(paste0("\n\nreference_feature must occur exactly once in each sample.\nThere is no feature that matches '", reference_feature, "' in column ", rlang::expr_label(substitute(identifier_column)), ".\nDid you make a typo?"))
+  }
+
+  if(max(multiple_ids) > 1) {
+    which_uids <- data %>%
+      dplyr::filter({{ identifier_column }} == reference_feature) %>%
+      dplyr::pull("UID") %>%
+      unique()
+
+    stop(paste0("\n\nreference_feature must occur exactly once in each sample.\nThere are ", as.character(max(multiple_ids)), " features that match '", reference_feature, "' in column ", rlang::expr_label(substitute(identifier_column)), ".\nIt is recommended to use the UID column to refer to specific features:\nYou may use `identifier_column = UID` and set the `reference_feature` argument to the correct UID of the following: ", as.character(which_uids), "."))
+  }
+
+  if(any(is.na(ref_ints$Intensity))) {
+    ref_ints_na <- ref_ints %>%
+      dplyr::filter(is.na(.data$Intensity)) %>%
+      dplyr::pull(.data$Sample)
+    stop(paste0("\n\nThe intensity of ",  reference_feature, " in Sample(s) ", paste(unique(ref_ints_na), collapse = ","), " is NA!\nPlease use any of the available 'impute_' functions first.\nStart typing 'metamorphr::impute_' in the console to see the available options."))
+  }
+
+  data %>%
+    dplyr::group_by(.data$Sample) %>%
+    dplyr::mutate(ref_int = dplyr::case_when({{ identifier_column }} == reference_feature ~ .data$Intensity,
+                                             .default = NA)) %>%
+    dplyr::mutate(ref_int = mean(ref_int, na.rm = T)) %>%
+    dplyr::mutate(Intensity = .data$Intensity / ref_int) %>%
+    dplyr::select(-"ref_int")
 
 }
 
