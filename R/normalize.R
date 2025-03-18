@@ -189,8 +189,88 @@ normalize_quantile_batch <- function(data, group_column, batch_column) {
     dplyr::select(-"Rank", -"tmp_Intensity", -"tie", -"Batch")
 }
 
-normalize_quantile_smooth <- function() {
+#' Normalize intensities across samples using smooth Quantile Normalization (qsmooth)
+#'
+#' @description
+#' This function performs a smooth Quantile Normalization on each sub-group in the data set (qsmooth). <b>It therefore requires grouping information</b>. See
+#' Examples for more information. This approach might perform better than the standard approach, \code{\link[metamorphr]{normalize_quantile_all}},
+#' if sub-groups are very different (e.g., when comparing cancer vs. normal tissue). The result lies somewhere between \code{\link[metamorphr]{normalize_quantile_group}}
+#' and \code{\link[metamorphr]{normalize_quantile_all}}. Basically a re-implementation of Hicks <i>et al.</i> (2018).
+#'
+#' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
+#' @param group_column Which column should be used for grouping? Usually `grouping_column = Group`. Uses \code{\link[rlang]{args_data_masking}}.
+#' @param rolling_window `normalize_quantile_smooth` uses a rolling window median to eliminate isolated outliers. This argument specifies the size of the rolling window as a fraction of the number of unique features in `data`. For example, if there are 100 features in `data` and `rolling_window = 0.05`, the rolling median will be calculated from 5 features. Set `rolling_window = 0` to disable.
+#'
+#' @return A tibble with intensities normalized across samples.
+#' @export
+#'
+#' @references For further information, see
+#' <ul>
+#'  <li>S. C. Hicks, K. Okrah, J. N. Paulson, J. Quackenbush, R. A. Irizarry, H. C. Bravo, <i>Biostatistics</i> <b>2018</b>, <i>19</i>, 185–198, DOI <a href = "https://doi.org/10.1093/biostatistics/kxx028">10.1093/biostatistics/kxx028</a></li>
+#'  <li>Y. Zhao, L. Wong, W. W. B. Goh, <i>Sci Rep</i> <b>2020</b>, <i>10</i>, 15534, DOI <a href = "https://doi.org/10.1038/s41598-020-72664-6">10.1038/s41598-020-72664-6</a>.
+#' </ul>
+#'
+#' @examples
+#' toy_metaboscape %>%
+#' #Metadata, including grouping information, must be added before using normalize_quantile_group()
+#'   join_metadata(toy_metaboscape_metadata) %>%
+#'   normalize_quantile_smooth(group_column = Group)
+normalize_quantile_smooth <- function(data, group_column, rolling_window = 0.05) {
 
+  if(rolling_window > 1 | rolling_window < 0) {
+    stop(paste0("rolling_window must be between 0 and 1, not ", as.character(rolling_window), "."))
+  }
+
+  k = floor(length(unique(data$UID)) * rolling_window)
+
+  if(k %% 2 == 0) {
+    k <- k + 1
+  }
+
+  data %>%
+    dplyr::mutate(orig_Intensity = .data$Intensity) %>%
+    dplyr::group_by({{ group_column }}, .data$Sample) %>%
+    dplyr::mutate(Rank = rank(.data$Intensity, ties.method = "first")) %>%
+    dplyr::ungroup() %>%
+    dplyr::group_by({{ group_column }}, .data$Rank) %>%
+    dplyr::mutate(Froof_Intensity = mean(.data$Intensity, na.rm = T)) %>%
+    dplyr::ungroup() %>%
+    dplyr::group_by(.data$Rank) %>%
+    dplyr::mutate(Fline_Intensity = mean(.data$Intensity, na.rm = T)) %>%
+    dplyr::mutate(Fi_Intensity = .data$Intensity) %>%
+    #dplyr::select(-"Intensity") %>%
+    dplyr::group_by(.data$Rank) %>%
+    dplyr::mutate(SST = sum((.data$Fi_Intensity - .data$Fline_Intensity)^2),
+                  SSB = sum((.data$Froof_Intensity - .data$Fline_Intensity)^2)) %>%
+    dplyr::ungroup() %>%
+    dplyr::arrange(.data$Sample, .data$Rank) %>%
+    dplyr::mutate(w1 = 1 - .data$SSB / .data$SST) %>%
+    #this was added as it is also present in the original qstats() source code; prevents division by 0
+    dplyr::mutate(w1 = dplyr::case_when(.data$SST < 1e-06 ~ 1,
+                                        .default = .data$w1)) %>%
+    dplyr::group_by(.data$Sample) %>%
+    dplyr::mutate(w2 = stats::runmed(.data$w1, k = .env$k, endrule = "constant")) %>%
+    dplyr::group_by({{ group_column }}, .data$Rank) %>%
+    dplyr::mutate(Intensity = .data$w2 * .data$Fline_Intensity + (1 - .data$w2) * .data$Froof_Intensity) %>%
+    dplyr::ungroup() %>%
+    dplyr::select(-"Rank", -"Froof_Intensity", -"Fline_Intensity", -"Fi_Intensity", -"SST", -"SSB", -"w1", -"w2") %>%
+    #perform QN on smoothed data
+    dplyr::group_by({{ group_column }}, .data$Sample) %>%
+    dplyr::mutate(Rank = rank(.data$Intensity, ties.method = "first")) %>%
+    dplyr::ungroup() %>%
+    dplyr::group_by({{ group_column }}, .data$Rank) %>%
+    dplyr::mutate(tmp_Intensity = mean(.data$Intensity, na.rm = T)) %>%
+    dplyr::ungroup() %>%
+    #calculate mean of ties
+    dplyr::group_by({{ group_column }}, .data$Sample) %>%
+    #min -> first
+    dplyr::mutate(Rank = rank(.data$orig_Intensity, ties.method = "min")) %>%
+    dplyr::mutate(tie = vctrs::vec_duplicate_detect(.data$Rank)) %>%
+    dplyr::ungroup() %>%
+    dplyr::group_by({{ group_column }}, .data$Sample, .data$Rank) %>%
+    dplyr::mutate(Intensity = mean(.data$tmp_Intensity, na.rm = T)) %>%
+    dplyr::ungroup() %>%
+    dplyr::select(-"Rank", -"tmp_Intensity", -"tie", -"orig_Intensity")
 }
 
 normalize_ref <- function() {
