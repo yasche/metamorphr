@@ -31,3 +31,56 @@ test_that("error if rolling_window > 1", {
       normalize_quantile_smooth(group_column = .data$Group, rolling_window = 2)
   )
 })
+
+test_that("normalize_quantile_smooth returns the same values as qsmooth::qsmooth()", {
+  data(khanmiss, package = "impute")
+
+  #prepare data and metadata
+
+  khan_group <- khanmiss[1, -(1:2)] %>%
+    t() %>%
+    c()
+
+  khan_sample <- khanmiss[1, -(1:2)] %>%
+    t() %>%
+    rownames()
+
+  khan_group <- tibble::tibble(
+    Sample = khan_sample,
+    Group = khan_group
+  )
+
+  khan_tidy <- khanmiss[-1, -(1:2)] %>%
+    as.matrix() %>%
+    tibble::as_tibble() %>%
+    purrr::map(as.numeric) %>%
+    tibble::as_tibble() %>%
+    dplyr::mutate(UID = seq(1, length(.data$sample1))) %>%
+    tidyr::gather(-UID, key = "Sample", value = "Intensity") %>%
+    dplyr::mutate(Intensity = exp(.data$Intensity)) %>%
+    #some form of MVI must be performed
+    metamorphr::impute_lod()
+
+  khan_wide <- khan_tidy %>%
+    tidyr::spread(key = Sample, value = Intensity) %>%
+    dplyr::select(-UID) %>%
+    dplyr::relocate(khan_group$Sample)
+
+  khan_tidy <- khan_tidy %>%
+    metamorphr::join_metadata(khan_group)
+
+  #perform normalization and some wrangling
+  qs_results <- qsmooth::qsmooth(khan_wide, group_factor = khan_group$Group)
+  qs_results <- qs_results@qsmoothData
+
+  mm_results <- metamorphr::normalize_quantile_smooth(khan_tidy, group_column = Group) %>%
+    dplyr::select(-Group) %>%
+    tidyr::spread(key = Sample, value = Intensity) %>%
+    dplyr::select(-UID) %>%
+    dplyr::relocate(colnames(qs_results)) %>%
+    as.matrix()
+
+
+  expect_equal(qs_results, mm_results)
+})
+
