@@ -218,7 +218,7 @@ filter_blank <- function(data, min_frac = 3, blank_samples, blank_as_group = FAL
     grouping_column_str <- rlang::expr_label(substitute(grouping_column))
     grouping_column_str <- gsub("`", "", grouping_column_str)
 
-    if (is.null(grouping_column_str)) {
+    if (grouping_column_str == "NULL") {
       stop("grouping_column can't be NULL if `blank_as_group = TRUE`.\nUsually `group_column = Group`.")
     }
 
