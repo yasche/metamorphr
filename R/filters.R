@@ -189,36 +189,43 @@ filter_cv <- function(data, max_cv = 0.2, reference_samples, ref_as_group = FALS
 #'   filter_blank(blank_samples = c("Blank1", "Blank2"), blank_as_group = FALSE, min_frac = 3)
 #'
 #' #Example 2: Define blanks by group name
-#' toy_metaboscape %>%
-#'   join_metadata(toy_metaboscape_metadata) %>%
-#'   filter_blank(blank_samples = "blank", blank_as_group = TRUE, min_frac = 3)
+#' #toy_metaboscape %>%
+#' #  join_metadata(toy_metaboscape_metadata) %>%
+#' #  filter_blank(blank_samples = "blank",
+#' #               blank_as_group = TRUE,
+#' #               min_frac = 3,
+#' #               grouping_column = Group)
 filter_blank <- function(data, min_frac = 3, blank_samples, blank_as_group = FALSE, grouping_column = NULL) {
   # substitute NA with 0 for better handling:
   # 0/0 = NaN
   # 1/0 = Inf
   # 0/1 = 0
 
-  # primitive test:
-  # tibble(frac_sb = c(0, 1, Inf, NaN, 10)) %>% filter(frac_sb >= 3 & !is.nan(frac_sb))
-
   data <- data %>%
     dplyr::mutate(Intensity = dplyr::case_when(is.na(.data$Intensity) ~ 0, .default = .data$Intensity))
 
   if (blank_as_group == FALSE) {
-  data <- data %>%
-    dplyr::group_by(.data$UID) %>%
-    dplyr::mutate(
-      max_blank = dplyr::case_when(.data$Sample %in% blank_samples ~ .data$Intensity, .default = NA),
-      max_blank = max(.data$max_blank, na.rm = TRUE),
-      max_sample = dplyr::case_when(!(.data$Sample %in% blank_samples) ~ .data$Intensity, .default = NA),
-      max_sample = max(.data$max_sample, na.rm = TRUE),
-      frac_sb = .data$max_sample / .data$max_blank
-    )
+    data <- data %>%
+      dplyr::group_by(.data$UID) %>%
+      dplyr::mutate(
+        max_blank = dplyr::case_when(.data$Sample %in% blank_samples ~ .data$Intensity, .default = NA),
+        max_blank = max(.data$max_blank, na.rm = TRUE),
+        max_sample = dplyr::case_when(!(.data$Sample %in% blank_samples) ~ .data$Intensity, .default = NA),
+        max_sample = max(.data$max_sample, na.rm = TRUE),
+        frac_sb = .data$max_sample / .data$max_blank
+      )
   } else {
-    #print("{toString(grouping_column)}")
-    #if (!(stringr::str_glue("{grouping_column}") %in% colnames(data))) {
-    #  stop("'Group' column was not found in 'data'. Did you forget to add metadata?")
-    #}
+    grouping_column_str <- rlang::expr_label(substitute(grouping_column))
+    grouping_column_str <- gsub("`", "", grouping_column_str)
+
+    if (is.null(grouping_column_str)) {
+      stop("grouping_column can't be NULL if `blank_as_group = TRUE`.\nUsually `group_column = Group`.")
+    }
+
+    if (!(grouping_column_str %in% colnames(data))) {
+      stop(paste(grouping_column_str, " column was not found in 'data'.\nDid you forget to add metadata or did you provide `group_column` with quotation marks?"))
+    }
+
     data <- data %>%
       dplyr::mutate(
         max_blank = dplyr::case_when(dplyr::select(data, {{ grouping_column }}) == blank_samples ~ .data$Intensity, .default = NA),

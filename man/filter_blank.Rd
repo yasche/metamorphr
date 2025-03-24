@@ -39,7 +39,10 @@ toy_metaboscape \%>\%
   filter_blank(blank_samples = c("Blank1", "Blank2"), blank_as_group = FALSE, min_frac = 3)
 
 #Example 2: Define blanks by group name
-toy_metaboscape \%>\%
-  join_metadata(toy_metaboscape_metadata) \%>\%
-  filter_blank(blank_samples = "blank", blank_as_group = TRUE, min_frac = 3)
+#toy_metaboscape \%>\%
+#  join_metadata(toy_metaboscape_metadata) \%>\%
+#  filter_blank(blank_samples = "blank",
+#               blank_as_group = TRUE,
+#               min_frac = 3,
+#               grouping_column = Group)
 }
