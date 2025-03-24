@@ -313,8 +313,8 @@ normalize_ref <- function(data, reference_feature, identifier_column) {
     dplyr::group_by(.data$Sample) %>%
     dplyr::mutate(ref_int = dplyr::case_when({{ identifier_column }} == reference_feature ~ .data$Intensity,
                                              .default = NA)) %>%
-    dplyr::mutate(ref_int = mean(ref_int, na.rm = T)) %>%
-    dplyr::mutate(Intensity = .data$Intensity / ref_int) %>%
+    dplyr::mutate(ref_int = mean(.data$ref_int, na.rm = T)) %>%
+    dplyr::mutate(Intensity = .data$Intensity / .data$ref_int) %>%
     dplyr::select(-"ref_int")
 
 }
