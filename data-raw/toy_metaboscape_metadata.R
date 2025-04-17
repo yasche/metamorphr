@@ -1,6 +1,6 @@
 ## code to prepare `toy_metaboscape_metadata` dataset goes here
 
-load_all()
+devtools::load_all()
 
 toy_metaboscape_metadata <- toy_metaboscape %>%
   create_metadata_skeleton() %>%
