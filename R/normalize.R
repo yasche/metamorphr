@@ -274,7 +274,35 @@ normalize_quantile_smooth <- function(data, group_column, rolling_window = 0.05)
     dplyr::arrange(.data$UID)
 }
 
-normalize_ref <- function(data, reference_feature, identifier_column) {
+#' Normalize intensities across samples using a reference feature
+#'
+#' @description
+#' Performs a normalization based on a reference feature, for example an internal standard.
+#' Divides the Intensities of all features by the Intensity of the reference feature in that sample and multiplies them with a constant value, making the Intensity
+#' of the reference feature the same in each sample.
+#'
+#' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
+#' @param reference_feature An identifier for the reference feature. Must be unique. It is recommended to use the UID.
+#' @param identifier_column The column in which to look for the reference feature. It is recommended to use `identifier_column = UID`
+#' @param reference_feature_intensity Either a constant value with which the intensity of each feature is multiplied or a function (e.g., mean, median, min, max).
+#' If a function is provided, it will use that function on the Intensities of the reference feature in all samples before normalization and multiply the intensity of each feature with that value after dividing by the Intensity of the reference feature.
+#' For example, if `reference_feature_intensity = mean`, it calculates the mean of the Intensities of the reference features across samples before normalization. It then divides the Intensity of each feature by the Intensity of the reference feature in that sample.
+#' Finally, it multiplies each Intensity with the mean of the Intensities of the reference features prior to normalization.
+#'
+#' @return A tibble with intensities normalized across samples.
+#' @export
+#'
+#' @examples
+#' #Divide by the reference feature and make its Intensity 1000 in each sample
+#' toy_metaboscape %>%
+#'   impute_lod() %>%
+#'   normalize_ref(reference_feature = 2, identifier_column = UID, reference_feature_intensity = 1000)
+#'
+#' #Divide by the reference feature and make its Intensity the mean of intensities of the reference features before normalization
+#' toy_metaboscape %>%
+#'   impute_lod() %>%
+#'   normalize_ref(reference_feature = 2, identifier_column = UID, reference_feature_intensity = mean)
+normalize_ref <- function(data, reference_feature, identifier_column, reference_feature_intensity = 1) {
 
   #check if reference_feature is unique
   #it has to be unique because .data$Intensity will be divided by the reference feature.
@@ -309,12 +337,19 @@ normalize_ref <- function(data, reference_feature, identifier_column) {
     stop(paste0("\n\nThe intensity of ",  reference_feature, " in Sample(s) ", paste(unique(ref_ints_na), collapse = ","), " is NA!\nPlease use any of the available 'impute_' functions first.\nStart typing 'metamorphr::impute_' in the console to see the available options."))
   }
 
+  if(typeof(reference_feature_intensity) == "closure" | typeof(reference_feature_intensity) == "builtin") {
+    reference_feature_intensity <- ref_ints %>%
+      dplyr::select(Intensity) %>%
+      dplyr::pull() %>%
+      reference_feature_intensity()
+  }
+
   data %>%
     dplyr::group_by(.data$Sample) %>%
     dplyr::mutate(ref_int = dplyr::case_when({{ identifier_column }} == reference_feature ~ .data$Intensity,
                                              .default = NA)) %>%
     dplyr::mutate(ref_int = mean(.data$ref_int, na.rm = T)) %>%
-    dplyr::mutate(Intensity = .data$Intensity / .data$ref_int) %>%
+    dplyr::mutate(Intensity = .data$Intensity / .data$ref_int * .env$reference_feature_intensity) %>%
     dplyr::select(-"ref_int")
 
 }

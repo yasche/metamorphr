@@ -22,7 +22,7 @@ join_metadata <- function(data, metadata) {
 #' General information about a feature table and sample-wise summary
 #'
 #' @description
-#' Information on a feature table. Prints information to the console (number of samples, number of features and if applicable number of groups,
+#' Information about a feature table. Prints information to the console (number of samples, number of features and if applicable number of groups,
 #' replicates and batches) and returns a sample-wise summary as a list.
 #'
 #' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.

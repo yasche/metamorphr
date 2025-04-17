@@ -27,7 +27,7 @@ summary_featuretable(
 A sample-wise summary as a list.
 }
 \description{
-Information on a feature table. Prints information to the console (number of samples, number of features and if applicable number of groups,
+Information about a feature table. Prints information to the console (number of samples, number of features and if applicable number of groups,
 replicates and batches) and returns a sample-wise summary as a list.
 }
 \examples{
