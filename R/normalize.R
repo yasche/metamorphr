@@ -307,14 +307,14 @@ normalize_ref <- function(data, reference_feature, identifier_column, reference_
   #check if reference_feature is unique
   #it has to be unique because .data$Intensity will be divided by the reference feature.
   multiple_ids <- data %>%
-    dplyr::select(.data$Sample, {{ identifier_column }}) %>%
+    dplyr::select("Sample", {{ identifier_column }}) %>%
     dplyr::filter({{ identifier_column }} == reference_feature) %>%
-    dplyr::select(.data$Sample) %>%
+    dplyr::select("Sample") %>%
     dplyr::pull() %>%
     table()
 
   ref_ints <- data %>%
-    dplyr::select(.data$Sample, .data$Intensity, {{ identifier_column }}) %>%
+    dplyr::select("Sample", "Intensity", {{ identifier_column }}) %>%
     dplyr::filter({{ identifier_column }} == reference_feature)
 
   if(length(multiple_ids) == 0) {
@@ -339,7 +339,7 @@ normalize_ref <- function(data, reference_feature, identifier_column, reference_
 
   if(typeof(reference_feature_intensity) == "closure" | typeof(reference_feature_intensity) == "builtin") {
     reference_feature_intensity <- ref_ints %>%
-      dplyr::select(Intensity) %>%
+      dplyr::select("Intensity") %>%
       dplyr::pull() %>%
       reference_feature_intensity()
   }
@@ -350,7 +350,8 @@ normalize_ref <- function(data, reference_feature, identifier_column, reference_
                                              .default = NA)) %>%
     dplyr::mutate(ref_int = mean(.data$ref_int, na.rm = T)) %>%
     dplyr::mutate(Intensity = .data$Intensity / .data$ref_int * .env$reference_feature_intensity) %>%
-    dplyr::select(-"ref_int")
+    dplyr::select(-"ref_int") %>%
+    dplyr::ungroup()
 
 }
 
