@@ -6,7 +6,7 @@ test_that("NAs were correctly imputed", {
   toy_metaboscape_edit <- toy_metaboscape %>%
     impute_global_lowest()
 
-  expect_true(all(toy_metaboscape_edit$Intensity[nas] == 1))
+  expect_true(all(toy_metaboscape_edit$Intensity[nas] == min_int))
 })
 
 test_that("Non-NAs stay unchanged", {
