@@ -187,5 +187,8 @@ test_that("filter_global_mv() filters the correct features for a 12/12 cutoff", 
   expect_equal(filtered_features, c("f12"))
 })
 
-
+test_that("filter_global_mv() throws error if min_found > 1 and fraction = T", {
+  expect_error(toy_metaboscape %>%
+                 filter_global_mv(min_found = 2, fraction = T))
+})
 

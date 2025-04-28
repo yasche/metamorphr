@@ -261,3 +261,8 @@ test_that("filter_grouped_mv() filters the correct features for a 3/3 cutoff, 2 
   expect_equal(filtered_features, c("f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", "f11", "f12"))
 })
 
+test_that("filter_grouped_mv() throws error if min_found > 1 and fraction = T", {
+  expect_error(toy_metaboscape %>%
+    join_metadata(toy_metaboscape_metadata) %>%
+    filter_grouped_mv(min_found = 2, grouping_column = Group, fraction = T))
+})
