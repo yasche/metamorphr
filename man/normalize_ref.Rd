@@ -37,7 +37,8 @@ toy_metaboscape \%>\%
   impute_lod() \%>\%
   normalize_ref(reference_feature = 2, identifier_column = UID, reference_feature_intensity = 1000)
 
-#Divide by the reference feature and make its Intensity the mean of intensities of the reference features before normalization
+#Divide by the reference feature and make its Intensity the mean of intensities
+#of the reference features before normalization
 toy_metaboscape \%>\%
   impute_lod() \%>\%
   normalize_ref(reference_feature = 2, identifier_column = UID, reference_feature_intensity = mean)

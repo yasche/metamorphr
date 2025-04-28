@@ -298,7 +298,8 @@ normalize_quantile_smooth <- function(data, group_column, rolling_window = 0.05)
 #'   impute_lod() %>%
 #'   normalize_ref(reference_feature = 2, identifier_column = UID, reference_feature_intensity = 1000)
 #'
-#' #Divide by the reference feature and make its Intensity the mean of intensities of the reference features before normalization
+#' #Divide by the reference feature and make its Intensity the mean of intensities
+#' #of the reference features before normalization
 #' toy_metaboscape %>%
 #'   impute_lod() %>%
 #'   normalize_ref(reference_feature = 2, identifier_column = UID, reference_feature_intensity = mean)
@@ -327,7 +328,7 @@ normalize_ref <- function(data, reference_feature, identifier_column, reference_
       dplyr::pull("UID") %>%
       unique()
 
-    stop(paste0("\n\nreference_feature must occur exactly once in each sample.\nThere are ", as.character(max(multiple_ids)), " features that match '", reference_feature, "' in column ", rlang::expr_label(substitute(identifier_column)), ".\nIt is recommended to use the UID column to refer to specific features:\nYou may use `identifier_column = UID` and set the `reference_feature` argument to the correct UID of the following: ", as.character(which_uids), "."))
+    stop(paste0("\n\nreference_feature must occur exactly once in each sample.\nThere are ", as.character(max(multiple_ids)), " features that match '", reference_feature, "' in column ", rlang::expr_label(substitute(identifier_column)), ".\nIt is recommended to use the UID column to refer to specific features:\nYou may use `identifier_column = UID` and set the `reference_feature` argument to the correct UID of the following: ", paste(as.character(which_uids), collapse = " "), "."))
   }
 
   if(any(is.na(ref_ints$Intensity))) {
