@@ -154,6 +154,7 @@ D,3.77,5.27,3.77,4.04,6.46,8.35,4.98,4.98
 E,4.6,5.27,4.6,5.65,7.36,7.15,7.15,8.35"
 )
 
+## results were externally calculated
 test_normalize_ref_uid_2 <- metamorphr::read_featuretable(
   "Bucket label,RT,m/z,Name,Formula,Sample1,Sample2,Sample3,Sample4,Sample5,Sample6,QC1,QC2,QC3,Blank1,Blank2
 161.10519 Da 26.98 s,0.45,162.11302,,C7H15NO3,1.333333333,0.5,0.8,0,4.5,2,0.777777778,3,0.5,0,0
@@ -211,6 +212,49 @@ test_normalize_ref_name_adp <- metamorphr::read_featuretable(
 1284.34904 Da 498.94 s,8.32,1285.35687,,,0,1.666666667,0,0,0.25,0,0,1,0",  metadata_cols = 2:5
 )
 
+test_impute_mean <- metamorphr::read_featuretable(
+  "Bucket label,RT,m/z,Name,Formula,Sample1,Sample2,Sample3,Sample4,Sample5,Sample6,QC1,QC2,QC3,Blank1,Blank2
+161.10519 Da 26.98 s,0.45,162.11302,,C7H15NO3,4,3,4,5.5,9,8,7,6,3,5.5,5.5
+276.13647 Da 27.28 s,0.45,277.1443,Octyl hydrogen phthalate,C16H22O4,3,6,5,3,2,4,9,2,6,4,9
+304.24023 Da 32.86 s,0.55,305.24806,Arachidonic acid,C20H32O2,5.25,2,1,8,7,8,5,5,6,5.25,5.25
+417.23236 Da 60.08 s,1,418.24019,,,5,9,7,3,5.9,9,6,1,8,6,5
+104.10753 Da 170.31 s,2.84,105.11536,,C5H14NO,5,6,4,9,8,5,5,5.5,2,5.5,5.5
+105.04259 Da 199.80 s,3.33,106.05042,,C3H8NO3,5,4.666666667,6,4,3,8,5,2,1,8,4.666666667
+237.09204 Da 313.24 s,5.22,238.09987,Ketamine,C13H16ClNO,8.333333333,8.333333333,8.333333333,9,7,9,8.333333333,8.333333333,8.333333333,8.333333333,8.333333333
+745.09111 Da 382.23 s,6.37,746.09894,NADPH,C21H30N7O17P3,3,4,2,4,3,3.125,3,3,3,3.125,3.125
+427.02942 Da 424.84 s,7.08,428.03725,ADP,C10H15N5O10P2,4,3,4,7,8,8,3,3,4,4.888888889,4.888888889
+1284.34904 Da 498.94 s,8.32,1285.35687,,,3.333333333,5,3.333333333,3.333333333,2,3.333333333,3.333333333,3,3.333333333,3.333333333,3.333333333",  metadata_cols = 2:5
+)
+
+test_impute_min <- metamorphr::read_featuretable(
+  "Bucket label,RT,m/z,Name,Formula,Sample1,Sample2,Sample3,Sample4,Sample5,Sample6,QC1,QC2,QC3,Blank1,Blank2
+161.10519 Da 26.98 s,0.45,162.11302,,C7H15NO3,4,3,4,3,9,8,7,6,3,3,3
+276.13647 Da 27.28 s,0.45,277.1443,Octyl hydrogen phthalate,C16H22O4,3,6,5,3,2,4,9,2,6,4,9
+304.24023 Da 32.86 s,0.55,305.24806,Arachidonic acid,C20H32O2,1,2,1,8,7,8,5,5,6,1,1
+417.23236 Da 60.08 s,1,418.24019,,,5,9,7,3,1,9,6,1,8,6,5
+104.10753 Da 170.31 s,2.84,105.11536,,C5H14NO,5,6,4,9,8,5,5,2,2,2,2
+105.04259 Da 199.80 s,3.33,106.05042,,C3H8NO3,5,1,6,4,3,8,5,2,1,8,1
+237.09204 Da 313.24 s,5.22,238.09987,Ketamine,C13H16ClNO,7,7,7,9,7,9,7,7,7,7,7
+745.09111 Da 382.23 s,6.37,746.09894,NADPH,C21H30N7O17P3,3,4,2,4,3,2,3,3,3,2,2
+427.02942 Da 424.84 s,7.08,428.03725,ADP,C10H15N5O10P2,4,3,4,7,8,8,3,3,4,3,3
+1284.34904 Da 498.94 s,8.32,1285.35687,,,2,5,2,2,2,2,2,3,2,2,2",  metadata_cols = 2:5
+)
+
+
+test_impute_median <- metamorphr::read_featuretable(
+  "Bucket label,RT,m/z,Name,Formula,Sample1,Sample2,Sample3,Sample4,Sample5,Sample6,QC1,QC2,QC3,Blank1,Blank2
+161.10519 Da 26.98 s,0.45,162.11302,,C7H15NO3,4,3,4,5,9,8,7,6,3,5,5
+276.13647 Da 27.28 s,0.45,277.1443,Octyl hydrogen phthalate,C16H22O4,3,6,5,3,2,4,9,2,6,4,9
+304.24023 Da 32.86 s,0.55,305.24806,Arachidonic acid,C20H32O2,5.5,2,1,8,7,8,5,5,6,5.5,5.5
+417.23236 Da 60.08 s,1,418.24019,,,5,9,7,3,6,9,6,1,8,6,5
+104.10753 Da 170.31 s,2.84,105.11536,,C5H14NO,5,6,4,9,8,5,5,5,2,5,5
+105.04259 Da 199.80 s,3.33,106.05042,,C3H8NO3,5,5,6,4,3,8,5,2,1,8,5
+237.09204 Da 313.24 s,5.22,238.09987,Ketamine,C13H16ClNO,9,9,9,9,7,9,9,9,9,9,9
+745.09111 Da 382.23 s,6.37,746.09894,NADPH,C21H30N7O17P3,3,4,2,4,3,3,3,3,3,3,3
+427.02942 Da 424.84 s,7.08,428.03725,ADP,C10H15N5O10P2,4,3,4,7,8,8,3,3,4,4,4
+1284.34904 Da 498.94 s,8.32,1285.35687,,,3,5,3,3,2,3,3,3,3,3,3",  metadata_cols = 2:5
+)
+
 usethis::use_data(test_read_featuretable,
                   test_create_metadata_skeleton,
                   test_filters,
@@ -226,4 +270,7 @@ usethis::use_data(test_read_featuretable,
                   test_normalize_ref_uid_2_mul_mean,
                   test_normalize_ref_uid_2_mul_med,
                   test_normalize_ref_name_adp,
+                  test_impute_mean,
+                  test_impute_min,
+                  test_impute_median,
                   overwrite = TRUE, internal = TRUE)
