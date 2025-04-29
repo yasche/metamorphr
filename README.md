@@ -7,6 +7,7 @@
 
 [![Codecov test
 coverage](https://codecov.io/gh/yasche/metamorphr/graph/badge.svg)](https://app.codecov.io/gh/yasche/metamorphr)
+[![R-CMD-check](https://github.com/yasche/metamorphr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/yasche/metamorphr/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 metamorphr provides a set of wrapper functions to make working with

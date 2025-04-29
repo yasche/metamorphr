@@ -19,6 +19,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 
 [![Codecov test coverage](https://codecov.io/gh/yasche/metamorphr/graph/badge.svg)](https://app.codecov.io/gh/yasche/metamorphr)
+[![R-CMD-check](https://github.com/yasche/metamorphr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/yasche/metamorphr/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 metamorphr provides a set of wrapper functions to make working with metabolomics data more fun. All data is stored in one [tidy](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html) [tibble](https://tibble.tidyverse.org/) which facilitates integration with [tidyverse](https://www.tidyverse.org/) packages like [dplyr](https://dplyr.tidyverse.org/) and [ggplot2](https://ggplot2.tidyverse.org/). Also, functions in metamorphr are [pipe](https://magrittr.tidyverse.org/index.html)-friendly.
