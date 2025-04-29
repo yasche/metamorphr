@@ -93,7 +93,7 @@ summary_featuretable <- function(data, n_samples_max = 5, n_features_max = 5, n_
 
 summary_featuretable_pull <- function(data, select_what) {
   data %>%
-    dplyr::select(select_what) %>%
+    dplyr::select(dplyr::all_of(select_what)) %>%
     dplyr::distinct() %>%
     dplyr::pull()
 }
