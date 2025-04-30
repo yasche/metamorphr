@@ -16,8 +16,9 @@ An empty tibble structure with the necessary columns for metadata:
 \item{Group}{To which group does the samples belong? For example a treamtment or a background. Note that additional columns with additional grouping information can be freely added if necessary.}
 \item{Replicate}{If multiple technical replicates exist in the data set,
 they must have the same value for Replicate and the same value for Group so that they can be collapsed.
-Examples for technical replicates are: the same sample was injected multiple times or workup was performed multiple times with the same starting material.}
-\item{Batch}{The batch in which the samples were prepared or measured.}
+Examples for technical replicates are: the same sample was injected multiple times or workup was performed multiple times with the same starting material.
+If no technical replicates exist, set \code{Replicate = 1} for all samples.}
+\item{Batch}{The batch in which the samples were prepared or measured. If only one batch exists, set \code{Batch = 1} for all samples.}
 \item{Factor}{A sample-specific factor, for example dry weight or protein content.}
 ...
 }
