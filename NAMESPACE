@@ -2,6 +2,7 @@
 
 export("%>%")
 export(collapse_mean)
+export(collapse_median)
 export(create_metadata_skeleton)
 export(filter_blank)
 export(filter_cv)
