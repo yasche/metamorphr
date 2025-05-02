@@ -151,7 +151,7 @@ Did you provide sample metadata as feature metadata? See ?collapse_", collapse_f
   }
 }
 
-#' Collapse technical replicates by calculating their mean
+#' Collapse intensities of technical replicates by calculating their mean
 #'
 #' @description
 #' Calculates the mean of the intensity of technical replicates (e.g., if the same sample was injected multiple times or if multiple workups have been performed on the same starting material).
@@ -190,7 +190,7 @@ collapse_mean <- function(data, group_column, replicate_column, batch_column = N
 }
 
 
-#' Collapse technical replicates by calculating their median
+#' Collapse intensities of technical replicates by calculating their median
 #'
 #' @description
 #' Calculates the median of the intensity of technical replicates (e.g., if the same sample was injected multiple times or if multiple workups have been performed on the same starting material).
@@ -229,7 +229,7 @@ collapse_median <- function(data, group_column, replicate_column, batch_column =
 }
 
 
-#' Collapse technical replicates by calculating their minimum
+#' Collapse intensities of technical replicates by calculating their minimum
 #'
 #' @description
 #' Calculates the minimum of the intensity of technical replicates (e.g., if the same sample was injected multiple times or if multiple workups have been performed on the same starting material).
@@ -266,3 +266,4 @@ collapse_min <- function(data, group_column, replicate_column, batch_column = NU
 
   collapse_helper(collapse_fn = min, collapse_fn_string = "min", data =  data, feature_metadata_cols, sample_metadata_cols, separator, group_column_string, replicate_column_string, batch_column_string)
 }
+

@@ -255,6 +255,9 @@ test_impute_median <- metamorphr::read_featuretable(
 1284.34904 Da 498.94 s,8.32,1285.35687,,,3,5,3,3,2,3,3,3,3,3,3",  metadata_cols = 2:5
 )
 
+#results for collapse functions were calculated from
+#toy_metaboscape %>% join_metadata(toy_metaboscape_metadata2) %>% impute_lod(); where toy_metaboscape_metadata2 is toy_metaboscape_metadata with Replicate = 1 for each sample
+
 test_collapse_mean <- metamorphr::read_featuretable(
   "UID,control_1,treatment_1,QC_1,blank_1
 1,3.666666667,5.866666667,5.333333333,0.6
@@ -317,6 +320,30 @@ test_collapse_median_batches_results <- metamorphr::read_featuretable("UID,blank
 9,0.6,3,4,8,0.6,8,16,1.2,12,24
 10,0.4,0.4,0.4,0.4,0.4,0.8,0.8,0.8,1.2,1.2")
 
+test_collapse_min <- metamorphr::read_featuretable("UID,control_1,treatment_1,QC_1,blank_1
+1,3,0.6,3,0.6
+2,3,2,2,4
+3,0.2,7,5,0.2
+4,5,0.2,1,5
+5,4,5,0.4,0.4
+6,0.2,3,1,0.2
+7,1.4,7,1.4,1.4
+8,2,0.4,3,0.4
+9,3,7,3,0.6
+10,0.4,0.4,0.4,0.4")
+
+test_collapse_min_batches_results <- metamorphr::read_featuretable("UID,blank_1_1,QC_1_1,control_1_1,treatment_1_1,blank_2_1,control_2_1,treatment_2_1,blank_3_1,control_3_1,treatment_3_1
+1,0.6,3,3,0.6,0.6,6,1.2,1.2,9,1.8
+2,4,2,3,2,4,6,4,8,9,6
+3,0.2,5,0.2,7,0.2,0.4,14,0.4,0.6,21
+4,5,1,5,0.2,5,10,0.4,10,15,0.6
+5,0.4,0.4,4,5,0.4,8,10,0.8,12,15
+6,0.2,1,0.2,3,0.2,0.4,6,0.4,0.6,9
+7,1.4,1.4,1.4,7,1.4,2.8,14,2.8,4.2,21
+8,0.4,3,2,0.4,0.4,4,0.8,0.8,6,1.2
+9,0.6,3,3,7,0.6,6,14,1.2,9,21
+10,0.4,0.4,0.4,0.4,0.4,0.8,0.8,0.8,1.2,1.2")
+
 usethis::use_data(test_read_featuretable,
                   test_create_metadata_skeleton,
                   test_filters,
@@ -340,4 +367,6 @@ usethis::use_data(test_read_featuretable,
                   test_collapse_mean_batches_results,
                   test_collapse_median,
                   test_collapse_median_batches_results,
+                  test_collapse_min,
+                  test_collapse_min_batches_results,
                   overwrite = TRUE, internal = TRUE)
