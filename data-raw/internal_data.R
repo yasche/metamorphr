@@ -344,6 +344,30 @@ test_collapse_min_batches_results <- metamorphr::read_featuretable("UID,blank_1_
 9,0.6,3,3,7,0.6,6,14,1.2,9,21
 10,0.4,0.4,0.4,0.4,0.4,0.8,0.8,0.8,1.2,1.2")
 
+test_collapse_max <- metamorphr::read_featuretable("UID,control_1,treatment_1,QC_1,blank_1
+1,4,9,7,0.6
+2,6,4,9,9
+3,2,8,6,0.2
+4,9,9,8,6
+5,6,9,5,0.4
+6,6,8,5,8
+7,1.4,9,1.4,1.4
+8,4,4,3,0.4
+9,4,8,4,0.6
+10,5,2,3,0.4")
+
+test_collapse_max_batches_results <- metamorphr::read_featuretable("UID,blank_1_1,QC_1_1,control_1_1,treatment_1_1,blank_2_1,control_2_1,treatment_2_1,blank_3_1,control_3_1,treatment_3_1
+1,0.6,7,4,9,0.6,8,18,1.2,12,27
+2,9,9,6,4,9,12,8,18,18,12
+3,0.2,6,2,8,0.2,4,16,0.4,6,24
+4,6,8,9,9,6,18,18,12,27,27
+5,0.4,5,6,9,0.4,12,18,0.8,18,27
+6,8,5,6,8,8,12,16,16,18,24
+7,1.4,1.4,1.4,9,1.4,2.8,18,2.8,4.2,27
+8,0.4,3,4,4,0.4,8,8,0.8,12,12
+9,0.6,4,4,8,0.6,8,16,1.2,12,24
+10,0.4,3,5,2,0.4,10,4,0.8,15,6")
+
 usethis::use_data(test_read_featuretable,
                   test_create_metadata_skeleton,
                   test_filters,
@@ -369,4 +393,6 @@ usethis::use_data(test_read_featuretable,
                   test_collapse_median_batches_results,
                   test_collapse_min,
                   test_collapse_min_batches_results,
+                  test_collapse_max,
+                  test_collapse_max_batches_results,
                   overwrite = TRUE, internal = TRUE)

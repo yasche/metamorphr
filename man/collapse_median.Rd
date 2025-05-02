@@ -2,7 +2,7 @@
 % Please edit documentation in R/collapse.R
 \name{collapse_median}
 \alias{collapse_median}
-\title{Collapse technical replicates by calculating their median}
+\title{Collapse intensities of technical replicates by calculating their median}
 \usage{
 collapse_median(
   data,
