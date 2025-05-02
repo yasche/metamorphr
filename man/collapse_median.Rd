@@ -27,7 +27,7 @@ collapse_median(
 
 \item{sample_metadata_cols}{A character or character vector containing the names of the sample metadata columns. They are usually created when joining the metadata with \code{\link[metamorphr]{join_metadata}}. Sample metadata columns not specified here will be dropped, except for \code{group_column}, \code{replicate_column} and \code{batch_column} if specified.}
 
-\item{separator}{Separator used for joining group and replicate or group, batch and replicate together to create the new sample names.}
+\item{separator}{Separator used for joining group and replicate, or group, batch and replicate together to create the new sample names.}
 }
 \value{
 A tibble with intensities of technical replicates collapsed.

@@ -165,7 +165,7 @@ Did you provide sample metadata as feature metadata? See ?collapse_", collapse_f
 #' @param batch_column If there are different batches in the tibble, that should be considered you can specify them with the `batch_column` argument. If batch information should not be used, set `batch_column = NULL`. Otherwise, usually `batch_column = Batch`.
 #' @param feature_metadata_cols A character or character vector containing the names of the feature metadata columns. They are usually created when reading the feature table with \code{\link[metamorphr]{read_featuretable}}. Feature metadata columns not specified here will be dropped.
 #' @param sample_metadata_cols A character or character vector containing the names of the sample metadata columns. They are usually created when joining the metadata with \code{\link[metamorphr]{join_metadata}}. Sample metadata columns not specified here will be dropped, except for `group_column`, `replicate_column` and `batch_column` if specified.
-#' @param separator Separator used for joining group and replicate or group, batch and replicate together to create the new sample names.
+#' @param separator Separator used for joining group and replicate, or group, batch and replicate together to create the new sample names.
 #'
 #' @return A tibble with intensities of technical replicates collapsed.
 #' @export
@@ -204,7 +204,7 @@ collapse_mean <- function(data, group_column, replicate_column, batch_column = N
 #' @param batch_column If there are different batches in the tibble, that should be considered you can specify them with the `batch_column` argument. If batch information should not be used, set `batch_column = NULL`. Otherwise, usually `batch_column = Batch`.
 #' @param feature_metadata_cols A character or character vector containing the names of the feature metadata columns. They are usually created when reading the feature table with \code{\link[metamorphr]{read_featuretable}}. Feature metadata columns not specified here will be dropped.
 #' @param sample_metadata_cols A character or character vector containing the names of the sample metadata columns. They are usually created when joining the metadata with \code{\link[metamorphr]{join_metadata}}. Sample metadata columns not specified here will be dropped, except for `group_column`, `replicate_column` and `batch_column` if specified.
-#' @param separator Separator used for joining group and replicate or group, batch and replicate together to create the new sample names.
+#' @param separator Separator used for joining group and replicate, or group, batch and replicate together to create the new sample names.
 #'
 #' @return A tibble with intensities of technical replicates collapsed.
 #' @export
@@ -221,6 +221,9 @@ collapse_mean <- function(data, group_column, replicate_column, batch_column = N
 #'
 #'
 collapse_median <- function(data, group_column, replicate_column, batch_column = NULL, feature_metadata_cols = "Feature", sample_metadata_cols = NULL, separator = "_") {
+  group_column_string <- gsub("`$", "", gsub("^`", "", rlang::expr_label(substitute(group_column))))
+  replicate_column_string <- gsub("`$", "", gsub("^`", "", rlang::expr_label(substitute(replicate_column))))
+  batch_column_string <- gsub("`$", "", gsub("^`", "", rlang::expr_label(substitute(batch_column))))
 
-
+  collapse_helper(collapse_fn = stats::median, collapse_fn_string = "median", data =  data, feature_metadata_cols, sample_metadata_cols, separator, group_column_string, replicate_column_string, batch_column_string)
 }
