@@ -305,6 +305,17 @@ test_collapse_median <- metamorphr::read_featuretable("UID,control_1,treatment_1
 9,4,8,3,0.6
 10,0.4,0.4,0.4,0.4")
 
+test_collapse_median_batches_results <- metamorphr::read_featuretable("UID,blank_1_1,QC_1_1,control_1_1,treatment_1_1,blank_2_1,control_2_1,treatment_2_1,blank_3_1,control_3_1,treatment_3_1
+1,0.6,6,4,8,0.6,8,16,1.2,12,24
+2,6.5,6,5,3,6.5,10,6,13,15,9
+3,0.2,5,1,8,0.2,2,16,0.4,3,24
+4,5.5,6,7,3,5.5,14,6,11,21,9
+5,0.4,2,5,8,0.4,10,16,0.8,15,24
+6,4.1,2,5,4,4.1,10,8,8.2,15,12
+7,1.4,1.4,1.4,9,1.4,2.8,18,2.8,4.2,27
+8,0.4,3,3,3,0.4,6,6,0.8,9,9
+9,0.6,3,4,8,0.6,8,16,1.2,12,24
+10,0.4,0.4,0.4,0.4,0.4,0.8,0.8,0.8,1.2,1.2")
 
 usethis::use_data(test_read_featuretable,
                   test_create_metadata_skeleton,
@@ -328,4 +339,5 @@ usethis::use_data(test_read_featuretable,
                   test_collapse_mean_batches,
                   test_collapse_mean_batches_results,
                   test_collapse_median,
+                  test_collapse_median_batches_results,
                   overwrite = TRUE, internal = TRUE)
