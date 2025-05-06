@@ -13,6 +13,7 @@ Imports:
     broom,
     crayon,
     dplyr,
+    ggplot2,
     impute,
     magrittr,
     missForest,

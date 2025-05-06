@@ -16,6 +16,10 @@ glance_safely <- function(...) {
   purrr::safely(broom::glance, otherwise = NA)(...)$result
 }
 
+pull_safely <- function(...) {
+  purrr::safely(dplyr::pull, otherwise = NA)(...)$result
+}
+
 internal_t_test <- function(data, group_column, groups_to_compare, ...) {
   group_1 <- data %>%
     dplyr::filter({{ group_column }} == groups_to_compare[[1]]) %>%
@@ -30,3 +34,24 @@ internal_t_test <- function(data, group_column, groups_to_compare, ...) {
   t_test_safely(group_1, group_2, ...)$result
 }
 
+internal_l2fc <- function(data, group_column, groups_to_compare, log2_before) {
+  group_1 <- data %>%
+    dplyr::filter({{ group_column }} == groups_to_compare[[1]]) %>%
+    dplyr::select("Intensity") %>%
+    dplyr::pull() %>%
+    mean(na.rm = T)
+
+
+  group_2 <- data %>%
+    dplyr::filter({{ group_column }} == groups_to_compare[[2]]) %>%
+    dplyr::select("Intensity") %>%
+    dplyr::pull()%>%
+    mean(na.rm = T)
+
+  if (log2_before == FALSE) {
+    group_1 <- log2(group_1)
+    group_2 <- log2(group_2)
+  }
+
+  group_2 - group_1
+}
