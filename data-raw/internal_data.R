@@ -368,6 +368,45 @@ test_collapse_max_batches_results <- metamorphr::read_featuretable("UID,blank_1_
 9,0.6,4,4,8,0.6,8,16,1.2,12,24
 10,0.4,3,5,2,0.4,10,4,0.8,15,6")
 
+test_plot_volcano_input <- metamorphr::read_featuretable("Bucket label,RT,m/z,Name,Formula,Sample1,Sample2,Sample3,Sample4,Sample5,Sample6
+161.10519 Da 26.98 s,0.45,162.11302,,C7H15NO3,4,3,4,1,9,8
+276.13647 Da 27.28 s,0.45,277.1443,Octyl hydrogen phthalate,C16H22O4,3,6,5,3,2,4
+304.24023 Da 32.86 s,0.55,305.24806,Arachidonic acid,C20H32O2,1,2,1,8,7,8
+417.23236 Da 60.08 s,1,418.24019,,,5,9,7,3,1,9
+104.10753 Da 170.31 s,2.84,105.11536,,C5H14NO,5,6,4,9,8,5
+105.04259 Da 199.80 s,3.33,106.05042,,C3H8NO3,5,1,6,4,3,8
+237.09204 Da 313.24 s,5.22,238.09987,Ketamine,C13H16ClNO,1,1,1,9,7,9
+745.09111 Da 382.23 s,6.37,746.09894,NADPH,C21H30N7O17P3,3,4,2,4,3,1
+427.02942 Da 424.84 s,7.08,428.03725,ADP,C10H15N5O10P2,4,3,4,7,8,8
+1284.34904 Da 498.94 s,8.32,1285.35687,,,1,5,1,1,2,1", metadata_cols = 2:5) %>%
+  dplyr::mutate(Group = dplyr::case_when(Sample %in% paste0("Sample", 1:3) ~ "control",
+                                         .default = "treatment"))
+
+test_plot_volcano_results <- readr::read_csv("UID,log2fc,p_val,n_log_p_val
+1,0.710493383,0.452212845,0.344657106
+2,-0.637429921,0.20017304,0.698594416
+3,2.523561956,0.000177551,3.750675688
+4,-0.691877705,0.393853907,0.404664842
+5,0.552541023,0.182349635,0.739095101
+6,0.321928095,0.667492181,0.175553817
+7,3.058893689,0.008163402,2.088128824
+8,-0.169925001,0.770025638,0.113494815
+9,1.064130337,0.001057565,2.975693088
+10,-0.807354922,0.535105745,0.271560386")
+
+test_plot_volcano_results_log2_before <- readr::read_csv("UID,log2fc,p_val,n_log_p_val
+1,0.710493383,0.867882822,0.061538907
+2,-0.637429921,0.201995,0.694659381
+3,2.523561956,0.013505854,1.86947795
+4,-0.691877705,0.324928713,0.488211909
+5,0.552541023,0.174324768,0.758640903
+6,0.321928095,0.587357408,0.23109755
+7,3.058893689,0.001567419,2.804814911
+8,-0.169925001,0.656781229,0.182579268
+9,1.064130337,0.007156051,2.145326549
+10,-0.807354922,0.640658176,0.193373627")
+
+
 usethis::use_data(test_read_featuretable,
                   test_create_metadata_skeleton,
                   test_filters,
@@ -395,4 +434,7 @@ usethis::use_data(test_read_featuretable,
                   test_collapse_min_batches_results,
                   test_collapse_max,
                   test_collapse_max_batches_results,
+                  test_plot_volcano_input,
+                  test_plot_volcano_results,
+                  test_plot_volcano_results_log2_before,
                   overwrite = TRUE, internal = TRUE)

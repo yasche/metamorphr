@@ -76,7 +76,8 @@ plot_volcano <- function(data, group_column, name_column, groups_to_compare, log
                                           .default = .data$log2fc)) %>%
     dplyr::mutate(p_val = as.numeric(.data$p_val)) %>%
     dplyr::mutate(n_log_p_val = -log10(.data$p_val)) %>%
-    dplyr::select(-"data", -"t_test")
+    dplyr::select(-"data", -"t_test") %>%
+    dplyr::ungroup()
 
   if (return_tbl == TRUE) {
     return(data)
