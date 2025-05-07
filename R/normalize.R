@@ -186,7 +186,7 @@ normalize_quantile_batch <- function(data, group_column, batch_column) {
     dplyr::group_by({{ group_column }}, {{ batch_column }}, .data$Sample, .data$Rank) %>%
     dplyr::mutate(Intensity = mean(.data$tmp_Intensity, na.rm = T)) %>%
     dplyr::ungroup() %>%
-    dplyr::select(-"Rank", -"tmp_Intensity", -"tie", -"Batch")
+    dplyr::select(-"Rank", -"tmp_Intensity", -"tie")
 }
 
 #' Normalize intensities across samples using smooth Quantile Normalization (qsmooth)
