@@ -11,6 +11,8 @@
 #' @param group_column Which column should be used for grouping? Usually `group_column = Group`. Uses \code{\link[rlang]{args_data_masking}}.
 #' @param name_column Which column contains the feature names? Can for example be `name_column = UID` or `name_column = Feature`. Uses \code{\link[rlang]{args_data_masking}}.
 #' @param groups_to_compare Names of the groups which should be compared as a character vector. Those are the group names in the `group_column`. They are usually provided in the form of a metadata tibble and joined via \code{\link[metamorphr]{join_metadata}}.
+#' @param batch_column Which column contains the batch information? If `grouping_column = NULL` Usually `grouping_column = Batch`. Only relevant if `data` contains multiple batches. For example, if `data` contains 2 batches and each batch contains measurements of separate controls, `group_column` and `batch` arguments should be provided. Otherwise controls of both batches will be considered when calculating the <i>p</i>-value and log<sub>2</sub> fold change. Uses \code{\link[rlang]{args_data_masking}}.
+#' @param batch The names of the batch(es) that should be included when calculating <i>p</i>-value and log<sub>2</sub> fold change.
 #' @param log2fc_cutoff A numeric. What cutoff should be used for the log<sub>2</sub> fold change? Traditionally, this is set to `1` which corresponds to a doubling or halving of intensity or area compared to a control. This is only important for assignment to groups and colors defined in the `colors` argument.
 #' @param p_value_cutoff A numeric. What cutoff should be used for the <i>p</i>-value? Traditionally, this is set to `0.05`. This is only important for assignment to groups and colors defined in the `colors` argument. Note that this is not the -log<sub>10</sub> transformed value.
 #' @param colors A named list for coloring the dots in the Volcano Plot or `NULL` in case the points should not be colored. The list must contain colors for the following groups: `sig_up`, `sig_down`, `not_sig_up`, `not_sig_down` and `not_sig`.
@@ -39,7 +41,14 @@
 #'                name_column = Feature,
 #'                groups_to_compare = c("control", "treatment"),
 #'                return_tbl = TRUE)
-plot_volcano <- function(data, group_column, name_column, groups_to_compare, log2fc_cutoff = 1, p_value_cutoff = 0.05, colors = list(sig_up = "darkred", sig_down = "darkblue", not_sig_up = "grey", not_sig_down = "grey", not_sig = "grey"), adjust_p = FALSE, log2_before = FALSE, return_tbl = FALSE, ...) {
+plot_volcano <- function(data, group_column, name_column, groups_to_compare, batch_column = NULL, batch = NULL, log2fc_cutoff = 1, p_value_cutoff = 0.05, colors = list(sig_up = "darkred", sig_down = "darkblue", not_sig_up = "grey", not_sig_down = "grey", not_sig = "grey"), adjust_p = FALSE, log2_before = FALSE, return_tbl = FALSE, ...) {
+  batch_column_string <- gsub("`$", "", gsub("^`", "", rlang::expr_label(substitute(batch_column))))
+
+  if (batch_column_string != "NULL") {
+    data <- data %>%
+      dplyr::filter({{ batch_column }} %in% batch)
+  }
+
   if (log2_before == TRUE) {
     data <- data %>%
       dplyr::mutate(Intensity = log2(.data$Intensity))

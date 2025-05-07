@@ -95,3 +95,23 @@ test_that("returns the expected results for log2_before = TRUE", {
   expect_equal(calced_result$p_val, test_plot_volcano_results_log2_before$p_val)
   expect_equal(calced_result$n_log_p_val, test_plot_volcano_results_log2_before$n_log_p_val)
 })
+
+test_that("returns an empty tibble if return_tbl = TRUE  and batch does not exist; filtering works", {
+  volc_tbl <- toy_metaboscape %>%
+    join_metadata(toy_metaboscape_metadata) %>%
+    plot_volcano(group_column = Group, groups_to_compare = c("control", "treatment"), return_tbl = TRUE, batch_column = Batch, batch = 2)
+
+  expect_true(nrow(volc_tbl) == 0)
+})
+
+test_that("filtering does not affect tibble if done correctly", {
+  volc_tbl_filtered <- toy_metaboscape %>%
+    join_metadata(toy_metaboscape_metadata) %>%
+    plot_volcano(group_column = Group, groups_to_compare = c("control", "treatment"), return_tbl = TRUE, batch_column = Batch, batch = 1)
+
+  volc_tbl_not_filtered <- toy_metaboscape %>%
+    join_metadata(toy_metaboscape_metadata) %>%
+    plot_volcano(group_column = Group, groups_to_compare = c("control", "treatment"), return_tbl = TRUE)
+
+  expect_equal(volc_tbl_filtered, volc_tbl_not_filtered)
+})

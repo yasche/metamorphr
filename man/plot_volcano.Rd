@@ -9,6 +9,8 @@ plot_volcano(
   group_column,
   name_column,
   groups_to_compare,
+  batch_column = NULL,
+  batch = NULL,
   log2fc_cutoff = 1,
   p_value_cutoff = 0.05,
   colors = list(sig_up = "darkred", sig_down = "darkblue", not_sig_up = "grey",
@@ -27,6 +29,10 @@ plot_volcano(
 \item{name_column}{Which column contains the feature names? Can for example be \code{name_column = UID} or \code{name_column = Feature}. Uses \code{\link[rlang]{args_data_masking}}.}
 
 \item{groups_to_compare}{Names of the groups which should be compared as a character vector. Those are the group names in the \code{group_column}. They are usually provided in the form of a metadata tibble and joined via \code{\link[metamorphr]{join_metadata}}.}
+
+\item{batch_column}{Which column contains the batch information? If \code{grouping_column = NULL} Usually \code{grouping_column = Batch}. Only relevant if \code{data} contains multiple batches. For example, if \code{data} contains 2 batches and each batch contains measurements of separate controls, \code{group_column} and \code{batch} arguments should be provided. Otherwise controls of both batches will be considered when calculating the \if{html}{\out{<i>}}p\if{html}{\out{</i>}}-value and log\if{html}{\out{<sub>}}2\if{html}{\out{</sub>}} fold change. Uses \code{\link[rlang]{args_data_masking}}.}
+
+\item{batch}{The names of the batch(es) that should be included when calculating \if{html}{\out{<i>}}p\if{html}{\out{</i>}}-value and log\if{html}{\out{<sub>}}2\if{html}{\out{</sub>}} fold change.}
 
 \item{log2fc_cutoff}{A numeric. What cutoff should be used for the log\if{html}{\out{<sub>}}2\if{html}{\out{</sub>}} fold change? Traditionally, this is set to \code{1} which corresponds to a doubling or halving of intensity or area compared to a control. This is only important for assignment to groups and colors defined in the \code{colors} argument.}
 
