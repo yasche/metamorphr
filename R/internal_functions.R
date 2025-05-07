@@ -35,23 +35,25 @@ internal_t_test <- function(data, group_column, groups_to_compare, ...) {
 }
 
 internal_l2fc <- function(data, group_column, groups_to_compare, log2_before) {
+  if (log2_before == TRUE) {
+    data <- data %>%
+      dplyr::mutate(Intensity = 2^.data$Intensity)
+  }
+
   group_1 <- data %>%
     dplyr::filter({{ group_column }} == groups_to_compare[[1]]) %>%
     dplyr::select("Intensity") %>%
     dplyr::pull() %>%
-    mean(na.rm = T)
+    mean(na.rm = T) %>%
+    log2()
 
 
   group_2 <- data %>%
     dplyr::filter({{ group_column }} == groups_to_compare[[2]]) %>%
     dplyr::select("Intensity") %>%
-    dplyr::pull()%>%
-    mean(na.rm = T)
-
-  if (log2_before == FALSE) {
-    group_1 <- log2(group_1)
-    group_2 <- log2(group_2)
-  }
+    dplyr::pull() %>%
+    mean(na.rm = T) %>%
+    log2()
 
   group_2 - group_1
 }
