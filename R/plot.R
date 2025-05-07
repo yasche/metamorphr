@@ -58,7 +58,7 @@ plot_volcano <- function(data, group_column, name_column, groups_to_compare, log
     tidyr::nest() %>%
     dplyr::mutate(t_test = purrr::map(.data$data, internal_t_test, group_column = {{ group_column }}, groups_to_compare = groups_to_compare, ...)) %>%
     dplyr::mutate(t_test = purrr::map(.data$t_test, glance_safely)) %>%
-    dplyr::mutate(l2fc = purrr::map(.data$data, internal_l2fc, group_column = {{ group_column }}, groups_to_compare = groups_to_compare, log2_before)) %>%
+    dplyr::mutate(log2fc = purrr::map(.data$data, internal_l2fc, group_column = {{ group_column }}, groups_to_compare = groups_to_compare, log2_before)) %>%
     dplyr::mutate(p_val = purrr::map(.data$t_test, pull_safely, .data$p.value))
 
   if (is.na(adjust_p_lgl)) {
@@ -71,9 +71,9 @@ plot_volcano <- function(data, group_column, name_column, groups_to_compare, log
   }
 
   data <- data %>%
-    dplyr::mutate(l2fc = as.numeric(.data$l2fc)) %>%
-    dplyr::mutate(l2fc = dplyr::case_when(is.nan(.data$l2fc) ~ NA,
-                                          .default = .data$l2fc)) %>%
+    dplyr::mutate(log2fc = as.numeric(.data$log2fc)) %>%
+    dplyr::mutate(log2fc = dplyr::case_when(is.nan(.data$log2fc) ~ NA,
+                                          .default = .data$log2fc)) %>%
     dplyr::mutate(p_val = as.numeric(.data$p_val)) %>%
     dplyr::mutate(n_log_p_val = -log10(.data$p_val)) %>%
     dplyr::select(-"data", -"t_test")
@@ -88,17 +88,17 @@ plot_volcano <- function(data, group_column, name_column, groups_to_compare, log
       )
 
       data <- data %>%
-        dplyr::mutate(group = dplyr::case_when(.data$p_val <= .env$p_value_cutoff & .data$l2fc <= -.env$log2fc_cutoff ~ "sig_down",
-                                               .data$p_val <= .env$p_value_cutoff & .data$l2fc >= .env$log2fc_cutoff ~ "sig_up",
-                                               .data$p_val > .env$p_value_cutoff & .data$l2fc <= -.env$log2fc_cutoff ~ "not_sig_down",
-                                               .data$p_val > .env$p_value_cutoff & .data$l2fc >= .env$log2fc_cutoff ~ "not_sig_up",
+        dplyr::mutate(group = dplyr::case_when(.data$p_val <= .env$p_value_cutoff & .data$log2fc <= -.env$log2fc_cutoff ~ "sig_down",
+                                               .data$p_val <= .env$p_value_cutoff & .data$log2fc >= .env$log2fc_cutoff ~ "sig_up",
+                                               .data$p_val > .env$p_value_cutoff & .data$log2fc <= -.env$log2fc_cutoff ~ "not_sig_down",
+                                               .data$p_val > .env$p_value_cutoff & .data$log2fc >= .env$log2fc_cutoff ~ "not_sig_up",
                                                .default = "not_sig")) %>%
         dplyr::left_join(colors, by = "group")
 
-      p <- ggplot2::ggplot(data, ggplot2::aes(.data$l2fc, .data$n_log_p_val)) +
+      p <- ggplot2::ggplot(data, ggplot2::aes(.data$log2fc, .data$n_log_p_val)) +
         ggplot2::geom_point(color = data$cols)
     } else {
-      p <- ggplot2::ggplot(data, ggplot2::aes(.data$l2fc, .data$n_log_p_val)) +
+      p <- ggplot2::ggplot(data, ggplot2::aes(.data$log2fc, .data$n_log_p_val)) +
         ggplot2::geom_point()
     }
 
