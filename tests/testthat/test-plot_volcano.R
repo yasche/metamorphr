@@ -38,6 +38,22 @@ test_that("returns a tibble if return_tbl = TRUE", {
   expect_true(tibble::is_tibble(volc_tbl))
 })
 
+test_that("returns a no tibble if return_tbl = FALSE for some adjust_p method", {
+  volc_plot <- toy_metaboscape %>%
+    join_metadata(toy_metaboscape_metadata) %>%
+    plot_volcano(group_column = Group, groups_to_compare = c("control", "treatment"), return_tbl = FALSE, adjust_p = "fdr")
+
+  expect_false(tibble::is_tibble(volc_plot))
+})
+
+test_that("returns a tibble if return_tbl = TRUE  for some adjust_p method", {
+  volc_tbl <- toy_metaboscape %>%
+    join_metadata(toy_metaboscape_metadata) %>%
+    plot_volcano(group_column = Group, groups_to_compare = c("control", "treatment"), return_tbl = TRUE, adjust_p = "fdr")
+
+  expect_true(tibble::is_tibble(volc_tbl))
+})
+
 test_that("throws error if adjust_p method does not exist", {
   expect_error(toy_metaboscape %>% join_metadata(toy_metaboscape_metadata) %>% plot_volcano(group_column = Group, groups_to_compare = c("control", "treatment"), return_tbl = FALSE, adjust_p = "asdf"))
 })
