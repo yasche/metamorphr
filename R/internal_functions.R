@@ -1,4 +1,4 @@
-# wrapper function to use with purrr::quietly
+# wrapper function to use with purrr::quietly/purrr::safely
 # See https://search.r-project.org/CRAN/refmans/purrr/html/faq-adverbs-export.html
 knn_impute_wrapper <- function(data_obs, ...) {
   withr::with_preserve_seed(impute::impute.knn(data_obs, ...))
@@ -18,6 +18,17 @@ glance_safely <- function(...) {
 
 pull_safely <- function(...) {
   purrr::safely(dplyr::pull, otherwise = NA)(...)$result
+}
+
+# wrapper functions to use with testthat::local_mocked_bindings
+# See https://testthat.r-lib.org/reference/local_mocked_bindings.html
+
+is_installed_wrapper <- function(...) {
+  rlang::is_installed(...)
+}
+
+check_installed_wrapper <- function(...) {
+  rlang::check_installed(...)
 }
 
 internal_t_test <- function(data, group_column, groups_to_compare, ...) {

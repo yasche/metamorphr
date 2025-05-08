@@ -139,3 +139,69 @@ test_that("wanrings are printed if quietly = TRUE", {
   expect_warning(impute_knn(toy_metaboscape, quietly = F))
   expect_warning(impute_knn(toy_metaboscape, quietly = T))
 })
+
+test_that("correct number of samples", {
+  expect_error(rlang::check_installed("avc"))
+})
+
+
+test_that("Error if package impute is not installed", {
+  local_mocked_bindings(
+    is_installed_wrapper = function(pkg) {
+      if (pkg == "impute") {
+        FALSE
+      } else {
+        TRUE
+      }
+    },
+    check_installed_wrapper = function(pkg) {
+      if (pkg == "impute") {
+        stop("")
+      }
+    }
+  )
+
+  expect_error(impute_knn(toy_metaboscape))
+})
+
+test_that("Error if package impute and pak are not installed", {
+  local_mocked_bindings(
+    is_installed_wrapper = function(pkg) {
+      if (pkg == "impute" | pkg == "pak") {
+        FALSE
+      } else {
+        TRUE
+      }
+    },
+    check_installed_wrapper = function(pkg) {
+      if (pkg == "impute" | pkg == "pak") {
+        stop("")
+      }
+    }
+  )
+
+  expect_error(impute_knn(toy_metaboscape))
+})
+
+test_that('check_installed_wrapper("impute") is triggered', {
+  local_mocked_bindings(
+    is_installed_wrapper = function(pkg) {
+      if (pkg == "impute" | pkg == "pak") {
+        FALSE
+      } else {
+        TRUE
+      }
+    },
+    check_installed_wrapper = function(pkg) {
+      if (pkg == "impute") {
+        stop("")
+      }
+    }
+  )
+
+  expect_error(impute_knn(toy_metaboscape))
+})
+
+test_that("test check_installed_wrapper function", {
+  expect_error(check_installed_wrapper("abc"))
+})

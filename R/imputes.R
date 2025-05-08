@@ -179,12 +179,12 @@ impute_knn <- function(data, quietly = TRUE, ...) {
   #impute is a bioconductor package so it is not installed with metamorphr if installed via install.packages().
   # check if it installed first
   #also check, if pak is installed
-  if(!rlang::is_installed("impute")) {
-    if(!rlang::is_installed("pak")) {
-      rlang::check_installed("pak")
-      rlang::check_installed("impute")
+  if(!is_installed_wrapper("impute")) {
+    if(!is_installed_wrapper("pak")) {
+      check_installed_wrapper("pak")
+      check_installed_wrapper("impute")
     }
-    rlang::check_installed("impute")
+    check_installed_wrapper("impute")
   }
   #to preserve order
   data_colnames <- colnames(data)
