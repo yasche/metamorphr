@@ -19,7 +19,7 @@ test_that("throws error if feature_metadata_cols is faulty", {
                  collapse_mean(group_column = Group, replicate_column = Replicate, feature_metadata_cols = c("Feature", "Factor")))
 })
 
-test_that("calculates the correct results and creates correct names for batch_column = NULL", {
+test_that("calculates the correct results and creates correct names for batch_column default", {
   toy_metaboscape_metadata2 <- toy_metaboscape_metadata
   toy_metaboscape_metadata2$Replicate <- rep(1, nrow(toy_metaboscape_metadata2))
 
@@ -89,4 +89,22 @@ test_that("throws error if feature_metadata_cols is faulty, batch_column = Batch
                  join_metadata(toy_metaboscape_metadata2) %>%
                  impute_lod() %>%
                  collapse_mean(group_column = Group, replicate_column = Replicate, feature_metadata_cols = c("Feature", "Factor"), batch_column = Batch))
+})
+
+test_that("calculates the correct results if standard arguments are used", {
+  toy_metaboscape_metadata2 <- toy_metaboscape_metadata
+  toy_metaboscape_metadata2$Replicate <- rep(1, nrow(toy_metaboscape_metadata2))
+
+  calced_result <- toy_metaboscape %>%
+    join_metadata(toy_metaboscape_metadata2) %>%
+    impute_lod() %>%
+    collapse_mean() %>%
+    dplyr::select(UID, Sample, Intensity) %>%
+    dplyr::arrange(UID, Sample)
+
+  expected_result <- test_collapse_mean %>%
+    dplyr::select(-Feature) %>%
+    dplyr::arrange(UID, Sample)
+
+  expect_equal(calced_result, expected_result)
 })

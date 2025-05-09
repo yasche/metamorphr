@@ -6,9 +6,9 @@
 \usage{
 collapse_min(
   data,
-  group_column,
-  replicate_column,
-  batch_column = NULL,
+  group_column = .data$Group,
+  replicate_column = .data$Replicate,
+  batch_column = .data$Batch,
   feature_metadata_cols = "Feature",
   sample_metadata_cols = NULL,
   separator = "_"
@@ -21,13 +21,13 @@ collapse_min(
 
 \item{replicate_column}{Which column contains replicate information? Usually \code{replicate_column = Replicate}. Uses \code{\link[rlang]{args_data_masking}}.}
 
-\item{batch_column}{If there are different batches in the tibble, that should be considered you can specify them with the \code{batch_column} argument. If batch information should not be used, set \code{batch_column = NULL}. Otherwise, usually \code{batch_column = Batch}.}
+\item{batch_column}{Which column contains batch information? If all samples belong to the same batch (i.e., they all have the same batch identifier in the \code{batch_column}) it will have no effect on the calculation. Usually \code{batch_column = Batch}. Uses \code{\link[rlang]{args_data_masking}}.}
 
 \item{feature_metadata_cols}{A character or character vector containing the names of the feature metadata columns. They are usually created when reading the feature table with \code{\link[metamorphr]{read_featuretable}}. Feature metadata columns not specified here will be dropped.}
 
 \item{sample_metadata_cols}{A character or character vector containing the names of the sample metadata columns. They are usually created when joining the metadata with \code{\link[metamorphr]{join_metadata}}. Sample metadata columns not specified here will be dropped, except for \code{group_column}, \code{replicate_column} and \code{batch_column} if specified.}
 
-\item{separator}{Separator used for joining group and replicate, or group, batch and replicate together to create the new sample names.}
+\item{separator}{Separator used for joining group and replicate, or group, batch and replicate together to create the new sample names. The new sample names will be Group name, separator, Batch name, separator, Replicate name, or Group name, separator, Replicate name, in case all samples belong to the same batch (i.e., they all have the same batch identifier in the \code{batch_column}).}
 }
 \value{
 A tibble with intensities of technical replicates collapsed.
