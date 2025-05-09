@@ -4,7 +4,7 @@
 \alias{normalize_quantile_group}
 \title{Normalize intensities across samples using grouped Quantile Normalization}
 \usage{
-normalize_quantile_group(data, group_column)
+normalize_quantile_group(data, group_column = .data$Group)
 }
 \arguments{
 \item{data}{A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.}

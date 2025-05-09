@@ -120,7 +120,7 @@ normalize_quantile_all <- function(data)  {
 #' #Metadata, including grouping information, must be added before using normalize_quantile_group()
 #'   join_metadata(toy_metaboscape_metadata) %>%
 #'   normalize_quantile_group(group_column = Group)
-normalize_quantile_group <- function(data, group_column) {
+normalize_quantile_group <- function(data, group_column = .data$Group) {
   #also called class-specific; named group to make it consistent
   data %>%
     dplyr::group_by({{ group_column }}, .data$Sample) %>%
@@ -170,7 +170,7 @@ normalize_quantile_group <- function(data, group_column) {
 #' #must be added before using normalize_quantile_batch()
 #'   join_metadata(toy_metaboscape_metadata) %>%
 #'   normalize_quantile_batch(group_column = Group, batch_column = Batch)
-normalize_quantile_batch <- function(data, group_column, batch_column) {
+normalize_quantile_batch <- function(data, group_column = .data$Group, batch_column = .data$Batch) {
   data %>%
     dplyr::group_by({{ group_column }}, {{ batch_column }}, .data$Sample) %>%
     dplyr::mutate(Rank = rank(.data$Intensity, ties.method = "first")) %>%
@@ -215,7 +215,7 @@ normalize_quantile_batch <- function(data, group_column, batch_column) {
 #' #Metadata, including grouping information, must be added before using normalize_quantile_group()
 #'   join_metadata(toy_metaboscape_metadata) %>%
 #'   normalize_quantile_smooth(group_column = Group)
-normalize_quantile_smooth <- function(data, group_column, rolling_window = 0.05) {
+normalize_quantile_smooth <- function(data, group_column = .data$Group, rolling_window = 0.05) {
 
   if(rolling_window > 1 | rolling_window < 0) {
     stop(paste0("rolling_window must be between 0 and 1, not ", as.character(rolling_window), "."))

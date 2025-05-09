@@ -4,7 +4,11 @@
 \alias{normalize_quantile_smooth}
 \title{Normalize intensities across samples using smooth Quantile Normalization (qsmooth)}
 \usage{
-normalize_quantile_smooth(data, group_column, rolling_window = 0.05)
+normalize_quantile_smooth(
+  data,
+  group_column = .data$Group,
+  rolling_window = 0.05
+)
 }
 \arguments{
 \item{data}{A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.}

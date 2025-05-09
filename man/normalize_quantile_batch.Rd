@@ -4,7 +4,11 @@
 \alias{normalize_quantile_batch}
 \title{Normalize intensities across samples using grouped Quantile Normalization with multiple batches}
 \usage{
-normalize_quantile_batch(data, group_column, batch_column)
+normalize_quantile_batch(
+  data,
+  group_column = .data$Group,
+  batch_column = .data$Batch
+)
 }
 \arguments{
 \item{data}{A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.}
