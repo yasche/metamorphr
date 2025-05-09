@@ -63,7 +63,7 @@ test_that("filter_grouped_mv() does not change the structure of the input in an 
 test_that("filter_cv() works for max_cv = 0, ref_as_group = TRUE", {
   filtered_features <- test_filters %>%
     join_metadata(test_filters_metadata1) %>%
-    filter_cv(max_cv = 0, reference_samples = c("q"), ref_as_group = TRUE, grouping_column = Group) %>%
+    filter_cv(max_cv = 0, reference_samples = c("q"), ref_as_group = TRUE, group_column = Group) %>%
     dplyr::select(2) %>%
     dplyr::pull() %>%
     unique()
@@ -75,7 +75,7 @@ test_that("filter_cv() works for max_cv = 0, ref_as_group = TRUE", {
 test_that("filter_cv() works for max_cv = 0.1, ref_as_group = TRUE", {
   filtered_features <- test_filters %>%
     join_metadata(test_filters_metadata1) %>%
-    filter_cv(max_cv = 0.1, reference_samples = c("q"), ref_as_group = TRUE, grouping_column = Group) %>%
+    filter_cv(max_cv = 0.1, reference_samples = c("q"), ref_as_group = TRUE, group_column = Group) %>%
     dplyr::select(2) %>%
     dplyr::pull() %>%
     unique()
@@ -87,7 +87,7 @@ test_that("filter_cv() works for max_cv = 0.1, ref_as_group = TRUE", {
 test_that("filter_cv() works for max_cv = 0.4, ref_as_group = TRUE", {
   filtered_features <- test_filters %>%
     join_metadata(test_filters_metadata1) %>%
-    filter_cv(max_cv = 0.4, reference_samples = c("q"), ref_as_group = TRUE, grouping_column = Group) %>%
+    filter_cv(max_cv = 0.4, reference_samples = c("q"), ref_as_group = TRUE, group_column = Group) %>%
     dplyr::select(2) %>%
     dplyr::pull() %>%
     unique()
@@ -99,7 +99,7 @@ test_that("filter_cv() works for max_cv = 0.4, ref_as_group = TRUE", {
 test_that("filter_cv() works for max_cv = 0.8, ref_as_group = TRUE", {
   filtered_features <- test_filters %>%
     join_metadata(test_filters_metadata1) %>%
-    filter_cv(max_cv = 0.8, reference_samples = c("q"), ref_as_group = TRUE, grouping_column = Group) %>%
+    filter_cv(max_cv = 0.8, reference_samples = c("q"), ref_as_group = TRUE, group_column = Group) %>%
     dplyr::select(2) %>%
     dplyr::pull() %>%
     unique()
@@ -111,7 +111,7 @@ test_that("filter_cv() works for max_cv = 0.8, ref_as_group = TRUE", {
 test_that("filter_cv() works for max_cv = 1.2, ref_as_group = TRUE", {
   filtered_features <- test_filters %>%
     join_metadata(test_filters_metadata1) %>%
-    filter_cv(max_cv = 1.2, reference_samples = c("q"), ref_as_group = TRUE, grouping_column = Group) %>%
+    filter_cv(max_cv = 1.2, reference_samples = c("q"), ref_as_group = TRUE, group_column = Group) %>%
     dplyr::select(2) %>%
     dplyr::pull() %>%
     unique()
@@ -122,7 +122,7 @@ test_that("filter_cv() works for max_cv = 1.2, ref_as_group = TRUE", {
 test_that("filter_grouped_mv() does not change the structure of the input in an unexpected way, ref_as_group = TRUE", {
   filtered_features <- test_filters %>%
     join_metadata(test_filters_metadata1) %>%
-    filter_cv(max_cv = Inf, reference_samples = c("q"), ref_as_group = TRUE, grouping_column = Group)
+    filter_cv(max_cv = Inf, reference_samples = c("q"), ref_as_group = TRUE, group_column = Group)
 
   expect_equal(filtered_features, join_metadata(test_filters, test_filters_metadata1))
 })
@@ -132,7 +132,7 @@ test_that("filter_cv() produces equal results for ref_as_group = TRUE and FALSE,
     join_metadata(test_filters_metadata1)
 
   filtered_features_groups <- filtered_features %>%
-    filter_cv(max_cv = 0.4, reference_samples = c("q"), ref_as_group = TRUE, grouping_column = Group)
+    filter_cv(max_cv = 0.4, reference_samples = c("q"), ref_as_group = TRUE, group_column = Group)
 
   filtered_features_features <- filtered_features %>%
     filter_cv(max_cv = 0.4, reference_samples = c("q1", "q2", "q3"))
@@ -145,7 +145,7 @@ test_that("filter_cv() produces equal results for ref_as_group = TRUE and FALSE,
     join_metadata(test_filters_metadata1)
 
   filtered_features_groups <- filtered_features %>%
-    filter_cv(max_cv = 0.8, reference_samples = c("q"), ref_as_group = TRUE, grouping_column = Group)
+    filter_cv(max_cv = 0.8, reference_samples = c("q"), ref_as_group = TRUE, group_column = Group)
 
   filtered_features_features <- filtered_features %>%
     filter_cv(max_cv = 0.8, reference_samples = c("q1", "q2", "q3"))

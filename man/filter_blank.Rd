@@ -9,7 +9,7 @@ filter_blank(
   min_frac = 3,
   blank_samples,
   blank_as_group = FALSE,
-  grouping_column = NULL
+  group_column = NULL
 )
 }
 \arguments{
@@ -23,7 +23,7 @@ The latter can only be used if sample metadata is provided.}
 
 \item{blank_as_group}{A logical indicating if \code{blank_samples} are the names of samples or group(s).}
 
-\item{grouping_column}{Only relevant if \code{blank_as_group = TRUE}. Which column should be used for grouping blank and non-blank samples? Usually \code{grouping_column = Group}. Uses \code{\link[rlang]{args_data_masking}}.}
+\item{group_column}{Only relevant if \code{blank_as_group = TRUE}. Which column should be used for grouping blank and non-blank samples? Usually \code{group_column = Group}. Uses \code{\link[rlang]{args_data_masking}}.}
 }
 \value{
 A filtered tibble.
@@ -44,5 +44,5 @@ toy_metaboscape \%>\%
 #  filter_blank(blank_samples = "blank",
 #               blank_as_group = TRUE,
 #               min_frac = 3,
-#               grouping_column = Group)
+#               group_column = Group)
 }

@@ -9,7 +9,7 @@ filter_cv(
   max_cv = 0.2,
   reference_samples,
   ref_as_group = FALSE,
-  grouping_column = NULL,
+  group_column = NULL,
   na_as_zero = TRUE
 )
 }
@@ -22,7 +22,7 @@ filter_cv(
 
 \item{ref_as_group}{A logical indicating if \code{reference_samples} are the names of samples or group(s).}
 
-\item{grouping_column}{Only relevant if \code{ref_as_group = TRUE}. Which column should be used for grouping reference and non-reference samples? Usually \code{grouping_column = Group}. Uses \code{\link[rlang]{args_data_masking}}.}
+\item{group_column}{Only relevant if \code{ref_as_group = TRUE}. Which column should be used for grouping reference and non-reference samples? Usually \code{group_column = Group}. Uses \code{\link[rlang]{args_data_masking}}.}
 
 \item{na_as_zero}{Should \code{NA} be replaced with 0 prior to calculation?
 Under the hood \code{filter_cv} calculates the CV by \code{stats::sd(..., na.rm = TRUE) / mean(..., na.rm = TRUE)}.
@@ -45,7 +45,7 @@ toy_metaboscape \%>\%
 #Example 2: Define reference samples by group name
 toy_metaboscape \%>\%
   join_metadata(toy_metaboscape_metadata) \%>\%
-  filter_cv(max_cv = 0.2, reference_samples = "QC", ref_as_group = TRUE, grouping_column = Group)
+  filter_cv(max_cv = 0.2, reference_samples = "QC", ref_as_group = TRUE, group_column = Group)
 }
 \references{
 \if{html}{\out{<a href="https://en.wikipedia.org/wiki/Coefficient_of_variation">}}Coefficient of Variation on Wikipedia\if{html}{\out{</a>}}

@@ -4,7 +4,7 @@ test_that("filter_grouped_mv() does not change the structure of the input in an 
     dplyr::left_join(test_filters_metadata1, by = "Sample")
 
   filtered_features <- feature_table_and_metadata %>%
-    filter_grouped_mv(grouping_column = Group, fraction = TRUE, min_found = 0)
+    filter_grouped_mv(group_column = Group, fraction = TRUE, min_found = 0)
 
   expect_equal(filtered_features, feature_table_and_metadata)
 })
@@ -18,7 +18,7 @@ test_that("filter_grouped_mv() filters the correct features for a 1 sample cutof
   filtered_features <- feature_table_and_metadata %>%
     #only look at "samples"
     dplyr::filter(!(Sample %in% c("q1", "q2", "q3", "b1"))) %>%
-    filter_grouped_mv(grouping_column = Group, fraction = FALSE, min_found = 1) %>%
+    filter_grouped_mv(group_column = Group, fraction = FALSE, min_found = 1) %>%
     dplyr::select(2) %>%
     dplyr::pull() %>%
     unique()
@@ -35,7 +35,7 @@ test_that("filter_grouped_mv() filters the correct features for a 2 sample cutof
   filtered_features <- feature_table_and_metadata %>%
     #only look at "samples"
     dplyr::filter(!(Sample %in% c("q1", "q2", "q3", "b1"))) %>%
-    filter_grouped_mv(grouping_column = Group, fraction = FALSE, min_found = 2) %>%
+    filter_grouped_mv(group_column = Group, fraction = FALSE, min_found = 2) %>%
     dplyr::select(2) %>%
     dplyr::pull() %>%
     unique()
@@ -52,7 +52,7 @@ test_that("filter_grouped_mv() filters the correct features for a 3 sample cutof
   filtered_features <- feature_table_and_metadata %>%
     #only look at "samples"
     dplyr::filter(!(Sample %in% c("q1", "q2", "q3", "b1"))) %>%
-    filter_grouped_mv(grouping_column = Group, fraction = FALSE, min_found = 3) %>%
+    filter_grouped_mv(group_column = Group, fraction = FALSE, min_found = 3) %>%
     dplyr::select(2) %>%
     dplyr::pull() %>%
     unique()
@@ -68,7 +68,7 @@ test_that("filter_grouped_mv() filters the correct features for a 6 sample cutof
   filtered_features <- feature_table_and_metadata %>%
     #only look at "samples"
     dplyr::filter(!(Sample %in% c("q1", "q2", "q3", "b1"))) %>%
-    filter_grouped_mv(grouping_column = Group, fraction = FALSE, min_found = 6) %>%
+    filter_grouped_mv(group_column = Group, fraction = FALSE, min_found = 6) %>%
     dplyr::select(2) %>%
     dplyr::pull() %>%
     unique()
@@ -85,7 +85,7 @@ test_that("filter_grouped_mv() filters the correct features for a 1/6 cutoff, 2 
   filtered_features <- feature_table_and_metadata %>%
     #only look at "samples"
     dplyr::filter(!(Sample %in% c("q1", "q2", "q3", "b1"))) %>%
-    filter_grouped_mv(grouping_column = Group, fraction = TRUE, min_found = 1/6) %>%
+    filter_grouped_mv(group_column = Group, fraction = TRUE, min_found = 1/6) %>%
     dplyr::select(2) %>%
     dplyr::pull() %>%
     unique()
@@ -102,7 +102,7 @@ test_that("filter_grouped_mv() filters the correct features for a 2/6 cutoff, 2 
   filtered_features <- feature_table_and_metadata %>%
     #only look at "samples"
     dplyr::filter(!(Sample %in% c("q1", "q2", "q3", "b1"))) %>%
-    filter_grouped_mv(grouping_column = Group, fraction = TRUE, min_found = 2/6) %>%
+    filter_grouped_mv(group_column = Group, fraction = TRUE, min_found = 2/6) %>%
     dplyr::select(2) %>%
     dplyr::pull() %>%
     unique()
@@ -119,7 +119,7 @@ test_that("filter_grouped_mv() filters the correct features for a 3/6 cutoff, 2 
   filtered_features <- feature_table_and_metadata %>%
     #only look at "samples"
     dplyr::filter(!(Sample %in% c("q1", "q2", "q3", "b1"))) %>%
-    filter_grouped_mv(grouping_column = Group, fraction = TRUE, min_found = 3/6) %>%
+    filter_grouped_mv(group_column = Group, fraction = TRUE, min_found = 3/6) %>%
     dplyr::select(2) %>%
     dplyr::pull() %>%
     unique()
@@ -127,6 +127,22 @@ test_that("filter_grouped_mv() filters the correct features for a 3/6 cutoff, 2 
   expect_equal(filtered_features, c("f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", "f11", "f12"))
 })
 
+
+test_that("filter_grouped_mv() filters the correct features for standard parameters", {
+
+  feature_table_and_metadata <- test_filters %>%
+    dplyr::left_join(test_filters_metadata1, by = "Sample")
+
+  filtered_features <- feature_table_and_metadata %>%
+    #only look at "samples"
+    dplyr::filter(!(Sample %in% c("q1", "q2", "q3", "b1"))) %>%
+    filter_grouped_mv() %>%
+    dplyr::select(2) %>%
+    dplyr::pull() %>%
+    unique()
+
+  expect_equal(filtered_features, c("f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", "f11", "f12"))
+})
 
 test_that("filter_grouped_mv() filters the correct features for a 6/6 cutoff, 2 groups", {
 
@@ -136,7 +152,7 @@ test_that("filter_grouped_mv() filters the correct features for a 6/6 cutoff, 2 
   filtered_features <- feature_table_and_metadata %>%
     #only look at "samples"
     dplyr::filter(!(Sample %in% c("q1", "q2", "q3", "b1"))) %>%
-    filter_grouped_mv(grouping_column = Group, fraction = TRUE, min_found = 6/6) %>%
+    filter_grouped_mv(group_column = Group, fraction = TRUE, min_found = 6/6) %>%
     dplyr::select(2) %>%
     dplyr::pull() %>%
     unique()
@@ -153,7 +169,7 @@ test_that("filter_grouped_mv() filters the correct features for a 1 sample cutof
   filtered_features <- feature_table_and_metadata %>%
     #only look at "samples"
     dplyr::filter(!(Sample %in% c("q1", "q2", "q3", "b1"))) %>%
-    filter_grouped_mv(grouping_column = Group, fraction = FALSE, min_found = 1) %>%
+    filter_grouped_mv(group_column = Group, fraction = FALSE, min_found = 1) %>%
     dplyr::select(2) %>%
     dplyr::pull() %>%
     unique()
@@ -170,7 +186,7 @@ test_that("filter_grouped_mv() filters the correct features for a 2 sample cutof
   filtered_features <- feature_table_and_metadata %>%
     #only look at "samples"
     dplyr::filter(!(Sample %in% c("q1", "q2", "q3", "b1"))) %>%
-    filter_grouped_mv(grouping_column = Group, fraction = FALSE, min_found = 2) %>%
+    filter_grouped_mv(group_column = Group, fraction = FALSE, min_found = 2) %>%
     dplyr::select(2) %>%
     dplyr::pull() %>%
     unique()
@@ -187,7 +203,7 @@ test_that("filter_grouped_mv() filters the correct features for a 3 sample cutof
   filtered_features <- feature_table_and_metadata %>%
     #only look at "samples"
     dplyr::filter(!(Sample %in% c("q1", "q2", "q3", "b1"))) %>%
-    filter_grouped_mv(grouping_column = Group, fraction = FALSE, min_found = 3) %>%
+    filter_grouped_mv(group_column = Group, fraction = FALSE, min_found = 3) %>%
     dplyr::select(2) %>%
     dplyr::pull() %>%
     unique()
@@ -203,7 +219,7 @@ test_that("filter_grouped_mv() filters the correct features for a 4 sample cutof
   filtered_features <- feature_table_and_metadata %>%
     #only look at "samples"
     dplyr::filter(!(Sample %in% c("q1", "q2", "q3", "b1"))) %>%
-    filter_grouped_mv(grouping_column = Group, fraction = FALSE, min_found = 4) %>%
+    filter_grouped_mv(group_column = Group, fraction = FALSE, min_found = 4) %>%
     dplyr::select(2) %>%
     dplyr::pull() %>%
     unique()
@@ -219,7 +235,7 @@ test_that("filter_grouped_mv() filters the correct features for a 1/3 cutoff, 2 
   filtered_features <- feature_table_and_metadata %>%
     #only look at "samples"
     dplyr::filter(!(Sample %in% c("q1", "q2", "q3", "b1"))) %>%
-    filter_grouped_mv(grouping_column = Group, fraction = TRUE, min_found = 1/3) %>%
+    filter_grouped_mv(group_column = Group, fraction = TRUE, min_found = 1/3) %>%
     dplyr::select(2) %>%
     dplyr::pull() %>%
     unique()
@@ -236,7 +252,7 @@ test_that("filter_grouped_mv() filters the correct features for a 2/3 cutoff, 2 
   filtered_features <- feature_table_and_metadata %>%
     #only look at "samples"
     dplyr::filter(!(Sample %in% c("q1", "q2", "q3", "b1"))) %>%
-    filter_grouped_mv(grouping_column = Group, fraction = TRUE, min_found = 2/3) %>%
+    filter_grouped_mv(group_column = Group, fraction = TRUE, min_found = 2/3) %>%
     dplyr::select(2) %>%
     dplyr::pull() %>%
     unique()
@@ -253,7 +269,7 @@ test_that("filter_grouped_mv() filters the correct features for a 3/3 cutoff, 2 
   filtered_features <- feature_table_and_metadata %>%
     #only look at "samples"
     dplyr::filter(!(Sample %in% c("q1", "q2", "q3", "b1"))) %>%
-    filter_grouped_mv(grouping_column = Group, fraction = TRUE, min_found = 3/3) %>%
+    filter_grouped_mv(group_column = Group, fraction = TRUE, min_found = 3/3) %>%
     dplyr::select(2) %>%
     dplyr::pull() %>%
     unique()
@@ -264,5 +280,5 @@ test_that("filter_grouped_mv() filters the correct features for a 3/3 cutoff, 2 
 test_that("filter_grouped_mv() throws error if min_found > 1 and fraction = T", {
   expect_error(toy_metaboscape %>%
     join_metadata(toy_metaboscape_metadata) %>%
-    filter_grouped_mv(min_found = 2, grouping_column = Group, fraction = T))
+    filter_grouped_mv(min_found = 2, group_column = Group, fraction = T))
 })

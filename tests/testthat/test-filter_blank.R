@@ -80,25 +80,25 @@ test_that("equal results for blank_as_group = TRUE and FALSE", {
     dplyr::filter(!(Sample %in% c("q1", "q2", "q3")))
 
   filtered_features_group_5 <- filtered_features %>%
-    filter_blank(min_frac = 5, blank_samples = "b", blank_as_group = TRUE, grouping_column = Group)
+    filter_blank(min_frac = 5, blank_samples = "b", blank_as_group = TRUE, group_column = Group)
 
   filtered_features_ft_5 <- filtered_features %>%
     filter_blank(min_frac = 5, blank_samples = "b1", blank_as_group = FALSE)
 
   filtered_features_group_3 <- filtered_features %>%
-    filter_blank(min_frac = 3, blank_samples = "b", blank_as_group = TRUE, grouping_column = Group)
+    filter_blank(min_frac = 3, blank_samples = "b", blank_as_group = TRUE, group_column = Group)
 
   filtered_features_ft_3 <- filtered_features %>%
     filter_blank(min_frac = 3, blank_samples = "b1", blank_as_group = FALSE)
 
   filtered_features_group_2 <- filtered_features %>%
-    filter_blank(min_frac = 2, blank_samples = "b", blank_as_group = TRUE, grouping_column = Group)
+    filter_blank(min_frac = 2, blank_samples = "b", blank_as_group = TRUE, group_column = Group)
 
   filtered_features_ft_2 <- filtered_features %>%
     filter_blank(min_frac = 2, blank_samples = "b1", blank_as_group = FALSE)
 
   filtered_features_group_1_5 <- filtered_features %>%
-    filter_blank(min_frac = 1.5, blank_samples = "b", blank_as_group = TRUE, grouping_column = Group)
+    filter_blank(min_frac = 1.5, blank_samples = "b", blank_as_group = TRUE, group_column = Group)
 
   filtered_features_ft_1_5 <- filtered_features %>%
     filter_blank(min_frac = 1.5, blank_samples = "b1", blank_as_group = FALSE)
@@ -109,7 +109,7 @@ test_that("equal results for blank_as_group = TRUE and FALSE", {
   expect_equal(filtered_features_group_1_5, filtered_features_ft_1_5)
 })
 
-test_that("throws error if blank_as_group = TRUE and grouping_column = NULL", {
+test_that("throws error if blank_as_group = TRUE and group_column = NULL", {
   test_filters_group <- test_filters %>%
     dplyr::select("Sample") %>%
     dplyr::mutate(Group = stringr::str_remove_all(.data$Sample, "[0-9]{1,}")) %>%
@@ -118,10 +118,10 @@ test_that("throws error if blank_as_group = TRUE and grouping_column = NULL", {
   filtered_features <- test_filters %>%
     join_metadata(test_filters_group)
 
-  expect_error(filter_blank(filtered_features, min_frac = 0, blank_samples = "b", blank_as_group = TRUE, grouping_column = NULL))
+  expect_error(filter_blank(filtered_features, min_frac = 0, blank_samples = "b", blank_as_group = TRUE, group_column = NULL))
 })
 
-test_that("throws error if grouping_column is provided as character", {
+test_that("throws error if group_column is provided as character", {
   test_filters_group <- test_filters %>%
     dplyr::select("Sample") %>%
     dplyr::mutate(Group = stringr::str_remove_all(.data$Sample, "[0-9]{1,}")) %>%
@@ -130,5 +130,5 @@ test_that("throws error if grouping_column is provided as character", {
   filtered_features <- test_filters %>%
     join_metadata(test_filters_group)
 
-  expect_error(filter_blank(filtered_features, min_frac = 0, blank_samples = "b", blank_as_group = TRUE, grouping_column = "Group"))
+  expect_error(filter_blank(filtered_features, min_frac = 0, blank_samples = "b", blank_as_group = TRUE, group_column = "Group"))
 })

@@ -4,7 +4,7 @@
 \alias{filter_global_mv}
 \title{Filter Features based on the absolute number or fraction of samples it was found in}
 \usage{
-filter_global_mv(data, min_found, fraction = TRUE)
+filter_global_mv(data, min_found = 0.5, fraction = TRUE)
 }
 \arguments{
 \item{data}{A tidy tibble created by \code{metamorphr::read_featuretable()}.}

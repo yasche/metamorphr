@@ -4,14 +4,19 @@
 \alias{filter_grouped_mv}
 \title{Group-based feature filtering}
 \usage{
-filter_grouped_mv(data, min_found, grouping_column, fraction = TRUE)
+filter_grouped_mv(
+  data,
+  min_found = 0.5,
+  group_column = .data$Group,
+  fraction = TRUE
+)
 }
 \arguments{
 \item{data}{A tidy tibble created by \code{\link[metamorphr]{read_featuretable}} with added sample metadata. See ?\code{\link[metamorphr]{create_metadata_skeleton}} for help.}
 
 \item{min_found}{Defines in how many samples of at least 1 group a Feature must be found not to be filtered out. If \code{fraction == TRUE}, a value between 0 and 1 (\emph{e.g.}, 0.5 if a Feature must be found in at least half the samples of at least 1 group). If \code{fraction == FALSE} the absolute maximum number of samples (\emph{e.g.}, 5 if a specific Feature must be found in at least 5 samples of at least 1 group).}
 
-\item{grouping_column}{Which column should be used for grouping? Usually \code{grouping_column = Group}. Uses \code{\link[rlang]{args_data_masking}}.}
+\item{group_column}{Which column should be used for grouping? Usually \code{group_column = Group}. Uses \code{\link[rlang]{args_data_masking}}.}
 
 \item{fraction}{Either \code{TRUE} or \code{FALSE}. Should \code{min_found} be the absolute number of samples or a fraction?}
 }
@@ -21,12 +26,12 @@ A filtered tibble.
 \description{
 One of several filter functions. Similar to \code{filter_global_mv()} it filters features that are found in a specified number of samples.
 The key difference is that \code{filter_grouped_mv()} takes groups into consideration and therefore needs sample metadata.
-For example, if \code{fraction = TRUE} and \code{min_found = 0.75}, a feature must be found in at least 75 \% of the samples of at least 1 group.
+For example, if \code{fraction = TRUE} and \code{min_found = 0.5}, a feature must be found in at least 50 \% of the samples of at least 1 group.
 It is very similar to the \emph{Filter features by occurrences in groups} option in Bruker MetaboScape.
 }
 \examples{
 # A Feature must be found in all samples of at least 1 group.
 toy_metaboscape \%>\%
   join_metadata(toy_metaboscape_metadata) \%>\%
-  filter_grouped_mv(min_found = 1, grouping_column = Group)
+  filter_grouped_mv(min_found = 1, group_column = Group)
 }

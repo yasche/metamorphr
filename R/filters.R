@@ -19,7 +19,7 @@
 #' #Example 2: A feature must be found in at least 8 samples
 #' toy_metaboscape %>%
 #'   filter_global_mv(min_found = 8, fraction = FALSE)
-filter_global_mv <- function(data, min_found, fraction = TRUE) {
+filter_global_mv <- function(data, min_found = 0.5, fraction = TRUE) {
   data <- data %>%
     dplyr::add_count(.data$UID, wt = !is.na(.data$Intensity), name = "not_na") %>%
     dplyr::group_by(.data$UID)
@@ -51,12 +51,12 @@ filter_global_mv <- function(data, min_found, fraction = TRUE) {
 #' @description
 #' One of several filter functions. Similar to `filter_global_mv()` it filters features that are found in a specified number of samples.
 #' The key difference is that `filter_grouped_mv()` takes groups into consideration and therefore needs sample metadata.
-#' For example, if `fraction = TRUE` and `min_found = 0.75`, a feature must be found in at least 75 % of the samples of at least 1 group.
+#' For example, if `fraction = TRUE` and `min_found = 0.5`, a feature must be found in at least 50 % of the samples of at least 1 group.
 #' It is very similar to the _Filter features by occurrences in groups_ option in Bruker MetaboScape.
 #'
 #' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}} with added sample metadata. See ?\code{\link[metamorphr]{create_metadata_skeleton}} for help.
 #' @param min_found Defines in how many samples of at least 1 group a Feature must be found not to be filtered out. If `fraction == TRUE`, a value between 0 and 1 (_e.g._, 0.5 if a Feature must be found in at least half the samples of at least 1 group). If `fraction == FALSE` the absolute maximum number of samples (_e.g._, 5 if a specific Feature must be found in at least 5 samples of at least 1 group).
-#' @param grouping_column Which column should be used for grouping? Usually `grouping_column = Group`. Uses \code{\link[rlang]{args_data_masking}}.
+#' @param group_column Which column should be used for grouping? Usually `group_column = Group`. Uses \code{\link[rlang]{args_data_masking}}.
 #' @param fraction Either `TRUE` or `FALSE`. Should `min_found` be the absolute number of samples or a fraction?
 #'
 #' @return A filtered tibble.
@@ -66,12 +66,12 @@ filter_global_mv <- function(data, min_found, fraction = TRUE) {
 #' # A Feature must be found in all samples of at least 1 group.
 #' toy_metaboscape %>%
 #'   join_metadata(toy_metaboscape_metadata) %>%
-#'   filter_grouped_mv(min_found = 1, grouping_column = Group)
-filter_grouped_mv <- function(data, min_found, grouping_column, fraction = TRUE) {
+#'   filter_grouped_mv(min_found = 1, group_column = Group)
+filter_grouped_mv <- function(data, min_found = 0.5, group_column = .data$Group, fraction = TRUE) {
   # using injection: https://rlang.r-lib.org/reference/topic-inject.html
 
   data <- data %>%
-    dplyr::add_count(.data$UID, {{ grouping_column }}, wt = !is.na(.data$Intensity), name = "not_na") %>%
+    dplyr::add_count(.data$UID, {{ group_column }}, wt = !is.na(.data$Intensity), name = "not_na") %>%
     dplyr::ungroup()
 
   if (fraction == TRUE) {
@@ -80,7 +80,7 @@ filter_grouped_mv <- function(data, min_found, grouping_column, fraction = TRUE)
     }
 
     data %>%
-      dplyr::group_by(.data$UID, {{ grouping_column }}) %>%
+      dplyr::group_by(.data$UID, {{ group_column }}) %>%
       dplyr::mutate(perc_not_na = .data$not_na / dplyr::n()) %>%
       dplyr::ungroup() %>%
       dplyr::group_by(.data$UID) %>%
@@ -114,7 +114,7 @@ filter_grouped_mv <- function(data, min_found, grouping_column, fraction = TRUE)
 #' @param max_cv The maximum allowed CV. 0.2 is a reasonable start.
 #' @param reference_samples The names of the samples or group which will be used to calculate the CV of a feature. Often Quality Control samples.
 #' @param ref_as_group A logical indicating if `reference_samples` are the names of samples or group(s).
-#' @param grouping_column Only relevant if `ref_as_group = TRUE`. Which column should be used for grouping reference and non-reference samples? Usually `grouping_column = Group`. Uses \code{\link[rlang]{args_data_masking}}.
+#' @param group_column Only relevant if `ref_as_group = TRUE`. Which column should be used for grouping reference and non-reference samples? Usually `group_column = Group`. Uses \code{\link[rlang]{args_data_masking}}.
 #' @param na_as_zero Should `NA` be replaced with 0 prior to calculation?
 #' Under the hood `filter_cv` calculates the CV by `stats::sd(..., na.rm = TRUE) / mean(..., na.rm = TRUE)`.
 #' If there are 3 samples to calculate the CV from and 2 of them are `NA` for a specific feature, then the CV for that Feature will be `NA`
@@ -133,11 +133,11 @@ filter_grouped_mv <- function(data, min_found, grouping_column, fraction = TRUE)
 #' #Example 2: Define reference samples by group name
 #' toy_metaboscape %>%
 #'   join_metadata(toy_metaboscape_metadata) %>%
-#'   filter_cv(max_cv = 0.2, reference_samples = "QC", ref_as_group = TRUE, grouping_column = Group)
-filter_cv <- function(data, max_cv = 0.2, reference_samples, ref_as_group = FALSE, grouping_column = NULL, na_as_zero = TRUE) {
+#'   filter_cv(max_cv = 0.2, reference_samples = "QC", ref_as_group = TRUE, group_column = Group)
+filter_cv <- function(data, max_cv = 0.2, reference_samples, ref_as_group = FALSE, group_column = NULL, na_as_zero = TRUE) {
   #perform  checks
   #if (ref_as_group == TRUE) {
-  #  if (is.null(grouping_column)) {
+  #  if (is.null(group_column)) {
   #    stop("A grouping column must be provided if argument ref_as_group is TRUE. See ?metamorphr::filter_cv for details.")
   #  }
   #}
@@ -149,7 +149,7 @@ filter_cv <- function(data, max_cv = 0.2, reference_samples, ref_as_group = FALS
 
   if (ref_as_group == TRUE) {
     data <- data %>%
-      dplyr::mutate(Intensity_ref = dplyr::case_when(dplyr::select(data, {{ grouping_column }}) == reference_samples ~ .data$Intensity, .default = NA))
+      dplyr::mutate(Intensity_ref = dplyr::case_when(dplyr::select(data, {{ group_column }}) == reference_samples ~ .data$Intensity, .default = NA))
   } else {
     data <- data %>%
       dplyr::mutate(Intensity_ref = dplyr::case_when(.data$Sample %in% reference_samples ~ .data$Intensity, .default = NA))
@@ -178,7 +178,7 @@ filter_cv <- function(data, max_cv = 0.2, reference_samples, ref_as_group = FALS
 #' as in the `Sample` column of `data`. If `blank_as_group = TRUE` the name(s) of the group(s) that define blanks, as in the `Group` column of `data`.
 #' The latter can only be used if sample metadata is provided.
 #' @param blank_as_group A logical indicating if `blank_samples` are the names of samples or group(s).
-#' @param grouping_column Only relevant if `blank_as_group = TRUE`. Which column should be used for grouping blank and non-blank samples? Usually `grouping_column = Group`. Uses \code{\link[rlang]{args_data_masking}}.
+#' @param group_column Only relevant if `blank_as_group = TRUE`. Which column should be used for grouping blank and non-blank samples? Usually `group_column = Group`. Uses \code{\link[rlang]{args_data_masking}}.
 #'
 #' @return A filtered tibble.
 #' @export
@@ -194,8 +194,8 @@ filter_cv <- function(data, max_cv = 0.2, reference_samples, ref_as_group = FALS
 #' #  filter_blank(blank_samples = "blank",
 #' #               blank_as_group = TRUE,
 #' #               min_frac = 3,
-#' #               grouping_column = Group)
-filter_blank <- function(data, min_frac = 3, blank_samples, blank_as_group = FALSE, grouping_column = NULL) {
+#' #               group_column = Group)
+filter_blank <- function(data, min_frac = 3, blank_samples, blank_as_group = FALSE, group_column = NULL) {
   # substitute NA with 0 for better handling:
   # 0/0 = NaN
   # 1/0 = Inf
@@ -215,21 +215,21 @@ filter_blank <- function(data, min_frac = 3, blank_samples, blank_as_group = FAL
         frac_sb = .data$max_sample / .data$max_blank
       )
   } else {
-    grouping_column_str <- rlang::expr_label(substitute(grouping_column))
-    grouping_column_str <- gsub("`", "", grouping_column_str)
+    group_column_str <- rlang::expr_label(substitute(group_column))
+    group_column_str <- gsub("`", "", group_column_str)
 
-    if (grouping_column_str == "NULL") {
-      stop("grouping_column can't be NULL if `blank_as_group = TRUE`.\nUsually `group_column = Group`.")
+    if (group_column_str == "NULL") {
+      stop("group_column can't be NULL if `blank_as_group = TRUE`.\nUsually `group_column = Group`.")
     }
 
-    if (!(grouping_column_str %in% colnames(data))) {
-      stop(paste(grouping_column_str, " column was not found in 'data'.\nDid you forget to add metadata or did you provide `group_column` with quotation marks?"))
+    if (!(group_column_str %in% colnames(data))) {
+      stop(paste(group_column_str, " column was not found in 'data'.\nDid you forget to add metadata or did you provide `group_column` with quotation marks?"))
     }
 
     data <- data %>%
       dplyr::mutate(
-        max_blank = dplyr::case_when(dplyr::select(data, {{ grouping_column }}) == blank_samples ~ .data$Intensity, .default = NA),
-        max_sample = dplyr::case_when(!(dplyr::select(data, {{ grouping_column }}) == blank_samples) ~ .data$Intensity, .default = NA)
+        max_blank = dplyr::case_when(dplyr::select(data, {{ group_column }}) == blank_samples ~ .data$Intensity, .default = NA),
+        max_sample = dplyr::case_when(!(dplyr::select(data, {{ group_column }}) == blank_samples) ~ .data$Intensity, .default = NA)
       ) %>%
       dplyr::group_by(.data$UID) %>%
       dplyr::mutate(
