@@ -19,7 +19,7 @@ Scales the intensities of all features using
 
 where \eqn{\widetilde{x}_{ij}} is the intensity of sample \eqn{j}, feature \eqn{i} after scaling,
 \eqn{x_{ij}} is the intensity of sample \eqn{j}, feature \eqn{i} before scaling, \eqn{\overline{x}_{i}} is the mean of intensities of feature \eqn{i} across all samples
-and \eqn{{s_i}} is the standard deviation of intensities of feature \eqn{i} across all samples
+and \eqn{{s_i}} is the standard deviation of intensities of feature \eqn{i} across all samples.
 In other words, it subtracts the mean intensity of a feature across samples from the intensities of that feature in each sample and divides by the standard deviation of that feature.
 For more information, see the reference section.
 }
@@ -30,7 +30,7 @@ toy_metaboscape \%>\%
 \references{
 For further information, see\if{html}{\out{
 <ul>
-R. A. Van Den Berg, H. C. Hoefsloot, J. A. Westerhuis, A. K. Smilde, M. J. Van Der Werf, <i>BMC Genomics</i> <b>2006</b>, <i>7</i>, 142, DOI <a href = "https://doi.org/10.1186/1471-2164-7-142">10.1186/1471-2164-7-142</a>.
+</li>R. A. Van Den Berg, H. C. Hoefsloot, J. A. Westerhuis, A. K. Smilde, M. J. Van Der Werf, <i>BMC Genomics</i> <b>2006</b>, <i>7</i>, 142, DOI <a href = "https://doi.org/10.1186/1471-2164-7-142">10.1186/1471-2164-7-142</a>.</li>
 </ul>
 }}
 }

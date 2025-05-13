@@ -107,7 +107,7 @@ filter_grouped_mv <- function(data, min_found = 0.5, group_column = .data$Group,
 #'
 #' @description
 #' One of several filter functions. It filters Features based on their coefficient of variation (CV).
-#' It is defined as \eqn{CV = \frac{\sigma }{\mu }} with \eqn{\sigma} = Standard deviation and \eqn{\mu} = Mean.
+#' It is defined as \eqn{CV = \frac{s_i}{\overline{x_i}}} with \eqn{s_i} = Standard deviation of sample \eqn{i} and \eqn{\overline{x_i}} = Mean of sample \eqn{i}.
 #'
 #'
 #' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
