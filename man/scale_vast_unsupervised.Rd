@@ -10,7 +10,7 @@ scale_vast_unsupervised(data)
 \item{data}{A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.}
 }
 \value{
-A tibble with autoscaled intensities.
+A tibble with vast scaled intensities.
 }
 \description{
 Scales the intensities of all features using

@@ -364,5 +364,21 @@ normalize_cyclic_loess <- function() {
   #also fast_loess?
 }
 
+#' Normalize intensities across samples using a Probabilistic Quantile Normalization
+#'
+#' @param data
+#' @param ref_fn
+#' @param reference_samples
+#' @param ref_as_group
+#' @param group_column
+#'
+#' @return
+#' @export
+#'
+#' @examples
+normalize_pqn <- function(data, ref_fn = "mean", reference_samples = NULL, ref_as_group = FALSE, group_column = NULL) {
+
+}
+
 #potential other:
-#contrast, cubic_splines, lbs (linear baseline scaling), mstus, non-linear baseline normalization, pqn
+#contrast, cubic_splines, lbs (linear baseline scaling), mstus, non-linear baseline normalization

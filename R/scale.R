@@ -144,7 +144,7 @@ scale_pareto <- function(data) {
 #'
 #' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
 #'
-#' @return A tibble with autoscaled intensities.
+#' @return A tibble with vast scaled intensities.
 #' @export
 #'
 #' @references For further information, see
