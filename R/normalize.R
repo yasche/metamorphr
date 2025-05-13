@@ -207,7 +207,7 @@ normalize_quantile_batch <- function(data, group_column = .data$Group, batch_col
 #' @references For further information, see
 #' <ul>
 #'  <li>S. C. Hicks, K. Okrah, J. N. Paulson, J. Quackenbush, R. A. Irizarry, H. C. Bravo, <i>Biostatistics</i> <b>2018</b>, <i>19</i>, 185–198, DOI <a href = "https://doi.org/10.1093/biostatistics/kxx028">10.1093/biostatistics/kxx028</a></li>
-#'  <li>Y. Zhao, L. Wong, W. W. B. Goh, <i>Sci Rep</i> <b>2020</b>, <i>10</i>, 15534, DOI <a href = "https://doi.org/10.1038/s41598-020-72664-6">10.1038/s41598-020-72664-6</a>.
+#'  <li>Y. Zhao, L. Wong, W. W. B. Goh, <i>Sci Rep</i> <b>2020</b>, <i>10</i>, 15534, DOI <a href = "https://doi.org/10.1038/s41598-020-72664-6">10.1038/s41598-020-72664-6</a>.</li>
 #' </ul>
 #'
 #' @examples
@@ -366,18 +366,79 @@ normalize_cyclic_loess <- function() {
 
 #' Normalize intensities across samples using a Probabilistic Quantile Normalization
 #'
-#' @param data
-#' @param ref_fn
-#' @param reference_samples
-#' @param ref_as_group
-#' @param group_column
+#' This method was originally developed for <sup>1</sup>H-NMR spectra of complex biofluids but has been adapted for other 'omics data. It aims to eliminate
+#' dilution effects by calculating the most probable dilution factor for each sample, relative to one or more reference samples. See references for more details.
 #'
-#' @return
+#' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
+#' @param fn Which function should be used to calculate the reference spectrum from the reference samples? Can be either "mean" or "median".
+#' @param reference_samples Either `NULL` or a character or character vector containing the sample(s)
+#' to calculate the reference spectrum from. In the original publication, it is advised to calculate the median of control samples.
+#' If `NULL`, all samples will be used to calculate the reference spectrum.
+#' @param ref_as_group A logical indicating if `reference_samples` are the names of samples or group(s).
+#' @param group_column Only relevant if `ref_as_group = TRUE`. Which column should be used for grouping reference and non-reference samples? Usually `group_column = Group`. Uses \code{\link[rlang]{args_data_masking}}.
+#'
+#' @return A tibble with intensities normalized across samples.
 #' @export
 #'
+#' @references For further information, see
+#' <ul>
+#' <li>F. Dieterle, A. Ross, G. Schlotterbeck, H. Senn, <i>Anal. Chem.</i> <b>2006</b>, <i>78</i>, 4281–4290, DOI <a href = "https://doi.org/10.1021/ac051632c">10.1021/ac051632c</a>.</li>
+#' </ul>
+#'
 #' @examples
-normalize_pqn <- function(data, ref_fn = "mean", reference_samples = NULL, ref_as_group = FALSE, group_column = NULL) {
+#' #specify the reference samples with their sample names
+#' toy_metaboscape %>%
+#'   impute_lod() %>%
+#'   normalize_pqn(reference_samples = c("QC1", "QC2", "QC3"))
+#'
+#' #specify the reference samples with their group names
+#' toy_metaboscape %>%
+#'   join_metadata(toy_metaboscape_metadata) %>%
+#'   impute_lod() %>%
+#'   normalize_pqn(reference_samples = c("QC"), ref_as_group = TRUE, group_column = Group)
+normalize_pqn <- function(data, fn = "median", reference_samples = NULL, ref_as_group = FALSE, group_column = NULL) {
+  if (ref_as_group == TRUE) {
+    if (is.null(reference_samples)) {
+      reference_samples <- data %>%
+        dplyr::pull({{ group_column }}) %>%
+        unique()
+    }
+    data <- data %>%
+      dplyr::mutate(Ref_Int = dplyr::case_when({{ group_column }} %in% .env$reference_samples ~ .data$Intensity,
+                                               .default = NA)) %>%
+      dplyr::group_by(.data$UID)
+  } else {
+    if (is.null(reference_samples)) {
+      reference_samples <- data %>%
+        dplyr::pull("Sample") %>%
+        unique()
+    }
+    data <- data %>%
+      dplyr::mutate(Ref_Int = dplyr::case_when(.data$Sample %in% .env$reference_samples ~ .data$Intensity,
+                                               .default = NA)) %>%
+      dplyr::group_by(.data$UID)
 
+  }
+    if (fn == "median") {
+
+      data <- data %>%
+        dplyr::mutate(Ref_Int = stats::median(.data$Ref_Int, na.rm = TRUE))
+
+    } else if (fn == "mean") {
+
+      data <- data %>%
+        dplyr::mutate(Ref_Int = mean(.data$Ref_Int, na.rm = TRUE))
+
+    } else {
+      stop('Argument fn must be "median" or "mean"')
+    }
+
+    data %>%
+      dplyr::ungroup() %>%
+      dplyr::group_by(.data$Sample) %>%
+      dplyr::mutate(Intensity = .data$Intensity / stats::median(.data$Intensity / .data$Ref_Int)) %>%
+      dplyr::ungroup() %>%
+      dplyr::select(-"Ref_Int")
 }
 
 #potential other:

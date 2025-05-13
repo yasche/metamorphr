@@ -36,7 +36,7 @@ toy_metaboscape \%>\%
 For further information, see\if{html}{\out{
 <ul>
  <li>S. C. Hicks, K. Okrah, J. N. Paulson, J. Quackenbush, R. A. Irizarry, H. C. Bravo, <i>Biostatistics</i> <b>2018</b>, <i>19</i>, 185–198, DOI <a href = "https://doi.org/10.1093/biostatistics/kxx028">10.1093/biostatistics/kxx028</a></li>
- <li>Y. Zhao, L. Wong, W. W. B. Goh, <i>Sci Rep</i> <b>2020</b>, <i>10</i>, 15534, DOI <a href = "https://doi.org/10.1038/s41598-020-72664-6">10.1038/s41598-020-72664-6</a>.
+ <li>Y. Zhao, L. Wong, W. W. B. Goh, <i>Sci Rep</i> <b>2020</b>, <i>10</i>, 15534, DOI <a href = "https://doi.org/10.1038/s41598-020-72664-6">10.1038/s41598-020-72664-6</a>.</li>
 </ul>
 }}
 }
