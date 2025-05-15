@@ -364,13 +364,15 @@ normalize_cyclic_loess <- function() {
   #also fast_loess?
 }
 
-#' Normalize intensities across samples using a Probabilistic Quantile Normalization
+#' Normalize intensities across samples using a Probabilistic Quotient Normalization (PQN)
 #'
 #' This method was originally developed for <sup>1</sup>H-NMR spectra of complex biofluids but has been adapted for other 'omics data. It aims to eliminate
 #' dilution effects by calculating the most probable dilution factor for each sample, relative to one or more reference samples. See references for more details.
 #'
 #' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
 #' @param fn Which function should be used to calculate the reference spectrum from the reference samples? Can be either "mean" or "median".
+#' @param normalize_sum A logical indicating whether a sum normalization (aka total area normalization) should be performed prior to PQN.
+#' It is <a href = "https://rdrr.io/github/ricoderks/Rcpm/man/pqn.html">recommended</a> to do so and other packages (e.g., <a href = "https://cran.r-project.org/web/packages/KODAMA/index.html">KODAMA</a>) also perform a sum normalization prior to PQN.
 #' @param reference_samples Either `NULL` or a character or character vector containing the sample(s)
 #' to calculate the reference spectrum from. In the original publication, it is advised to calculate the median of control samples.
 #' If `NULL`, all samples will be used to calculate the reference spectrum.
@@ -396,7 +398,11 @@ normalize_cyclic_loess <- function() {
 #'   join_metadata(toy_metaboscape_metadata) %>%
 #'   impute_lod() %>%
 #'   normalize_pqn(reference_samples = c("QC"), ref_as_group = TRUE, group_column = Group)
-normalize_pqn <- function(data, fn = "median", reference_samples = NULL, ref_as_group = FALSE, group_column = NULL) {
+normalize_pqn <- function(data, fn = "median", normalize_sum = TRUE, reference_samples = NULL, ref_as_group = FALSE, group_column = NULL) {
+  if (normalize_sum == TRUE) {
+    data <- normalize_sum(data)
+  }
+
   if (ref_as_group == TRUE) {
     if (is.null(reference_samples)) {
       reference_samples <- data %>%
