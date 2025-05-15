@@ -436,7 +436,7 @@ normalize_pqn <- function(data, fn = "median", reference_samples = NULL, ref_as_
     data %>%
       dplyr::ungroup() %>%
       dplyr::group_by(.data$Sample) %>%
-      dplyr::mutate(Intensity = .data$Intensity / stats::median(.data$Intensity / .data$Ref_Int)) %>%
+      dplyr::mutate(Intensity = .data$Intensity / stats::median(.data$Intensity / .data$Ref_Int, na.rm = TRUE)) %>%
       dplyr::ungroup() %>%
       dplyr::select(-"Ref_Int")
 }
