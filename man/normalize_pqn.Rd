@@ -2,11 +2,12 @@
 % Please edit documentation in R/normalize.R
 \name{normalize_pqn}
 \alias{normalize_pqn}
-\title{Normalize intensities across samples using a Probabilistic Quantile Normalization}
+\title{Normalize intensities across samples using a Probabilistic Quotient Normalization (PQN)}
 \usage{
 normalize_pqn(
   data,
   fn = "median",
+  normalize_sum = TRUE,
   reference_samples = NULL,
   ref_as_group = FALSE,
   group_column = NULL
@@ -16,6 +17,9 @@ normalize_pqn(
 \item{data}{A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.}
 
 \item{fn}{Which function should be used to calculate the reference spectrum from the reference samples? Can be either "mean" or "median".}
+
+\item{normalize_sum}{A logical indicating whether a sum normalization (aka total area normalization) should be performed prior to PQN.
+It is \if{html}{\out{<a href = "https://rdrr.io/github/ricoderks/Rcpm/man/pqn.html">}}recommended\if{html}{\out{</a>}} to do so and other packages (e.g., \if{html}{\out{<a href = "https://cran.r-project.org/web/packages/KODAMA/index.html">}}KODAMA\if{html}{\out{</a>}}) also perform a sum normalization prior to PQN.}
 
 \item{reference_samples}{Either \code{NULL} or a character or character vector containing the sample(s)
 to calculate the reference spectrum from. In the original publication, it is advised to calculate the median of control samples.
