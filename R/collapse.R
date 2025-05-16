@@ -1,100 +1,102 @@
 collapse_helper <- function(collapse_fn, collapse_fn_string, data, feature_metadata_cols, sample_metadata_cols, separator, group_column, replicate_column, batch_column, group_column_string, replicate_column_string, batch_column_string) {
-
-  #rlang::as_string(rlang::enquo(batch_column))
+  # rlang::as_string(rlang::enquo(batch_column))
 
 
 
   col_order <- colnames(data)
-    #define the cols to keep in returned data frame.
-    #by default, those are the feature meta data UID, Feature, Intensity, group_column. replicate_column and the columns defined in feature_metadata_cols
-    #those are needed to restore column order later
-    #cols_to_keep <- c("UID",
-    #                  "Intensity",
-    #                  "Sample",
-    #                  group_column_string,
-    #                  replicate_column_string,
-    #                  batch_column_string,
-    #                  feature_metadata_cols)#
+  # define the cols to keep in returned data frame.
+  # by default, those are the feature meta data UID, Feature, Intensity, group_column. replicate_column and the columns defined in feature_metadata_cols
+  # those are needed to restore column order later
+  # cols_to_keep <- c("UID",
+  #                  "Intensity",
+  #                  "Sample",
+  #                  group_column_string,
+  #                  replicate_column_string,
+  #                  batch_column_string,
+  #                  feature_metadata_cols)#
 
-    #if (!is.null(sample_metadata_cols)) {
-    #  cols_to_keep <- c(cols_to_keep, sample_metadata_cols)
-    #}
+  # if (!is.null(sample_metadata_cols)) {
+  #  cols_to_keep <- c(cols_to_keep, sample_metadata_cols)
+  # }
 
-    #cols_to_keep <- colnames(data)[colnames(data) %in% cols_to_keep]
+  # cols_to_keep <- colnames(data)[colnames(data) %in% cols_to_keep]
 
-    #feature metadata to join back with the original df later
-    feature_metadata <- dplyr::select(data, "UID", dplyr::all_of(feature_metadata_cols)) %>%
-      dplyr::distinct()
-
-
-    #sample metadata to join back with the original df later
-    sample_metadata <- dplyr::select(data, dplyr::all_of(c(group_column_string, replicate_column_string, batch_column_string)), dplyr::all_of(sample_metadata_cols)) %>%
-      dplyr::distinct()
+  # feature metadata to join back with the original df later
+  feature_metadata <- dplyr::select(data, "UID", dplyr::all_of(feature_metadata_cols)) %>%
+    dplyr::distinct()
 
 
-    data <- data %>%
-      dplyr::group_by(.data$UID, {{ group_column }}, {{ replicate_column }}, {{ batch_column }}) %>%
-      dplyr::summarise(Intensity = collapse_fn(.data$Intensity, na.rm = T)) %>%
-      dplyr::ungroup()
-
-    new_sample_names <- dplyr::pull(data, {{group_column}})
-
-    batches <- dplyr::pull(data, {{batch_column}})
-
-    #if all samples belong to the same batch, the batch is left out of the new name
-    if (length(unique(batches)) > 1) {
-      new_sample_names <- paste0(new_sample_names,
-                                 separator,
-                                 dplyr::pull(data, {{batch_column}}),
-                                 separator,
-                                 dplyr::pull(data, {{replicate_column}}))
-    } else {
-      new_sample_names <- paste0(new_sample_names,
-                                 separator,
-                                 dplyr::pull(data, {{replicate_column}}))
-    }
-
-    data$Sample <- new_sample_names
+  # sample metadata to join back with the original df later
+  sample_metadata <- dplyr::select(data, dplyr::all_of(c(group_column_string, replicate_column_string, batch_column_string)), dplyr::all_of(sample_metadata_cols)) %>%
+    dplyr::distinct()
 
 
-    #sanity check: are feature and sample metadata correctly assigned?
-    length_sample_metadata <- nrow(sample_metadata)
-    length_sample_metadata_expected <- data %>%
-      dplyr::select("Sample") %>%
-      dplyr::distinct() %>%
-      nrow()
+  data <- data %>%
+    dplyr::group_by(.data$UID, {{ group_column }}, {{ replicate_column }}, {{ batch_column }}) %>%
+    dplyr::summarise(Intensity = collapse_fn(.data$Intensity, na.rm = T)) %>%
+    dplyr::ungroup()
 
-    if (!length_sample_metadata == length_sample_metadata_expected) {
-      print(sample_metadata, n = nrow(sample_metadata))
-      stop(paste0("\nThere is a problem in the 'sample_metadata_cols' argument you have provided.
+  new_sample_names <- dplyr::pull(data, {{ group_column }})
+
+  batches <- dplyr::pull(data, {{ batch_column }})
+
+  # if all samples belong to the same batch, the batch is left out of the new name
+  if (length(unique(batches)) > 1) {
+    new_sample_names <- paste0(
+      new_sample_names,
+      separator,
+      dplyr::pull(data, {{ batch_column }}),
+      separator,
+      dplyr::pull(data, {{ replicate_column }})
+    )
+  } else {
+    new_sample_names <- paste0(
+      new_sample_names,
+      separator,
+      dplyr::pull(data, {{ replicate_column }})
+    )
+  }
+
+  data$Sample <- new_sample_names
+
+
+  # sanity check: are feature and sample metadata correctly assigned?
+  length_sample_metadata <- nrow(sample_metadata)
+  length_sample_metadata_expected <- data %>%
+    dplyr::select("Sample") %>%
+    dplyr::distinct() %>%
+    nrow()
+
+  if (!length_sample_metadata == length_sample_metadata_expected) {
+    print(sample_metadata, n = nrow(sample_metadata))
+    stop(paste0("\nThere is a problem in the 'sample_metadata_cols' argument you have provided.
 Some observations in the columns you specified in 'sample_metadata_cols' (", paste(sample_metadata_cols, collapse = ", "), ") are not unique for a given ", group_column_string, " ", replicate_column_string, batch_column_string, " combination.
 Each combination of ", group_column_string, ", ", replicate_column_string, "and", batch_column_string, " must only appear once in the table above.\n
 Did you provide feature metadata as sample metadata? See ?collapse_", collapse_fn_string, " for more information."))
-    }
+  }
 
-    length_feature_metadata <- nrow(feature_metadata)
-    length_feature_metadata_expected <- data %>%
-      dplyr::select("UID") %>%
-      dplyr::distinct() %>%
-      nrow()
+  length_feature_metadata <- nrow(feature_metadata)
+  length_feature_metadata_expected <- data %>%
+    dplyr::select("UID") %>%
+    dplyr::distinct() %>%
+    nrow()
 
-    if (!length_feature_metadata == length_feature_metadata_expected) {
-      print(feature_metadata, n = nrow(feature_metadata))
-      stop(paste0("\nThere is a problem in the 'feature_metadata_cols' argument you have provided.
+  if (!length_feature_metadata == length_feature_metadata_expected) {
+    print(feature_metadata, n = nrow(feature_metadata))
+    stop(paste0("\nThere is a problem in the 'feature_metadata_cols' argument you have provided.
 Some observations in the columns you specified in 'feature_metadata_cols' (", paste(feature_metadata_cols, collapse = ", "), ") are not unique for a given UID.
 Each UID must only appear once in the table above.\n
 Did you provide sample metadata as feature metadata? See ?collapse_", collapse_fn_string, " for more information."))
-    }
+  }
 
-    data <- data %>%
-      dplyr::left_join(feature_metadata, by = "UID") %>%
-      dplyr::left_join(sample_metadata, by = c(group_column_string, replicate_column_string, batch_column_string))
+  data <- data %>%
+    dplyr::left_join(feature_metadata, by = "UID") %>%
+    dplyr::left_join(sample_metadata, by = c(group_column_string, replicate_column_string, batch_column_string))
 
-    col_order <- col_order[col_order %in% colnames(data)]
+  col_order <- col_order[col_order %in% colnames(data)]
 
-    data %>%
-      dplyr::relocate(dplyr::all_of(col_order))
-
+  data %>%
+    dplyr::relocate(dplyr::all_of(col_order))
 }
 
 #' Collapse intensities of technical replicates by calculating their mean
@@ -117,7 +119,7 @@ Did you provide sample metadata as feature metadata? See ?collapse_", collapse_f
 #' @export
 #'
 #' @examples
-#' #uses a slightly modified version of toy_metaboscape_metadata
+#' # uses a slightly modified version of toy_metaboscape_metadata
 #' collapse_toy_metaboscape_metadata <- toy_metaboscape_metadata
 #' collapse_toy_metaboscape_metadata$Replicate <- 1
 #'
@@ -126,16 +128,15 @@ Did you provide sample metadata as feature metadata? See ?collapse_", collapse_f
 #'   impute_lod() %>%
 #'   collapse_mean(group_column = Group, replicate_column = Replicate)
 #'
-#'
 collapse_mean <- function(data, group_column = .data$Group, replicate_column = .data$Replicate, batch_column = .data$Batch, feature_metadata_cols = "Feature", sample_metadata_cols = NULL, separator = "_") {
-  #create a string from columns;
-  #this approach is probably far from best practice but using .data is deprecated in tidyselect
-  #(See https://www.tidyverse.org/blog/2022/10/tidyselect-1-2-0/) and I need a way to select() columns.
+  # create a string from columns;
+  # this approach is probably far from best practice but using .data is deprecated in tidyselect
+  # (See https://www.tidyverse.org/blog/2022/10/tidyselect-1-2-0/) and I need a way to select() columns.
   group_column_string <- gsub("\\.data\\$", "", gsub("`$", "", gsub("^`", "", rlang::expr_label(substitute(group_column)))))
   replicate_column_string <- gsub("\\.data\\$", "", gsub("`$", "", gsub("^`", "", rlang::expr_label(substitute(replicate_column)))))
   batch_column_string <- gsub("\\.data\\$", "", gsub("`$", "", gsub("^`", "", rlang::expr_label(substitute(batch_column)))))
 
-  collapse_helper(collapse_fn = mean, collapse_fn_string = "mean", data =  data, feature_metadata_cols, sample_metadata_cols, separator, group_column = {{ group_column }}, replicate_column = {{ replicate_column }}, batch_column = {{batch_column}}, group_column_string = group_column_string, replicate_column_string = replicate_column_string, batch_column_string = batch_column_string)
+  collapse_helper(collapse_fn = mean, collapse_fn_string = "mean", data = data, feature_metadata_cols, sample_metadata_cols, separator, group_column = {{ group_column }}, replicate_column = {{ replicate_column }}, batch_column = {{ batch_column }}, group_column_string = group_column_string, replicate_column_string = replicate_column_string, batch_column_string = batch_column_string)
 }
 
 
@@ -159,7 +160,7 @@ collapse_mean <- function(data, group_column = .data$Group, replicate_column = .
 #' @export
 #'
 #' @examples
-#' #uses a slightly modified version of toy_metaboscape_metadata
+#' # uses a slightly modified version of toy_metaboscape_metadata
 #' collapse_toy_metaboscape_metadata <- toy_metaboscape_metadata
 #' collapse_toy_metaboscape_metadata$Replicate <- 1
 #'
@@ -168,14 +169,13 @@ collapse_mean <- function(data, group_column = .data$Group, replicate_column = .
 #'   impute_lod() %>%
 #'   collapse_median(group_column = Group, replicate_column = Replicate)
 #'
-#'
 collapse_median <- function(data, group_column = .data$Group, replicate_column = .data$Replicate, batch_column = .data$Batch, feature_metadata_cols = "Feature", sample_metadata_cols = NULL, separator = "_") {
-  #See explanation in collapse_mean
+  # See explanation in collapse_mean
   group_column_string <- gsub("\\.data\\$", "", gsub("`$", "", gsub("^`", "", rlang::expr_label(substitute(group_column)))))
   replicate_column_string <- gsub("\\.data\\$", "", gsub("`$", "", gsub("^`", "", rlang::expr_label(substitute(replicate_column)))))
   batch_column_string <- gsub("\\.data\\$", "", gsub("`$", "", gsub("^`", "", rlang::expr_label(substitute(batch_column)))))
 
-  collapse_helper(collapse_fn = stats::median, collapse_fn_string = "median", data =  data, feature_metadata_cols, sample_metadata_cols, separator, group_column = {{ group_column }}, replicate_column = {{ replicate_column }}, batch_column = {{batch_column}}, group_column_string = group_column_string, replicate_column_string = replicate_column_string, batch_column_string = batch_column_string)
+  collapse_helper(collapse_fn = stats::median, collapse_fn_string = "median", data = data, feature_metadata_cols, sample_metadata_cols, separator, group_column = {{ group_column }}, replicate_column = {{ replicate_column }}, batch_column = {{ batch_column }}, group_column_string = group_column_string, replicate_column_string = replicate_column_string, batch_column_string = batch_column_string)
 }
 
 
@@ -199,7 +199,7 @@ collapse_median <- function(data, group_column = .data$Group, replicate_column =
 #' @export
 #'
 #' @examples
-#' #uses a slightly modified version of toy_metaboscape_metadata
+#' # uses a slightly modified version of toy_metaboscape_metadata
 #' collapse_toy_metaboscape_metadata <- toy_metaboscape_metadata
 #' collapse_toy_metaboscape_metadata$Replicate <- 1
 #'
@@ -208,14 +208,13 @@ collapse_median <- function(data, group_column = .data$Group, replicate_column =
 #'   impute_lod() %>%
 #'   collapse_min(group_column = Group, replicate_column = Replicate)
 #'
-#'
 collapse_min <- function(data, group_column = .data$Group, replicate_column = .data$Replicate, batch_column = .data$Batch, feature_metadata_cols = "Feature", sample_metadata_cols = NULL, separator = "_") {
-  #See explanation in collapse_mean
+  # See explanation in collapse_mean
   group_column_string <- gsub("\\.data\\$", "", gsub("`$", "", gsub("^`", "", rlang::expr_label(substitute(group_column)))))
   replicate_column_string <- gsub("\\.data\\$", "", gsub("`$", "", gsub("^`", "", rlang::expr_label(substitute(replicate_column)))))
   batch_column_string <- gsub("\\.data\\$", "", gsub("`$", "", gsub("^`", "", rlang::expr_label(substitute(batch_column)))))
 
-  collapse_helper(collapse_fn = min, collapse_fn_string = "min", data =  data, feature_metadata_cols, sample_metadata_cols, separator, group_column = {{ group_column }}, replicate_column = {{ replicate_column }}, batch_column = {{batch_column}}, group_column_string = group_column_string, replicate_column_string = replicate_column_string, batch_column_string = batch_column_string)
+  collapse_helper(collapse_fn = min, collapse_fn_string = "min", data = data, feature_metadata_cols, sample_metadata_cols, separator, group_column = {{ group_column }}, replicate_column = {{ replicate_column }}, batch_column = {{ batch_column }}, group_column_string = group_column_string, replicate_column_string = replicate_column_string, batch_column_string = batch_column_string)
 }
 
 
@@ -239,7 +238,7 @@ collapse_min <- function(data, group_column = .data$Group, replicate_column = .d
 #' @export
 #'
 #' @examples
-#' #uses a slightly modified version of toy_metaboscape_metadata
+#' # uses a slightly modified version of toy_metaboscape_metadata
 #' collapse_toy_metaboscape_metadata <- toy_metaboscape_metadata
 #' collapse_toy_metaboscape_metadata$Replicate <- 1
 #'
@@ -248,12 +247,11 @@ collapse_min <- function(data, group_column = .data$Group, replicate_column = .d
 #'   impute_lod() %>%
 #'   collapse_max(group_column = Group, replicate_column = Replicate)
 #'
-#'
 collapse_max <- function(data, group_column = .data$Group, replicate_column = .data$Replicate, batch_column = .data$Batch, feature_metadata_cols = "Feature", sample_metadata_cols = NULL, separator = "_") {
-  #See explanation in collapse_mean
+  # See explanation in collapse_mean
   group_column_string <- gsub("\\.data\\$", "", gsub("`$", "", gsub("^`", "", rlang::expr_label(substitute(group_column)))))
   replicate_column_string <- gsub("\\.data\\$", "", gsub("`$", "", gsub("^`", "", rlang::expr_label(substitute(replicate_column)))))
   batch_column_string <- gsub("\\.data\\$", "", gsub("`$", "", gsub("^`", "", rlang::expr_label(substitute(batch_column)))))
 
-  collapse_helper(collapse_fn = max, collapse_fn_string = "max", data =  data, feature_metadata_cols, sample_metadata_cols, separator, group_column = {{ group_column }}, replicate_column = {{ replicate_column }}, batch_column = {{batch_column}}, group_column_string = group_column_string, replicate_column_string = replicate_column_string, batch_column_string = batch_column_string)
+  collapse_helper(collapse_fn = max, collapse_fn_string = "max", data = data, feature_metadata_cols, sample_metadata_cols, separator, group_column = {{ group_column }}, replicate_column = {{ replicate_column }}, batch_column = {{ batch_column }}, group_column_string = group_column_string, replicate_column_string = replicate_column_string, batch_column_string = batch_column_string)
 }

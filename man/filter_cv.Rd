@@ -38,11 +38,11 @@ One of several filter functions. It filters Features based on their coefficient 
 It is defined as \eqn{CV = \frac{s_i}{\overline{x_i}}} with \eqn{s_i} = Standard deviation of sample \eqn{i} and \eqn{\overline{x_i}} = Mean of sample \eqn{i}.
 }
 \examples{
-#Example 1: Define reference samples by sample names
+# Example 1: Define reference samples by sample names
 toy_metaboscape \%>\%
   filter_cv(max_cv = 0.2, reference_samples = c("QC1", "QC2", "QC3"))
 
-#Example 2: Define reference samples by group name
+# Example 2: Define reference samples by group name
 toy_metaboscape \%>\%
   join_metadata(toy_metaboscape_metadata) \%>\%
   filter_cv(max_cv = 0.2, reference_samples = "QC", ref_as_group = TRUE, group_column = Group)

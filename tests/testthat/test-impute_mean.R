@@ -4,4 +4,3 @@ test_that("impute_mean works", {
 
   expect_equal(toy_metaboscape_imputed, test_impute_mean)
 })
-

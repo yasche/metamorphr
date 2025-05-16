@@ -4,4 +4,3 @@ test_that("impute_median works", {
 
   expect_equal(toy_metaboscape_imputed, test_impute_median)
 })
-

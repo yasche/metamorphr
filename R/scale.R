@@ -183,8 +183,10 @@ scale_vast <- function(data) {
 scale_vast_grouped <- function(data, group_column = .data$Group) {
   data %>%
     dplyr::group_by({{ group_column }}, .data$UID) %>%
-    dplyr::mutate(Group_mean_Int = mean(.data$Intensity, na.rm = TRUE),
-                  Group_sd_Int = stats::sd(.data$Intensity, na.rm = TRUE)) %>%
+    dplyr::mutate(
+      Group_mean_Int = mean(.data$Intensity, na.rm = TRUE),
+      Group_sd_Int = stats::sd(.data$Intensity, na.rm = TRUE)
+    ) %>%
     dplyr::ungroup() %>%
     dplyr::group_by(.data$UID) %>%
     dplyr::mutate(Intensity = ((.data$Intensity - mean(.data$Intensity, na.rm = TRUE)) / stats::sd(.data$Intensity, na.rm = TRUE)) * (.data$Group_mean_Int / .data$Group_sd_Int)) %>%

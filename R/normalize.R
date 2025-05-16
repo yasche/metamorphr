@@ -38,11 +38,11 @@ normalize_median <- function(data) {
 #' @export
 #'
 #' @examples
-#' #Example 1: Normalization only
+#' # Example 1: Normalization only
 #' toy_metaboscape %>%
 #'   normalize_sum()
 #'
-#' #Example 2: Multiply with 1000 after normalization
+#' # Example 2: Multiply with 1000 after normalization
 #' toy_metaboscape %>%
 #'   normalize_sum() %>%
 #'   dplyr::mutate(Intensity = .data$Intensity * 1000)
@@ -73,7 +73,7 @@ normalize_sum <- function(data) {
 #' @examples
 #' toy_metaboscape %>%
 #'   normalize_quantile_all()
-normalize_quantile_all <- function(data)  {
+normalize_quantile_all <- function(data) {
   data %>%
     dplyr::group_by(.data$Sample) %>%
     dplyr::mutate(Rank = rank(.data$Intensity, ties.method = "first")) %>%
@@ -81,7 +81,7 @@ normalize_quantile_all <- function(data)  {
     dplyr::group_by(.data$Rank) %>%
     dplyr::mutate(tmp_Intensity = mean(.data$Intensity, na.rm = T)) %>%
     dplyr::ungroup() %>%
-    #calculate mean of ties
+    # calculate mean of ties
     dplyr::group_by(.data$Sample) %>%
     dplyr::mutate(Rank = rank(.data$Intensity, ties.method = "min")) %>%
     dplyr::mutate(tie = vctrs::vec_duplicate_detect(.data$Rank)) %>%
@@ -117,11 +117,11 @@ normalize_quantile_all <- function(data)  {
 #'
 #' @examples
 #' toy_metaboscape %>%
-#' #Metadata, including grouping information, must be added before using normalize_quantile_group()
+#'   # Metadata, including grouping information, must be added before using normalize_quantile_group()
 #'   join_metadata(toy_metaboscape_metadata) %>%
 #'   normalize_quantile_group(group_column = Group)
 normalize_quantile_group <- function(data, group_column = .data$Group) {
-  #also called class-specific; named group to make it consistent
+  # also called class-specific; named group to make it consistent
   data %>%
     dplyr::group_by({{ group_column }}, .data$Sample) %>%
     dplyr::mutate(Rank = rank(.data$Intensity, ties.method = "first")) %>%
@@ -129,7 +129,7 @@ normalize_quantile_group <- function(data, group_column = .data$Group) {
     dplyr::group_by({{ group_column }}, .data$Rank) %>%
     dplyr::mutate(tmp_Intensity = mean(.data$Intensity, na.rm = T)) %>%
     dplyr::ungroup() %>%
-    #calculate mean of ties
+    # calculate mean of ties
     dplyr::group_by({{ group_column }}, .data$Sample) %>%
     dplyr::mutate(Rank = rank(.data$Intensity, ties.method = "min")) %>%
     dplyr::mutate(tie = vctrs::vec_duplicate_detect(.data$Rank)) %>%
@@ -166,8 +166,8 @@ normalize_quantile_group <- function(data, group_column = .data$Group) {
 #'
 #' @examples
 #' toy_metaboscape %>%
-#' #Metadata, including grouping and batch information,
-#' #must be added before using normalize_quantile_batch()
+#'   # Metadata, including grouping and batch information,
+#'   # must be added before using normalize_quantile_batch()
 #'   join_metadata(toy_metaboscape_metadata) %>%
 #'   normalize_quantile_batch(group_column = Group, batch_column = Batch)
 normalize_quantile_batch <- function(data, group_column = .data$Group, batch_column = .data$Batch) {
@@ -178,7 +178,7 @@ normalize_quantile_batch <- function(data, group_column = .data$Group, batch_col
     dplyr::group_by({{ group_column }}, {{ batch_column }}, .data$Rank) %>%
     dplyr::mutate(tmp_Intensity = mean(.data$Intensity, na.rm = T)) %>%
     dplyr::ungroup() %>%
-    #calculate mean of ties
+    # calculate mean of ties
     dplyr::group_by({{ group_column }}, {{ batch_column }}, .data$Sample) %>%
     dplyr::mutate(Rank = rank(.data$Intensity, ties.method = "min")) %>%
     dplyr::mutate(tie = vctrs::vec_duplicate_detect(.data$Rank)) %>%
@@ -212,18 +212,17 @@ normalize_quantile_batch <- function(data, group_column = .data$Group, batch_col
 #'
 #' @examples
 #' toy_metaboscape %>%
-#' #Metadata, including grouping information, must be added before using normalize_quantile_group()
+#'   # Metadata, including grouping information, must be added before using normalize_quantile_group()
 #'   join_metadata(toy_metaboscape_metadata) %>%
 #'   normalize_quantile_smooth(group_column = Group)
 normalize_quantile_smooth <- function(data, group_column = .data$Group, rolling_window = 0.05) {
-
-  if(rolling_window > 1 | rolling_window < 0) {
+  if (rolling_window > 1 | rolling_window < 0) {
     stop(paste0("rolling_window must be between 0 and 1, not ", as.character(rolling_window), "."))
   }
 
-  k = floor(length(unique(data$UID)) * rolling_window)
+  k <- floor(length(unique(data$UID)) * rolling_window)
 
-  if(k %% 2 == 0) {
+  if (k %% 2 == 0) {
     k <- k + 1
   }
 
@@ -238,32 +237,35 @@ normalize_quantile_smooth <- function(data, group_column = .data$Group, rolling_
     dplyr::group_by(.data$Rank) %>%
     dplyr::mutate(Fline_Intensity = mean(.data$Intensity, na.rm = T)) %>%
     dplyr::mutate(Fi_Intensity = .data$Intensity) %>%
-    #dplyr::select(-"Intensity") %>%
+    # dplyr::select(-"Intensity") %>%
     dplyr::group_by(.data$Rank) %>%
-    dplyr::mutate(SST = sum((.data$Fi_Intensity - .data$Fline_Intensity)^2),
-                  SSB = sum((.data$Froof_Intensity - .data$Fline_Intensity)^2)) %>%
+    dplyr::mutate(
+      SST = sum((.data$Fi_Intensity - .data$Fline_Intensity)^2),
+      SSB = sum((.data$Froof_Intensity - .data$Fline_Intensity)^2)
+    ) %>%
     dplyr::ungroup() %>%
     dplyr::arrange(.data$Sample, .data$Rank) %>%
     dplyr::mutate(w1 = 1 - .data$SSB / .data$SST) %>%
-    #this was added as it is also present in the original qstats() source code; prevents division by 0
+    # this was added as it is also present in the original qstats() source code; prevents division by 0
     dplyr::mutate(w1 = dplyr::case_when(.data$SST < 1e-06 ~ 1,
-                                        .default = .data$w1)) %>%
+      .default = .data$w1
+    )) %>%
     dplyr::group_by(.data$Sample) %>%
     dplyr::mutate(w2 = stats::runmed(.data$w1, k = .env$k, endrule = "constant")) %>%
     dplyr::group_by({{ group_column }}, .data$Rank) %>%
     dplyr::mutate(Intensity = .data$w2 * .data$Fline_Intensity + (1 - .data$w2) * .data$Froof_Intensity) %>%
     dplyr::ungroup() %>%
     dplyr::select(-"Rank", -"Froof_Intensity", -"Fline_Intensity", -"Fi_Intensity", -"SST", -"SSB", -"w1", -"w2") %>%
-    #perform QN on smoothed data
+    # perform QN on smoothed data
     dplyr::group_by({{ group_column }}, .data$Sample) %>%
     dplyr::mutate(Rank = rank(.data$Intensity, ties.method = "first")) %>%
     dplyr::ungroup() %>%
     dplyr::group_by({{ group_column }}, .data$Rank) %>%
     dplyr::mutate(tmp_Intensity = mean(.data$Intensity, na.rm = T)) %>%
     dplyr::ungroup() %>%
-    #calculate mean of ties
+    # calculate mean of ties
     dplyr::group_by({{ group_column }}, .data$Sample) %>%
-    #min -> first
+    # min -> first
     dplyr::mutate(Rank = rank(.data$orig_Intensity, ties.method = "min")) %>%
     dplyr::mutate(tie = vctrs::vec_duplicate_detect(.data$Rank)) %>%
     dplyr::ungroup() %>%
@@ -293,20 +295,19 @@ normalize_quantile_smooth <- function(data, group_column = .data$Group, rolling_
 #' @export
 #'
 #' @examples
-#' #Divide by the reference feature and make its Intensity 1000 in each sample
+#' # Divide by the reference feature and make its Intensity 1000 in each sample
 #' toy_metaboscape %>%
 #'   impute_lod() %>%
 #'   normalize_ref(reference_feature = 2, identifier_column = UID, reference_feature_intensity = 1000)
 #'
-#' #Divide by the reference feature and make its Intensity the mean of intensities
-#' #of the reference features before normalization
+#' # Divide by the reference feature and make its Intensity the mean of intensities
+#' # of the reference features before normalization
 #' toy_metaboscape %>%
 #'   impute_lod() %>%
 #'   normalize_ref(reference_feature = 2, identifier_column = UID, reference_feature_intensity = mean)
 normalize_ref <- function(data, reference_feature, identifier_column, reference_feature_intensity = 1) {
-
-  #check if reference_feature is unique
-  #it has to be unique because .data$Intensity will be divided by the reference feature.
+  # check if reference_feature is unique
+  # it has to be unique because .data$Intensity will be divided by the reference feature.
   multiple_ids <- data %>%
     dplyr::select("Sample", {{ identifier_column }}) %>%
     dplyr::filter({{ identifier_column }} == reference_feature) %>%
@@ -318,11 +319,11 @@ normalize_ref <- function(data, reference_feature, identifier_column, reference_
     dplyr::select("Sample", "Intensity", {{ identifier_column }}) %>%
     dplyr::filter({{ identifier_column }} == reference_feature)
 
-  if(length(multiple_ids) == 0) {
+  if (length(multiple_ids) == 0) {
     stop(paste0("\n\nreference_feature must occur exactly once in each sample.\nThere is no feature that matches '", reference_feature, "' in column ", rlang::expr_label(substitute(identifier_column)), ".\nDid you make a typo?"))
   }
 
-  if(max(multiple_ids) > 1) {
+  if (max(multiple_ids) > 1) {
     which_uids <- data %>%
       dplyr::filter({{ identifier_column }} == reference_feature) %>%
       dplyr::pull("UID") %>%
@@ -331,14 +332,14 @@ normalize_ref <- function(data, reference_feature, identifier_column, reference_
     stop(paste0("\n\nreference_feature must occur exactly once in each sample.\nThere are ", as.character(max(multiple_ids)), " features that match '", reference_feature, "' in column ", rlang::expr_label(substitute(identifier_column)), ".\nIt is recommended to use the UID column to refer to specific features:\nYou may use `identifier_column = UID` and set the `reference_feature` argument to the correct UID of the following: ", paste(as.character(which_uids), collapse = " "), "."))
   }
 
-  if(any(is.na(ref_ints$Intensity))) {
+  if (any(is.na(ref_ints$Intensity))) {
     ref_ints_na <- ref_ints %>%
       dplyr::filter(is.na(.data$Intensity)) %>%
       dplyr::pull(.data$Sample)
-    stop(paste0("\n\nThe intensity of ",  reference_feature, " in Sample(s) ", paste(unique(ref_ints_na), collapse = ","), " is NA!\nPlease use any of the available 'impute_' functions first.\nStart typing 'metamorphr::impute_' in the console to see the available options."))
+    stop(paste0("\n\nThe intensity of ", reference_feature, " in Sample(s) ", paste(unique(ref_ints_na), collapse = ","), " is NA!\nPlease use any of the available 'impute_' functions first.\nStart typing 'metamorphr::impute_' in the console to see the available options."))
   }
 
-  if(typeof(reference_feature_intensity) == "closure" | typeof(reference_feature_intensity) == "builtin") {
+  if (typeof(reference_feature_intensity) == "closure" | typeof(reference_feature_intensity) == "builtin") {
     reference_feature_intensity <- ref_ints %>%
       dplyr::select("Intensity") %>%
       dplyr::pull() %>%
@@ -348,12 +349,12 @@ normalize_ref <- function(data, reference_feature, identifier_column, reference_
   data %>%
     dplyr::group_by(.data$Sample) %>%
     dplyr::mutate(ref_int = dplyr::case_when({{ identifier_column }} == reference_feature ~ .data$Intensity,
-                                             .default = NA)) %>%
+      .default = NA
+    )) %>%
     dplyr::mutate(ref_int = mean(.data$ref_int, na.rm = T)) %>%
     dplyr::mutate(Intensity = .data$Intensity / .data$ref_int * .env$reference_feature_intensity) %>%
     dplyr::select(-"ref_int") %>%
     dplyr::ungroup()
-
 }
 
 normalize_factor <- function() {
@@ -361,7 +362,7 @@ normalize_factor <- function() {
 }
 
 normalize_cyclic_loess <- function() {
-  #also fast_loess?
+  # also fast_loess?
 }
 
 #' Normalize intensities across samples using a Probabilistic Quotient Normalization (PQN)
@@ -388,12 +389,12 @@ normalize_cyclic_loess <- function() {
 #' </ul>
 #'
 #' @examples
-#' #specify the reference samples with their sample names
+#' # specify the reference samples with their sample names
 #' toy_metaboscape %>%
 #'   impute_lod() %>%
 #'   normalize_pqn(reference_samples = c("QC1", "QC2", "QC3"))
 #'
-#' #specify the reference samples with their group names
+#' # specify the reference samples with their group names
 #' toy_metaboscape %>%
 #'   join_metadata(toy_metaboscape_metadata) %>%
 #'   impute_lod() %>%
@@ -411,7 +412,8 @@ normalize_pqn <- function(data, fn = "median", normalize_sum = TRUE, reference_s
     }
     data <- data %>%
       dplyr::mutate(Ref_Int = dplyr::case_when({{ group_column }} %in% .env$reference_samples ~ .data$Intensity,
-                                               .default = NA)) %>%
+        .default = NA
+      )) %>%
       dplyr::group_by(.data$UID)
   } else {
     if (is.null(reference_samples)) {
@@ -421,31 +423,27 @@ normalize_pqn <- function(data, fn = "median", normalize_sum = TRUE, reference_s
     }
     data <- data %>%
       dplyr::mutate(Ref_Int = dplyr::case_when(.data$Sample %in% .env$reference_samples ~ .data$Intensity,
-                                               .default = NA)) %>%
+        .default = NA
+      )) %>%
       dplyr::group_by(.data$UID)
-
   }
-    if (fn == "median") {
+  if (fn == "median") {
+    data <- data %>%
+      dplyr::mutate(Ref_Int = stats::median(.data$Ref_Int, na.rm = TRUE))
+  } else if (fn == "mean") {
+    data <- data %>%
+      dplyr::mutate(Ref_Int = mean(.data$Ref_Int, na.rm = TRUE))
+  } else {
+    stop('Argument fn must be "median" or "mean"')
+  }
 
-      data <- data %>%
-        dplyr::mutate(Ref_Int = stats::median(.data$Ref_Int, na.rm = TRUE))
-
-    } else if (fn == "mean") {
-
-      data <- data %>%
-        dplyr::mutate(Ref_Int = mean(.data$Ref_Int, na.rm = TRUE))
-
-    } else {
-      stop('Argument fn must be "median" or "mean"')
-    }
-
-    data %>%
-      dplyr::ungroup() %>%
-      dplyr::group_by(.data$Sample) %>%
-      dplyr::mutate(Intensity = .data$Intensity / stats::median(.data$Intensity / .data$Ref_Int, na.rm = TRUE)) %>%
-      dplyr::ungroup() %>%
-      dplyr::select(-"Ref_Int")
+  data %>%
+    dplyr::ungroup() %>%
+    dplyr::group_by(.data$Sample) %>%
+    dplyr::mutate(Intensity = .data$Intensity / stats::median(.data$Intensity / .data$Ref_Int, na.rm = TRUE)) %>%
+    dplyr::ungroup() %>%
+    dplyr::select(-"Ref_Int")
 }
 
-#potential other:
-#contrast, cubic_splines, lbs (linear baseline scaling), mstus, non-linear baseline normalization
+# potential other:
+# contrast, cubic_splines, lbs (linear baseline scaling), mstus, non-linear baseline normalization

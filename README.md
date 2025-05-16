@@ -79,7 +79,7 @@ The convenience function `read_featuretable()` can read a delimited file
 ``` r
 library(metamorphr)
 
-my_featuretable <- read_featuretable("my_featuretable.csv", label_col = 1, metadata_cols = c(2,3))
+my_featuretable <- read_featuretable("my_featuretable.csv", label_col = 1, metadata_cols = c(2, 3))
 ```
 
 The tibble `my_featuretable` looks like this:
@@ -176,8 +176,8 @@ library(ggplot2)
 toy_metaboscape %>%
   join_metadata(toy_metaboscape_metadata) %>%
   ggplot2::ggplot(ggplot2::aes(Sample, Intensity, color = Group)) +
-    ggplot2::geom_boxplot() +
-    theme_bw()
+  ggplot2::geom_boxplot() +
+  theme_bw()
 ```
 
 <img src="man/figures/README-example-dplyr-1-1.svg" width="100%" />
@@ -190,9 +190,9 @@ toy_metaboscape %>%
   dplyr::filter(Name %in% c("Arachidonic acid", "ADP", "NADPH")) %>%
   dplyr::filter(Group %in% c("control", "treatment")) %>%
   ggplot2::ggplot(ggplot2::aes(Group, Intensity, color = Group)) +
-    ggplot2::geom_boxplot() +
-    ggplot2::facet_wrap(~Name) +
-    ggplot2::theme_bw()
+  ggplot2::geom_boxplot() +
+  ggplot2::facet_wrap(~Name) +
+  ggplot2::theme_bw()
 ```
 
 <img src="man/figures/README-example-dplyr-2-1.svg" width="100%" />

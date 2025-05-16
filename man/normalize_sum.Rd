@@ -21,11 +21,11 @@ See \if{html}{\out{<a href = "https://omicsforum.ca/t/sum-normalization-needs-cl
 for further information.
 }
 \examples{
-#Example 1: Normalization only
+# Example 1: Normalization only
 toy_metaboscape \%>\%
   normalize_sum()
 
-#Example 2: Multiply with 1000 after normalization
+# Example 2: Multiply with 1000 after normalization
 toy_metaboscape \%>\%
   normalize_sum() \%>\%
   dplyr::mutate(Intensity = .data$Intensity * 1000)

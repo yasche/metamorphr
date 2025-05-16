@@ -21,11 +21,11 @@ One of several filter functions. Can be used to filter features based on the num
 This is usually one of the first steps in metabolomics data analysis and often already performed when the feature table is first created.
 }
 \examples{
-#Example 1: A feature must be found in at least 50 \% of the samples
+# Example 1: A feature must be found in at least 50 \% of the samples
 toy_metaboscape \%>\%
   filter_global_mv(min_found = 0.5)
 
-#Example 2: A feature must be found in at least 8 samples
+# Example 2: A feature must be found in at least 8 samples
 toy_metaboscape \%>\%
   filter_global_mv(min_found = 8, fraction = FALSE)
 }

@@ -63,12 +63,14 @@ test_that("throws error > 2 groups are provided", {
 })
 
 test_that("log2-fc is the same no matter if data are log2-transformed before of after calculating p-value", {
-  l2_before_false <- toy_metaboscape %>% dplyr::mutate(Intensity = dplyr::case_when(is.na(Intensity)~1,.default = Intensity)) %>%
+  l2_before_false <- toy_metaboscape %>%
+    dplyr::mutate(Intensity = dplyr::case_when(is.na(Intensity) ~ 1, .default = Intensity)) %>%
     join_metadata(toy_metaboscape_metadata) %>%
     plot_volcano(group_column = Group, groups_to_compare = c("control", "treatment"), return_tbl = TRUE) %>%
     dplyr::select(-"p_val", -"n_log_p_val")
 
-  l2_before_true <- toy_metaboscape %>% dplyr::mutate(Intensity = dplyr::case_when(is.na(Intensity)~1,.default = Intensity)) %>%
+  l2_before_true <- toy_metaboscape %>%
+    dplyr::mutate(Intensity = dplyr::case_when(is.na(Intensity) ~ 1, .default = Intensity)) %>%
     join_metadata(toy_metaboscape_metadata) %>%
     plot_volcano(group_column = Group, groups_to_compare = c("control", "treatment"), return_tbl = TRUE, log2_before = T) %>%
     dplyr::select(-"p_val", -"n_log_p_val")

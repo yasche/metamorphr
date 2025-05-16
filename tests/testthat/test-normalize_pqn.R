@@ -1,5 +1,4 @@
 test_that("ref_as_group = TRUE and FALSE give same results; median", {
-
   rag_false <- toy_metaboscape %>%
     join_metadata(toy_metaboscape_metadata) %>%
     impute_lod() %>%
@@ -15,7 +14,6 @@ test_that("ref_as_group = TRUE and FALSE give same results; median", {
 
 
 test_that("ref_as_group = TRUE and FALSE give same results; mean", {
-
   rag_false <- toy_metaboscape %>%
     join_metadata(toy_metaboscape_metadata) %>%
     impute_lod() %>%
@@ -31,7 +29,6 @@ test_that("ref_as_group = TRUE and FALSE give same results; mean", {
 
 
 test_that("ref_as_group = TRUE and FALSE give same results; median", {
-
   rag_false <- toy_metaboscape %>%
     join_metadata(toy_metaboscape_metadata) %>%
     impute_lod() %>%
@@ -47,7 +44,6 @@ test_that("ref_as_group = TRUE and FALSE give same results; median", {
 
 
 test_that("ref_as_group = TRUE and FALSE give same results; mean", {
-
   rag_false <- toy_metaboscape %>%
     join_metadata(toy_metaboscape_metadata) %>%
     impute_lod() %>%
@@ -64,10 +60,10 @@ test_that("ref_as_group = TRUE and FALSE give same results; mean", {
 
 
 test_that('result is equivalent to KODAMA::normalization(method = "pqn")', {
-  #prepare data
+  # prepare data
   data("MetRef", package = "KODAMA")
   MetRef_data <- MetRef$data
-  MetRef_data <- MetRef_data[,-which(colSums(MetRef_data)==0)]
+  MetRef_data <- MetRef_data[, -which(colSums(MetRef_data) == 0)]
 
   MetRef_data <- MetRef_data %>%
     t() %>%
@@ -79,7 +75,8 @@ test_that('result is equivalent to KODAMA::normalization(method = "pqn")', {
 
   MetRef_data_imputed <- MetRef_data %>%
     dplyr::mutate(Intensity = dplyr::case_when(Intensity == 0 ~ NA,
-                                               .default = Intensity)) %>%
+      .default = Intensity
+    )) %>%
     impute_lod()
 
 
@@ -91,23 +88,21 @@ test_that('result is equivalent to KODAMA::normalization(method = "pqn")', {
     t()
 
   kod_norm <- KODAMA::normalization(MetRef_data_imputed_mat)$newXtrain
-  #for some reason, KODAMA::normalization() works with absolute Intensities
-  #While this might be sensible for NMR data, I don't see the point for LC-MS data:
-  #negative Intensities should not exist, at least not prior to log-transformation.
+  # for some reason, KODAMA::normalization() works with absolute Intensities
+  # While this might be sensible for NMR data, I don't see the point for LC-MS data:
+  # negative Intensities should not exist, at least not prior to log-transformation.
   mm_norm <- MetRef_data_imputed %>%
     dplyr::group_by(Sample) %>%
-    dplyr::mutate(Intensity = Intensity/sum(abs(Intensity))) %>%
+    dplyr::mutate(Intensity = Intensity / sum(abs(Intensity))) %>%
     dplyr::ungroup() %>%
     normalize_pqn(normalize_sum = FALSE)
 
   expect_equal(as.numeric(t(kod_norm)), mm_norm$Intensity)
-
 })
 
 test_that("throws error if method does not exist", {
-
   expect_error(toy_metaboscape %>%
-                   join_metadata(toy_metaboscape_metadata) %>%
-                   impute_lod() %>%
-                   normalize_pqn(fn = "meanxxx"))
+    join_metadata(toy_metaboscape_metadata) %>%
+    impute_lod() %>%
+    normalize_pqn(fn = "meanxxx"))
 })

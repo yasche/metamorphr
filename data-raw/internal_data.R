@@ -25,7 +25,7 @@ test_read_featuretable <- tibble::tribble(
 ## code to prepare `test_mv_filters` dataset goes here
 
 test_filters <- metamorphr::read_featuretable(
-"label,s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,q1,q2,q3,b1
+  "label,s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,q1,q2,q3,b1
 f0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0.1
 f1,1,0,0,0,0,0,0,0,0,0,0,0,1,1,1.17,0.2
 f2,1,1,0,0,0,0,0,0,0,0,0,0,1,1,1.38,0.3
@@ -42,11 +42,11 @@ f12,1,1,1,1,1,1,1,1,1,1,1,1,1,1,7.5,1"
 )
 
 ## code to prepare `test_mv_filters_metadata1` dataset goes here
-#version 1:
-#s1 - s6:   g1
-#s7 - s12:  g2
+# version 1:
+# s1 - s6:   g1
+# s7 - s12:  g2
 test_filters_metadata1 <- metamorphr::read_featuretable(
-"label,s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,q1,q2,q3,b1
+  "label,s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,q1,q2,q3,b1
 f0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0.1
 f1,1,0,0,0,0,0,0,0,0,0,0,0,1,1,1.17,0.2
 f2,1,1,0,0,0,0,0,0,0,0,0,0,1,1,1.38,0.3
@@ -67,11 +67,11 @@ f12,1,1,1,1,1,1,1,1,1,1,1,1,1,1,7.5,1"
   dplyr::mutate(Batch = 1L)
 
 ## code to prepare `test_mv_filters_metadata2` dataset goes here
-#version 1:
-#s1 - s3:   g1
-#s4 - s6:   g2
-#s7 - s9:   g3
-#s10-s12:   g4
+# version 1:
+# s1 - s3:   g1
+# s4 - s6:   g2
+# s7 - s9:   g3
+# s10-s12:   g4
 test_filters_metadata2 <- metamorphr::read_featuretable(
   "label,s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,q1,q2,q3,b1
 f0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0.1
@@ -109,9 +109,11 @@ E,4,5,5,6,8,7,7,9"
 ## code to prepare `test_qn_metadata` dataset goes here
 test_qn_metadata <- test_qn_data %>%
   metamorphr::create_metadata_skeleton() %>%
-  dplyr::mutate(Group  = c(rep("A", 4), rep("B", 4)),
-                Replicate = c(1:4, 1:4),
-                Batch = rep(c(1L, 2L), each = 2, times = 2))
+  dplyr::mutate(
+    Group = c(rep("A", 4), rep("B", 4)),
+    Replicate = c(1:4, 1:4),
+    Batch = rep(c(1L, 2L), each = 2, times = 2)
+  )
 
 ## code to prepare `test_qn_all_results` dataset goes here
 test_qn_all_results <- metamorphr::read_featuretable(
@@ -166,7 +168,8 @@ test_normalize_ref_uid_2 <- metamorphr::read_featuretable(
 237.09204 Da 313.24 s,5.22,238.09987,Ketamine,C13H16ClNO,0,0,0,3,3.5,2.25,0,0,0,0,0
 745.09111 Da 382.23 s,6.37,746.09894,NADPH,C21H30N7O17P3,1,0.666666667,0.4,1.333333333,1.5,0,0.333333333,1.5,0.5,0,0
 427.02942 Da 424.84 s,7.08,428.03725,ADP,C10H15N5O10P2,1.333333333,0.5,0.8,2.333333333,4,2,0.333333333,1.5,0.666666667,0,0
-1284.34904 Da 498.94 s,8.32,1285.35687,,,0,0.833333333,0,0,1,0,0,1.5,0,0,0", metadata_cols = 2:5
+1284.34904 Da 498.94 s,8.32,1285.35687,,,0,0.833333333,0,0,1,0,0,1.5,0,0,0",
+  metadata_cols = 2:5
 )
 
 
@@ -181,7 +184,9 @@ test_normalize_ref_uid_2_mul_mean <- metamorphr::read_featuretable(
 237.09204 Da 313.24 s,5.22,238.09987,Ketamine,C13H16ClNO,0,0,0,14.45454545,16.86363636,10.84090909,0,0,0,0,0
 745.09111 Da 382.23 s,6.37,746.09894,NADPH,C21H30N7O17P3,4.818181818,3.212121212,1.927272727,6.424242424,7.227272727,0,1.606060606,7.227272727,2.409090909,0,0
 427.02942 Da 424.84 s,7.08,428.03725,ADP,C10H15N5O10P2,6.424242424,2.409090909,3.854545455,11.24242424,19.27272727,9.636363636,1.606060606,7.227272727,3.212121212,0,0
-1284.34904 Da 498.94 s,8.32,1285.35687,,,0,4.015151515,0,0,4.818181818,0,0,7.227272727,0,0,0",  metadata_cols = 2:5)
+1284.34904 Da 498.94 s,8.32,1285.35687,,,0,4.015151515,0,0,4.818181818,0,0,7.227272727,0,0,0",
+  metadata_cols = 2:5
+)
 
 
 test_normalize_ref_uid_2_mul_med <- metamorphr::read_featuretable(
@@ -195,7 +200,8 @@ test_normalize_ref_uid_2_mul_med <- metamorphr::read_featuretable(
 237.09204 Da 313.24 s,5.22,238.09987,Ketamine,C13H16ClNO,0,0,0,12,14,9,0,0,0,0,0
 745.09111 Da 382.23 s,6.37,746.09894,NADPH,C21H30N7O17P3,4,2.666666667,1.6,5.333333333,6,0,1.333333333,6,2,0,0
 427.02942 Da 424.84 s,7.08,428.03725,ADP,C10H15N5O10P2,5.333333333,2,3.2,9.333333333,16,8,1.333333333,6,2.666666667,0,0
-1284.34904 Da 498.94 s,8.32,1285.35687,,,0,3.333333333,0,0,4,0,0,6,0,0,0",  metadata_cols = 2:5
+1284.34904 Da 498.94 s,8.32,1285.35687,,,0,3.333333333,0,0,4,0,0,6,0,0,0",
+  metadata_cols = 2:5
 )
 
 test_normalize_ref_name_adp <- metamorphr::read_featuretable(
@@ -209,7 +215,8 @@ test_normalize_ref_name_adp <- metamorphr::read_featuretable(
 237.09204 Da 313.24 s,5.22,238.09987,Ketamine,C13H16ClNO,0,0,0,1.285714286,0.875,1.125,0,0,0
 745.09111 Da 382.23 s,6.37,746.09894,NADPH,C21H30N7O17P3,0.75,1.333333333,0.5,0.571428571,0.375,0,1,1,0.75
 427.02942 Da 424.84 s,7.08,428.03725,ADP,C10H15N5O10P2,1,1,1,1,1,1,1,1,1
-1284.34904 Da 498.94 s,8.32,1285.35687,,,0,1.666666667,0,0,0.25,0,0,1,0",  metadata_cols = 2:5
+1284.34904 Da 498.94 s,8.32,1285.35687,,,0,1.666666667,0,0,0.25,0,0,1,0",
+  metadata_cols = 2:5
 )
 
 test_impute_mean <- metamorphr::read_featuretable(
@@ -223,7 +230,8 @@ test_impute_mean <- metamorphr::read_featuretable(
 237.09204 Da 313.24 s,5.22,238.09987,Ketamine,C13H16ClNO,8.333333333,8.333333333,8.333333333,9,7,9,8.333333333,8.333333333,8.333333333,8.333333333,8.333333333
 745.09111 Da 382.23 s,6.37,746.09894,NADPH,C21H30N7O17P3,3,4,2,4,3,3.125,3,3,3,3.125,3.125
 427.02942 Da 424.84 s,7.08,428.03725,ADP,C10H15N5O10P2,4,3,4,7,8,8,3,3,4,4.888888889,4.888888889
-1284.34904 Da 498.94 s,8.32,1285.35687,,,3.333333333,5,3.333333333,3.333333333,2,3.333333333,3.333333333,3,3.333333333,3.333333333,3.333333333",  metadata_cols = 2:5
+1284.34904 Da 498.94 s,8.32,1285.35687,,,3.333333333,5,3.333333333,3.333333333,2,3.333333333,3.333333333,3,3.333333333,3.333333333,3.333333333",
+  metadata_cols = 2:5
 )
 
 test_impute_min <- metamorphr::read_featuretable(
@@ -237,7 +245,8 @@ test_impute_min <- metamorphr::read_featuretable(
 237.09204 Da 313.24 s,5.22,238.09987,Ketamine,C13H16ClNO,7,7,7,9,7,9,7,7,7,7,7
 745.09111 Da 382.23 s,6.37,746.09894,NADPH,C21H30N7O17P3,3,4,2,4,3,2,3,3,3,2,2
 427.02942 Da 424.84 s,7.08,428.03725,ADP,C10H15N5O10P2,4,3,4,7,8,8,3,3,4,3,3
-1284.34904 Da 498.94 s,8.32,1285.35687,,,2,5,2,2,2,2,2,3,2,2,2",  metadata_cols = 2:5
+1284.34904 Da 498.94 s,8.32,1285.35687,,,2,5,2,2,2,2,2,3,2,2,2",
+  metadata_cols = 2:5
 )
 
 
@@ -252,11 +261,12 @@ test_impute_median <- metamorphr::read_featuretable(
 237.09204 Da 313.24 s,5.22,238.09987,Ketamine,C13H16ClNO,9,9,9,9,7,9,9,9,9,9,9
 745.09111 Da 382.23 s,6.37,746.09894,NADPH,C21H30N7O17P3,3,4,2,4,3,3,3,3,3,3,3
 427.02942 Da 424.84 s,7.08,428.03725,ADP,C10H15N5O10P2,4,3,4,7,8,8,3,3,4,4,4
-1284.34904 Da 498.94 s,8.32,1285.35687,,,3,5,3,3,2,3,3,3,3,3,3",  metadata_cols = 2:5
+1284.34904 Da 498.94 s,8.32,1285.35687,,,3,5,3,3,2,3,3,3,3,3,3",
+  metadata_cols = 2:5
 )
 
-#results for collapse functions were calculated from
-#toy_metaboscape %>% join_metadata(toy_metaboscape_metadata2) %>% impute_lod(); where toy_metaboscape_metadata2 is toy_metaboscape_metadata with Replicate = 1 for each sample
+# results for collapse functions were calculated from
+# toy_metaboscape %>% join_metadata(toy_metaboscape_metadata2) %>% impute_lod(); where toy_metaboscape_metadata2 is toy_metaboscape_metadata with Replicate = 1 for each sample
 
 test_collapse_mean <- metamorphr::read_featuretable(
   "UID,control_1,treatment_1,QC_1,blank_1
@@ -380,7 +390,8 @@ test_plot_volcano_input <- metamorphr::read_featuretable("Bucket label,RT,m/z,Na
 427.02942 Da 424.84 s,7.08,428.03725,ADP,C10H15N5O10P2,4,3,4,7,8,8
 1284.34904 Da 498.94 s,8.32,1285.35687,,,1,5,1,1,2,1", metadata_cols = 2:5) %>%
   dplyr::mutate(Group = dplyr::case_when(Sample %in% paste0("Sample", 1:3) ~ "control",
-                                         .default = "treatment"))
+    .default = "treatment"
+  ))
 
 test_plot_volcano_results <- readr::read_csv("UID,log2fc,p_val,n_log_p_val
 1,0.710493383,0.452212845,0.344657106
@@ -406,7 +417,7 @@ test_plot_volcano_results_log2_before <- readr::read_csv("UID,log2fc,p_val,n_log
 9,1.064130337,0.007156051,2.145326549
 10,-0.807354922,0.640658176,0.193373627")
 
-#calculations for scale functions are based on this data frame:
+# calculations for scale functions are based on this data frame:
 test_scale_input <- metamorphr::read_featuretable("UID,Blank1,Blank2,QC1,QC2,QC3,Sample1,Sample2,Sample3,Sample4,Sample5,Sample6,Blank3,Blank4,Sample7,Sample8,Sample9,Sample10,Sample11,Sample12,Blank5,Blank13,Sample14,Sample15,Sample16,Sample17,Sample18,Sample19
 1,0.6,0.6,7,6,3,4,3,4,0.6,9,8,0.6,0.6,8,6,8,1.2,18,16,1.2,1.2,12,9,12,1.8,27,24
 2,4,9,9,2,6,3,6,5,3,2,4,4,9,6,12,10,6,4,8,8,18,9,18,15,9,6,12
@@ -493,40 +504,41 @@ test_scale_vast_s_results <- metamorphr::read_featuretable("UID,Blank1,Blank2,QC
 
 
 usethis::use_data(test_read_featuretable,
-                  test_create_metadata_skeleton,
-                  test_filters,
-                  test_filters_metadata1,
-                  test_filters_metadata2,
-                  test_qn_data,
-                  test_qn_metadata,
-                  test_qn_all_results,
-                  test_qn_group_results,
-                  test_qn_batch_results,
-                  test_qn_smooth_results,
-                  test_normalize_ref_uid_2,
-                  test_normalize_ref_uid_2_mul_mean,
-                  test_normalize_ref_uid_2_mul_med,
-                  test_normalize_ref_name_adp,
-                  test_impute_mean,
-                  test_impute_min,
-                  test_impute_median,
-                  test_collapse_mean,
-                  test_collapse_mean_batches,
-                  test_collapse_mean_batches_results,
-                  test_collapse_median,
-                  test_collapse_median_batches_results,
-                  test_collapse_min,
-                  test_collapse_min_batches_results,
-                  test_collapse_max,
-                  test_collapse_max_batches_results,
-                  test_plot_volcano_input,
-                  test_plot_volcano_results,
-                  test_plot_volcano_results_log2_before,
-                  test_scale_input,
-                  test_scale_center_results,
-                  test_scale_auto_results,
-                  test_scale_range_results,
-                  test_scale_pareto_results,
-                  test_scale_vast_u_results,
-                  test_scale_vast_s_results,
-                  overwrite = TRUE, internal = TRUE)
+  test_create_metadata_skeleton,
+  test_filters,
+  test_filters_metadata1,
+  test_filters_metadata2,
+  test_qn_data,
+  test_qn_metadata,
+  test_qn_all_results,
+  test_qn_group_results,
+  test_qn_batch_results,
+  test_qn_smooth_results,
+  test_normalize_ref_uid_2,
+  test_normalize_ref_uid_2_mul_mean,
+  test_normalize_ref_uid_2_mul_med,
+  test_normalize_ref_name_adp,
+  test_impute_mean,
+  test_impute_min,
+  test_impute_median,
+  test_collapse_mean,
+  test_collapse_mean_batches,
+  test_collapse_mean_batches_results,
+  test_collapse_median,
+  test_collapse_median_batches_results,
+  test_collapse_min,
+  test_collapse_min_batches_results,
+  test_collapse_max,
+  test_collapse_max_batches_results,
+  test_plot_volcano_input,
+  test_plot_volcano_results,
+  test_plot_volcano_results_log2_before,
+  test_scale_input,
+  test_scale_center_results,
+  test_scale_auto_results,
+  test_scale_range_results,
+  test_scale_pareto_results,
+  test_scale_vast_u_results,
+  test_scale_vast_s_results,
+  overwrite = TRUE, internal = TRUE
+)

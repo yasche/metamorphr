@@ -17,4 +17,3 @@ test_that("correct number of replicates after joining metadata", {
 test_that("correct number of batches after joining metadata", {
   expect_output(toy_metaboscape %>% join_metadata(toy_metaboscape_metadata) %>% summary_featuretable(), "1 Batches: 1")
 })
-

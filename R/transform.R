@@ -47,5 +47,5 @@ transform_log <- function(data, base = 10) {
 #'   transform_power()
 transform_power <- function(data, n = 2) {
   data %>%
-    dplyr::mutate(Intensity = .data$Intensity^(1/.env$n))
+    dplyr::mutate(Intensity = .data$Intensity^(1 / .env$n))
 }

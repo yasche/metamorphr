@@ -59,20 +59,24 @@ If you wish to draw the plot yourself, you can set \code{return_tbl = TRUE}. In 
 A Volcano Plot is used to compare two groups. Therefore grouping information must be provided. See \code{\link[metamorphr]{join_metadata}} for more information.
 }
 \examples{
-#returns a Volcano Plot in the form of a ggplot2 object
+# returns a Volcano Plot in the form of a ggplot2 object
 toy_metaboscape \%>\%
   impute_lod() \%>\%
   join_metadata(toy_metaboscape_metadata) \%>\%
-  plot_volcano(group_column = Group,
-               name_column = Feature,
-               groups_to_compare = c("control", "treatment"))
+  plot_volcano(
+    group_column = Group,
+    name_column = Feature,
+    groups_to_compare = c("control", "treatment")
+  )
 
-#returns a tibble to draw the plot manually
+# returns a tibble to draw the plot manually
 toy_metaboscape \%>\%
   impute_lod() \%>\%
   join_metadata(toy_metaboscape_metadata) \%>\%
-  plot_volcano(group_column = Group,
-               name_column = Feature,
-               groups_to_compare = c("control", "treatment"),
-               return_tbl = TRUE)
+  plot_volcano(
+    group_column = Group,
+    name_column = Feature,
+    groups_to_compare = c("control", "treatment"),
+    return_tbl = TRUE
+  )
 }

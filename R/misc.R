@@ -39,7 +39,6 @@ join_metadata <- function(data, metadata) {
 #'   join_metadata(toy_metaboscape_metadata) %>%
 #'   summary_featuretable()
 summary_featuretable <- function(data, n_samples_max = 5, n_features_max = 5, n_groups_max = 5, n_batches_max = 5) {
-
   column_names <- colnames(data)
 
   samples <- summary_featuretable_pull(data = data, select_what = "Sample")
@@ -51,7 +50,7 @@ summary_featuretable <- function(data, n_samples_max = 5, n_features_max = 5, n_
   summary_featuretable_cat(txt = samples, title = "Samples", n = n_samples, n_max = n_samples_max)
   summary_featuretable_cat(txt = features, title = "Features", n = n_features, n_max = n_samples_max)
 
-  #is metadata present?
+  # is metadata present?
   if ("Group" %in% column_names) {
     groups <- summary_featuretable_pull(data = data, select_what = "Group")
 
@@ -82,7 +81,9 @@ summary_featuretable <- function(data, n_samples_max = 5, n_features_max = 5, n_
   data <- data %>%
     dplyr::group_by(.data$Sample) %>%
     tidyr::nest() %>%
-    dplyr::mutate(summary = purrr::map(.data$data, function(x) {summary(x$Intensity)})) %>%
+    dplyr::mutate(summary = purrr::map(.data$data, function(x) {
+      summary(x$Intensity)
+    })) %>%
     dplyr::pull(summary)
 
   names(data) <- samples
@@ -106,7 +107,7 @@ summary_featuretable_cat <- function(txt, title, n, n_max) {
 
   cat(crayon::blue(as.character(n), " ", title, ": ", sep = ""), paste(txt, collapse = ", "), "\n", sep = "")
   if (n > n_max) {
-    cat(crayon::silver("# ", as.character(n - n_max), " more ",  tolower(title), "\n", sep = ""))
+    cat(crayon::silver("# ", as.character(n - n_max), " more ", tolower(title), "\n", sep = ""))
     cat(crayon::silver("# ", "Use the n_", tolower(title), "_max", " argument to see more", "\n", sep = ""))
   }
 }

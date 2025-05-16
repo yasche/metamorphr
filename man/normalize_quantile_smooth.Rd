@@ -28,7 +28,7 @@ and \code{\link[metamorphr]{normalize_quantile_all}}. Basically a re-implementat
 }
 \examples{
 toy_metaboscape \%>\%
-#Metadata, including grouping information, must be added before using normalize_quantile_group()
+  # Metadata, including grouping information, must be added before using normalize_quantile_group()
   join_metadata(toy_metaboscape_metadata) \%>\%
   normalize_quantile_smooth(group_column = Group)
 }

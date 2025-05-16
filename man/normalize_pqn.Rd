@@ -37,12 +37,12 @@ This method was originally developed for \if{html}{\out{<sup>}}1\if{html}{\out{<
 dilution effects by calculating the most probable dilution factor for each sample, relative to one or more reference samples. See references for more details.
 }
 \examples{
-#specify the reference samples with their sample names
+# specify the reference samples with their sample names
 toy_metaboscape \%>\%
   impute_lod() \%>\%
   normalize_pqn(reference_samples = c("QC1", "QC2", "QC3"))
 
-#specify the reference samples with their group names
+# specify the reference samples with their group names
 toy_metaboscape \%>\%
   join_metadata(toy_metaboscape_metadata) \%>\%
   impute_lod() \%>\%

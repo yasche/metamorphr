@@ -1,8 +1,8 @@
 test_that("normalize_quantile_all produces expected results, when accounting for rounding error", {
-  #Values in the publicationused for this evaluation are rounded to the 2nd digit (Y. Zhao, L. Wong, W. W. B. Goh, Sci Rep 2020, 10, 15534, DOI 10.1038/s41598-020-72664-6)
-  #R may round differently, see ?round
-  #therefore, differences between expected results and calculated results are first calculated.
-  #As numbers are rounded to the 2nd digit, absolute differences should be less than or equal to 0.005.
+  # Values in the publicationused for this evaluation are rounded to the 2nd digit (Y. Zhao, L. Wong, W. W. B. Goh, Sci Rep 2020, 10, 15534, DOI 10.1038/s41598-020-72664-6)
+  # R may round differently, see ?round
+  # therefore, differences between expected results and calculated results are first calculated.
+  # As numbers are rounded to the 2nd digit, absolute differences should be less than or equal to 0.005.
   max_diff <- test_qn_data %>%
     normalize_quantile_all() %>%
     dplyr::select(-"Feature") %>%
@@ -14,4 +14,3 @@ test_that("normalize_quantile_all produces expected results, when accounting for
 
   expect_lte(max_diff, 0.005)
 })
-

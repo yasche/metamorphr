@@ -1,8 +1,8 @@
 test_that("normalize_quantile_smooth produces expected results, when accounting for rounding error", {
-  #Values in the publication used for this evaluation are rounded to the 2nd digit (Y. Zhao, L. Wong, W. W. B. Goh, Sci Rep 2020, 10, 15534, DOI 10.1038/s41598-020-72664-6)
-  #R may round differently, see ?round
-  #therefore, differences between expected results and calculated results are first calculated.
-  #As numbers are rounded to the 2nd digit, absolute differences should be less than or equal to 0.005.
+  # Values in the publication used for this evaluation are rounded to the 2nd digit (Y. Zhao, L. Wong, W. W. B. Goh, Sci Rep 2020, 10, 15534, DOI 10.1038/s41598-020-72664-6)
+  # R may round differently, see ?round
+  # therefore, differences between expected results and calculated results are first calculated.
+  # As numbers are rounded to the 2nd digit, absolute differences should be less than or equal to 0.005.
   max_diff <- test_qn_data %>%
     join_metadata(test_qn_metadata) %>%
     normalize_quantile_smooth(group_column = .data$Group) %>%
@@ -17,10 +17,10 @@ test_that("normalize_quantile_smooth produces expected results, when accounting 
 })
 
 test_that("normalize_quantile_smooth produces expected results, when accounting for rounding error; standard arguments", {
-  #Values in the publication used for this evaluation are rounded to the 2nd digit (Y. Zhao, L. Wong, W. W. B. Goh, Sci Rep 2020, 10, 15534, DOI 10.1038/s41598-020-72664-6)
-  #R may round differently, see ?round
-  #therefore, differences between expected results and calculated results are first calculated.
-  #As numbers are rounded to the 2nd digit, absolute differences should be less than or equal to 0.005.
+  # Values in the publication used for this evaluation are rounded to the 2nd digit (Y. Zhao, L. Wong, W. W. B. Goh, Sci Rep 2020, 10, 15534, DOI 10.1038/s41598-020-72664-6)
+  # R may round differently, see ?round
+  # therefore, differences between expected results and calculated results are first calculated.
+  # As numbers are rounded to the 2nd digit, absolute differences should be less than or equal to 0.005.
   max_diff <- test_qn_data %>%
     join_metadata(test_qn_metadata) %>%
     normalize_quantile_smooth() %>%
@@ -53,7 +53,7 @@ test_that("error if rolling_window > 1", {
 test_that("normalize_quantile_smooth returns the same values as qsmooth::qsmooth()", {
   data(khanmiss, package = "impute")
 
-  #prepare data and metadata
+  # prepare data and metadata
 
   khan_group <- khanmiss[1, -(1:2)] %>%
     t() %>%
@@ -76,7 +76,7 @@ test_that("normalize_quantile_smooth returns the same values as qsmooth::qsmooth
     dplyr::mutate(UID = seq(1, length(.data$sample1))) %>%
     tidyr::gather(-UID, key = "Sample", value = "Intensity") %>%
     dplyr::mutate(Intensity = exp(.data$Intensity)) %>%
-    #some form of MVI must be performed
+    # some form of MVI must be performed
     metamorphr::impute_lod()
 
   khan_wide <- khan_tidy %>%
@@ -87,7 +87,7 @@ test_that("normalize_quantile_smooth returns the same values as qsmooth::qsmooth
   khan_tidy <- khan_tidy %>%
     metamorphr::join_metadata(khan_group)
 
-  #perform normalization and some wrangling
+  # perform normalization and some wrangling
   qs_results <- qsmooth::qsmooth(khan_wide, group_factor = khan_group$Group)
   qs_results <- qs_results@qsmoothData
 
@@ -101,4 +101,3 @@ test_that("normalize_quantile_smooth returns the same values as qsmooth::qsmooth
 
   expect_equal(qs_results, mm_results)
 })
-

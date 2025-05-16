@@ -11,12 +11,12 @@
 #' @examples
 #' toy_metaboscape %>%
 #'   impute_global_lowest()
-
 impute_global_lowest <- function(data) {
   data %>%
     dplyr::mutate(LoD = min(.data$Intensity, na.rm = T)) %>%
     dplyr::mutate(Intensity = dplyr::case_when(is.na(.data$Intensity) ~ .data$LoD,
-                                               .default = .data$Intensity)) %>%
+      .default = .data$Intensity
+    )) %>%
     dplyr::select(-"LoD")
 }
 
@@ -36,11 +36,11 @@ impute_global_lowest <- function(data) {
 #' @examples
 #' toy_metaboscape %>%
 #'   impute_user_value(value = 1)
-
 impute_user_value <- function(data, value) {
   data %>%
     dplyr::mutate(Intensity = dplyr::case_when(is.na(.data$Intensity) ~ .env$value,
-                                               .default = .data$Intensity))
+      .default = .data$Intensity
+    ))
 }
 
 #' Impute missing values by replacing them with the Feature mean
@@ -57,14 +57,14 @@ impute_user_value <- function(data, value) {
 #' @examples
 #' toy_metaboscape %>%
 #'   impute_mean()
-
 impute_mean <- function(data) {
   data %>%
     dplyr::group_by(.data$UID) %>%
     dplyr::mutate(LoD = mean(.data$Intensity, na.rm = T)) %>%
     dplyr::ungroup() %>%
     dplyr::mutate(Intensity = dplyr::case_when(is.na(.data$Intensity) ~ .data$LoD,
-                                               .default = .data$Intensity)) %>%
+      .default = .data$Intensity
+    )) %>%
     dplyr::select(-"LoD")
 }
 
@@ -82,14 +82,14 @@ impute_mean <- function(data) {
 #' @examples
 #' toy_metaboscape %>%
 #'   impute_median()
-
 impute_median <- function(data) {
   data %>%
     dplyr::group_by(.data$UID) %>%
     dplyr::mutate(LoD = stats::median(.data$Intensity, na.rm = T)) %>%
     dplyr::ungroup() %>%
     dplyr::mutate(Intensity = dplyr::case_when(is.na(.data$Intensity) ~ .data$LoD,
-                                               .default = .data$Intensity)) %>%
+      .default = .data$Intensity
+    )) %>%
     dplyr::select(-"LoD")
 }
 
@@ -113,7 +113,8 @@ impute_min <- function(data) {
     dplyr::mutate(LoD = min(.data$Intensity, na.rm = T)) %>%
     dplyr::ungroup() %>%
     dplyr::mutate(Intensity = dplyr::case_when(is.na(.data$Intensity) ~ .data$LoD,
-                                               .default = .data$Intensity)) %>%
+      .default = .data$Intensity
+    )) %>%
     dplyr::select(-"LoD")
 }
 
@@ -134,13 +135,14 @@ impute_min <- function(data) {
 #' toy_metaboscape %>%
 #'   impute_lod()
 impute_lod <- function(data, div_by = 5) {
-  #https://omicsforum.ca/t/how-to-deal-with-missing-values/75
+  # https://omicsforum.ca/t/how-to-deal-with-missing-values/75
   data %>%
     dplyr::group_by(.data$UID) %>%
     dplyr::mutate(LoD = min(.data$Intensity, na.rm = T) / .env$div_by) %>%
     dplyr::ungroup() %>%
     dplyr::mutate(Intensity = dplyr::case_when(is.na(.data$Intensity) ~ .data$LoD,
-                                               .default = .data$Intensity)) %>%
+      .default = .data$Intensity
+    )) %>%
     dplyr::select(-"LoD")
 }
 
@@ -176,23 +178,23 @@ impute_lod <- function(data, div_by = 5) {
 #' toy_metaboscape %>%
 #'   impute_knn()
 impute_knn <- function(data, quietly = TRUE, ...) {
-  #impute is a bioconductor package so it is not installed with metamorphr if installed via install.packages().
+  # impute is a bioconductor package so it is not installed with metamorphr if installed via install.packages().
   # check if it installed first
-  #also check, if pak is installed
-  if(!is_installed_wrapper("impute")) {
-    if(!is_installed_wrapper("pak")) {
+  # also check, if pak is installed
+  if (!is_installed_wrapper("impute")) {
+    if (!is_installed_wrapper("pak")) {
       check_installed_wrapper("pak")
       check_installed_wrapper("impute")
     }
     check_installed_wrapper("impute")
   }
-  #to preserve order
+  # to preserve order
   data_colnames <- colnames(data)
 
   data_obs <- data %>%
     dplyr::select("UID", "Intensity", "Sample")
 
-  #preserve order for later
+  # preserve order for later
   data_obs_sample_order <- data_obs %>%
     dplyr::select("Sample") %>%
     dplyr::pull() %>%
@@ -211,17 +213,17 @@ impute_knn <- function(data, quietly = TRUE, ...) {
   data_obs <- data_obs %>%
     dplyr::select(-"UID")
 
-  #preserve colnames
+  # preserve colnames
   data_obs_colnames <- colnames(data_obs)
 
   data_obs <- data_obs %>%
     as.matrix()
 
-  #used with_preserve_seed to preserve random seed
-  if(quietly == TRUE) {
+  # used with_preserve_seed to preserve random seed
+  if (quietly == TRUE) {
     data_obs <- knn_impute_quiet(data_obs, ...)
-    #warnings will be printed anyways
-    if(length(data_obs$warnings) > 0) {
+    # warnings will be printed anyways
+    if (length(data_obs$warnings) > 0) {
       warning(data_obs$warnings)
     }
     data_obs <- data_obs$result
@@ -233,20 +235,20 @@ impute_knn <- function(data, quietly = TRUE, ...) {
   data_obs <- data_obs$data %>%
     tidyr::as_tibble()
 
-  #restore colnames
+  # restore colnames
   colnames(data_obs) <- data_obs_colnames
 
   data_obs <- data_obs[data_obs_sample_order]
 
-  #print(data_obs)
+  # print(data_obs)
   data <- data_obs %>%
     cbind(uids) %>%
     tidyr::gather(-"UID", key = "Sample", value = "Intensity") %>%
-    #reverse ln-transformation
+    # reverse ln-transformation
     dplyr::mutate(Intensity = exp(.data$Intensity)) %>%
     dplyr::left_join(data_meta, by = c("UID", "Sample"))
 
-  #bring columns to correct order
+  # bring columns to correct order
   data <- data[data_colnames]
 
   data <- tidyr::as_tibble(data)
@@ -278,13 +280,13 @@ impute_knn <- function(data, quietly = TRUE, ...) {
 #' toy_metaboscape %>%
 #'   impute_rf()
 impute_rf <- function(data, random_seed = 1L, ...) {
-  #to preserve order of columns of initial tibble
+  # to preserve order of columns of initial tibble
   data_colnames <- colnames(data)
 
   data_obs <- data %>%
     dplyr::select("UID", "Intensity", "Sample")
 
-  #preserve order for later
+  # preserve order for later
   data_obs_sample_order <- data_obs %>%
     dplyr::select("Sample") %>%
     dplyr::pull() %>%
@@ -297,17 +299,17 @@ impute_rf <- function(data, random_seed = 1L, ...) {
     tidyr::spread(key = "UID", value = "Intensity") %>%
     as.data.frame()
 
-  #preserve rownames (Sample names)
+  # preserve rownames (Sample names)
   data_obs_rownames <- data_obs %>%
     dplyr::select("Sample")
 
   data_obs <- dplyr::select(data_obs, -"Sample")
 
 
-  if(!is.null(random_seed)) {
+  if (!is.null(random_seed)) {
     data_obs_imp <- withr::with_seed(seed = random_seed, missForest::missForest(data_obs, ...))
   } else {
-    #with_preserve_seed might not be necessary
+    # with_preserve_seed might not be necessary
     data_obs_imp <- withr::with_preserve_seed(missForest::missForest(data_obs, ...))
   }
 

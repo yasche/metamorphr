@@ -1,6 +1,6 @@
 test_that("works for min_frac = 5", {
   filtered_features <- test_filters %>%
-    #only look at "samples"
+    # only look at "samples"
     dplyr::filter(!(Sample %in% c("q1", "q2", "q3"))) %>%
     filter_blank(min_frac = 5, blank_samples = "b1") %>%
     dplyr::select(2) %>%
@@ -12,7 +12,7 @@ test_that("works for min_frac = 5", {
 
 test_that("works for min_frac = 3", {
   filtered_features <- test_filters %>%
-    #only look at "samples"
+    # only look at "samples"
     dplyr::filter(!(Sample %in% c("q1", "q2", "q3"))) %>%
     filter_blank(min_frac = 3, blank_samples = "b1") %>%
     dplyr::select(2) %>%
@@ -24,7 +24,7 @@ test_that("works for min_frac = 3", {
 
 test_that("works for min_frac = 2", {
   filtered_features <- test_filters %>%
-    #only look at "samples"
+    # only look at "samples"
     dplyr::filter(!(Sample %in% c("q1", "q2", "q3"))) %>%
     filter_blank(min_frac = 2, blank_samples = "b1") %>%
     dplyr::select(2) %>%
@@ -36,7 +36,7 @@ test_that("works for min_frac = 2", {
 
 test_that("works for min_frac = 1.5", {
   filtered_features <- test_filters %>%
-    #only look at "samples"
+    # only look at "samples"
     dplyr::filter(!(Sample %in% c("q1", "q2", "q3"))) %>%
     filter_blank(min_frac = 1.5, blank_samples = "b1") %>%
     dplyr::select(2) %>%
@@ -48,20 +48,22 @@ test_that("works for min_frac = 1.5", {
 
 test_that("does not change the structure of the input in an unexpected way", {
   filtered_features <- test_filters %>%
-    #only look at "samples"
+    # only look at "samples"
     filter_blank(min_frac = 0, blank_samples = "b1")
 
   expect_equal(filtered_features, test_filters)
 })
 
 test_that("does not change the structure of the input in an unexpected way", {
-  test_tibble <- tibble::tibble(UID = c(1,1),
-                                Feature = c("f0", "f0"),
-                                Sample = c("s", "b"),
-                                Intensity = c(0, 0))
+  test_tibble <- tibble::tibble(
+    UID = c(1, 1),
+    Feature = c("f0", "f0"),
+    Sample = c("s", "b"),
+    Intensity = c(0, 0)
+  )
 
   filtered_features <- test_tibble %>%
-    #only look at "samples"
+    # only look at "samples"
     filter_blank(min_frac = 0, blank_samples = "b")
 
   expect_equal(nrow(filtered_features), 0)
@@ -76,7 +78,7 @@ test_that("equal results for blank_as_group = TRUE and FALSE", {
 
   filtered_features <- test_filters %>%
     join_metadata(test_filters_group) %>%
-    #only look at "samples"
+    # only look at "samples"
     dplyr::filter(!(Sample %in% c("q1", "q2", "q3")))
 
   filtered_features_group_5 <- filtered_features %>%

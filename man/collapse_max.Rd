@@ -38,7 +38,7 @@ The function assigns new sample names by joining either group and replicate name
 Due to the nature of the function, sample and feature metadata columns will be dropped unless they are specified with the according arguments.
 }
 \examples{
-#uses a slightly modified version of toy_metaboscape_metadata
+# uses a slightly modified version of toy_metaboscape_metadata
 collapse_toy_metaboscape_metadata <- toy_metaboscape_metadata
 collapse_toy_metaboscape_metadata$Replicate <- 1
 
@@ -46,6 +46,5 @@ toy_metaboscape \%>\%
   join_metadata(collapse_toy_metaboscape_metadata) \%>\%
   impute_lod() \%>\%
   collapse_max(group_column = Group, replicate_column = Replicate)
-
 
 }

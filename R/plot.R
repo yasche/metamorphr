@@ -25,22 +25,26 @@
 #' @export
 #'
 #' @examples
-#' #returns a Volcano Plot in the form of a ggplot2 object
+#' # returns a Volcano Plot in the form of a ggplot2 object
 #' toy_metaboscape %>%
 #'   impute_lod() %>%
 #'   join_metadata(toy_metaboscape_metadata) %>%
-#'   plot_volcano(group_column = Group,
-#'                name_column = Feature,
-#'                groups_to_compare = c("control", "treatment"))
+#'   plot_volcano(
+#'     group_column = Group,
+#'     name_column = Feature,
+#'     groups_to_compare = c("control", "treatment")
+#'   )
 #'
-#' #returns a tibble to draw the plot manually
+#' # returns a tibble to draw the plot manually
 #' toy_metaboscape %>%
 #'   impute_lod() %>%
 #'   join_metadata(toy_metaboscape_metadata) %>%
-#'   plot_volcano(group_column = Group,
-#'                name_column = Feature,
-#'                groups_to_compare = c("control", "treatment"),
-#'                return_tbl = TRUE)
+#'   plot_volcano(
+#'     group_column = Group,
+#'     name_column = Feature,
+#'     groups_to_compare = c("control", "treatment"),
+#'     return_tbl = TRUE
+#'   )
 plot_volcano <- function(data, group_column, name_column, groups_to_compare, batch_column = NULL, batch = NULL, log2fc_cutoff = 1, p_value_cutoff = 0.05, colors = list(sig_up = "darkred", sig_down = "darkblue", not_sig_up = "grey", not_sig_down = "grey", not_sig = "grey"), adjust_p = FALSE, log2_before = FALSE, return_tbl = FALSE, ...) {
   batch_column_string <- gsub("`$", "", gsub("^`", "", rlang::expr_label(substitute(batch_column))))
 
@@ -72,8 +76,10 @@ plot_volcano <- function(data, group_column, name_column, groups_to_compare, bat
 
   if (is.na(adjust_p_lgl)) {
     if (!(adjust_p %in% stats::p.adjust.methods)) {
-      stop(paste("The method you have provided for adjust_p does not exist!\nPlease use one of the available methods below or set adjust_p = FALSE\nAvailable methods:",
-                 paste(stats::p.adjust.methods, collapse = ", ")))
+      stop(paste(
+        "The method you have provided for adjust_p does not exist!\nPlease use one of the available methods below or set adjust_p = FALSE\nAvailable methods:",
+        paste(stats::p.adjust.methods, collapse = ", ")
+      ))
     }
 
     data$p_val <- stats::p.adjust(data$p_val, method = adjust_p)
@@ -82,7 +88,8 @@ plot_volcano <- function(data, group_column, name_column, groups_to_compare, bat
   data <- data %>%
     dplyr::mutate(log2fc = as.numeric(.data$log2fc)) %>%
     dplyr::mutate(log2fc = dplyr::case_when(is.nan(.data$log2fc) ~ NA,
-                                          .default = .data$log2fc)) %>%
+      .default = .data$log2fc
+    )) %>%
     dplyr::mutate(p_val = as.numeric(.data$p_val)) %>%
     dplyr::mutate(n_log_p_val = -log10(.data$p_val)) %>%
     dplyr::select(-"data", -"t_test") %>%
@@ -92,17 +99,18 @@ plot_volcano <- function(data, group_column, name_column, groups_to_compare, bat
     return(data)
   } else {
     if (!is.null(colors)) {
-      colors = tibble::tibble(
+      colors <- tibble::tibble(
         group = names(colors),
         cols = unlist(colors)
       )
 
       data <- data %>%
         dplyr::mutate(group = dplyr::case_when(.data$p_val <= .env$p_value_cutoff & .data$log2fc <= -.env$log2fc_cutoff ~ "sig_down",
-                                               .data$p_val <= .env$p_value_cutoff & .data$log2fc >= .env$log2fc_cutoff ~ "sig_up",
-                                               .data$p_val > .env$p_value_cutoff & .data$log2fc <= -.env$log2fc_cutoff ~ "not_sig_down",
-                                               .data$p_val > .env$p_value_cutoff & .data$log2fc >= .env$log2fc_cutoff ~ "not_sig_up",
-                                               .default = "not_sig")) %>%
+          .data$p_val <= .env$p_value_cutoff & .data$log2fc >= .env$log2fc_cutoff ~ "sig_up",
+          .data$p_val > .env$p_value_cutoff & .data$log2fc <= -.env$log2fc_cutoff ~ "not_sig_down",
+          .data$p_val > .env$p_value_cutoff & .data$log2fc >= .env$log2fc_cutoff ~ "not_sig_up",
+          .default = "not_sig"
+        )) %>%
         dplyr::left_join(colors, by = "group")
 
       p <- ggplot2::ggplot(data, ggplot2::aes(.data$log2fc, .data$n_log_p_val)) +
@@ -111,8 +119,6 @@ plot_volcano <- function(data, group_column, name_column, groups_to_compare, bat
       p <- ggplot2::ggplot(data, ggplot2::aes(.data$log2fc, .data$n_log_p_val)) +
         ggplot2::geom_point()
     }
-
-
   }
   p <- p +
     ggplot2::xlab(bquote(log[2]*(.(groups_to_compare[[2]]))~-~log[2]*(.(groups_to_compare[[1]])))) +

@@ -12,11 +12,11 @@
 #' @export
 #'
 #' @examples
-#' #Example 1: A feature must be found in at least 50 % of the samples
+#' # Example 1: A feature must be found in at least 50 % of the samples
 #' toy_metaboscape %>%
 #'   filter_global_mv(min_found = 0.5)
 #'
-#' #Example 2: A feature must be found in at least 8 samples
+#' # Example 2: A feature must be found in at least 8 samples
 #' toy_metaboscape %>%
 #'   filter_global_mv(min_found = 8, fraction = FALSE)
 filter_global_mv <- function(data, min_found = 0.5, fraction = TRUE) {
@@ -29,21 +29,17 @@ filter_global_mv <- function(data, min_found = 0.5, fraction = TRUE) {
       stop("Argument max_missing must be <= 1 if argument fraction is TRUE.")
     }
 
-     data %>%
-       dplyr::mutate(perc_not_na = .data$not_na / dplyr::n()) %>%
-       dplyr::filter(.data$perc_not_na >= min_found) %>%
-       dplyr::ungroup() %>%
-       dplyr::select(-"not_na", -"perc_not_na")
-
+    data %>%
+      dplyr::mutate(perc_not_na = .data$not_na / dplyr::n()) %>%
+      dplyr::filter(.data$perc_not_na >= min_found) %>%
+      dplyr::ungroup() %>%
+      dplyr::select(-"not_na", -"perc_not_na")
   } else {
-
     data %>%
       dplyr::filter(.data$not_na >= min_found) %>%
       dplyr::ungroup() %>%
       dplyr::select(-"not_na")
   }
-
-
 }
 
 #' Group-based feature filtering
@@ -87,19 +83,16 @@ filter_grouped_mv <- function(data, min_found = 0.5, group_column = .data$Group,
       dplyr::mutate(max_perc_not_na = max(.data$perc_not_na)) %>%
       dplyr::filter(.data$max_perc_not_na >= min_found) %>%
       dplyr::ungroup() %>%
-      #print(n = 1000)
+      # print(n = 1000)
       dplyr::select(-"not_na", -"perc_not_na", -"max_perc_not_na")
-
   } else {
-
     data %>%
       dplyr::group_by(.data$UID) %>%
       dplyr::mutate(max_not_na = max(.data$not_na)) %>%
       dplyr::filter(.data$max_not_na >= min_found) %>%
       dplyr::ungroup() %>%
-      #print(n = 1000)
+      # print(n = 1000)
       dplyr::select(-"not_na", -"max_not_na")
-
   }
 }
 
@@ -126,21 +119,21 @@ filter_grouped_mv <- function(data, min_found = 0.5, group_column = .data$Group,
 #' @export
 #'
 #' @examples
-#' #Example 1: Define reference samples by sample names
+#' # Example 1: Define reference samples by sample names
 #' toy_metaboscape %>%
 #'   filter_cv(max_cv = 0.2, reference_samples = c("QC1", "QC2", "QC3"))
 #'
-#' #Example 2: Define reference samples by group name
+#' # Example 2: Define reference samples by group name
 #' toy_metaboscape %>%
 #'   join_metadata(toy_metaboscape_metadata) %>%
 #'   filter_cv(max_cv = 0.2, reference_samples = "QC", ref_as_group = TRUE, group_column = Group)
 filter_cv <- function(data, reference_samples, max_cv = 0.2, ref_as_group = FALSE, group_column = NULL, na_as_zero = TRUE) {
-  #perform  checks
-  #if (ref_as_group == TRUE) {
+  # perform  checks
+  # if (ref_as_group == TRUE) {
   #  if (is.null(group_column)) {
   #    stop("A grouping column must be provided if argument ref_as_group is TRUE. See ?metamorphr::filter_cv for details.")
   #  }
-  #}
+  # }
 
   if (na_as_zero == TRUE) {
     data <- data %>%
@@ -184,12 +177,12 @@ filter_cv <- function(data, reference_samples, max_cv = 0.2, ref_as_group = FALS
 #' @export
 #'
 #' @examples
-#' #Example 1: Define blanks by sample name
+#' # Example 1: Define blanks by sample name
 #' toy_metaboscape %>%
 #'   filter_blank(blank_samples = c("Blank1", "Blank2"), blank_as_group = FALSE, min_frac = 3)
 #'
-#' #Example 2: Define blanks by group name
-#' #toy_metaboscape %>%
+#' # Example 2: Define blanks by group name
+#' # toy_metaboscape %>%
 #' #  join_metadata(toy_metaboscape_metadata) %>%
 #' #  filter_blank(blank_samples = "blank",
 #' #               blank_as_group = TRUE,
@@ -239,8 +232,8 @@ filter_blank <- function(data, blank_samples, min_frac = 3, blank_as_group = FAL
       )
   }
   data %>%
-    #how should the case 0/0 be handled? -> 0/0 = NaN -> currently filtered out
-    #other approach: replace 0/0 with 0
+    # how should the case 0/0 be handled? -> 0/0 = NaN -> currently filtered out
+    # other approach: replace 0/0 with 0
     dplyr::filter(.data$frac_sb >= min_frac & !is.nan(.data$frac_sb)) %>%
     dplyr::ungroup() %>%
     dplyr::mutate(Intensity = dplyr::na_if(.data$Intensity, 0)) %>%

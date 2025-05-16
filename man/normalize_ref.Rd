@@ -32,13 +32,13 @@ Divides the Intensities of all features by the Intensity of the reference featur
 of the reference feature the same in each sample.
 }
 \examples{
-#Divide by the reference feature and make its Intensity 1000 in each sample
+# Divide by the reference feature and make its Intensity 1000 in each sample
 toy_metaboscape \%>\%
   impute_lod() \%>\%
   normalize_ref(reference_feature = 2, identifier_column = UID, reference_feature_intensity = 1000)
 
-#Divide by the reference feature and make its Intensity the mean of intensities
-#of the reference features before normalization
+# Divide by the reference feature and make its Intensity the mean of intensities
+# of the reference features before normalization
 toy_metaboscape \%>\%
   impute_lod() \%>\%
   normalize_ref(reference_feature = 2, identifier_column = UID, reference_feature_intensity = mean)

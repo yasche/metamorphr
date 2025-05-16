@@ -38,8 +38,10 @@ test_that("normalize_ref throws error if some ref feature does not exist", {
 
 test_that("normalize_ref throws error if reference feature exists multiple times", {
   toy_metaboscape_edit <- toy_metaboscape %>%
-    dplyr::mutate(Name = dplyr::case_when(Formula == "C7H15NO3" ~ "Multiple",
-                                          Formula == "C5H14NO" ~ "Multiple"))
+    dplyr::mutate(Name = dplyr::case_when(
+      Formula == "C7H15NO3" ~ "Multiple",
+      Formula == "C5H14NO" ~ "Multiple"
+    ))
 
   expect_error(normalize_ref(toy_metaboscape_edit, reference_feature = "Multiple", identifier_column = Name))
 })

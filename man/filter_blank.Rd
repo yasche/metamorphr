@@ -34,12 +34,12 @@ For example, if \code{min_frac = 3} the maximum intensity in samples must be at 
 for a Feature not to be filtered out.
 }
 \examples{
-#Example 1: Define blanks by sample name
+# Example 1: Define blanks by sample name
 toy_metaboscape \%>\%
   filter_blank(blank_samples = c("Blank1", "Blank2"), blank_as_group = FALSE, min_frac = 3)
 
-#Example 2: Define blanks by group name
-#toy_metaboscape \%>\%
+# Example 2: Define blanks by group name
+# toy_metaboscape \%>\%
 #  join_metadata(toy_metaboscape_metadata) \%>\%
 #  filter_blank(blank_samples = "blank",
 #               blank_as_group = TRUE,

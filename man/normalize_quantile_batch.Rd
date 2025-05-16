@@ -37,8 +37,8 @@ Note that it is equivalent to the 'Discrete' normalization in Zhao \if{html}{\ou
 }
 \examples{
 toy_metaboscape \%>\%
-#Metadata, including grouping and batch information,
-#must be added before using normalize_quantile_batch()
+  # Metadata, including grouping and batch information,
+  # must be added before using normalize_quantile_batch()
   join_metadata(toy_metaboscape_metadata) \%>\%
   normalize_quantile_batch(group_column = Group, batch_column = Batch)
 }

@@ -3,7 +3,7 @@ test_that("Sum of intensites is 1 after normalization", {
     normalize_sum() %>%
     dplyr::group_by(.data$Sample) %>%
     dplyr::summarise(Sum = sum(.data$Intensity, na.rm = TRUE)) %>%
-    #use dplyr::near to account for rounding error
+    # use dplyr::near to account for rounding error
     dplyr::mutate(nearone = dplyr::near(.data$Sum, 1)) %>%
     dplyr::pull(nearone)
 
