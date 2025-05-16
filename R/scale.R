@@ -162,3 +162,5 @@ scale_vast <- function(data) {
     dplyr::mutate(Intensity = ((.data$Intensity - mean(.data$Intensity)) / stats::sd(.data$Intensity)) * (mean(.data$Intensity) / stats::sd(.data$Intensity))) %>%
     dplyr::ungroup()
 }
+
+scale_vast_grouped <- function(data) {}

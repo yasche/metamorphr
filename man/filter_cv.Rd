@@ -6,8 +6,8 @@
 \usage{
 filter_cv(
   data,
-  max_cv = 0.2,
   reference_samples,
+  max_cv = 0.2,
   ref_as_group = FALSE,
   group_column = NULL,
   na_as_zero = TRUE
@@ -16,9 +16,9 @@ filter_cv(
 \arguments{
 \item{data}{A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.}
 
-\item{max_cv}{The maximum allowed CV. 0.2 is a reasonable start.}
-
 \item{reference_samples}{The names of the samples or group which will be used to calculate the CV of a feature. Often Quality Control samples.}
+
+\item{max_cv}{The maximum allowed CV. 0.2 is a reasonable start.}
 
 \item{ref_as_group}{A logical indicating if \code{reference_samples} are the names of samples or group(s).}
 
