@@ -111,8 +111,8 @@ filter_grouped_mv <- function(data, min_found = 0.5, group_column = .data$Group,
 #'
 #'
 #' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
-#' @param max_cv The maximum allowed CV. 0.2 is a reasonable start.
 #' @param reference_samples The names of the samples or group which will be used to calculate the CV of a feature. Often Quality Control samples.
+#' @param max_cv The maximum allowed CV. 0.2 is a reasonable start.
 #' @param ref_as_group A logical indicating if `reference_samples` are the names of samples or group(s).
 #' @param group_column Only relevant if `ref_as_group = TRUE`. Which column should be used for grouping reference and non-reference samples? Usually `group_column = Group`. Uses \code{\link[rlang]{args_data_masking}}.
 #' @param na_as_zero Should `NA` be replaced with 0 prior to calculation?
@@ -134,7 +134,7 @@ filter_grouped_mv <- function(data, min_found = 0.5, group_column = .data$Group,
 #' toy_metaboscape %>%
 #'   join_metadata(toy_metaboscape_metadata) %>%
 #'   filter_cv(max_cv = 0.2, reference_samples = "QC", ref_as_group = TRUE, group_column = Group)
-filter_cv <- function(data, max_cv = 0.2, reference_samples, ref_as_group = FALSE, group_column = NULL, na_as_zero = TRUE) {
+filter_cv <- function(data, reference_samples, max_cv = 0.2, ref_as_group = FALSE, group_column = NULL, na_as_zero = TRUE) {
   #perform  checks
   #if (ref_as_group == TRUE) {
   #  if (is.null(group_column)) {
@@ -173,10 +173,10 @@ filter_cv <- function(data, max_cv = 0.2, reference_samples, ref_as_group = FALS
 #'
 #'
 #' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
-#' @param min_frac A numeric defining how many times higher the maximum intensity in samples must be in relation to blanks.
 #' @param blank_samples Defines the blanks. If `blank_as_group = FALSE` a character vector containing the names of the blank samples
 #' as in the `Sample` column of `data`. If `blank_as_group = TRUE` the name(s) of the group(s) that define blanks, as in the `Group` column of `data`.
 #' The latter can only be used if sample metadata is provided.
+#' @param min_frac A numeric defining how many times higher the maximum intensity in samples must be in relation to blanks.
 #' @param blank_as_group A logical indicating if `blank_samples` are the names of samples or group(s).
 #' @param group_column Only relevant if `blank_as_group = TRUE`. Which column should be used for grouping blank and non-blank samples? Usually `group_column = Group`. Uses \code{\link[rlang]{args_data_masking}}.
 #'
@@ -195,7 +195,7 @@ filter_cv <- function(data, max_cv = 0.2, reference_samples, ref_as_group = FALS
 #' #               blank_as_group = TRUE,
 #' #               min_frac = 3,
 #' #               group_column = Group)
-filter_blank <- function(data, min_frac = 3, blank_samples, blank_as_group = FALSE, group_column = NULL) {
+filter_blank <- function(data, blank_samples, min_frac = 3, blank_as_group = FALSE, group_column = NULL) {
   # substitute NA with 0 for better handling:
   # 0/0 = NaN
   # 1/0 = Inf
