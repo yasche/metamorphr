@@ -159,8 +159,35 @@ scale_pareto <- function(data) {
 scale_vast <- function(data) {
   data %>%
     dplyr::group_by(.data$UID) %>%
-    dplyr::mutate(Intensity = ((.data$Intensity - mean(.data$Intensity)) / stats::sd(.data$Intensity)) * (mean(.data$Intensity) / stats::sd(.data$Intensity))) %>%
+    dplyr::mutate(Intensity = ((.data$Intensity - mean(.data$Intensity, na.rm = TRUE)) / stats::sd(.data$Intensity, na.rm = TRUE)) * (mean(.data$Intensity, na.rm = TRUE) / stats::sd(.data$Intensity, na.rm = TRUE))) %>%
     dplyr::ungroup()
 }
 
-scale_vast_grouped <- function(data) {}
+#' Scale intensities of features using grouped vast scaling
+#'
+#' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
+#' @param group_column Which column should be used for grouping? Usually `grouping_column = Group`. Uses \code{\link[rlang]{args_data_masking}}.
+#'
+#' @return A tibble with vast scaled intensities.
+#' @export
+#'
+#' @references For further information, see
+#' <ul>
+#' <li>R. A. Van Den Berg, H. C. Hoefsloot, J. A. Westerhuis, A. K. Smilde, M. J. Van Der Werf, <i>BMC Genomics</i> <b>2006</b>, <i>7</i>, 142, DOI <a href = "https://doi.org/10.1186/1471-2164-7-142">10.1186/1471-2164-7-142</a>.</li>
+#' </ul>
+#'
+#' @examples
+#' toy_metaboscape %>%
+#'   join_metadata(toy_metaboscape_metadata) %>%
+#'   scale_vast_grouped()
+scale_vast_grouped <- function(data, group_column = .data$Group) {
+  data %>%
+    dplyr::group_by({{ group_column }}, .data$UID) %>%
+    dplyr::mutate(Group_mean_Int = mean(.data$Intensity, na.rm = TRUE),
+                  Group_sd_Int = stats::sd(.data$Intensity, na.rm = TRUE)) %>%
+    dplyr::ungroup() %>%
+    dplyr::group_by(.data$UID) %>%
+    dplyr::mutate(Intensity = ((.data$Intensity - mean(.data$Intensity, na.rm = TRUE)) / stats::sd(.data$Intensity, na.rm = TRUE)) * (.data$Group_mean_Int / .data$Group_sd_Int)) %>%
+    dplyr::ungroup() %>%
+    dplyr::select(-"Group_mean_Int", -"Group_sd_Int")
+}
