@@ -129,7 +129,7 @@ scale_pareto <- function(data) {
     dplyr::ungroup()
 }
 
-#' Scale intensities of features using unsupervised vast scaling
+#' Scale intensities of features using vast scaling
 #'
 #' @description
 #' Scales the intensities of all features using
@@ -139,7 +139,7 @@ scale_pareto <- function(data) {
 #' where \eqn{\widetilde{x}_{ij}} is the intensity of sample \eqn{j}, feature \eqn{i} after scaling,
 #' \eqn{x_{ij}} is the intensity of sample \eqn{j}, feature \eqn{i} before scaling, \eqn{\overline{x}_{i}} is the mean of intensities of feature \eqn{i} across all samples
 #' and \eqn{{s_i}} is the standard deviation of intensities of feature \eqn{i} across all samples. Note that \eqn{\frac{\overline{x}_{i}}{s_i} = \frac{{1}}{CV}} where CV is the coefficient of variation across all samples.
-#' \code{\link[metamorphr]{scale_vast_supervised}} is a variation of this function that uses a group-specific coefficient of variation.
+#' \code{\link[metamorphr]{scale_vast_grouped}} is a variation of this function that uses a group-specific coefficient of variation.
 #' In other words, it performs autoscaling (\code{\link[metamorphr]{scale_auto}}) and divides by the coefficient of variation, thereby reducing the importance of features with a poor reproducibility.
 #'
 #' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
@@ -155,8 +155,8 @@ scale_pareto <- function(data) {
 #'
 #' @examples
 #' toy_metaboscape %>%
-#'   scale_vast_unsupervised()
-scale_vast_unsupervised <- function(data) {
+#'   scale_vast()
+scale_vast <- function(data) {
   data %>%
     dplyr::group_by(.data$UID) %>%
     dplyr::mutate(Intensity = ((.data$Intensity - mean(.data$Intensity)) / stats::sd(.data$Intensity)) * (mean(.data$Intensity) / stats::sd(.data$Intensity))) %>%
