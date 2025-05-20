@@ -132,10 +132,13 @@ collapse_mean <- function(data, group_column = .data$Group, replicate_column = .
   # create a string from columns;
   # this approach is probably far from best practice but using .data is deprecated in tidyselect
   # (See https://www.tidyverse.org/blog/2022/10/tidyselect-1-2-0/) and I need a way to select() columns.
-  group_column_string <- gsub("\\.data\\$", "", gsub("`$", "", gsub("^`", "", rlang::expr_label(substitute(group_column)))))
-  replicate_column_string <- gsub("\\.data\\$", "", gsub("`$", "", gsub("^`", "", rlang::expr_label(substitute(replicate_column)))))
-  batch_column_string <- gsub("\\.data\\$", "", gsub("`$", "", gsub("^`", "", rlang::expr_label(substitute(batch_column)))))
+  #group_column_string <- gsub("\\.data\\$", "", gsub("`$", "", gsub("^`", "", rlang::expr_label(substitute(group_column)))))
+  #replicate_column_string <- gsub("\\.data\\$", "", gsub("`$", "", gsub("^`", "", rlang::expr_label(substitute(replicate_column)))))
+  #batch_column_string <- gsub("\\.data\\$", "", gsub("`$", "", gsub("^`", "", rlang::expr_label(substitute(batch_column)))))
 
+  group_column_string <- rlang::as_label(rlang::enquo(group_column))
+  replicate_column_string <- rlang::as_label(rlang::enquo(replicate_column))
+  batch_column_string <- rlang::as_label(rlang::enquo(batch_column))
   collapse_helper(collapse_fn = mean, collapse_fn_string = "mean", data = data, feature_metadata_cols, sample_metadata_cols, separator, group_column = {{ group_column }}, replicate_column = {{ replicate_column }}, batch_column = {{ batch_column }}, group_column_string = group_column_string, replicate_column_string = replicate_column_string, batch_column_string = batch_column_string)
 }
 
@@ -171,9 +174,9 @@ collapse_mean <- function(data, group_column = .data$Group, replicate_column = .
 #'
 collapse_median <- function(data, group_column = .data$Group, replicate_column = .data$Replicate, batch_column = .data$Batch, feature_metadata_cols = "Feature", sample_metadata_cols = NULL, separator = "_") {
   # See explanation in collapse_mean
-  group_column_string <- gsub("\\.data\\$", "", gsub("`$", "", gsub("^`", "", rlang::expr_label(substitute(group_column)))))
-  replicate_column_string <- gsub("\\.data\\$", "", gsub("`$", "", gsub("^`", "", rlang::expr_label(substitute(replicate_column)))))
-  batch_column_string <- gsub("\\.data\\$", "", gsub("`$", "", gsub("^`", "", rlang::expr_label(substitute(batch_column)))))
+  group_column_string <- rlang::as_label(rlang::enquo(group_column))
+  replicate_column_string <- rlang::as_label(rlang::enquo(replicate_column))
+  batch_column_string <- rlang::as_label(rlang::enquo(batch_column))
 
   collapse_helper(collapse_fn = stats::median, collapse_fn_string = "median", data = data, feature_metadata_cols, sample_metadata_cols, separator, group_column = {{ group_column }}, replicate_column = {{ replicate_column }}, batch_column = {{ batch_column }}, group_column_string = group_column_string, replicate_column_string = replicate_column_string, batch_column_string = batch_column_string)
 }
@@ -210,9 +213,9 @@ collapse_median <- function(data, group_column = .data$Group, replicate_column =
 #'
 collapse_min <- function(data, group_column = .data$Group, replicate_column = .data$Replicate, batch_column = .data$Batch, feature_metadata_cols = "Feature", sample_metadata_cols = NULL, separator = "_") {
   # See explanation in collapse_mean
-  group_column_string <- gsub("\\.data\\$", "", gsub("`$", "", gsub("^`", "", rlang::expr_label(substitute(group_column)))))
-  replicate_column_string <- gsub("\\.data\\$", "", gsub("`$", "", gsub("^`", "", rlang::expr_label(substitute(replicate_column)))))
-  batch_column_string <- gsub("\\.data\\$", "", gsub("`$", "", gsub("^`", "", rlang::expr_label(substitute(batch_column)))))
+  group_column_string <- rlang::as_label(rlang::enquo(group_column))
+  replicate_column_string <- rlang::as_label(rlang::enquo(replicate_column))
+  batch_column_string <- rlang::as_label(rlang::enquo(batch_column))
 
   collapse_helper(collapse_fn = min, collapse_fn_string = "min", data = data, feature_metadata_cols, sample_metadata_cols, separator, group_column = {{ group_column }}, replicate_column = {{ replicate_column }}, batch_column = {{ batch_column }}, group_column_string = group_column_string, replicate_column_string = replicate_column_string, batch_column_string = batch_column_string)
 }
@@ -249,9 +252,9 @@ collapse_min <- function(data, group_column = .data$Group, replicate_column = .d
 #'
 collapse_max <- function(data, group_column = .data$Group, replicate_column = .data$Replicate, batch_column = .data$Batch, feature_metadata_cols = "Feature", sample_metadata_cols = NULL, separator = "_") {
   # See explanation in collapse_mean
-  group_column_string <- gsub("\\.data\\$", "", gsub("`$", "", gsub("^`", "", rlang::expr_label(substitute(group_column)))))
-  replicate_column_string <- gsub("\\.data\\$", "", gsub("`$", "", gsub("^`", "", rlang::expr_label(substitute(replicate_column)))))
-  batch_column_string <- gsub("\\.data\\$", "", gsub("`$", "", gsub("^`", "", rlang::expr_label(substitute(batch_column)))))
+  group_column_string <- rlang::as_label(rlang::enquo(group_column))
+  replicate_column_string <- rlang::as_label(rlang::enquo(replicate_column))
+  batch_column_string <- rlang::as_label(rlang::enquo(batch_column))
 
   collapse_helper(collapse_fn = max, collapse_fn_string = "max", data = data, feature_metadata_cols, sample_metadata_cols, separator, group_column = {{ group_column }}, replicate_column = {{ replicate_column }}, batch_column = {{ batch_column }}, group_column_string = group_column_string, replicate_column_string = replicate_column_string, batch_column_string = batch_column_string)
 }
