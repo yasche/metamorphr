@@ -328,7 +328,27 @@ impute_rf <- function(data, random_seed = 1L, ...) {
   data_obs_imp
 }
 
+impute_nipals <- function() {
+
+}
+
+impute_bpca <- function() {
+
+}
+
+impute_ppca <- function() {
+
+}
+
 impute_svd <- function() {
+
+}
+
+impute_nlpca <- function() {
+
+}
+
+impute_lls <- function() {
 
 }
 

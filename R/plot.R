@@ -126,3 +126,112 @@ plot_volcano <- function(data, group_column, name_column, groups_to_compare, bat
 
   p
 }
+
+#' Draws a scores or loadings plot or performs calculations necessary to draw them manually
+#'
+#' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
+#' @param method A character specifying one of the available methods ("svd", "nipals", "rnipals", "bpca", "ppca", "svdImpute", "robustPca", "nlpca", "llsImpute", "llsImputeAll"). If the default is used ("svd") an SVD PCA will be done, in case `data` does not contain missing values, or a NIPALS PCA if `data` does contain missing values.
+#' @param what Specifies what should be returned. Either `"scores"` or `"loadings"`.
+#' @param n_pcs The number of PCs to calculate.
+#' @param pcs A vector containing 2 integers that specifies the PCs to plot. The following condition applies: `max(pcs) <= n_pcs`.
+#' @param center Should `data` be mean centered? See \code{\link[pcaMethods]{prep}} for details.
+#' @param group_column Either `NULL` or a column in `data` (e.g., `group_column = Group`). If provided, the dots in the scores plot will be colored according to their group. Only relevant if `what = "scores"`.
+#' @param name_column Either `NULL` or a column in `data` (e.g., `name_column = Feature`). If provided, feature names are preserved in the resulting tibble. Only relevant if `what = "loadings"` & `return_tbl = TRUE`.
+#' @param return_tbl A logical. If `FALSE`, returns a ggplot2 object, if `TRUE` returns a tibble which can be used to draw the plot manually to have more control.
+#' @param verbose Should outputs from \code{\link[pcaMethods]{pca}} be printed to the console?
+#'
+#' @return
+#' @export
+#'
+#' @examples
+plot_pca <- function(data, method = "svd", what = "scores", n_pcs = 2, pcs = c(1, 2), center = TRUE, group_column = NULL, name_column = NULL, return_tbl = FALSE, verbose = FALSE) {
+  n_pcs_int <- as.integer(n_pcs)
+  if (n_pcs_int < 1 | is.na(n_pcs_int)) {
+    rlang::abort(paste0("Argument n_pcs must be an integer (or a numeric) larger than 0, not `", as.character(n_pcs), "`."))
+  }
+
+  first_pc <- paste0("PC", as.character(pcs[[1]]))
+  second_pc <- paste0("PC", as.character(pcs[[2]]))
+
+  group_exists <- FALSE
+  name_exists <- FALSE
+
+  if (rlang::as_label(rlang::enquo(group_column)) != "NULL") {
+    data_groups <- data %>%
+      dplyr::select("Sample", {{ group_column }}) %>%
+      dplyr::distinct()
+
+    group_exists <- TRUE
+  }
+
+  if (rlang::as_label(rlang::enquo(name_column)) != "NULL") {
+    data_names <- data %>%
+      dplyr::select("UID", {{ name_column }}) %>%
+      dplyr::distinct()
+
+    name_exists <- TRUE
+  }
+
+  data <- data %>%
+    dplyr::select("UID", "Sample", "Intensity") %>%
+    tidyr::spread(key = "UID", value = "Intensity")
+
+  data_samples <- data$Sample
+
+  data <- data %>%
+    select(-"Sample") %>%
+    as.matrix()
+
+  rownames(data) <- data_samples
+
+  pca_res <- pcaMethods::pca(data, method = method, nPcs = n_pcs_int, scale = "none", center = center, completeObs = TRUE)
+
+  if (verbose == TRUE) {
+    print(pca_res)
+  }
+
+  pca_scores <- pca_res@scores %>%
+    tibble::as_tibble(rownames = "Sample")
+
+  pca_loadings <- pca_res@loadings %>%
+    tibble::as_tibble(rownames = "UID")
+
+  if (what == "scores") {
+    if (group_exists == TRUE) {
+      pca_scores <- pca_scores %>%
+        left_join(data_groups, by = "Sample")
+    }
+
+    if (return_tbl == TRUE) {
+      return(pca_scores)
+    } else {
+      if (group_exists == TRUE) {
+        p <- ggplot(pca_scores, aes(.data[[first_pc]], .data[[second_pc]], color = {{ group_column }}))
+      } else {
+        p <- ggplot(pca_scores, aes(.data[[first_pc]], .data[[second_pc]]))
+      }
+      p <- p + xlab(first_pc) + ylab(second_pc)
+
+    }
+  } else if (what == "loadings") {
+    if (name_exists == TRUE) {
+      pca_loadings <- pca_loadings %>%
+        left_join(data_samples, by = "UID")
+    }
+
+    if (return_tbl == TRUE) {
+      return(pca_loadings)
+    } else {
+      if (group_exists == TRUE) {
+        p <- ggplot(pca_loadings, aes(.data[[first_pc]], .data[[second_pc]], color = {{ group_column }}))
+      } else {
+        p <- ggplot(pca_loadings, aes(.data[[first_pc]], .data[[second_pc]]))
+      }
+      p <- p + xlab(first_pc) + ylab(second_pc)
+
+    }
+  }
+
+  p + geom_point()
+
+}
