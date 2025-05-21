@@ -17,6 +17,7 @@ Imports:
     impute,
     magrittr,
     missForest,
+    pcaMethods,
     purrr,
     readr,
     rlang,

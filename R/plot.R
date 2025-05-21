@@ -129,6 +129,18 @@ plot_volcano <- function(data, group_column, name_column, groups_to_compare, bat
 
 #' Draws a scores or loadings plot or performs calculations necessary to draw them manually
 #'
+#' @description
+#' Performs PCA and creates a Scores or Loadings plot. Basically a wrapper around `pcaMethods::`\code{\link[pcaMethods]{pca}}
+#' The plot is drawn with <a href = "https://ggplot2.tidyverse.org/">ggplot2</a> and can therefore be easily manipulated afterwards (e.g., changing the theme or the axis labels).
+#' Please note that the function is intended to be easy to use and beginner friendly and therefore offers limited ability to fine-tune certain parameters of the resulting plot.
+#' If you wish to draw the plot yourself, you can set `return_tbl = TRUE`. In this case, a tibble is returned instead of a ggplot2 object which you can use to create a plot yourself.
+#'
+#' <b>Important Note</b><br>
+#' `plot_pca()` depends on the `pcaMethods` package from Bioconductor. If `metamorphr` was installed via `install.packages()`, dependencies from Bioconductor were not
+#' automatically installed. When `plot_pca()` is called without the `pcaMethods` package installed, you should be asked if you want to install `pak` and `pcaMethods`.
+#' If you want to use `plot_pca()` you have to install those. In case you run into trouble with the automatic installation, please install `pcaMethods` manually. See
+#' <a href = "https://www.bioconductor.org/packages/release/bioc/html/pcaMethods.html">pcaMethods – a Bioconductor package providing PCA methods for incomplete data.</a> for instructions on manual installation.
+#'
 #' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
 #' @param method A character specifying one of the available methods ("svd", "nipals", "rnipals", "bpca", "ppca", "svdImpute", "robustPca", "nlpca", "llsImpute", "llsImputeAll"). If the default is used ("svd") an SVD PCA will be done, in case `data` does not contain missing values, or a NIPALS PCA if `data` does contain missing values.
 #' @param what Specifies what should be returned. Either `"scores"` or `"loadings"`.
@@ -140,11 +152,32 @@ plot_volcano <- function(data, group_column, name_column, groups_to_compare, bat
 #' @param return_tbl A logical. If `FALSE`, returns a ggplot2 object, if `TRUE` returns a tibble which can be used to draw the plot manually to have more control.
 #' @param verbose Should outputs from \code{\link[pcaMethods]{pca}} be printed to the console?
 #'
-#' @return
+#' @return Either a Scores or Loadings Plot in the form of a ggplot2 object or a tibble.
 #' @export
 #'
 #' @examples
+#' # Draw a Scores Plot
+#' toy_metaboscape %>%
+#'   impute_lod() %>%
+#'   join_metadata(toy_metaboscape_metadata) %>%
+#'   plot_pca(what = "scores", group_column = Group)
+#'
+#' # Draw a Loadings Plot
+#' toy_metaboscape %>%
+#'   impute_lod() %>%
+#'   join_metadata(toy_metaboscape_metadata) %>%
+#'   plot_pca(what = "loadings", name_column = Feature)
 plot_pca <- function(data, method = "svd", what = "scores", n_pcs = 2, pcs = c(1, 2), center = TRUE, group_column = NULL, name_column = NULL, return_tbl = FALSE, verbose = FALSE) {
+  # impute is a bioconductor package so it is not installed with metamorphr if installed via install.packages().
+  # check if it installed first
+  # also check, if pak is installed
+  if (!is_installed_wrapper("pcaMethods")) {
+    if (!is_installed_wrapper("pak")) {
+      check_installed_wrapper("pak")
+      check_installed_wrapper("pcaMethods")
+    }
+    check_installed_wrapper("pcaMethods")
+  }
   n_pcs_int <- as.integer(n_pcs)
   if (n_pcs_int < 1 | is.na(n_pcs_int)) {
     rlang::abort(paste0("Argument n_pcs must be an integer (or a numeric) larger than 0, not `", as.character(n_pcs), "`."))
@@ -179,7 +212,7 @@ plot_pca <- function(data, method = "svd", what = "scores", n_pcs = 2, pcs = c(1
   data_samples <- data$Sample
 
   data <- data %>%
-    select(-"Sample") %>%
+    dplyr::select(-"Sample") %>%
     as.matrix()
 
   rownames(data) <- data_samples
@@ -194,44 +227,43 @@ plot_pca <- function(data, method = "svd", what = "scores", n_pcs = 2, pcs = c(1
     tibble::as_tibble(rownames = "Sample")
 
   pca_loadings <- pca_res@loadings %>%
-    tibble::as_tibble(rownames = "UID")
+    tibble::as_tibble(rownames = "UID") %>%
+    dplyr::mutate(UID = as.integer(.data$UID))
 
   if (what == "scores") {
     if (group_exists == TRUE) {
       pca_scores <- pca_scores %>%
-        left_join(data_groups, by = "Sample")
+        dplyr::left_join(data_groups, by = "Sample")
     }
 
     if (return_tbl == TRUE) {
       return(pca_scores)
     } else {
       if (group_exists == TRUE) {
-        p <- ggplot(pca_scores, aes(.data[[first_pc]], .data[[second_pc]], color = {{ group_column }}))
+        p <- ggplot2::ggplot(pca_scores, ggplot2::aes(.data[[first_pc]], .data[[second_pc]], color = {{ group_column }}))
       } else {
-        p <- ggplot(pca_scores, aes(.data[[first_pc]], .data[[second_pc]]))
+        p <- ggplot2::ggplot(pca_scores, ggplot2::aes(.data[[first_pc]], .data[[second_pc]]))
       }
-      p <- p + xlab(first_pc) + ylab(second_pc)
+      p <- p + ggplot2::xlab(first_pc) + ggplot2::ylab(second_pc) + ggplot2::labs(title = "Scores Plot")
 
     }
   } else if (what == "loadings") {
     if (name_exists == TRUE) {
       pca_loadings <- pca_loadings %>%
-        left_join(data_samples, by = "UID")
+        dplyr::left_join(data_names, by = "UID")
     }
 
     if (return_tbl == TRUE) {
       return(pca_loadings)
     } else {
-      if (group_exists == TRUE) {
-        p <- ggplot(pca_loadings, aes(.data[[first_pc]], .data[[second_pc]], color = {{ group_column }}))
-      } else {
-        p <- ggplot(pca_loadings, aes(.data[[first_pc]], .data[[second_pc]]))
-      }
-      p <- p + xlab(first_pc) + ylab(second_pc)
+      p <- ggplot2::ggplot(pca_loadings, ggplot2::aes(.data[[first_pc]], .data[[second_pc]])) +
+        ggplot2::xlab(first_pc) +
+        ggplot2::ylab(second_pc) +
+        ggplot2::labs(title = "Loadings Plot")
 
     }
   }
 
-  p + geom_point()
+  p + ggplot2::geom_point()
 
 }

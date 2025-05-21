@@ -10,9 +10,11 @@ plot_pca(
   what = "scores",
   n_pcs = 2,
   pcs = c(1, 2),
+  center = TRUE,
   group_column = NULL,
   name_column = NULL,
-  return_tbl = FALSE
+  return_tbl = FALSE,
+  verbose = FALSE
 )
 }
 \arguments{
@@ -26,12 +28,41 @@ plot_pca(
 
 \item{pcs}{A vector containing 2 integers that specifies the PCs to plot. The following condition applies: \code{max(pcs) <= n_pcs}.}
 
+\item{center}{Should \code{data} be mean centered? See \code{\link[pcaMethods]{prep}} for details.}
+
 \item{group_column}{Either \code{NULL} or a column in \code{data} (e.g., \code{group_column = Group}). If provided, the dots in the scores plot will be colored according to their group. Only relevant if \code{what = "scores"}.}
 
 \item{name_column}{Either \code{NULL} or a column in \code{data} (e.g., \code{name_column = Feature}). If provided, feature names are preserved in the resulting tibble. Only relevant if \code{what = "loadings"} & \code{return_tbl = TRUE}.}
 
 \item{return_tbl}{A logical. If \code{FALSE}, returns a ggplot2 object, if \code{TRUE} returns a tibble which can be used to draw the plot manually to have more control.}
+
+\item{verbose}{Should outputs from \code{\link[pcaMethods]{pca}} be printed to the console?}
+}
+\value{
+Either a Scores or Loadings Plot in the form of a ggplot2 object or a tibble.
 }
 \description{
-Draws a scores or loadings plot or performs calculations necessary to draw them manually
+Performs PCA and creates a Scores or Loadings plot. Basically a wrapper around \verb{pcaMethods::}\code{\link[pcaMethods]{pca}}
+The plot is drawn with \if{html}{\out{<a href = "https://ggplot2.tidyverse.org/">}}ggplot2\if{html}{\out{</a>}} and can therefore be easily manipulated afterwards (e.g., changing the theme or the axis labels).
+Please note that the function is intended to be easy to use and beginner friendly and therefore offers limited ability to fine-tune certain parameters of the resulting plot.
+If you wish to draw the plot yourself, you can set \code{return_tbl = TRUE}. In this case, a tibble is returned instead of a ggplot2 object which you can use to create a plot yourself.
+
+\if{html}{\out{<b>}}Important Note\if{html}{\out{</b>}}\if{html}{\out{<br>}}
+\code{plot_pca()} depends on the \code{pcaMethods} package from Bioconductor. If \code{metamorphr} was installed via \code{install.packages()}, dependencies from Bioconductor were not
+automatically installed. When \code{plot_pca()} is called without the \code{pcaMethods} package installed, you should be asked if you want to install \code{pak} and \code{pcaMethods}.
+If you want to use \code{plot_pca()} you have to install those. In case you run into trouble with the automatic installation, please install \code{pcaMethods} manually. See
+\if{html}{\out{<a href = "https://www.bioconductor.org/packages/release/bioc/html/pcaMethods.html">}}pcaMethods – a Bioconductor package providing PCA methods for incomplete data.\if{html}{\out{</a>}} for instructions on manual installation.
+}
+\examples{
+# Draw a Scores Plot
+toy_metaboscape \%>\%
+  impute_lod() \%>\%
+  join_metadata(toy_metaboscape_metadata) \%>\%
+  plot_pca(what = "scores", group_column = Group)
+
+# Draw a Loadings Plot
+toy_metaboscape \%>\%
+  impute_lod() \%>\%
+  join_metadata(toy_metaboscape_metadata) \%>\%
+  plot_pca(what = "loadings", name_column = Feature)
 }
