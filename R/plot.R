@@ -145,7 +145,7 @@ plot_volcano <- function(data, group_column, name_column, groups_to_compare, bat
 #' @param method A character specifying one of the available methods ("svd", "nipals", "rnipals", "bpca", "ppca", "svdImpute", "robustPca", "nlpca", "llsImpute", "llsImputeAll"). If the default is used ("svd") an SVD PCA will be done, in case `data` does not contain missing values, or a NIPALS PCA if `data` does contain missing values.
 #' @param what Specifies what should be returned. Either `"scores"` or `"loadings"`.
 #' @param n_pcs The number of PCs to calculate.
-#' @param pcs A vector containing 2 integers that specifies the PCs to plot. The following condition applies: `max(pcs) <= n_pcs`.
+#' @param pcs A vector containing 2 integers that specifies the PCs to plot. Only relevant if `return_tbl = FALSE`. The following condition applies: `max(pcs) <= n_pcs`.
 #' @param center Should `data` be mean centered? See \code{\link[pcaMethods]{prep}} for details.
 #' @param group_column Either `NULL` or a column in `data` (e.g., `group_column = Group`). If provided, the dots in the scores plot will be colored according to their group. Only relevant if `what = "scores"`.
 #' @param name_column Either `NULL` or a column in `data` (e.g., `name_column = Feature`). If provided, feature names are preserved in the resulting tibble. Only relevant if `what = "loadings"` & `return_tbl = TRUE`.

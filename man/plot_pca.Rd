@@ -26,7 +26,7 @@ plot_pca(
 
 \item{n_pcs}{The number of PCs to calculate.}
 
-\item{pcs}{A vector containing 2 integers that specifies the PCs to plot. The following condition applies: \code{max(pcs) <= n_pcs}.}
+\item{pcs}{A vector containing 2 integers that specifies the PCs to plot. Only relevant if \code{return_tbl = FALSE}. The following condition applies: \code{max(pcs) <= n_pcs}.}
 
 \item{center}{Should \code{data} be mean centered? See \code{\link[pcaMethods]{prep}} for details.}
 
