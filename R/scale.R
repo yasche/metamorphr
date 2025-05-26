@@ -165,6 +165,9 @@ scale_vast <- function(data) {
 
 #' Scale intensities of features using grouped vast scaling
 #'
+#' @description
+#' A variation of \code{\link[metamorphr]{scale_vast}} but uses a group-specific coefficient of variation and therefore requires group information. See \code{\link[metamorphr]{scale_vast}} and the References section for more information.
+#'
 #' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
 #' @param group_column Which column should be used for grouping? Usually `grouping_column = Group`. Uses \code{\link[rlang]{args_data_masking}}.
 #'
@@ -192,4 +195,38 @@ scale_vast_grouped <- function(data, group_column = .data$Group) {
     dplyr::mutate(Intensity = ((.data$Intensity - mean(.data$Intensity, na.rm = TRUE)) / stats::sd(.data$Intensity, na.rm = TRUE)) * (.data$Group_mean_Int / .data$Group_sd_Int)) %>%
     dplyr::ungroup() %>%
     dplyr::select(-"Group_mean_Int", -"Group_sd_Int")
+}
+
+
+#' Scale intensities of features using level scaling
+#'
+#' @description
+#' Scales the intensities of all features using
+#'
+#' \deqn{\widetilde{x}_{ij}=\frac{x_{ij}-\overline{x}_{i}}{\overline{x}_{i}}}
+#'
+#' where \eqn{\widetilde{x}_{ij}} is the intensity of sample \eqn{j}, feature \eqn{i} after scaling,
+#' \eqn{x_{ij}} is the intensity of sample \eqn{j}, feature \eqn{i} before scaling and \eqn{\overline{x}_{i}} is the mean of intensities of feature \eqn{i} across all samples
+#'
+#' In other words, it performs centering (\code{\link[metamorphr]{scale_center}}) and divides by the feature mean, thereby focusing on the relative intensity.
+#'
+#' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
+#'
+#' @return A tibble with level scaled intensities.
+#' @export
+#'
+#' @references For further information, see
+#' <ul>
+#' <li>R. A. Van Den Berg, H. C. Hoefsloot, J. A. Westerhuis, A. K. Smilde, M. J. Van Der Werf, <i>BMC Genomics</i> <b>2006</b>, <i>7</i>, 142, DOI <a href = "https://doi.org/10.1186/1471-2164-7-142">10.1186/1471-2164-7-142</a>.</li>
+#' </ul>
+#'
+#' @examples
+#' toy_metaboscape %>%
+#'   impute_lod() %>%
+#'   scale_level()
+scale_level <- function(data) {
+  data %>%
+    group_by(.data$UID) %>%
+    mutate(Intensity = (.data$Intensity - mean(.data$Intensity)) / mean(.data$Intensity)) %>%
+    ungroup()
 }

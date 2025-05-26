@@ -15,7 +15,7 @@ scale_vast_grouped(data, group_column = .data$Group)
 A tibble with vast scaled intensities.
 }
 \description{
-Scale intensities of features using grouped vast scaling
+A variation of \code{\link[metamorphr]{scale_vast}} but uses a group-specific coefficient of variation and therefore requires group information. See \code{\link[metamorphr]{scale_vast}} and the References section for more information.
 }
 \examples{
 toy_metaboscape \%>\%
