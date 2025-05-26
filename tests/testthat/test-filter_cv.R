@@ -152,3 +152,9 @@ test_that("filter_cv() produces equal results for ref_as_group = TRUE and FALSE,
 
   expect_equal(filtered_features_groups, filtered_features_features)
 })
+
+test_that("filter_cv() does not throw a warning if group = .data$Group", {
+  expect_no_warning(toy_metaboscape %>%
+                      join_metadata(toy_metaboscape_metadata) %>%
+                      filter_cv(reference_samples = "QC", ref_as_group = T, group_column = .data$Group))
+})

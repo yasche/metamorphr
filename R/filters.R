@@ -142,7 +142,7 @@ filter_cv <- function(data, reference_samples, max_cv = 0.2, ref_as_group = FALS
 
   if (ref_as_group == TRUE) {
     data <- data %>%
-      dplyr::mutate(Intensity_ref = dplyr::case_when(dplyr::select(data, {{ group_column }}) == reference_samples ~ .data$Intensity, .default = NA))
+      dplyr::mutate(Intensity_ref = dplyr::case_when({{ group_column }} == reference_samples ~ .data$Intensity, .default = NA))
   } else {
     data <- data %>%
       dplyr::mutate(Intensity_ref = dplyr::case_when(.data$Sample %in% reference_samples ~ .data$Intensity, .default = NA))
@@ -208,8 +208,8 @@ filter_blank <- function(data, blank_samples, min_frac = 3, blank_as_group = FAL
         frac_sb = .data$max_sample / .data$max_blank
       )
   } else {
-    group_column_str <- rlang::expr_label(substitute(group_column))
-    group_column_str <- gsub("`", "", group_column_str)
+    group_column_str <- rlang::as_label(rlang::enquo(group_column))
+    #group_column_str <- gsub("`", "", group_column_str)
 
     if (group_column_str == "NULL") {
       stop("group_column can't be NULL if `blank_as_group = TRUE`.\nUsually `group_column = Group`.")
@@ -221,8 +221,8 @@ filter_blank <- function(data, blank_samples, min_frac = 3, blank_as_group = FAL
 
     data <- data %>%
       dplyr::mutate(
-        max_blank = dplyr::case_when(dplyr::select(data, {{ group_column }}) == blank_samples ~ .data$Intensity, .default = NA),
-        max_sample = dplyr::case_when(!(dplyr::select(data, {{ group_column }}) == blank_samples) ~ .data$Intensity, .default = NA)
+        max_blank = dplyr::case_when({{ group_column }} == blank_samples ~ .data$Intensity, .default = NA),
+        max_sample = dplyr::case_when(!({{ group_column }} == blank_samples) ~ .data$Intensity, .default = NA)
       ) %>%
       dplyr::group_by(.data$UID) %>%
       dplyr::mutate(

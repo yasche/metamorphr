@@ -134,3 +134,9 @@ test_that("throws error if group_column is provided as character", {
 
   expect_error(filter_blank(filtered_features, min_frac = 0, blank_samples = "b", blank_as_group = TRUE, group_column = "Group"))
 })
+
+test_that("filter_blank() does not throw a warning if group = .data$Group", {
+  expect_no_warning(toy_metaboscape %>% join_metadata(toy_metaboscape_metadata) %>% filter_blank(blank_samples = "blank", blank_as_group = T, group_column = .data$Group))
+})
+
+
