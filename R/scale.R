@@ -226,7 +226,7 @@ scale_vast_grouped <- function(data, group_column = .data$Group) {
 #'   scale_level()
 scale_level <- function(data) {
   data %>%
-    group_by(.data$UID) %>%
-    mutate(Intensity = (.data$Intensity - mean(.data$Intensity)) / mean(.data$Intensity)) %>%
-    ungroup()
+    dplyr::group_by(.data$UID) %>%
+    dplyr::mutate(Intensity = (.data$Intensity - mean(.data$Intensity)) / mean(.data$Intensity)) %>%
+    dplyr::ungroup()
 }
