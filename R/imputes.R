@@ -328,27 +328,46 @@ impute_rf <- function(data, random_seed = 1L, ...) {
   data_obs_imp
 }
 
-impute_nipals <- function() {
+impute_nipals <- function(data, n_pcs = 2, center = TRUE, scale = "none", direction = 1) {
+  # pcaMethods is a bioconductor package so it is not installed with metamorphr if installed via install.packages().
+  # check if it installed first
+  # also check, if pak is installed
+  if (!is_installed_wrapper("pcaMethods")) {
+    if (!is_installed_wrapper("pak")) {
+      check_installed_wrapper("pak")
+      check_installed_wrapper("pcaMethods")
+    }
+    check_installed_wrapper("pcaMethods")
+  }
+
+  data_list <- internal_prep_pca_imputes(data = data, direction = direction)
+
+  data <- data_list$data
+
+
+  data <- pcaMethods::pca(data, nPcs = n_pcs, method = "nipals")
+  data <- pcaMethods::completeObs(data)
+
+  internal_clean_pca_results(data = data, direction = direction, data_list = data_list)
+}
+
+impute_bpca <- function(data, n_pcs = 2, center = TRUE, scale = "none", direction = 1) {
 
 }
 
-impute_bpca <- function() {
+impute_ppca <- function(data, n_pcs = 2, center = TRUE, scale = "none", direction = 1) {
 
 }
 
-impute_ppca <- function() {
+impute_svd <- function(data, n_pcs = 2, center = TRUE, scale = "none", direction = 1) {
 
 }
 
-impute_svd <- function() {
+impute_nlpca <- function(data, n_pcs = 2, center = TRUE, scale = "none", direction = 1) {
 
 }
 
-impute_nlpca <- function() {
-
-}
-
-impute_lls <- function() {
+impute_lls <- function(data, n_pcs = 2, center = TRUE, scale = "none", direction = 1) {
 
 }
 

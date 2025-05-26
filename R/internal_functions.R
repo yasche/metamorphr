@@ -68,3 +68,59 @@ internal_l2fc <- function(data, group_column, groups_to_compare, log2_before) {
 
   group_2 - group_1
 }
+
+internal_prep_pca_imputes <- function(data, direction) {
+  # get column order for later
+  data_colorder <- colnames(data)
+
+  # get sample and feature metadata
+  data_rownums <- 1:nrow(data)
+  metadata <- data %>%
+    dplyr::select(-"Intensity") %>%
+    dplyr::mutate(RowNum = .env$data_rownums)
+
+  # remove sample metadata
+  data <- dplyr::select(data, "UID", "Sample", "Intensity")
+
+  if (direction == 1) {
+    data <- tidyr::spread(data, key = "Sample", value = "Intensity")
+  } else if (direction == 2) {
+    data <- tidyr::spread(data, key = "UID", value = "Intensity")
+  } else {
+    rlang::abort(paste0("`direction` must be 1 or 2, not ", as.character(direction), "."))
+  }
+
+  data_rownames <- data[[1]]
+
+  data <- data %>%
+    dplyr::select(-1) %>%
+    as.matrix()
+
+  rownames(data) <- data_rownames
+
+  list(data = data,
+       data_colorder = data_colorder,
+       metadata = metadata)
+}
+
+internal_clean_pca_results <- function(data, direction, data_list) {
+
+  data_colorder <- data_list$data_colorder
+  metadata <- data_list$metadata
+
+  if (direction == 1) {
+    data <- tibble::as_tibble(data, rownames = "UID") %>%
+      tidyr::gather(key = "Sample", value = "Intensity", -"UID")
+  } else if (direction == 2) {
+    data <- tibble::as_tibble(data, rownames = "Sample") %>%
+      tidyr::gather(key = "UID", value = "Intensity", -"Sample")
+  }
+
+  data %>%
+    dplyr::mutate(UID = as.integer(.data$UID)) %>%
+    dplyr::left_join(metadata, by = dplyr::join_by(Sample, UID)) %>%
+    dplyr::relocate(dplyr::all_of(data_colorder)) %>%
+    dplyr::arrange(RowNum) %>%
+    dplyr::select(-"RowNum")
+
+}

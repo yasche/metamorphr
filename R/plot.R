@@ -168,7 +168,7 @@ plot_volcano <- function(data, group_column, name_column, groups_to_compare, bat
 #'   join_metadata(toy_metaboscape_metadata) %>%
 #'   plot_pca(what = "loadings", name_column = Feature)
 plot_pca <- function(data, method = "svd", what = "scores", n_pcs = 2, pcs = c(1, 2), center = TRUE, group_column = NULL, name_column = NULL, return_tbl = FALSE, verbose = FALSE) {
-  # impute is a bioconductor package so it is not installed with metamorphr if installed via install.packages().
+  # pcaMethods is a bioconductor package so it is not installed with metamorphr if installed via install.packages().
   # check if it installed first
   # also check, if pak is installed
   if (!is_installed_wrapper("pcaMethods")) {
