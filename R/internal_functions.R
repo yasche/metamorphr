@@ -119,9 +119,9 @@ internal_clean_pca_results <- function(data_list, direction) {
 
   data %>%
     dplyr::mutate(UID = as.integer(.data$UID)) %>%
-    dplyr::left_join(metadata, by = dplyr::join_by(Sample, UID)) %>%
+    dplyr::left_join(metadata, by = dplyr::join_by("Sample", "UID")) %>%
     dplyr::relocate(dplyr::all_of(data_colorder)) %>%
-    dplyr::arrange(RowNum) %>%
+    dplyr::arrange(.data$RowNum) %>%
     dplyr::select(-"RowNum")
 
 }

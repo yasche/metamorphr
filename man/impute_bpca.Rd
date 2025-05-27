@@ -36,7 +36,7 @@ toy_metaboscape \%>\%
   impute_bpca()
 }
 \references{
-\if{html}{\out{
+For further information, see\if{html}{\out{
 <ul>
 <li>H. R. Wolfram Stacklies, <b>2017</b>, DOI <a href = "https://doi.org/10.18129/B9.BIOC.PCAMETHODS">10.18129/B9.BIOC.PCAMETHODS</a>.</li>
 <li>W. Stacklies, H. Redestig, M. Scholz, D. Walther, J. Selbig, <i>Bioinformatics</i> <b>2007</b>, <i>23</i>, 1164–1167, DOI <a href = "https://doi.org/10.1093/bioinformatics/btm069">10.1093/bioinformatics/btm069</a>.</li>
