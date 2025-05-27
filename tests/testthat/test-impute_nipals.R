@@ -84,3 +84,64 @@ test_that("direction = 2 gives the same results as pcaMethods::pca on a matrix w
   expect_true("X0h" %in% rownames(metaboliteData_t))
   expect_true("Xylose methoxyamine (4TMS)" %in% colnames(metaboliteData_t))
 })
+
+
+test_that("Error if package pcaMethods is not installed", {
+  local_mocked_bindings(
+    is_installed_wrapper = function(pkg) {
+      if (pkg == "pcaMethods") {
+        FALSE
+      } else {
+        TRUE
+      }
+    },
+    check_installed_wrapper = function(pkg) {
+      if (pkg == "pcaMethods") {
+        stop("")
+      }
+    }
+  )
+
+  expect_error(toy_metaboscape %>%
+                 impute_nipals())
+})
+
+test_that("Error if package impute and pak are not installed", {
+  local_mocked_bindings(
+    is_installed_wrapper = function(pkg) {
+      if (pkg == "pcaMethods" | pkg == "pak") {
+        FALSE
+      } else {
+        TRUE
+      }
+    },
+    check_installed_wrapper = function(pkg) {
+      if (pkg == "pcaMethods" | pkg == "pak") {
+        stop("")
+      }
+    }
+  )
+
+  expect_error(toy_metaboscape %>%
+                 impute_nipals())
+})
+
+test_that('check_installed_wrapper("impute") is triggered', {
+  local_mocked_bindings(
+    is_installed_wrapper = function(pkg) {
+      if (pkg == "pcaMethods" | pkg == "pak") {
+        FALSE
+      } else {
+        TRUE
+      }
+    },
+    check_installed_wrapper = function(pkg) {
+      if (pkg == "pcaMethods") {
+        stop("")
+      }
+    }
+  )
+
+  expect_error(toy_metaboscape %>%
+                 impute_nipals())
+})
