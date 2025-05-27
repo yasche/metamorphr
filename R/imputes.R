@@ -437,8 +437,59 @@ impute_bpca <- function(data, n_pcs = 2, center = TRUE, scale = "none", directio
   internal_clean_pca_results(data_list = data_list, direction = direction)
 }
 
-impute_ppca <- function(data, n_pcs = 2, center = TRUE, scale = "none", direction = 2) {
+#' Impute missing values using Probabilistic PCA
+#'
+#'
+#' @description
+#' One of several PCA-based imputation methods. Basically a wrapper around `pcaMethods::`\code{\link[pcaMethods]{pca}}`(method = "ppca")`.
+#' For a detailed discussion, see the `vignette("pcaMethods")` and `vignette("missingValues", "pcaMethods")` as well as the References section.
+#'
+#' <b>Important Note</b><br>
+#' `impute_ppca()` depends on the `pcaMethods` package from Bioconductor. If `metamorphr` was installed via `install.packages()`, dependencies from Bioconductor were not
+#' automatically installed. When `impute_ppca()` is called without the `pcaMethods` package installed, you should be asked if you want to install `pak` and `pcaMethods`.
+#' If you want to use `impute_ppca()` you have to install those. In case you run into trouble with the automatic installation, please install `pcaMethods` manually. See
+#' <a href = "https://www.bioconductor.org/packages/release/bioc/html/pcaMethods.html">pcaMethods – a Bioconductor package providing PCA methods for incomplete data.</a> for instructions on manual installation.
+#'
+#' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
+#' @param n_pcs The number of PCs to calculate.
+#' @param center Should `data` be mean centered? See \code{\link[pcaMethods]{prep}} for details.
+#' @param scale Should `data` be scaled? See \code{\link[pcaMethods]{prep}} for details.
+#' @param direction Either `1` or `2`. `1` runs a PCA on a matrix with samples in columns and features in rows and `2` runs a PCA on a matrix with features in columns and samples in rows.
+#' Both are valid according to this <a href = "https://github.com/hredestig/pcaMethods/issues/25">discussion on GitHub</a> but give <b>different results</b>.
+#' @param random_seed An integer used as seed for the random number generator.
+#'
+#' @return A tibble with imputed missing values.
+#' @export
+#'
+#' @references For further information, see
+#' <ul>
+#' <li>H. R. Wolfram Stacklies, <b>2017</b>, DOI <a href = "https://doi.org/10.18129/B9.BIOC.PCAMETHODS">10.18129/B9.BIOC.PCAMETHODS</a>.</li>
+#' <li>W. Stacklies, H. Redestig, M. Scholz, D. Walther, J. Selbig, <i>Bioinformatics</i> <b>2007</b>, <i>23</i>, 1164–1167, DOI <a href = "https://doi.org/10.1093/bioinformatics/btm069">10.1093/bioinformatics/btm069</a>.</li>
+#' </ul>
+#'
+#' @examples
+#' toy_metaboscape %>%
+#'   impute_ppca()
+impute_ppca <- function(data, n_pcs = 2, center = TRUE, scale = "none", direction = 2, random_seed = 1L) {
+  # pcaMethods is a bioconductor package so it is not installed with metamorphr if installed via install.packages().
+  # check if it installed first
+  # also check, if pak is installed
+  if (!is_installed_wrapper("pcaMethods")) {
+    if (!is_installed_wrapper("pak")) {
+      check_installed_wrapper("pak")
+      check_installed_wrapper("pcaMethods")
+    }
+    check_installed_wrapper("pcaMethods")
+  }
 
+  data_list <- internal_prep_pca_imputes(data = data, direction = direction)
+
+  #data <- data_list$data
+
+  data_list$data <- withr::with_seed(seed = random_seed, pcaMethods::pca(data_list$data, nPcs = n_pcs, method = "ppca"))
+  data_list$data <- pcaMethods::completeObs(data_list$data)
+
+  internal_clean_pca_results(data_list = data_list, direction = direction)
 }
 
 impute_svd <- function(data, n_pcs = 2, center = TRUE, scale = "none", direction = 2) {
