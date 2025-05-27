@@ -103,10 +103,11 @@ internal_prep_pca_imputes <- function(data, direction) {
        metadata = metadata)
 }
 
-internal_clean_pca_results <- function(data, direction, data_list) {
+internal_clean_pca_results <- function(data_list, direction) {
 
   data_colorder <- data_list$data_colorder
   metadata <- data_list$metadata
+  data <- data_list$data
 
   if (direction == 1) {
     data <- tibble::as_tibble(data, rownames = "UID") %>%

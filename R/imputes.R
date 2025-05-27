@@ -328,6 +328,37 @@ impute_rf <- function(data, random_seed = 1L, ...) {
   data_obs_imp
 }
 
+#' Impute missing values using NIPALS PCA
+#'
+#' @description
+#' One of several PCA-based imputation methods. Basically a wrapper around `pcaMethods::`\code{\link[pcaMethods]{pca}}`(method = "nipals")`.
+#' For a detailed discussion, see the `vignette("pcaMethods")` and `vignette("missingValues", "pcaMethods")` as well as the References section.
+#'
+#' <b>Important Note</b><br>
+#' `impute_nipals()` depends on the `pcaMethods` package from Bioconductor. If `metamorphr` was installed via `install.packages()`, dependencies from Bioconductor were not
+#' automatically installed. When `impute_nipals()` is called without the `pcaMethods` package installed, you should be asked if you want to install `pak` and `pcaMethods`.
+#' If you want to use `impute_nipals()` you have to install those. In case you run into trouble with the automatic installation, please install `pcaMethods` manually. See
+#' <a href = "https://www.bioconductor.org/packages/release/bioc/html/pcaMethods.html">pcaMethods – a Bioconductor package providing PCA methods for incomplete data.</a> for instructions on manual installation.
+#'
+#' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
+#' @param n_pcs The number of PCs to calculate.
+#' @param center Should `data` be mean centered? See \code{\link[pcaMethods]{prep}} for details.
+#' @param scale Should `data` be scaled? See \code{\link[pcaMethods]{prep}} for details.
+#' @param direction Either `1` or `2`. `1` runs a PCA on a matrix with samples in columns and features in rows and `2` runs a PCA on a matrix with features in columns and samples in rows.
+#' Both are valid according to this <a href = "https://github.com/hredestig/pcaMethods/issues/25">discussion on GitHub</a> but give <b>different results</b>.
+#'
+#' @return A tibble with imputed missing values.
+#' @export
+#'
+#' @references
+#' <ul>
+#' <li>H. R. Wolfram Stacklies, <b>2017</b>, DOI <a href = "https://doi.org/10.18129/B9.BIOC.PCAMETHODS">10.18129/B9.BIOC.PCAMETHODS</a>.</li>
+#' <li>W. Stacklies, H. Redestig, M. Scholz, D. Walther, J. Selbig, <i>Bioinformatics</i> <b>2007</b>, <i>23</i>, 1164–1167, DOI <a href = "https://doi.org/10.1093/bioinformatics/btm069">10.1093/bioinformatics/btm069</a>.</li>
+#' </ul>
+#'
+#' @examples
+#' toy_metaboscape %>%
+#'   impute_nipals()
 impute_nipals <- function(data, n_pcs = 2, center = TRUE, scale = "none", direction = 2) {
   # pcaMethods is a bioconductor package so it is not installed with metamorphr if installed via install.packages().
   # check if it installed first
@@ -342,15 +373,47 @@ impute_nipals <- function(data, n_pcs = 2, center = TRUE, scale = "none", direct
 
   data_list <- internal_prep_pca_imputes(data = data, direction = direction)
 
-  data <- data_list$data
+  #data <- data_list$data
 
 
-  data <- pcaMethods::pca(data, nPcs = n_pcs, method = "nipals")
-  data <- pcaMethods::completeObs(data)
+  data_list$data <- pcaMethods::pca(data_list$data, nPcs = n_pcs, method = "nipals")
+  data_list$data <- pcaMethods::completeObs(data_list$data)
 
-  internal_clean_pca_results(data = data, direction = direction, data_list = data_list)
+  internal_clean_pca_results(data_list = data_list, direction = direction)
 }
 
+#' Impute missing values using Bayesian PCA
+#'
+#'
+#' @description
+#' One of several PCA-based imputation methods. Basically a wrapper around `pcaMethods::`\code{\link[pcaMethods]{pca}}`(method = "bpca")`.
+#' For a detailed discussion, see the `vignette("pcaMethods")` and `vignette("missingValues", "pcaMethods")` as well as the References section.
+#'
+#' <b>Important Note</b><br>
+#' `impute_bpca()` depends on the `pcaMethods` package from Bioconductor. If `metamorphr` was installed via `install.packages()`, dependencies from Bioconductor were not
+#' automatically installed. When `impute_bpca()` is called without the `pcaMethods` package installed, you should be asked if you want to install `pak` and `pcaMethods`.
+#' If you want to use `impute_bpca()` you have to install those. In case you run into trouble with the automatic installation, please install `pcaMethods` manually. See
+#' <a href = "https://www.bioconductor.org/packages/release/bioc/html/pcaMethods.html">pcaMethods – a Bioconductor package providing PCA methods for incomplete data.</a> for instructions on manual installation.
+#'
+#' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
+#' @param n_pcs The number of PCs to calculate.
+#' @param center Should `data` be mean centered? See \code{\link[pcaMethods]{prep}} for details.
+#' @param scale Should `data` be scaled? See \code{\link[pcaMethods]{prep}} for details.
+#' @param direction Either `1` or `2`. `1` runs a PCA on a matrix with samples in columns and features in rows and `2` runs a PCA on a matrix with features in columns and samples in rows.
+#' Both are valid according to this <a href = "https://github.com/hredestig/pcaMethods/issues/25">discussion on GitHub</a> but give <b>different results</b>.
+#'
+#' @return A tibble with imputed missing values.
+#' @export
+#'
+#' @references
+#' <ul>
+#' <li>H. R. Wolfram Stacklies, <b>2017</b>, DOI <a href = "https://doi.org/10.18129/B9.BIOC.PCAMETHODS">10.18129/B9.BIOC.PCAMETHODS</a>.</li>
+#' <li>W. Stacklies, H. Redestig, M. Scholz, D. Walther, J. Selbig, <i>Bioinformatics</i> <b>2007</b>, <i>23</i>, 1164–1167, DOI <a href = "https://doi.org/10.1093/bioinformatics/btm069">10.1093/bioinformatics/btm069</a>.</li>
+#' </ul>
+#'
+#' @examples
+#' toy_metaboscape %>%
+#'   impute_bpca()
 impute_bpca <- function(data, n_pcs = 2, center = TRUE, scale = "none", direction = 2) {
   # pcaMethods is a bioconductor package so it is not installed with metamorphr if installed via install.packages().
   # check if it installed first
@@ -365,13 +428,13 @@ impute_bpca <- function(data, n_pcs = 2, center = TRUE, scale = "none", directio
 
   data_list <- internal_prep_pca_imputes(data = data, direction = direction)
 
-  data <- data_list$data
+  #data <- data_list$data
 
+  cat("`impute_bpca` output:\n\n")
+  data_list$data <- pcaMethods::pca(data_list$data, nPcs = n_pcs, method = "bpca")
+  data_list$data <- pcaMethods::completeObs(data_list$data)
 
-  data <- pcaMethods::pca(data, nPcs = n_pcs, method = "bpca")
-  data <- pcaMethods::completeObs(data)
-
-  internal_clean_pca_results(data = data, direction = direction, data_list = data_list)
+  internal_clean_pca_results(data_list = data_list, direction = direction)
 }
 
 impute_ppca <- function(data, n_pcs = 2, center = TRUE, scale = "none", direction = 2) {
