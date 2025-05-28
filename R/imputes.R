@@ -442,7 +442,11 @@ impute_bpca <- function(data, n_pcs = 2, center = TRUE, scale = "none", directio
 #'
 #' @description
 #' One of several PCA-based imputation methods. Basically a wrapper around `pcaMethods::`\code{\link[pcaMethods]{pca}}`(method = "ppca")`.
-#' For a detailed discussion, see the `vignette("pcaMethods")` and `vignette("missingValues", "pcaMethods")` as well as the References section.
+#' For a detailed discussion, see the `vignette("pcaMethods")` and `vignette("missingValues", "pcaMethods")` as well as the References section. <br>
+#' In the underlying function (`pcaMethods::`\code{\link[pcaMethods]{pca}}`(method = "ppca")`), the order of columns has an influence on the outcome. Therefore, calling `pcaMethods::`\code{\link[pcaMethods]{pca}}`(method = "ppca")`
+#' on a matrix and calling `metamorphr::impute()` on a tidy tibble might give different results, even though they contain the same data. That is because under the hood,
+#' the tibble is transformed to a matrix prior to calling `pcaMethods::`\code{\link[pcaMethods]{pca}}`(method = "ppca")` and you have limited influence on the column order of the
+#' resulting matrix.
 #'
 #' <b>Important Note</b><br>
 #' `impute_ppca()` depends on the `pcaMethods` package from Bioconductor. If `metamorphr` was installed via `install.packages()`, dependencies from Bioconductor were not
@@ -486,7 +490,8 @@ impute_ppca <- function(data, n_pcs = 2, center = TRUE, scale = "none", directio
 
   #data <- data_list$data
 
-  data_list$data <- withr::with_seed(seed = random_seed, pcaMethods::pca(data_list$data, nPcs = n_pcs, method = "ppca"))
+  #data_list$data <- withr::with_seed(seed = random_seed, pcaMethods::pca(data_list$data, nPcs = n_pcs, method = "ppca"))
+  data_list$data <- withr::with_preserve_seed(pcaMethods::pca(data_list$data, nPcs = n_pcs, method = "ppca", seed = random_seed))
   data_list$data <- pcaMethods::completeObs(data_list$data)
 
   internal_clean_pca_results(data_list = data_list, direction = direction)

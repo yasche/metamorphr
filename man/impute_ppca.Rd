@@ -32,7 +32,11 @@ A tibble with imputed missing values.
 }
 \description{
 One of several PCA-based imputation methods. Basically a wrapper around \verb{pcaMethods::}\code{\link[pcaMethods]{pca}}\code{(method = "ppca")}.
-For a detailed discussion, see the \code{vignette("pcaMethods")} and \code{vignette("missingValues", "pcaMethods")} as well as the References section.
+For a detailed discussion, see the \code{vignette("pcaMethods")} and \code{vignette("missingValues", "pcaMethods")} as well as the References section. \if{html}{\out{<br>}}
+In the underlying function (\verb{pcaMethods::}\code{\link[pcaMethods]{pca}}\code{(method = "ppca")}), the order of columns has an influence on the outcome. Therefore, calling \verb{pcaMethods::}\code{\link[pcaMethods]{pca}}\code{(method = "ppca")}
+on a matrix and calling \code{metamorphr::impute()} on a tidy tibble might give different results, even though they contain the same data. That is because under the hood,
+the tibble is transformed to a matrix prior to calling \verb{pcaMethods::}\code{\link[pcaMethods]{pca}}\code{(method = "ppca")} and you have limited influence on the column order of the
+resulting matrix.
 
 \if{html}{\out{<b>}}Important Note\if{html}{\out{</b>}}\if{html}{\out{<br>}}
 \code{impute_ppca()} depends on the \code{pcaMethods} package from Bioconductor. If \code{metamorphr} was installed via \code{install.packages()}, dependencies from Bioconductor were not
