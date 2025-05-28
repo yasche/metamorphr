@@ -78,6 +78,14 @@ summary_featuretable <- function(data, n_samples_max = 5, n_features_max = 5, n_
     summary_featuretable_cat(txt = batches, title = "Batches", n = n_batches, n_max = n_batches_max)
   }
 
+  n_nas <- data %>%
+    dplyr::filter(is.na(.data$Intensity)) %>%
+    nrow()
+
+  n_total <- nrow(data)
+
+  cat(crayon::green(as.character(round((n_nas / n_total) * 100)), " % missing values (NA): ", sep = ""), paste0(as.character(n_nas), " out of ", as.character(n_total), "."), "\n", sep = "")
+
   data <- data %>%
     dplyr::group_by(.data$Sample) %>%
     tidyr::nest() %>%
