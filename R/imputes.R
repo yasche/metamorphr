@@ -376,7 +376,7 @@ impute_nipals <- function(data, n_pcs = 2, center = TRUE, scale = "none", direct
   #data <- data_list$data
 
 
-  data_list$data <- pcaMethods::pca(data_list$data, nPcs = n_pcs, method = "nipals")
+  data_list$data <- pcaMethods::pca(data_list$data, nPcs = n_pcs, method = "nipals", center = center, scale = scale)
   data_list$data <- pcaMethods::completeObs(data_list$data)
 
   internal_clean_pca_results(data_list = data_list, direction = direction)
@@ -431,7 +431,7 @@ impute_bpca <- function(data, n_pcs = 2, center = TRUE, scale = "none", directio
   #data <- data_list$data
 
   cat("`impute_bpca` output:\n\n")
-  data_list$data <- pcaMethods::pca(data_list$data, nPcs = n_pcs, method = "bpca")
+  data_list$data <- pcaMethods::pca(data_list$data, nPcs = n_pcs, method = "bpca", center = center, scale = scale)
   data_list$data <- pcaMethods::completeObs(data_list$data)
 
   internal_clean_pca_results(data_list = data_list, direction = direction)
@@ -491,7 +491,7 @@ impute_ppca <- function(data, n_pcs = 2, center = TRUE, scale = "none", directio
   #data <- data_list$data
 
   #data_list$data <- withr::with_seed(seed = random_seed, pcaMethods::pca(data_list$data, nPcs = n_pcs, method = "ppca"))
-  data_list$data <- withr::with_preserve_seed(pcaMethods::pca(data_list$data, nPcs = n_pcs, method = "ppca", seed = random_seed))
+  data_list$data <- withr::with_preserve_seed(pcaMethods::pca(data_list$data, nPcs = n_pcs, method = "ppca", seed = random_seed, center = center, scale = scale))
   data_list$data <- pcaMethods::completeObs(data_list$data)
 
   internal_clean_pca_results(data_list = data_list, direction = direction)
@@ -557,8 +557,24 @@ impute_nlpca <- function(data, n_pcs = 2, center = TRUE, scale = "none", directi
 
 }
 
-impute_lls <- function(data, n_pcs = 2, center = TRUE, scale = "none", direction = 2) {
+impute_lls <- function(data, correlation = "pearson", complete_genes = FALSE, center = TRUE, direction = 2) {
+  # pcaMethods is a bioconductor package so it is not installed with metamorphr if installed via install.packages().
+  # check if it installed first
+  # also check, if pak is installed
+  if (!is_installed_wrapper("pcaMethods")) {
+    if (!is_installed_wrapper("pak")) {
+      check_installed_wrapper("pak")
+      check_installed_wrapper("pcaMethods")
+    }
+    check_installed_wrapper("pcaMethods")
+  }
 
+  data_list <- internal_prep_pca_imputes(data = data, direction = direction)
+
+  data_list$data <- pcaMethods::llsImpute(data_list$data, verbose = F, correlation = correlation, center = center, allVariables = complete_genes)
+  data_list$data <- pcaMethods::completeObs(data_list$data)
+
+  internal_clean_pca_results(data_list = data_list, direction = direction)
 }
 
 impute_qrilc <- function() {
