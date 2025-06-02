@@ -557,7 +557,7 @@ impute_nlpca <- function(data, n_pcs = 2, center = TRUE, scale = "none", directi
 
 }
 
-impute_lls <- function(data, correlation = "pearson", complete_genes = FALSE, center = TRUE, direction = 2) {
+impute_lls <- function(data, correlation = "pearson", complete_genes = FALSE, center = TRUE) {
   # pcaMethods is a bioconductor package so it is not installed with metamorphr if installed via install.packages().
   # check if it installed first
   # also check, if pak is installed
@@ -569,7 +569,7 @@ impute_lls <- function(data, correlation = "pearson", complete_genes = FALSE, ce
     check_installed_wrapper("pcaMethods")
   }
 
-  data_list <- internal_prep_pca_imputes(data = data, direction = direction)
+  data_list <- internal_prep_pca_imputes(data = data, direction = 2)
 
   data_list$data <- pcaMethods::llsImpute(data_list$data, verbose = F, correlation = correlation, center = center, allVariables = complete_genes)
   data_list$data <- pcaMethods::completeObs(data_list$data)
