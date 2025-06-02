@@ -547,7 +547,7 @@ impute_svd <- function(data, n_pcs = 2, center = TRUE, scale = "none", direction
   #data <- data_list$data
 
   #data_list$data <- withr::with_seed(seed = random_seed, pcaMethods::pca(data_list$data, nPcs = n_pcs, method = "ppca"))
-  data_list$data <- pcaMethods::pca(data_list$data, nPcs = n_pcs, method = "svdImpute", verbose = F)
+  data_list$data <- pcaMethods::pca(data_list$data, nPcs = n_pcs, method = "svdImpute", verbose = F, center = center, scale = scale)
   data_list$data <- pcaMethods::completeObs(data_list$data)
 
   internal_clean_pca_results(data_list = data_list, direction = direction)
@@ -574,7 +574,7 @@ impute_lls <- function(data, correlation = "pearson", complete_genes = FALSE, ce
   data_list$data <- pcaMethods::llsImpute(data_list$data, verbose = F, correlation = correlation, center = center, allVariables = complete_genes)
   data_list$data <- pcaMethods::completeObs(data_list$data)
 
-  internal_clean_pca_results(data_list = data_list, direction = direction)
+  internal_clean_pca_results(data_list = data_list, direction = 2)
 }
 
 impute_qrilc <- function() {
