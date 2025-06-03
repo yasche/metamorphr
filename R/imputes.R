@@ -553,11 +553,33 @@ impute_svd <- function(data, n_pcs = 2, center = TRUE, scale = "none", direction
   internal_clean_pca_results(data_list = data_list, direction = direction)
 }
 
-impute_nlpca <- function(data, n_pcs = 2, center = TRUE, scale = "none", direction = 2) {
-
-}
-
-impute_lls <- function(data, correlation = "pearson", complete_genes = FALSE, center = TRUE) {
+#' Impute missing values using Local Least Squares (LLS)
+#'
+#' @description
+#' A short description...
+#'
+#' <b>Important Note</b><br>
+#' `impute_lls()` depends on the `pcaMethods` package from Bioconductor. If `metamorphr` was installed via `install.packages()`, dependencies from Bioconductor were not
+#' automatically installed. When `impute_svd()` is called without the `pcaMethods` package installed, you should be asked if you want to install `pak` and `pcaMethods`.
+#' If you want to use `impute_lls()` you have to install those. In case you run into trouble with the automatic installation, please install `pcaMethods` manually. See
+#' <a href = "https://www.bioconductor.org/packages/release/bioc/html/pcaMethods.html">pcaMethods – a Bioconductor package providing PCA methods for incomplete data.</a> for instructions on manual installation.
+#'
+#' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
+#' @param correlation The method used to calculate correlations between metabolites. One of `"pearson"`, `"spearman"` or `"kendall"`. See \code{\link[stats]{cor}}.
+#' @param complete_genes If `TRUE` only complete metabolites will be used for regression, if `FALSE`, all will be used.
+#' @param center Should `data` be mean centered? See \code{\link[pcaMethods]{prep}} for details.
+#' @param cluster_size The number of similar metabolites used for regression.
+#'
+#' @return A tibble with imputed missing values.
+#' @export
+#'
+#' @examples
+#' # The cluster size must be reduced because
+#' # the data set is too small for the default (10)
+#'
+#' toy_metaboscape %>%
+#'   impute_lls(complete_genes = TRUE, cluster_size = 5)
+impute_lls <- function(data, correlation = "pearson", complete_genes = FALSE, center = TRUE, cluster_size = 10) {
   # pcaMethods is a bioconductor package so it is not installed with metamorphr if installed via install.packages().
   # check if it installed first
   # also check, if pak is installed
@@ -571,10 +593,14 @@ impute_lls <- function(data, correlation = "pearson", complete_genes = FALSE, ce
 
   data_list <- internal_prep_pca_imputes(data = data, direction = 2)
 
-  data_list$data <- pcaMethods::llsImpute(data_list$data, verbose = F, correlation = correlation, center = center, allVariables = complete_genes)
+  data_list$data <- pcaMethods::llsImpute(data_list$data, verbose = F, correlation = correlation, center = center, allVariables = complete_genes, k = cluster_size)
   data_list$data <- pcaMethods::completeObs(data_list$data)
 
   internal_clean_pca_results(data_list = data_list, direction = 2)
+}
+
+impute_nlpca <- function(data, n_pcs = 2, center = TRUE, scale = "none", direction = 2) {
+
 }
 
 impute_qrilc <- function() {
