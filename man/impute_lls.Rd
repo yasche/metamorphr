@@ -15,13 +15,13 @@ impute_lls(
 \arguments{
 \item{data}{A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.}
 
-\item{correlation}{The method used to calculate correlations between metabolites. One of \code{"pearson"}, \code{"spearman"} or \code{"kendall"}. See \code{\link[stats]{cor}}.}
+\item{correlation}{The method used to calculate correlations between features. One of \code{"pearson"}, \code{"spearman"} or \code{"kendall"}. See \code{\link[stats]{cor}}.}
 
-\item{complete_genes}{If \code{TRUE} only complete metabolites will be used for regression, if \code{FALSE}, all will be used.}
+\item{complete_genes}{If \code{TRUE} only complete features will be used for regression, if \code{FALSE}, all will be used.}
 
 \item{center}{Should \code{data} be mean centered? See \code{\link[pcaMethods]{prep}} for details.}
 
-\item{cluster_size}{The number of similar metabolites used for regression.}
+\item{cluster_size}{The number of similar features used for regression.}
 }
 \value{
 A tibble with imputed missing values.

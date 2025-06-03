@@ -565,10 +565,10 @@ impute_svd <- function(data, n_pcs = 2, center = TRUE, scale = "none", direction
 #' <a href = "https://www.bioconductor.org/packages/release/bioc/html/pcaMethods.html">pcaMethods – a Bioconductor package providing PCA methods for incomplete data.</a> for instructions on manual installation.
 #'
 #' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
-#' @param correlation The method used to calculate correlations between metabolites. One of `"pearson"`, `"spearman"` or `"kendall"`. See \code{\link[stats]{cor}}.
-#' @param complete_genes If `TRUE` only complete metabolites will be used for regression, if `FALSE`, all will be used.
+#' @param correlation The method used to calculate correlations between features. One of `"pearson"`, `"spearman"` or `"kendall"`. See \code{\link[stats]{cor}}.
+#' @param complete_genes If `TRUE` only complete features will be used for regression, if `FALSE`, all will be used.
 #' @param center Should `data` be mean centered? See \code{\link[pcaMethods]{prep}} for details.
-#' @param cluster_size The number of similar metabolites used for regression.
+#' @param cluster_size The number of similar features used for regression.
 #'
 #' @return A tibble with imputed missing values.
 #' @export
