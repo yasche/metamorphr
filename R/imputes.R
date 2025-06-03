@@ -579,7 +579,7 @@ impute_svd <- function(data, n_pcs = 2, center = TRUE, scale = "none", direction
 #'
 #' toy_metaboscape %>%
 #'   impute_lls(complete_genes = TRUE, cluster_size = 5)
-impute_lls <- function(data, correlation = "pearson", complete_genes = FALSE, center = TRUE, cluster_size = 10) {
+impute_lls <- function(data, correlation = "pearson", complete_genes = FALSE, center = FALSE, cluster_size = 10) {
   # pcaMethods is a bioconductor package so it is not installed with metamorphr if installed via install.packages().
   # check if it installed first
   # also check, if pak is installed
