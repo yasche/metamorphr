@@ -361,8 +361,63 @@ normalize_factor <- function() {
 
 }
 
-normalize_cyclic_loess <- function() {
-  # also fast_loess?
+normalize_cyclic_loess <- function(data, n_iter = 10, fixed_iter = FALSE, loess_span = 0.7, level = 0.95, ...) {
+  model_conv = FALSE
+  combinations <- data$Sample %>%
+    unique() %>%
+    length() %>%
+    combn(2, simplify = F)
+  data_cyclo <- mutate(data, Intensity = log2(Intensity))
+  data_list <- internal_prep_pca_imputes(data_cyclo, direction = 1)
+  data_cyclo <- data_list$data
+  for(h in 1:n_iter) {
+    curr_conv <- logical()
+    for(i in 1:length(combinations)) {
+      if (fixed_iter == TRUE) {
+        break
+      }
+      data_cyclo_curr <- tibble(
+        M = unname(data_cyclo[, combinations[[i]][1]] - data_cyclo[, combinations[[i]][2]]),
+        A = 0.5 * unname(data_cyclo[, combinations[[i]][1]] + data_cyclo[, combinations[[i]][2]])
+      )
+      curr_loess <- loess(M ~ A, data = data_cyclo_curr, span = loess_span, ...)
+      data_cyclo_curr2 <- data.frame(A = data_cyclo_curr$A)
+      curr_pred <- predict(curr_loess, newdata = data_cyclo_curr2, se = TRUE)
+      t_val <- qt(1 - ((1 - level) / 2), curr_pred$df)
+      curr_pred <- as.data.frame(curr_pred)
+      curr_pred <- curr_pred %>%
+        mutate(lower_conv = .data$fit - .env$t_val * .data$se.fit,
+               upper_conv = .data$fit + .env$t_val * .data$se.fit)
+      curr_conv <- append((all(curr_pred$lower_conv < 0) & all(curr_pred$upper_conv > 0)), curr_conv)
+    }
+    model_conv <- all(curr_conv)
+    if(model_conv == TRUE & fixed_iter == FALSE) {
+      break
+    }
+    for(i in 1:length(combinations)) {
+      data_cyclo_curr <- tibble(
+        M = unname(data_cyclo[, combinations[[i]][1]] - data_cyclo[, combinations[[i]][2]]),
+        A = 0.5 * unname(data_cyclo[, combinations[[i]][1]] + data_cyclo[, combinations[[i]][2]])
+      )
+      curr_loess <- loess(M ~ A, data = data_cyclo_curr, span = loess_span, ...)
+      data_cyclo_curr2 <- data.frame(A = data_cyclo_curr$A)
+      curr_pred <- predict(curr_loess, newdata = data_cyclo_curr2)
+      data_cyclo[, combinations[[i]][1]] <- data_cyclo[, combinations[[i]][1]] - unname(0.5 * curr_pred)
+      data_cyclo[, combinations[[i]][2]] <- data_cyclo[, combinations[[i]][2]] + unname(0.5 * curr_pred)
+    }
+  }
+  data_cyclo <- 2^data_cyclo
+  data_list$data <- data_cyclo
+  if (model_conv == FALSE) {
+    rlang::inform(paste0("No convergence was reached after ", n_iter, " iterations."))
+  } else {
+    if (fixed_iter == TRUE) {
+      rlang::inform(paste0("Successfully ran ", n_iter, " iterations."))
+    } else {
+      rlang::inform(paste0("Reached convergence after ", h - 1, " iterations."))
+    }
+  }
+  internal_clean_pca_results(data_list = data_list, direction = 1)
 }
 
 #' Normalize intensities across samples using a Probabilistic Quotient Normalization (PQN)
