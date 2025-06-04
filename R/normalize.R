@@ -361,33 +361,74 @@ normalize_factor <- function() {
 
 }
 
-normalize_cyclic_loess <- function(data, n_iter = 10, fixed_iter = FALSE, loess_span = 0.7, level = 0.95, ...) {
+#' Normalize intensities across samples using cyclic LOESS normalization
+#'
+#' @description
+#' The steps the algorithm takes are the following:
+#'
+#' <ol>
+#'  <li>log2 transform the intensities</li>
+#'  <li>Choose 2 samples to generate an <a href = "https://en.wikipedia.org/wiki/MA_plot">MA-plot</a> from</li>
+#'  <li>Fit a LOESS curve</li>
+#'  <li>Subtract half of the difference between the predicted value and the true value from the intensity of sample 1 and add the same amount to the intensity of Sample 2</li>
+#'  <li>Repeat for all unique combinations of samples</li>
+#'  <li>Repeat all steps until the model converges or <code>n_iter</code> is reached.<sup>1</sup></li>
+#' </ol>
+#'
+#' See the reference section for details.
+#'
+#' Convergence is assumed if the confidence intervals of all LOESS smooths include the 0 line. If `fixed_iter = TRUE`, the algorithm will perform exactly `n_iter` iterations.
+#' If `fixed_iter = FALSE`, the algorithm will perform a maximum of `n_iter` iterations.
+#'
+#' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
+#' @param n_iter The number of iterations to perform. If `fixed_iter = TRUE` exactly `n_iter` will be performed. If `fixed_iter = FALSE` a maximum of `n_iter` will be performed and the algorithm will stop whether convergence is reached or not.
+#' @param fixed_iter Should a fixed number of iterations be performed?
+#' @param loess_span The span of the LOESS fit. A larger span produces a smoother line.
+#' @param level The confidence level for the convergence criterion. Note that a a larger confidence level produces larger confidence intervals and therefore the algorithm stops earlier.
+#' @param ... Arguments passed onto \code{\link[stats]{loess}}. For example, `degree = 1, family = "symmetric", iterations = 4, surface = "direct"` produces a LOWESS fit.
+#'
+#' @return A tibble with intensities normalized across samples.
+#' @export
+#'
+#' @references For further information, see
+#' <ul>
+#'  <li>B. M. Bolstad, R. A. Irizarry, M. Åstrand, T. P. Speed, <i>Bioinformatics</i> <b>2003</b>, <i>19</i>, 185–193, DOI <a href = "https://doi.org/10.1093/bioinformatics/19.2.185">10.1093/bioinformatics/19.2.185</a>.</li>
+#'  <li>Karla Ballman, Diane Grill, Ann Oberg, Terry Therneau, “Faster cyclic loess: normalizing DNA arrays via linear models,” can be found under https://www.mayo.edu/research/documents/biostat-68pdf/doc-10027897, 2004.</li>
+#'  <li>K. V. Ballman, D. E. Grill, A. L. Oberg, T. M. Therneau, <i>Bioinformatics</i> <b>2004</b>, <i>20</i>, 2778–2786, DOI <a href = "https://doi.org/10.1093/bioinformatics/bth327">10.1093/bioinformatics/bth327</a>.</li>
+#' </ul>
+#'
+#' @examples
+#' toy_metaboscape %>%
+#'   impute_lod() %>%
+#'   normalize_cyclic_loess()
+normalize_cyclic_loess <- function(data, n_iter = 3, fixed_iter = TRUE, loess_span = 0.7, level = 0.95, ...) {
   model_conv = FALSE
   combinations <- data$Sample %>%
     unique() %>%
     length() %>%
-    combn(2, simplify = F)
-  data_cyclo <- mutate(data, Intensity = log2(Intensity))
+    utils::combn(2, simplify = F)
+  data_cyclo <- dplyr::mutate(data, Intensity = log2(.data$Intensity))
   data_list <- internal_prep_pca_imputes(data_cyclo, direction = 1)
   data_cyclo <- data_list$data
+  #data_cyclo_last_iter <- data_cyclo
   for(h in 1:n_iter) {
     curr_conv <- logical()
     for(i in 1:length(combinations)) {
       if (fixed_iter == TRUE) {
         break
       }
-      data_cyclo_curr <- tibble(
+      data_cyclo_curr <- tibble::tibble(
         M = unname(data_cyclo[, combinations[[i]][1]] - data_cyclo[, combinations[[i]][2]]),
         A = 0.5 * unname(data_cyclo[, combinations[[i]][1]] + data_cyclo[, combinations[[i]][2]])
       )
-      curr_loess <- loess(M ~ A, data = data_cyclo_curr, span = loess_span, ...)
+      curr_loess <- stats::loess(M ~ A, data = data_cyclo_curr, span = loess_span, ...)
       data_cyclo_curr2 <- data.frame(A = data_cyclo_curr$A)
-      curr_pred <- predict(curr_loess, newdata = data_cyclo_curr2, se = TRUE)
-      t_val <- qt(1 - ((1 - level) / 2), curr_pred$df)
+      curr_pred <- stats::predict(curr_loess, newdata = data_cyclo_curr2, se = TRUE)
+      t_val <- stats::qt(1 - ((1 - level) / 2), curr_pred$df)
       curr_pred <- as.data.frame(curr_pred)
-      curr_pred <- curr_pred %>%
-        mutate(lower_conv = .data$fit - .env$t_val * .data$se.fit,
-               upper_conv = .data$fit + .env$t_val * .data$se.fit)
+      curr_pred <- dplyr::mutate(curr_pred,
+                                 lower_conv = .data$fit - .env$t_val * .data$se.fit,
+                                 upper_conv = .data$fit + .env$t_val * .data$se.fit)
       curr_conv <- append((all(curr_pred$lower_conv < 0) & all(curr_pred$upper_conv > 0)), curr_conv)
     }
     model_conv <- all(curr_conv)
@@ -395,16 +436,19 @@ normalize_cyclic_loess <- function(data, n_iter = 10, fixed_iter = FALSE, loess_
       break
     }
     for(i in 1:length(combinations)) {
-      data_cyclo_curr <- tibble(
+      data_cyclo_curr <- tibble::tibble(
         M = unname(data_cyclo[, combinations[[i]][1]] - data_cyclo[, combinations[[i]][2]]),
         A = 0.5 * unname(data_cyclo[, combinations[[i]][1]] + data_cyclo[, combinations[[i]][2]])
       )
-      curr_loess <- loess(M ~ A, data = data_cyclo_curr, span = loess_span, ...)
+      curr_loess <- stats::loess(M ~ A, data = data_cyclo_curr, span = loess_span, ...)
       data_cyclo_curr2 <- data.frame(A = data_cyclo_curr$A)
-      curr_pred <- predict(curr_loess, newdata = data_cyclo_curr2)
+      curr_pred <- stats::predict(curr_loess, newdata = data_cyclo_curr2)
       data_cyclo[, combinations[[i]][1]] <- data_cyclo[, combinations[[i]][1]] - unname(0.5 * curr_pred)
       data_cyclo[, combinations[[i]][2]] <- data_cyclo[, combinations[[i]][2]] + unname(0.5 * curr_pred)
     }
+    #rmsd <- sqrt(1/length(data_cyclo) * sum((data_cyclo - data_cyclo_last_iter)^2))
+    #print(rmsd)
+    #data_cyclo_last_iter <- data_cyclo
   }
   data_cyclo <- 2^data_cyclo
   data_list$data <- data_cyclo
