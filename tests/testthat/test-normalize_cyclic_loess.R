@@ -28,3 +28,13 @@ test_that("medians of samples become more similar after each iteration (3)", {
   #after 2 iteration > after 3 iterations
   expect_true(rsd_summary_median(normalize_cyclic_loess(toy_imputed_lod, fixed_iter = T, n_iter = 2)) > rsd_summary_median(normalize_cyclic_loess(toy_imputed_lod, fixed_iter = T, n_iter = 3)))
 })
+
+
+test_that("automatically stops if convergence is reached", {
+  expect_message(toy_metaboscape %>% impute_lod() %>% normalize_cyclic_loess(verbose = T, fixed_iter = F, n_iter = 10), "Reached convergence")
+})
+
+
+test_that("breaks if no convergence is reached", {
+  expect_message(toy_metaboscape %>% impute_lod() %>% normalize_cyclic_loess(verbose = T, fixed_iter = F, n_iter = 1), "No convergence was reached after 1 iterations.")
+})
