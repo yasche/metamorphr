@@ -385,6 +385,7 @@ normalize_factor <- function() {
 #' @param fixed_iter Should a fixed number of iterations be performed?
 #' @param loess_span The span of the LOESS fit. A larger span produces a smoother line.
 #' @param level The confidence level for the convergence criterion. Note that a a larger confidence level produces larger confidence intervals and therefore the algorithm stops earlier.
+#' @param verbose `TRUE` or `FALSE`. Should messages be printed to the console?
 #' @param ... Arguments passed onto \code{\link[stats]{loess}}. For example, `degree = 1, family = "symmetric", iterations = 4, surface = "direct"` produces a LOWESS fit.
 #'
 #' @return A tibble with intensities normalized across samples.
@@ -401,7 +402,7 @@ normalize_factor <- function() {
 #' toy_metaboscape %>%
 #'   impute_lod() %>%
 #'   normalize_cyclic_loess()
-normalize_cyclic_loess <- function(data, n_iter = 3, fixed_iter = TRUE, loess_span = 0.7, level = 0.95, ...) {
+normalize_cyclic_loess <- function(data, n_iter = 3, fixed_iter = TRUE, loess_span = 0.7, level = 0.95, verbose = FALSE, ...) {
   model_conv = FALSE
   combinations <- data$Sample %>%
     unique() %>%
@@ -449,16 +450,21 @@ normalize_cyclic_loess <- function(data, n_iter = 3, fixed_iter = TRUE, loess_sp
     #rmsd <- sqrt(1/length(data_cyclo) * sum((data_cyclo - data_cyclo_last_iter)^2))
     #print(rmsd)
     #data_cyclo_last_iter <- data_cyclo
+    if (verbose == TRUE) {
+      rlang::inform(paste0("Finished iteration ", h, "."))
+    }
   }
   data_cyclo <- 2^data_cyclo
   data_list$data <- data_cyclo
-  if (model_conv == FALSE) {
-    rlang::inform(paste0("No convergence was reached after ", n_iter, " iterations."))
-  } else {
-    if (fixed_iter == TRUE) {
-      rlang::inform(paste0("Successfully ran ", n_iter, " iterations."))
+  if (verbose == TRUE) {
+    if (model_conv == FALSE) {
+      rlang::inform(paste0("No convergence was reached after ", n_iter, " iterations."))
     } else {
-      rlang::inform(paste0("Reached convergence after ", h - 1, " iterations."))
+      if (fixed_iter == TRUE) {
+        rlang::inform(paste0("Successfully ran ", n_iter, " iterations."))
+      } else {
+        rlang::inform(paste0("Reached convergence after ", h - 1, " iterations."))
+      }
     }
   }
   internal_clean_pca_results(data_list = data_list, direction = 1)

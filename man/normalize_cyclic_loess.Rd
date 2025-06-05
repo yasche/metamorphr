@@ -10,6 +10,7 @@ normalize_cyclic_loess(
   fixed_iter = TRUE,
   loess_span = 0.7,
   level = 0.95,
+  verbose = FALSE,
   ...
 )
 }
@@ -23,6 +24,8 @@ normalize_cyclic_loess(
 \item{loess_span}{The span of the LOESS fit. A larger span produces a smoother line.}
 
 \item{level}{The confidence level for the convergence criterion. Note that a a larger confidence level produces larger confidence intervals and therefore the algorithm stops earlier.}
+
+\item{verbose}{\code{TRUE} or \code{FALSE}. Should messages be printed to the console?}
 
 \item{...}{Arguments passed onto \code{\link[stats]{loess}}. For example, \verb{degree = 1, family = "symmetric", iterations = 4, surface = "direct"} produces a LOWESS fit.}
 }
