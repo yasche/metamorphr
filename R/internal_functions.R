@@ -8,6 +8,10 @@ knn_impute_quiet <- function(...) {
   purrr::quietly(knn_impute_wrapper)(...)
 }
 
+readr_type_convert_quiet <- function(...) {
+  purrr::quietly(readr::type_convert)(...)
+}
+
 t_test_safely <- function(...) {
   purrr::safely(stats::t.test, otherwise = NA)(...)
 }
@@ -124,4 +128,37 @@ internal_clean_pca_results <- function(data_list, direction) {
     dplyr::arrange(.data$RowNum) %>%
     dplyr::select(-"RowNum")
 
+}
+
+internal_mgf_to_data_metadata <- function(mgf_string) {
+  begin_end_index <- grep("^BEGIN IONS$|^END IONS$", mgf_string)
+  mgf_string <- mgf_string[-begin_end_index]
+
+  metadata_index <- grep("^[a-zA-Z]", mgf_string)
+  mgf_string_metadata <- mgf_string[metadata_index]
+
+  mgf_string_metadata <- stringi::stri_split_fixed(mgf_string_metadata, "=", 2, simplify = TRUE)
+
+  #colnames(mgf_string_metadata) <- c("key", "value")
+
+  mgf_string_metadata_colnames <- mgf_string_metadata[,1]
+  mgf_string_metadata <- t(mgf_string_metadata[,2])
+  colnames(mgf_string_metadata) <- mgf_string_metadata_colnames
+
+  mgf_string_metadata <- tibble::as_tibble(mgf_string_metadata)
+
+
+  data_index <- grep("^[0-9]", mgf_string)
+  mgf_string_data <- mgf_string[data_index]
+
+  mgf_string_data <- stringi::stri_split_fixed(mgf_string_data, " ", 2, simplify = TRUE)
+
+  colnames(mgf_string_data) <- c("m_z", "Intensity")
+
+  mgf_string_data <- tibble::as_tibble(mgf_string_data)
+  mgf_string_data$m_z <- as.numeric(mgf_string_data$m_z)
+  mgf_string_data$Intensity <- as.numeric(mgf_string_data$Intensity)
+
+  mgf_string_metadata$MSn <- list(mgf_string_data)
+  mgf_string_metadata
 }

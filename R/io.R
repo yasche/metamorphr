@@ -140,3 +140,15 @@ create_metadata_skeleton <- function(data) {
 
   metadata
 }
+
+read_mgf <- function(file, .progress = TRUE) {
+  mgf_string <- readr::read_lines(file)
+
+  begin_ions <- grep("^BEGIN IONS$", mgf_string)
+  end_ions <- grep("^END IONS$", mgf_string)
+
+  purrr::map2(begin_ions, end_ions, function(start, end, mgf_string) {mgf_string[start:end]}, mgf_string) %>%
+    purrr::map(internal_mgf_to_data_metadata, .progress = .progress) %>%
+    dplyr::bind_rows() %>%
+    dplyr::relocate("MSn", .after = -1)
+}
