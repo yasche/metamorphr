@@ -147,8 +147,11 @@ read_mgf <- function(file, .progress = TRUE) {
   begin_ions <- grep("^BEGIN IONS$", mgf_string)
   end_ions <- grep("^END IONS$", mgf_string)
 
-  purrr::map2(begin_ions, end_ions, function(start, end, mgf_string) {mgf_string[start:end]}, mgf_string) %>%
+  result_list <- purrr::map2(begin_ions, end_ions, function(start, end, mgf_string) {mgf_string[start:end]}, mgf_string) %>%
     purrr::map(internal_mgf_to_data_metadata, .progress = .progress) %>%
     dplyr::bind_rows() %>%
-    dplyr::relocate("MSn", .after = -1)
+    dplyr::relocate("MSn", .after = -1) %>%
+    readr_type_convert_quiet()
+
+  result_list$result
 }
