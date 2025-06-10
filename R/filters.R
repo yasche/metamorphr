@@ -239,3 +239,45 @@ filter_blank <- function(data, blank_samples, min_frac = 3, blank_as_group = FAL
     dplyr::mutate(Intensity = dplyr::na_if(.data$Intensity, 0)) %>%
     dplyr::select(-"frac_sb", -"max_blank", -"max_sample")
 }
+
+
+#' Filter Features based on occurrence of fragment ions
+#'
+#' @param data A data frame containing MSn spectra.
+#' @param fragments A numeric. Exact mass of the fragment(s) to filter by.
+#' @param min_found How many of the `fragments` must be found in order to keep the row? If `min_found = length(fragments)`, all fragments must be found.
+#' @param tolerance A numeric. The tolerance to apply to the fragments. Either an absolute value in Da (if `tolerance_type = "absolute"`) or in ppm (if `tolerance_type = "ppm"`).
+#' @param tolerance_type Either `"absolute"` or `"ppm"`. Should the tolerance be an absolute value or in ppm?
+#' @param show_progress A `logical` indicating whether the progress of the filtering should be printed to the console. Only important for large tibbles.
+#'
+#' @return A filtered tibble.
+#' @export
+#'
+#' @examples
+filter_msn <- function(data, fragments, min_found, tolerance = 5, tolerance_type = "ppm", show_progress = TRUE) {
+  if (tolerance_type == "ppm") {
+    fragments_lower <- fragments - fragments * tolerance / 1000000
+    fragments_upper <- fragments + fragments * tolerance / 1000000
+  } else if (tolerance_type == "absolute") {
+    fragments_lower <- fragments - tolerance
+    fragments_upper <- fragments + tolerance
+  } else {
+    rlang::abort(paste0('Argument `tolerance_type` must be "ppm" or "absolute", not "', tolerance_type, '".'))
+  }
+
+  col_order <- names(data)
+
+  rownums <- 1:nrow(data)
+
+  data %>%
+    dplyr::mutate(row_number = .env$rownums) %>%
+    dplyr::group_by(.data$MSn) %>%
+    tidyr::nest() %>%
+    dplyr::mutate(msn_match = purrr::map(.data$MSn, internal_match_msn, fragments_lower, fragments_upper, min_found, .progress = show_progress)) %>%
+    dplyr::filter(.data$msn_match == TRUE) %>%
+    tidyr::unnest("data") %>%
+    dplyr::ungroup() %>%
+    dplyr::arrange(.data$row_number) %>%
+    dplyr::select(-"row_number", -"msn_match") %>%
+    dplyr::relocate(dplyr::all_of(col_order))
+}
