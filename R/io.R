@@ -141,14 +141,31 @@ create_metadata_skeleton <- function(data) {
   metadata
 }
 
-read_mgf <- function(file, .progress = TRUE) {
+#' Read a MGF file into a tidy tibble
+#'
+#' @description
+#' <a href = "https://www.matrixscience.com/help/data_file_help.html">MGF files</a> allow the storage of MS/MS spectra. With this
+#' function they can be read into a tidy tibble. Each variable is stored in a column and each ion (observation) is stored in a separate row.
+#' MS/MS spectra are stored in a list column named MSn. <br>
+#' Please note that <a href = "https://fiehnlab.ucdavis.edu/projects/lipidblast/mgf-files">MGF files are software-specific</a> so the variables
+#' and their names may vary. This function was developed with the GNPS file format exported from <a href = "https://mzio.io/mzmine-news/">mzmine</a> in mind.
+#'
+#'
+#' @param file The path to the MGF file.
+#' @param show_progress A `logical` indicating wether the progress of the import should be printed to the console. Only important for large MGF files.
+#'
+#' @return A tidy tibble holding MS/MS spectra.
+#' @export
+#'
+#' @examples
+read_mgf <- function(file, show_progress = TRUE) {
   mgf_string <- readr::read_lines(file)
 
   begin_ions <- grep("^BEGIN IONS$", mgf_string)
   end_ions <- grep("^END IONS$", mgf_string)
 
   result_list <- purrr::map2(begin_ions, end_ions, function(start, end, mgf_string) {mgf_string[start:end]}, mgf_string) %>%
-    purrr::map(internal_mgf_to_data_metadata, .progress = .progress) %>%
+    purrr::map(internal_mgf_to_data_metadata, .progress = show_progress) %>%
     dplyr::bind_rows() %>%
     dplyr::relocate("MSn", .after = -1) %>%
     readr_type_convert_quiet()

@@ -162,3 +162,14 @@ internal_mgf_to_data_metadata <- function(mgf_string) {
   mgf_string_metadata$MSn <- list(mgf_string_data)
   mgf_string_metadata
 }
+
+internal_match_fragments <- function(lower, upper, msn_spec) {
+  msn_spec <- msn_spec$m_z
+  msn_spec <- msn_spec[msn_spec > lower & msn_spec < upper]
+  length(msn_spec) > 0
+}
+
+internal_match_msn <- function(msn_spec, fragments_lower, fragments_upper, min_found) {
+  sum_found <- sum(unlist(purrr::map2(fragments_lower, fragments_upper, internal_match_fragments, msn_spec)))
+  sum_found >= min_found
+}
