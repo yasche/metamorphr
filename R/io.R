@@ -152,7 +152,7 @@ create_metadata_skeleton <- function(data) {
 #'
 #'
 #' @param file The path to the MGF file.
-#' @param show_progress A `logical` indicating wether the progress of the import should be printed to the console. Only important for large MGF files.
+#' @param show_progress A `logical` indicating whether the progress of the import should be printed to the console. Only important for large MGF files.
 #'
 #' @return A tidy tibble holding MS/MS spectra.
 #' @export

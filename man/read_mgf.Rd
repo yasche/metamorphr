@@ -9,7 +9,7 @@ read_mgf(file, show_progress = TRUE)
 \arguments{
 \item{file}{The path to the MGF file.}
 
-\item{show_progress}{A \code{logical} indicating wether the progress of the import should be printed to the console. Only important for large MGF files.}
+\item{show_progress}{A \code{logical} indicating whether the progress of the import should be printed to the console. Only important for large MGF files.}
 }
 \value{
 A tidy tibble holding MS/MS spectra.
