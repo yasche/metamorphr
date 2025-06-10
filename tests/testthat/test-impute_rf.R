@@ -8,6 +8,8 @@ test_that(".Random.seed stays untouched with impute_rf, seed provided", {
   khan.expr <- khanmiss[-1, -(1:2)] %>%
     as.matrix() %>%
     tibble::as_tibble() %>%
+    #only use small subset to save CPU time
+    head(50) %>%
     purrr::map(as.numeric) %>%
     tibble::as_tibble() %>%
     dplyr::mutate(UID = seq(1, length(.data$sample1))) %>%
@@ -33,6 +35,8 @@ test_that(".Random.seed stays untouched with impute_rf, no seed provided", {
   khan.expr <- khanmiss[-1, -(1:2)] %>%
     as.matrix() %>%
     tibble::as_tibble() %>%
+    #only use small subset to save CPU time
+    head(50) %>%
     purrr::map(as.numeric) %>%
     tibble::as_tibble() %>%
     dplyr::mutate(UID = seq(1, length(.data$sample1))) %>%
@@ -53,6 +57,8 @@ test_that("No more NA after imputation", {
   khan.expr <- khanmiss[-1, -(1:2)] %>%
     as.matrix() %>%
     tibble::as_tibble() %>%
+    #only use small subset to save CPU time
+    head(50) %>%
     purrr::map(as.numeric) %>%
     tibble::as_tibble() %>%
     dplyr::mutate(UID = seq(1, length(.data$sample1))) %>%
