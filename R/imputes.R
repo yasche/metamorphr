@@ -128,7 +128,7 @@ impute_min <- function(data) {
 #' @param div_by A numeric value that specifies by which number the Feature minimum will be divided
 #'
 #' @return A tibble with imputed missing values.
-#' @references <a href="https://omicsforum.ca/t/how-to-deal-with-missing-values/75">LoD on OmicsForum</a>
+#' @references \href{https://omicsforum.ca/t/how-to-deal-with-missing-values/75}{LoD on OmicsForum}
 #' @export
 #'
 #' @examples
@@ -155,11 +155,13 @@ impute_lod <- function(data, div_by = 5) {
 #' Note that the function ln-transforms the data prior to imputation and transforms it back to the original scale afterwards. **Please do not do it manually prior to calling `impute_knn()`!**
 #' See References for more information.
 #'
-#' <b>Important Note</b><br>
+#'
+#' \strong{Important Note}
+#'
 #' `impute_knn()` depends on the `impute` package from Bioconductor. If `metamorphr` was installed via `install.packages()`, dependencies from Bioconductor were not
 #' automatically installed. When `impute_knn()` is called without the `impute` package installed, you should be asked if you want to install `pak` and `impute`.
 #' If you want to use `impute_knn()` you have to install those. In case you run into trouble with the automatic installation, please install `impute` manually. See
-#' <a href = "https://bioconductor.org/packages/release/bioc/html/impute.html">impute: Imputation for microarray data</a> for instructions on manual installation.
+#' \href{https://bioconductor.org/packages/release/bioc/html/impute.html}{impute: Imputation for microarray data} for instructions on manual installation.
 #'
 #' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
 #' @param quietly `TRUE` or `FALSE`. Should messages and warnings from \code{\link[impute]{impute.knn}} be printed to the console?
@@ -168,12 +170,10 @@ impute_lod <- function(data, div_by = 5) {
 #' @return A tibble with imputed missing values.
 #' @export
 #'
-#' @references For further information, see
-#' <ul>
-#' <li>Robert Tibshirani, Trevor Hastie, <b>2017</b>, DOI <a href = "https://doi.org/10.18129/B9.BIOC.IMPUTE">10.18129/B9.BIOC.IMPUTE</a>.</li>
-#' <li>J. Khan, J. S. Wei, M. Ringnér, L. H. Saal, M. Ladanyi, F. Westermann, F. Berthold, M. Schwab, C. R. Antonescu, C. Peterson, P. S. Meltzer, <i>Nat Med</i> <b>2001</b>, <i>7</i>, 673–679, DOI <a href = "https://doi.org/10.1038/89044">10.1038/89044</a>.</li>
-#' </ul>
-#'
+#' @references \itemize{
+#' \item Robert Tibshirani, Trevor Hastie, \strong{2017}, \href{https://doi.org/10.18129/B9.BIOC.IMPUTE}{10.18129/B9.BIOC.IMPUTE}.
+#' \item J. Khan, J. S. Wei, M. Ringnér, L. H. Saal, M. Ladanyi, F. Westermann, F. Berthold, M. Schwab, C. R. Antonescu, C. Peterson, P. S. Meltzer, \emph{Nat Med} \strong{2001}, \emph{7}, 673–679, DOI \href{https://doi.org/10.1038/89044}{10.1038/89044}.
+#' }
 #' @examples
 #' toy_metaboscape %>%
 #'   impute_knn()
@@ -270,11 +270,10 @@ impute_knn <- function(data, quietly = TRUE, ...) {
 #' @return A tibble with imputed missing values.
 #' @export
 #'
-#' @references For further information, see
-#' <ul>
-#' <li>Daniel J. Stekhoven <stekhoven@stat.math.ethz.ch>, <b>2011</b>, DOI <a href = "https://doi.org/10.32614/CRAN.package.missForest">10.32614/CRAN.package.missForest</a>.</li>
-#' <li>D. J. Stekhoven, P. Bühlmann, <i>Bioinformatics</i> <b>2012</b>, <i>28</i>, 112–118, DOI <a href = "https://doi.org/10.1093/bioinformatics/btr597">10.1093/bioinformatics/btr597</a>.</li>
-#' </ul>
+#' @references \itemize{
+#' \item \CRANpkg{missForest} on CRAN
+#' \item D. J. Stekhoven, P. Bühlmann, \emph{Bioinformatics} \strong{2012}, \emph{28}, 112–118, DOI 10.1093/bioinformatics/btr597.
+#' }
 #'
 #' @examples
 #' toy_metaboscape %>%
@@ -350,11 +349,10 @@ impute_rf <- function(data, random_seed = 1L, ...) {
 #' @return A tibble with imputed missing values.
 #' @export
 #'
-#' @references For further information, see
-#' <ul>
-#' <li>H. R. Wolfram Stacklies, <b>2017</b>, DOI <a href = "https://doi.org/10.18129/B9.BIOC.PCAMETHODS">10.18129/B9.BIOC.PCAMETHODS</a>.</li>
-#' <li>W. Stacklies, H. Redestig, M. Scholz, D. Walther, J. Selbig, <i>Bioinformatics</i> <b>2007</b>, <i>23</i>, 1164–1167, DOI <a href = "https://doi.org/10.1093/bioinformatics/btm069">10.1093/bioinformatics/btm069</a>.</li>
-#' </ul>
+#' @references \itemize{
+#' \item H. R. Wolfram Stacklies, \strong{2017}, DOI \href{https://doi.org/10.18129/B9.BIOC.PCAMETHODS}{10.18129/B9.BIOC.PCAMETHODS}.
+#' \item W. Stacklies, H. Redestig, M. Scholz, D. Walther, J. Selbig, \emph{Bioinformatics} \strong{2007}, \emph{23}, 1164–1167, DOI 10.1093/bioinformatics/btm069.
+#' }
 #'
 #' @examples
 #' toy_metaboscape %>%
@@ -405,11 +403,10 @@ impute_nipals <- function(data, n_pcs = 2, center = TRUE, scale = "none", direct
 #' @return A tibble with imputed missing values.
 #' @export
 #'
-#' @references For further information, see
-#' <ul>
-#' <li>H. R. Wolfram Stacklies, <b>2017</b>, DOI <a href = "https://doi.org/10.18129/B9.BIOC.PCAMETHODS">10.18129/B9.BIOC.PCAMETHODS</a>.</li>
-#' <li>W. Stacklies, H. Redestig, M. Scholz, D. Walther, J. Selbig, <i>Bioinformatics</i> <b>2007</b>, <i>23</i>, 1164–1167, DOI <a href = "https://doi.org/10.1093/bioinformatics/btm069">10.1093/bioinformatics/btm069</a>.</li>
-#' </ul>
+#' @references \itemize{
+#' \item H. R. Wolfram Stacklies, \strong{2017}, DOI \href{https://doi.org/10.18129/B9.BIOC.PCAMETHODS}{10.18129/B9.BIOC.PCAMETHODS}.
+#' \item W. Stacklies, H. Redestig, M. Scholz, D. Walther, J. Selbig, \emph{Bioinformatics} \strong{2007}, \emph{23}, 1164–1167, DOI 10.1093/bioinformatics/btm069.
+#' }
 #'
 #' @examples
 #' toy_metaboscape %>%
@@ -465,11 +462,10 @@ impute_bpca <- function(data, n_pcs = 2, center = TRUE, scale = "none", directio
 #' @return A tibble with imputed missing values.
 #' @export
 #'
-#' @references For further information, see
-#' <ul>
-#' <li>H. R. Wolfram Stacklies, <b>2017</b>, DOI <a href = "https://doi.org/10.18129/B9.BIOC.PCAMETHODS">10.18129/B9.BIOC.PCAMETHODS</a>.</li>
-#' <li>W. Stacklies, H. Redestig, M. Scholz, D. Walther, J. Selbig, <i>Bioinformatics</i> <b>2007</b>, <i>23</i>, 1164–1167, DOI <a href = "https://doi.org/10.1093/bioinformatics/btm069">10.1093/bioinformatics/btm069</a>.</li>
-#' </ul>
+#' @references \itemize{
+#' \item H. R. Wolfram Stacklies, \strong{2017}, DOI \href{https://doi.org/10.18129/B9.BIOC.PCAMETHODS}{10.18129/B9.BIOC.PCAMETHODS}.
+#' \item W. Stacklies, H. Redestig, M. Scholz, D. Walther, J. Selbig, \emph{Bioinformatics} \strong{2007}, \emph{23}, 1164–1167, DOI 10.1093/bioinformatics/btm069.
+#' }
 #'
 #' @examples
 #' toy_metaboscape %>%
@@ -520,12 +516,11 @@ impute_ppca <- function(data, n_pcs = 2, center = TRUE, scale = "none", directio
 #' @return A tibble with imputed missing values.
 #' @export
 #'
-#' @references For further information, see
-#' <ul>
-#' <li>H. R. Wolfram Stacklies, <b>2017</b>, DOI <a href = "https://doi.org/10.18129/B9.BIOC.PCAMETHODS">10.18129/B9.BIOC.PCAMETHODS</a>.</li>
-#' <li>W. Stacklies, H. Redestig, M. Scholz, D. Walther, J. Selbig, <i>Bioinformatics</i> <b>2007</b>, <i>23</i>, 1164–1167, DOI <a href = "https://doi.org/10.1093/bioinformatics/btm069">10.1093/bioinformatics/btm069</a>.</li>
-#' <li>O. Troyanskaya, M. Cantor, G. Sherlock, P. Brown, T. Hastie, R. Tibshirani, D. Botstein, R. B. Altman, <i>Bioinformatics</i> <b>2001</b>, <i>17</i>, 520–525, DOI <a href = "https://doi.org/10.1093/bioinformatics/17.6.520">10.1093/bioinformatics/17.6.520</a>.</li>
-#' </ul>
+#' @references \itemize{
+#' \item H. R. Wolfram Stacklies, \strong{2017}, DOI \href{https://doi.org/10.18129/B9.BIOC.PCAMETHODS}{10.18129/B9.BIOC.PCAMETHODS}.
+#' \item W. Stacklies, H. Redestig, M. Scholz, D. Walther, J. Selbig, \emph{Bioinformatics} \strong{2007}, \emph{23}, 1164–1167, DOI 10.1093/bioinformatics/btm069.
+#' \item O. Troyanskaya, M. Cantor, G. Sherlock, P. Brown, T. Hastie, R. Tibshirani, D. Botstein, R. B. Altman, \emph{Bioinformatics} \strong{2001}, \emph{17}, 520–525, DOI 10.1093/bioinformatics/17.6.520.
+#' }
 #'
 #' @examples
 #' toy_metaboscape %>%
@@ -556,7 +551,8 @@ impute_svd <- function(data, n_pcs = 2, center = TRUE, scale = "none", direction
 #' Impute missing values using Local Least Squares (LLS)
 #'
 #' @description
-#' A short description...
+#' Basically a wrapper around `pcaMethods::`\code{\link[pcaMethods]{llsImpute}}.
+#' For a detailed discussion, see the `vignette("pcaMethods")` and `vignette("missingValues", "pcaMethods")` as well as the References section.
 #'
 #' <b>Important Note</b><br>
 #' `impute_lls()` depends on the `pcaMethods` package from Bioconductor. If `metamorphr` was installed via `install.packages()`, dependencies from Bioconductor were not
@@ -572,6 +568,11 @@ impute_svd <- function(data, n_pcs = 2, center = TRUE, scale = "none", direction
 #'
 #' @return A tibble with imputed missing values.
 #' @export
+#'
+#' @references \itemize{
+#' \item H. R. Wolfram Stacklies, \strong{2017}, DOI \href{https://doi.org/10.18129/B9.BIOC.PCAMETHODS}{10.18129/B9.BIOC.PCAMETHODS}.
+#' \item W. Stacklies, H. Redestig, M. Scholz, D. Walther, J. Selbig, \emph{Bioinformatics} \strong{2007}, \emph{23}, 1164–1167, DOI 10.1093/bioinformatics/btm069.
+#' }
 #'
 #' @examples
 #' # The cluster size must be reduced because

@@ -115,7 +115,7 @@ filter_grouped_mv <- function(data, min_found = 0.5, group_column = .data$Group,
 #' Zeros will be replaced with `NA` after calculation no matter if it is `TRUE` or `FALSE`.
 #'
 #' @return A filtered tibble.
-#' @references <a href="https://en.wikipedia.org/wiki/Coefficient_of_variation">Coefficient of Variation on Wikipedia</a>
+#' @references \href{https://en.wikipedia.org/wiki/Coefficient_of_variation}{Coefficient of Variation on Wikipedia}
 #' @export
 #'
 #' @examples

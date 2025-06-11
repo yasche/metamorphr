@@ -36,11 +36,9 @@ toy_metaboscape \%>\%
   impute_svd()
 }
 \references{
-For further information, see\if{html}{\out{
-<ul>
-<li>H. R. Wolfram Stacklies, <b>2017</b>, DOI <a href = "https://doi.org/10.18129/B9.BIOC.PCAMETHODS">10.18129/B9.BIOC.PCAMETHODS</a>.</li>
-<li>W. Stacklies, H. Redestig, M. Scholz, D. Walther, J. Selbig, <i>Bioinformatics</i> <b>2007</b>, <i>23</i>, 1164–1167, DOI <a href = "https://doi.org/10.1093/bioinformatics/btm069">10.1093/bioinformatics/btm069</a>.</li>
-<li>O. Troyanskaya, M. Cantor, G. Sherlock, P. Brown, T. Hastie, R. Tibshirani, D. Botstein, R. B. Altman, <i>Bioinformatics</i> <b>2001</b>, <i>17</i>, 520–525, DOI <a href = "https://doi.org/10.1093/bioinformatics/17.6.520">10.1093/bioinformatics/17.6.520</a>.</li>
-</ul>
-}}
+\itemize{
+\item H. R. Wolfram Stacklies, \strong{2017}, DOI \href{https://doi.org/10.18129/B9.BIOC.PCAMETHODS}{10.18129/B9.BIOC.PCAMETHODS}.
+\item W. Stacklies, H. Redestig, M. Scholz, D. Walther, J. Selbig, \emph{Bioinformatics} \strong{2007}, \emph{23}, 1164–1167, DOI 10.1093/bioinformatics/btm069.
+\item O. Troyanskaya, M. Cantor, G. Sherlock, P. Brown, T. Hastie, R. Tibshirani, D. Botstein, R. B. Altman, \emph{Bioinformatics} \strong{2001}, \emph{17}, 520–525, DOI 10.1093/bioinformatics/17.6.520.
+}
 }

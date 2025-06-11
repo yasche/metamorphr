@@ -22,21 +22,20 @@ Basically a wrapper function around \verb{impute::}\code{\link[impute]{impute.kn
 Note that the function ln-transforms the data prior to imputation and transforms it back to the original scale afterwards. \strong{Please do not do it manually prior to calling \code{impute_knn()}!}
 See References for more information.
 
-\if{html}{\out{<b>}}Important Note\if{html}{\out{</b>}}\if{html}{\out{<br>}}
+\strong{Important Note}
+
 \code{impute_knn()} depends on the \code{impute} package from Bioconductor. If \code{metamorphr} was installed via \code{install.packages()}, dependencies from Bioconductor were not
 automatically installed. When \code{impute_knn()} is called without the \code{impute} package installed, you should be asked if you want to install \code{pak} and \code{impute}.
 If you want to use \code{impute_knn()} you have to install those. In case you run into trouble with the automatic installation, please install \code{impute} manually. See
-\if{html}{\out{<a href = "https://bioconductor.org/packages/release/bioc/html/impute.html">}}impute: Imputation for microarray data\if{html}{\out{</a>}} for instructions on manual installation.
+\href{https://bioconductor.org/packages/release/bioc/html/impute.html}{impute: Imputation for microarray data} for instructions on manual installation.
 }
 \examples{
 toy_metaboscape \%>\%
   impute_knn()
 }
 \references{
-For further information, see\if{html}{\out{
-<ul>
-<li>Robert Tibshirani, Trevor Hastie, <b>2017</b>, DOI <a href = "https://doi.org/10.18129/B9.BIOC.IMPUTE">10.18129/B9.BIOC.IMPUTE</a>.</li>
-<li>J. Khan, J. S. Wei, M. Ringnér, L. H. Saal, M. Ladanyi, F. Westermann, F. Berthold, M. Schwab, C. R. Antonescu, C. Peterson, P. S. Meltzer, <i>Nat Med</i> <b>2001</b>, <i>7</i>, 673–679, DOI <a href = "https://doi.org/10.1038/89044">10.1038/89044</a>.</li>
-</ul>
-}}
+\itemize{
+\item Robert Tibshirani, Trevor Hastie, \strong{2017}, \href{https://doi.org/10.18129/B9.BIOC.IMPUTE}{10.18129/B9.BIOC.IMPUTE}.
+\item J. Khan, J. S. Wei, M. Ringnér, L. H. Saal, M. Ladanyi, F. Westermann, F. Berthold, M. Schwab, C. R. Antonescu, C. Peterson, P. S. Meltzer, \emph{Nat Med} \strong{2001}, \emph{7}, 673–679, DOI \href{https://doi.org/10.1038/89044}{10.1038/89044}.
+}
 }

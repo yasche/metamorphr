@@ -9,7 +9,7 @@
 #' @return A tibble with intensities normalized across samples.
 #' @export
 #'
-#' @references T. Ramirez, A. Strigun, A. Verlohner, H.-A. Huener, E. Peter, M. Herold, N. Bordag, W. Mellert, T. Walk, M. Spitzer, X. Jiang, S. Sperber, T. Hofmann, T. Hartung, H. Kamp, B. Van Ravenzwaay, <i>Arch Toxicol</i> <b>2018</b>, <i>92</i>, 893–906, DOI <a href = "https://doi.org/10.1007/s00204-017-2079-6">10.1007/s00204-017-2079-6</a>.
+#' @references T. Ramirez, A. Strigun, A. Verlohner, H.-A. Huener, E. Peter, M. Herold, N. Bordag, W. Mellert, T. Walk, M. Spitzer, X. Jiang, S. Sperber, T. Hofmann, T. Hartung, H. Kamp, B. Van Ravenzwaay, \emph{Arch Toxicol} \strong{2018}, \emph{92}, 893–906, DOI \href{https://doi.org/10.1007/s00204-017-2079-6}{10.1007/s00204-017-2079-6}.
 #'
 #' @examples
 #' toy_metaboscape %>%
@@ -26,9 +26,10 @@ normalize_median <- function(data) {
 #' @description
 #' Normalize across samples by dividing feature intensities by the sum of all intensities in a sample, making the sum 1 in all samples.
 #'
-#' <b>Important Note</b><br>
+#' \strong{Important Note}
+#'
 #' Intensities of individual features will be very small after this normalization approach. It is therefore advised to multiply all intensities with a fixed number (e.g., 1000) after normalization.
-#' See <a href = "https://omicsforum.ca/t/sum-normalization-needs-clarification-or-potentially-has-an-issue/3244">this discussion on OMICSForum.ca</a> and the examples below
+#' See \href{https://omicsforum.ca/t/sum-normalization-needs-clarification-or-potentially-has-an-issue/3244}{this discussion on OMICSForum.ca} and the examples below
 #' for further information.
 #'
 #' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
@@ -67,7 +68,7 @@ normalize_sum <- function(data) {
 #' @return A tibble with intensities normalized across samples.
 #' @export
 #'
-#' @references Y. Zhao, L. Wong, W. W. B. Goh, <i>Sci Rep</i> <b>2020</b>, <i>10</i>, 15534, DOI <a href = "https://doi.org/10.1038/s41598-020-72664-6">10.1038/s41598-020-72664-6</a>.
+#' @references Y. Zhao, L. Wong, W. W. B. Goh, \emph{Sci Rep} \strong{2020}, \emph{10}, 15534, DOI \href{https://doi.org/10.1038/s41598-020-72664-6}{10.1038/s41598-020-72664-6}.
 #'
 #' @examples
 #' toy_metaboscape %>%
@@ -94,7 +95,7 @@ normalize_quantile_all <- function(data) {
 #' Normalize intensities across samples using grouped Quantile Normalization
 #'
 #' @description
-#' This function performs a Quantile Normalization on each sub-group in the data set. <b>It therefore requires grouping information</b>. See
+#' This function performs a Quantile Normalization on each sub-group in the data set. \strong{It therefore requires grouping information}. See
 #' Examples for more information. This approach might perform better than the standard approach, \code{\link[metamorphr]{normalize_quantile_all}},
 #' if sub-groups are very different (e.g., when comparing cancer vs. normal tissue).
 #'
@@ -104,7 +105,7 @@ normalize_quantile_all <- function(data) {
 #' - \code{\link[metamorphr]{normalize_quantile_smooth}}
 #'
 #' See References for more information.
-#' Note that it is equivalent to the 'Class-specific' normalization in Zhao <i>et al.</i> but has been renamed for internal consistency.
+#' Note that it is equivalent to the 'Class-specific' normalization in Zhao \emph{et al.} but has been renamed for internal consistency.
 #'
 #' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
 #' @param group_column Which column should be used for grouping? Usually `grouping_column = Group`. Uses \code{\link[rlang]{args_data_masking}}.
@@ -112,7 +113,7 @@ normalize_quantile_all <- function(data) {
 #' @return A tibble with intensities normalized across samples.
 #' @export
 #'
-#' @references Y. Zhao, L. Wong, W. W. B. Goh, <i>Sci Rep</i> <b>2020</b>, <i>10</i>, 15534, DOI <a href = "https://doi.org/10.1038/s41598-020-72664-6">10.1038/s41598-020-72664-6</a>.
+#' @references Y. Zhao, L. Wong, W. W. B. Goh, \emph{Sci Rep} \strong{2020}, \emph{10}, 15534, DOI \href{https://doi.org/10.1038/s41598-020-72664-6}{10.1038/s41598-020-72664-6}.
 #'
 #' @examples
 #' toy_metaboscape %>%
@@ -142,7 +143,7 @@ normalize_quantile_group <- function(data, group_column = .data$Group) {
 #' Normalize intensities across samples using grouped Quantile Normalization with multiple batches
 #'
 #' @description
-#' This function performs a Quantile Normalization on each sub-group and batch in the data set. <b>It therefore requires grouping and batch information</b>. See
+#' This function performs a Quantile Normalization on each sub-group and batch in the data set. \strong{It therefore requires grouping information}. See
 #' Examples for more information. This approach might perform better than the standard approach, \code{\link[metamorphr]{normalize_quantile_all}},
 #' if sub-groups are very different (e.g., when comparing cancer vs. normal tissue).
 #'
@@ -152,7 +153,7 @@ normalize_quantile_group <- function(data, group_column = .data$Group) {
 #' - \code{\link[metamorphr]{normalize_quantile_smooth}}
 #'
 #' See References for more information.
-#' Note that it is equivalent to the 'Discrete' normalization in Zhao <i>et al.</i> but has been renamed for internal consistency.
+#' Note that it is equivalent to the 'Discrete' normalization in Zhao \emph{et al.} but has been renamed for internal consistency.
 #'
 #' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
 #' @param group_column Which column should be used for grouping? Usually `grouping_column = Group`. Uses \code{\link[rlang]{args_data_masking}}.
@@ -161,7 +162,7 @@ normalize_quantile_group <- function(data, group_column = .data$Group) {
 #' @return A tibble with intensities normalized across samples.
 #' @export
 #'
-#' @references Y. Zhao, L. Wong, W. W. B. Goh, <i>Sci Rep</i> <b>2020</b>, <i>10</i>, 15534, DOI <a href = "https://doi.org/10.1038/s41598-020-72664-6">10.1038/s41598-020-72664-6</a>.
+#' @references Y. Zhao, L. Wong, W. W. B. Goh, \emph{Sci Rep} \strong{2020}, \emph{10}, 15534, DOI \href{https://doi.org/10.1038/s41598-020-72664-6}{10.1038/s41598-020-72664-6}.
 #'
 #' @examples
 #' toy_metaboscape %>%
@@ -191,10 +192,10 @@ normalize_quantile_batch <- function(data, group_column = .data$Group, batch_col
 #' Normalize intensities across samples using smooth Quantile Normalization (qsmooth)
 #'
 #' @description
-#' This function performs a smooth Quantile Normalization on each sub-group in the data set (qsmooth). <b>It therefore requires grouping information</b>. See
+#' This function performs a smooth Quantile Normalization on each sub-group in the data set (qsmooth). \strong{It therefore requires grouping information}. See
 #' Examples for more information. This approach might perform better than the standard approach, \code{\link[metamorphr]{normalize_quantile_all}},
 #' if sub-groups are very different (e.g., when comparing cancer vs. normal tissue). The result lies somewhere between \code{\link[metamorphr]{normalize_quantile_group}}
-#' and \code{\link[metamorphr]{normalize_quantile_all}}. Basically a re-implementation of Hicks <i>et al.</i> (2018).
+#' and \code{\link[metamorphr]{normalize_quantile_all}}. Basically a re-implementation of Hicks \emph{et al.} (2018).
 #'
 #' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
 #' @param group_column Which column should be used for grouping? Usually `grouping_column = Group`. Uses \code{\link[rlang]{args_data_masking}}.
@@ -203,11 +204,10 @@ normalize_quantile_batch <- function(data, group_column = .data$Group, batch_col
 #' @return A tibble with intensities normalized across samples.
 #' @export
 #'
-#' @references For further information, see
-#' <ul>
-#'  <li>S. C. Hicks, K. Okrah, J. N. Paulson, J. Quackenbush, R. A. Irizarry, H. C. Bravo, <i>Biostatistics</i> <b>2018</b>, <i>19</i>, 185–198, DOI <a href = "https://doi.org/10.1093/biostatistics/kxx028">10.1093/biostatistics/kxx028</a></li>
-#'  <li>Y. Zhao, L. Wong, W. W. B. Goh, <i>Sci Rep</i> <b>2020</b>, <i>10</i>, 15534, DOI <a href = "https://doi.org/10.1038/s41598-020-72664-6">10.1038/s41598-020-72664-6</a>.</li>
-#' </ul>
+#' @references \itemize{
+#'  \item S. C. Hicks, K. Okrah, J. N. Paulson, J. Quackenbush, R. A. Irizarry, H. C. Bravo, \emph{Biostatistics} \strong{2018}, \emph{19}, 185–198, DOI 10.1093/biostatistics/kxx028.
+#'  \item Y. Zhao, L. Wong, W. W. B. Goh, \emph{Sci Rep} \strong{2020}, \emph{10}, 15534, DOI \href{https://doi.org/10.1038/s41598-020-72664-6}{10.1038/s41598-020-72664-6}.
+#' }
 #'
 #' @examples
 #' toy_metaboscape %>%
@@ -365,19 +365,19 @@ normalize_factor <- function() {
 #' @description
 #' The steps the algorithm takes are the following:
 #'
-#' <ol>
-#'  <li>log2 transform the intensities</li>
-#'  <li>Choose 2 samples to generate an <a href = "https://en.wikipedia.org/wiki/MA_plot">MA-plot</a> from</li>
-#'  <li>Fit a LOESS curve</li>
-#'  <li>Subtract half of the difference between the predicted value and the true value from the intensity of sample 1 and add the same amount to the intensity of Sample 2</li>
-#'  <li>Repeat for all unique combinations of samples</li>
-#'  <li>Repeat all steps until the model converges or <code>n_iter</code> is reached.<sup>1</sup></li>
-#' </ol>
-#'
-#' See the reference section for details.
+#' \enumerate{
+#'  \item log2 transform the intensities
+#'  \item Choose 2 samples to generate an \href{https://en.wikipedia.org/wiki/MA_plot}{MA-plot} from
+#'  \item Fit a LOESS curve
+#'  \item Subtract half of the difference between the predicted value and the true value from the intensity of sample 1 and add the same amount to the intensity of Sample 2
+#'  \item Repeat for all unique combinations of samples
+#'  \item Repeat all steps until the model converges or \code{n_iter} is reached.
+#' }
 #'
 #' Convergence is assumed if the confidence intervals of all LOESS smooths include the 0 line. If `fixed_iter = TRUE`, the algorithm will perform exactly `n_iter` iterations.
 #' If `fixed_iter = FALSE`, the algorithm will perform a maximum of `n_iter` iterations.
+#'
+#' See the reference section for details.
 #'
 #' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
 #' @param n_iter The number of iterations to perform. If `fixed_iter = TRUE` exactly `n_iter` will be performed. If `fixed_iter = FALSE` a maximum of `n_iter` will be performed and the algorithm will stop whether convergence is reached or not.
@@ -390,12 +390,11 @@ normalize_factor <- function() {
 #' @return A tibble with intensities normalized across samples.
 #' @export
 #'
-#' @references For further information, see
-#' <ul>
-#'  <li>B. M. Bolstad, R. A. Irizarry, M. Åstrand, T. P. Speed, <i>Bioinformatics</i> <b>2003</b>, <i>19</i>, 185–193, DOI <a href = "https://doi.org/10.1093/bioinformatics/19.2.185">10.1093/bioinformatics/19.2.185</a>.</li>
-#'  <li>Karla Ballman, Diane Grill, Ann Oberg, Terry Therneau, “Faster cyclic loess: normalizing DNA arrays via linear models,” can be found under https://www.mayo.edu/research/documents/biostat-68pdf/doc-10027897, 2004.</li>
-#'  <li>K. V. Ballman, D. E. Grill, A. L. Oberg, T. M. Therneau, <i>Bioinformatics</i> <b>2004</b>, <i>20</i>, 2778–2786, DOI <a href = "https://doi.org/10.1093/bioinformatics/bth327">10.1093/bioinformatics/bth327</a>.</li>
-#' </ul>
+#' @references \itemize{
+#'  \item B. M. Bolstad, R. A. Irizarry, M. Åstrand, T. P. Speed, \emph{Bioinformatics} \strong{2003}, \emph{19}, 185–193, DOI 10.1093/bioinformatics/19.2.185.
+#'  \item Karla Ballman, Diane Grill, Ann Oberg, Terry Therneau, “Faster cyclic loess: normalizing DNA arrays via linear models” can be found under https://www.mayo.edu/research/documents/biostat-68pdf/doc-10027897, 2004.
+#'  \item K. V. Ballman, D. E. Grill, A. L. Oberg, T. M. Therneau, \emph{Bioinformatics} \strong{2004}, \emph{20}, 2778–2786, DOI 10.1093/bioinformatics/bth327.
+#' }
 #'
 #' @examples
 #' toy_metaboscape %>%
@@ -471,13 +470,13 @@ normalize_cyclic_loess <- function(data, n_iter = 3, fixed_iter = TRUE, loess_sp
 
 #' Normalize intensities across samples using a Probabilistic Quotient Normalization (PQN)
 #'
-#' This method was originally developed for <sup>1</sup>H-NMR spectra of complex biofluids but has been adapted for other 'omics data. It aims to eliminate
+#' This method was originally developed for H-NMR spectra of complex biofluids but has been adapted for other 'omics data. It aims to eliminate
 #' dilution effects by calculating the most probable dilution factor for each sample, relative to one or more reference samples. See references for more details.
 #'
 #' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
 #' @param fn Which function should be used to calculate the reference spectrum from the reference samples? Can be either "mean" or "median".
 #' @param normalize_sum A logical indicating whether a sum normalization (aka total area normalization) should be performed prior to PQN.
-#' It is <a href = "https://rdrr.io/github/ricoderks/Rcpm/man/pqn.html">recommended</a> to do so and other packages (e.g., <a href = "https://cran.r-project.org/web/packages/KODAMA/index.html">KODAMA</a>) also perform a sum normalization prior to PQN.
+#' It is \href{https://rdrr.io/github/ricoderks/Rcpm/man/pqn.html}{recommended} to do so and other packages (e.g., \CRANpkg{KODAMA}) also perform a sum normalization prior to PQN.
 #' @param reference_samples Either `NULL` or a character or character vector containing the sample(s)
 #' to calculate the reference spectrum from. In the original publication, it is advised to calculate the median of control samples.
 #' If `NULL`, all samples will be used to calculate the reference spectrum.
@@ -487,10 +486,9 @@ normalize_cyclic_loess <- function(data, n_iter = 3, fixed_iter = TRUE, loess_sp
 #' @return A tibble with intensities normalized across samples.
 #' @export
 #'
-#' @references For further information, see
-#' <ul>
-#' <li>F. Dieterle, A. Ross, G. Schlotterbeck, H. Senn, <i>Anal. Chem.</i> <b>2006</b>, <i>78</i>, 4281–4290, DOI <a href = "https://doi.org/10.1021/ac051632c">10.1021/ac051632c</a>.</li>
-#' </ul>
+#' @references \itemize{
+#' \item F. Dieterle, A. Ross, G. Schlotterbeck, H. Senn, \emph{Anal. Chem.} \strong{2006}, \emph{78}, 4281–4290, DOI 10.1021/ac051632c.
+#' }
 #'
 #' @examples
 #' # specify the reference samples with their sample names

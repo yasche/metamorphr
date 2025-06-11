@@ -21,7 +21,7 @@ normalize_quantile_batch(
 A tibble with intensities normalized across samples.
 }
 \description{
-This function performs a Quantile Normalization on each sub-group and batch in the data set. \if{html}{\out{<b>}}It therefore requires grouping and batch information\if{html}{\out{</b>}}. See
+This function performs a Quantile Normalization on each sub-group and batch in the data set. \strong{It therefore requires grouping information}. See
 Examples for more information. This approach might perform better than the standard approach, \code{\link[metamorphr]{normalize_quantile_all}},
 if sub-groups are very different (e.g., when comparing cancer vs. normal tissue).
 
@@ -33,7 +33,7 @@ Other sub-flavors are also available:
 }
 
 See References for more information.
-Note that it is equivalent to the 'Discrete' normalization in Zhao \if{html}{\out{<i>}}et al.\if{html}{\out{</i>}} but has been renamed for internal consistency.
+Note that it is equivalent to the 'Discrete' normalization in Zhao \emph{et al.} but has been renamed for internal consistency.
 }
 \examples{
 toy_metaboscape \%>\%
@@ -43,5 +43,5 @@ toy_metaboscape \%>\%
   normalize_quantile_batch(group_column = Group, batch_column = Batch)
 }
 \references{
-Y. Zhao, L. Wong, W. W. B. Goh, \if{html}{\out{<i>}}Sci Rep\if{html}{\out{</i>}} \if{html}{\out{<b>}}2020\if{html}{\out{</b>}}, \if{html}{\out{<i>}}10\if{html}{\out{</i>}}, 15534, DOI \if{html}{\out{<a href = "https://doi.org/10.1038/s41598-020-72664-6">}}10.1038/s41598-020-72664-6\if{html}{\out{</a>}}.
+Y. Zhao, L. Wong, W. W. B. Goh, \emph{Sci Rep} \strong{2020}, \emph{10}, 15534, DOI \href{https://doi.org/10.1038/s41598-020-72664-6}{10.1038/s41598-020-72664-6}.
 }

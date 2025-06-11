@@ -19,7 +19,7 @@ normalize_pqn(
 \item{fn}{Which function should be used to calculate the reference spectrum from the reference samples? Can be either "mean" or "median".}
 
 \item{normalize_sum}{A logical indicating whether a sum normalization (aka total area normalization) should be performed prior to PQN.
-It is \if{html}{\out{<a href = "https://rdrr.io/github/ricoderks/Rcpm/man/pqn.html">}}recommended\if{html}{\out{</a>}} to do so and other packages (e.g., \if{html}{\out{<a href = "https://cran.r-project.org/web/packages/KODAMA/index.html">}}KODAMA\if{html}{\out{</a>}}) also perform a sum normalization prior to PQN.}
+It is \href{https://rdrr.io/github/ricoderks/Rcpm/man/pqn.html}{recommended} to do so and other packages (e.g., \CRANpkg{KODAMA}) also perform a sum normalization prior to PQN.}
 
 \item{reference_samples}{Either \code{NULL} or a character or character vector containing the sample(s)
 to calculate the reference spectrum from. In the original publication, it is advised to calculate the median of control samples.
@@ -33,7 +33,7 @@ If \code{NULL}, all samples will be used to calculate the reference spectrum.}
 A tibble with intensities normalized across samples.
 }
 \description{
-This method was originally developed for \if{html}{\out{<sup>}}1\if{html}{\out{</sup>}}H-NMR spectra of complex biofluids but has been adapted for other 'omics data. It aims to eliminate
+This method was originally developed for H-NMR spectra of complex biofluids but has been adapted for other 'omics data. It aims to eliminate
 dilution effects by calculating the most probable dilution factor for each sample, relative to one or more reference samples. See references for more details.
 }
 \examples{
@@ -49,9 +49,7 @@ toy_metaboscape \%>\%
   normalize_pqn(reference_samples = c("QC"), ref_as_group = TRUE, group_column = Group)
 }
 \references{
-For further information, see\if{html}{\out{
-<ul>
-<li>F. Dieterle, A. Ross, G. Schlotterbeck, H. Senn, <i>Anal. Chem.</i> <b>2006</b>, <i>78</i>, 4281–4290, DOI <a href = "https://doi.org/10.1021/ac051632c">10.1021/ac051632c</a>.</li>
-</ul>
-}}
+\itemize{
+\item F. Dieterle, A. Ross, G. Schlotterbeck, H. Senn, \emph{Anal. Chem.} \strong{2006}, \emph{78}, 4281–4290, DOI 10.1021/ac051632c.
+}
 }

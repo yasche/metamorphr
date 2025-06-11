@@ -15,9 +15,9 @@ read_mgf(file, show_progress = TRUE)
 A tidy tibble holding MS/MS spectra.
 }
 \description{
-\if{html}{\out{<a href = "https://www.matrixscience.com/help/data_file_help.html">}}MGF files\if{html}{\out{</a>}} allow the storage of MS/MS spectra. With this
+\href{https://www.matrixscience.com/help/data_file_help.html}{MGF files} allow the storage of MS/MS spectra. With this
 function they can be read into a tidy tibble. Each variable is stored in a column and each ion (observation) is stored in a separate row.
 MS/MS spectra are stored in a list column named MSn. \if{html}{\out{<br>}}
-Please note that \if{html}{\out{<a href = "https://fiehnlab.ucdavis.edu/projects/lipidblast/mgf-files">}}MGF files are software-specific\if{html}{\out{</a>}} so the variables
-and their names may vary. This function was developed with the GNPS file format exported from \if{html}{\out{<a href = "https://mzio.io/mzmine-news/">}}mzmine\if{html}{\out{</a>}} in mind.
+Please note that \href{https://fiehnlab.ucdavis.edu/projects/lipidblast/mgf-files}{MGF files are software-specific} so the variables
+and their names may vary. This function was developed with the GNPS file format exported from \href{https://mzio.io/mzmine-news/}{mzmine} in mind.
 }

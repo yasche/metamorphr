@@ -12,12 +12,11 @@
 #' @return A tidy tibble.
 #' @export
 #'
-#' @references For further information, see
-#' <ul>
-#'  <li>H. Wickham, <i>J. Stat. Soft.</i> <b>2014</b>, <i>59</i>, DOI <a href = "https://doi.org/10.18637/jss.v059.i10">10.18637/jss.v059.i10</a></li>
-#'  <li>H. Wickham, M. Averick, J. Bryan, W. Chang, L. McGowan, R. François, G. Grolemund, A. Hayes, L. Henry, J. Hester, M. Kuhn, T. Pedersen, E. Miller, S. Bache, K. Müller, J. Ooms, D. Robinson, D. Seidel, V. Spinu, K. Takahashi, D. Vaughan, C. Wilke, K. Woo, H. Yutani, <i>JOSS</i> <b>2019</b>, <i>4</i>, 1686, DOI <a href = "https://doi.org/10.21105/joss.01686">10.21105/joss.01686</a></li>
-#'  <li>“12 Tidy data | R for Data Science,” can be found under <a href ="https://r4ds.had.co.nz/tidy-data.html"> https://r4ds.had.co.nz/tidy-data.html</a>, <b>2023</b></li>
-#' </ul>
+#' @references \itemize{
+#'  \item H. Wickham, \emph{J. Stat. Soft.} \strong{2014}, \emph{59}, DOI \href{https://doi.org/10.18637/jss.v059.i10}{10.18637/jss.v059.i10}.
+#'  \item H. Wickham, M. Averick, J. Bryan, W. Chang, L. McGowan, R. François, G. Grolemund, A. Hayes, L. Henry, J. Hester, M. Kuhn, T. Pedersen, E. Miller, S. Bache, K. Müller, J. Ooms, D. Robinson, D. Seidel, V. Spinu, K. Takahashi, D. Vaughan, C. Wilke, K. Woo, H. Yutani, \emph{JOSS} \strong{2019}, \emph{4}, 1686, DOI \href{https://doi.org/10.21105/joss.01686}{10.21105/joss.01686}.
+#'  \item “12 Tidy data | R for Data Science,” can be found under \url{https://r4ds.had.co.nz/tidy-data.html}, \strong{2023}.
+#' }
 #'
 #' @examples
 #' # Read a toy dataset in the format produced with Bruker MetaboScape (Version 2021).
@@ -142,11 +141,11 @@ create_metadata_skeleton <- function(data) {
 #' Read a MGF file into a tidy tibble
 #'
 #' @description
-#' <a href = "https://www.matrixscience.com/help/data_file_help.html">MGF files</a> allow the storage of MS/MS spectra. With this
+#' \href{https://www.matrixscience.com/help/data_file_help.html}{MGF files} allow the storage of MS/MS spectra. With this
 #' function they can be read into a tidy tibble. Each variable is stored in a column and each ion (observation) is stored in a separate row.
 #' MS/MS spectra are stored in a list column named MSn. <br>
-#' Please note that <a href = "https://fiehnlab.ucdavis.edu/projects/lipidblast/mgf-files">MGF files are software-specific</a> so the variables
-#' and their names may vary. This function was developed with the GNPS file format exported from <a href = "https://mzio.io/mzmine-news/">mzmine</a> in mind.
+#' Please note that \href{https://fiehnlab.ucdavis.edu/projects/lipidblast/mgf-files}{MGF files are software-specific} so the variables
+#' and their names may vary. This function was developed with the GNPS file format exported from \href{https://mzio.io/mzmine-news/}{mzmine} in mind.
 #'
 #'
 #' @param file The path to the MGF file.

@@ -36,10 +36,8 @@ toy_metaboscape \%>\%
   impute_nipals()
 }
 \references{
-For further information, see\if{html}{\out{
-<ul>
-<li>H. R. Wolfram Stacklies, <b>2017</b>, DOI <a href = "https://doi.org/10.18129/B9.BIOC.PCAMETHODS">10.18129/B9.BIOC.PCAMETHODS</a>.</li>
-<li>W. Stacklies, H. Redestig, M. Scholz, D. Walther, J. Selbig, <i>Bioinformatics</i> <b>2007</b>, <i>23</i>, 1164–1167, DOI <a href = "https://doi.org/10.1093/bioinformatics/btm069">10.1093/bioinformatics/btm069</a>.</li>
-</ul>
-}}
+\itemize{
+\item H. R. Wolfram Stacklies, \strong{2017}, DOI \href{https://doi.org/10.18129/B9.BIOC.PCAMETHODS}{10.18129/B9.BIOC.PCAMETHODS}.
+\item W. Stacklies, H. Redestig, M. Scholz, D. Walther, J. Selbig, \emph{Bioinformatics} \strong{2007}, \emph{23}, 1164–1167, DOI 10.1093/bioinformatics/btm069.
+}
 }

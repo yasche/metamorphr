@@ -24,10 +24,8 @@ toy_metaboscape \%>\%
   impute_rf()
 }
 \references{
-For further information, see\if{html}{\out{
-<ul>
-<li>Daniel J. Stekhoven <stekhoven@stat.math.ethz.ch>, <b>2011</b>, DOI <a href = "https://doi.org/10.32614/CRAN.package.missForest">10.32614/CRAN.package.missForest</a>.</li>
-<li>D. J. Stekhoven, P. Bühlmann, <i>Bioinformatics</i> <b>2012</b>, <i>28</i>, 112–118, DOI <a href = "https://doi.org/10.1093/bioinformatics/btr597">10.1093/bioinformatics/btr597</a>.</li>
-</ul>
-}}
+\itemize{
+\item \CRANpkg{missForest} on CRAN
+\item D. J. Stekhoven, P. Bühlmann, \emph{Bioinformatics} \strong{2012}, \emph{28}, 112–118, DOI 10.1093/bioinformatics/btr597.
+}
 }

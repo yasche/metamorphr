@@ -33,22 +33,21 @@ normalize_cyclic_loess(
 A tibble with intensities normalized across samples.
 }
 \description{
-The steps the algorithm takes are the following:\if{html}{\out{
-<ol>
- <li>log2 transform the intensities</li>
- <li>Choose 2 samples to generate an <a href = "https://en.wikipedia.org/wiki/MA_plot">MA-plot</a> from</li>
- <li>Fit a LOESS curve</li>
- <li>Subtract half of the difference between the predicted value and the true value from the intensity of sample 1 and add the same amount to the intensity of Sample 2</li>
- <li>Repeat for all unique combinations of samples</li>
- <li>Repeat all steps until the model converges or <code>n_iter</code> is reached.<sup>1</sup></li>
-</ol>
-}}
+The steps the algorithm takes are the following:
 
-
-See the reference section for details.
+\enumerate{
+\item log2 transform the intensities
+\item Choose 2 samples to generate an \href{https://en.wikipedia.org/wiki/MA_plot}{MA-plot} from
+\item Fit a LOESS curve
+\item Subtract half of the difference between the predicted value and the true value from the intensity of sample 1 and add the same amount to the intensity of Sample 2
+\item Repeat for all unique combinations of samples
+\item Repeat all steps until the model converges or \code{n_iter} is reached.
+}
 
 Convergence is assumed if the confidence intervals of all LOESS smooths include the 0 line. If \code{fixed_iter = TRUE}, the algorithm will perform exactly \code{n_iter} iterations.
 If \code{fixed_iter = FALSE}, the algorithm will perform a maximum of \code{n_iter} iterations.
+
+See the reference section for details.
 }
 \examples{
 toy_metaboscape \%>\%
@@ -56,11 +55,9 @@ toy_metaboscape \%>\%
   normalize_cyclic_loess()
 }
 \references{
-For further information, see\if{html}{\out{
-<ul>
- <li>B. M. Bolstad, R. A. Irizarry, M. Åstrand, T. P. Speed, <i>Bioinformatics</i> <b>2003</b>, <i>19</i>, 185–193, DOI <a href = "https://doi.org/10.1093/bioinformatics/19.2.185">10.1093/bioinformatics/19.2.185</a>.</li>
- <li>Karla Ballman, Diane Grill, Ann Oberg, Terry Therneau, “Faster cyclic loess: normalizing DNA arrays via linear models,” can be found under https://www.mayo.edu/research/documents/biostat-68pdf/doc-10027897, 2004.</li>
- <li>K. V. Ballman, D. E. Grill, A. L. Oberg, T. M. Therneau, <i>Bioinformatics</i> <b>2004</b>, <i>20</i>, 2778–2786, DOI <a href = "https://doi.org/10.1093/bioinformatics/bth327">10.1093/bioinformatics/bth327</a>.</li>
-</ul>
-}}
+\itemize{
+\item B. M. Bolstad, R. A. Irizarry, M. Åstrand, T. P. Speed, \emph{Bioinformatics} \strong{2003}, \emph{19}, 185–193, DOI 10.1093/bioinformatics/19.2.185.
+\item Karla Ballman, Diane Grill, Ann Oberg, Terry Therneau, “Faster cyclic loess: normalizing DNA arrays via linear models” can be found under https://www.mayo.edu/research/documents/biostat-68pdf/doc-10027897, 2004.
+\item K. V. Ballman, D. E. Grill, A. L. Oberg, T. M. Therneau, \emph{Bioinformatics} \strong{2004}, \emph{20}, 2778–2786, DOI 10.1093/bioinformatics/bth327.
+}
 }

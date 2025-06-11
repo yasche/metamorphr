@@ -23,5 +23,5 @@ toy_metaboscape \%>\%
   impute_lod()
 }
 \references{
-\if{html}{\out{<a href="https://omicsforum.ca/t/how-to-deal-with-missing-values/75">}}LoD on OmicsForum\if{html}{\out{</a>}}
+\href{https://omicsforum.ca/t/how-to-deal-with-missing-values/75}{LoD on OmicsForum}
 }

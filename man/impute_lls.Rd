@@ -27,7 +27,8 @@ impute_lls(
 A tibble with imputed missing values.
 }
 \description{
-A short description...
+Basically a wrapper around \verb{pcaMethods::}\code{\link[pcaMethods]{llsImpute}}.
+For a detailed discussion, see the \code{vignette("pcaMethods")} and \code{vignette("missingValues", "pcaMethods")} as well as the References section.
 
 \if{html}{\out{<b>}}Important Note\if{html}{\out{</b>}}\if{html}{\out{<br>}}
 \code{impute_lls()} depends on the \code{pcaMethods} package from Bioconductor. If \code{metamorphr} was installed via \code{install.packages()}, dependencies from Bioconductor were not
@@ -41,4 +42,10 @@ If you want to use \code{impute_lls()} you have to install those. In case you ru
 
 toy_metaboscape \%>\%
   impute_lls(complete_genes = TRUE, cluster_size = 5)
+}
+\references{
+\itemize{
+\item H. R. Wolfram Stacklies, \strong{2017}, DOI \href{https://doi.org/10.18129/B9.BIOC.PCAMETHODS}{10.18129/B9.BIOC.PCAMETHODS}.
+\item W. Stacklies, H. Redestig, M. Scholz, D. Walther, J. Selbig, \emph{Bioinformatics} \strong{2007}, \emph{23}, 1164–1167, DOI 10.1093/bioinformatics/btm069.
+}
 }

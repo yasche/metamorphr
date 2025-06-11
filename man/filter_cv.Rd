@@ -48,5 +48,5 @@ toy_metaboscape \%>\%
   filter_cv(max_cv = 0.2, reference_samples = "QC", ref_as_group = TRUE, group_column = Group)
 }
 \references{
-\if{html}{\out{<a href="https://en.wikipedia.org/wiki/Coefficient_of_variation">}}Coefficient of Variation on Wikipedia\if{html}{\out{</a>}}
+\href{https://en.wikipedia.org/wiki/Coefficient_of_variation}{Coefficient of Variation on Wikipedia}
 }

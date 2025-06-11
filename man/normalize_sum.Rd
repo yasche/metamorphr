@@ -15,9 +15,10 @@ A tibble with intensities normalized across samples.
 \description{
 Normalize across samples by dividing feature intensities by the sum of all intensities in a sample, making the sum 1 in all samples.
 
-\if{html}{\out{<b>}}Important Note\if{html}{\out{</b>}}\if{html}{\out{<br>}}
+\strong{Important Note}
+
 Intensities of individual features will be very small after this normalization approach. It is therefore advised to multiply all intensities with a fixed number (e.g., 1000) after normalization.
-See \if{html}{\out{<a href = "https://omicsforum.ca/t/sum-normalization-needs-clarification-or-potentially-has-an-issue/3244">}}this discussion on OMICSForum.ca\if{html}{\out{</a>}} and the examples below
+See \href{https://omicsforum.ca/t/sum-normalization-needs-clarification-or-potentially-has-an-issue/3244}{this discussion on OMICSForum.ca} and the examples below
 for further information.
 }
 \examples{

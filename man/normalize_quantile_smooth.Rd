@@ -21,10 +21,10 @@ normalize_quantile_smooth(
 A tibble with intensities normalized across samples.
 }
 \description{
-This function performs a smooth Quantile Normalization on each sub-group in the data set (qsmooth). \if{html}{\out{<b>}}It therefore requires grouping information\if{html}{\out{</b>}}. See
+This function performs a smooth Quantile Normalization on each sub-group in the data set (qsmooth). \strong{It therefore requires grouping information}. See
 Examples for more information. This approach might perform better than the standard approach, \code{\link[metamorphr]{normalize_quantile_all}},
 if sub-groups are very different (e.g., when comparing cancer vs. normal tissue). The result lies somewhere between \code{\link[metamorphr]{normalize_quantile_group}}
-and \code{\link[metamorphr]{normalize_quantile_all}}. Basically a re-implementation of Hicks \if{html}{\out{<i>}}et al.\if{html}{\out{</i>}} (2018).
+and \code{\link[metamorphr]{normalize_quantile_all}}. Basically a re-implementation of Hicks \emph{et al.} (2018).
 }
 \examples{
 toy_metaboscape \%>\%
@@ -33,10 +33,8 @@ toy_metaboscape \%>\%
   normalize_quantile_smooth(group_column = Group)
 }
 \references{
-For further information, see\if{html}{\out{
-<ul>
- <li>S. C. Hicks, K. Okrah, J. N. Paulson, J. Quackenbush, R. A. Irizarry, H. C. Bravo, <i>Biostatistics</i> <b>2018</b>, <i>19</i>, 185–198, DOI <a href = "https://doi.org/10.1093/biostatistics/kxx028">10.1093/biostatistics/kxx028</a></li>
- <li>Y. Zhao, L. Wong, W. W. B. Goh, <i>Sci Rep</i> <b>2020</b>, <i>10</i>, 15534, DOI <a href = "https://doi.org/10.1038/s41598-020-72664-6">10.1038/s41598-020-72664-6</a>.</li>
-</ul>
-}}
+\itemize{
+\item S. C. Hicks, K. Okrah, J. N. Paulson, J. Quackenbush, R. A. Irizarry, H. C. Bravo, \emph{Biostatistics} \strong{2018}, \emph{19}, 185–198, DOI 10.1093/biostatistics/kxx028.
+\item Y. Zhao, L. Wong, W. W. B. Goh, \emph{Sci Rep} \strong{2020}, \emph{10}, 15534, DOI \href{https://doi.org/10.1038/s41598-020-72664-6}{10.1038/s41598-020-72664-6}.
+}
 }

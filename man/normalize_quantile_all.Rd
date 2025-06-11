@@ -27,5 +27,5 @@ toy_metaboscape \%>\%
   normalize_quantile_all()
 }
 \references{
-Y. Zhao, L. Wong, W. W. B. Goh, \if{html}{\out{<i>}}Sci Rep\if{html}{\out{</i>}} \if{html}{\out{<b>}}2020\if{html}{\out{</b>}}, \if{html}{\out{<i>}}10\if{html}{\out{</i>}}, 15534, DOI \if{html}{\out{<a href = "https://doi.org/10.1038/s41598-020-72664-6">}}10.1038/s41598-020-72664-6\if{html}{\out{</a>}}.
+Y. Zhao, L. Wong, W. W. B. Goh, \emph{Sci Rep} \strong{2020}, \emph{10}, 15534, DOI \href{https://doi.org/10.1038/s41598-020-72664-6}{10.1038/s41598-020-72664-6}.
 }
