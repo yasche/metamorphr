@@ -3,7 +3,7 @@ test_that("returns a ggplot for default parameters", {
     join_metadata(toy_metaboscape_metadata) %>%
     impute_lod() %>%
     plot_pca()
-  expect_true(ggplot2::is.ggplot(p))
+  expect_true(ggplot2::is_ggplot(p))
 })
 
 test_that('returns a ggplot for what = "scores"', {
@@ -11,7 +11,7 @@ test_that('returns a ggplot for what = "scores"', {
     join_metadata(toy_metaboscape_metadata) %>%
     impute_lod() %>%
     plot_pca(what = "scores")
-  expect_true(ggplot2::is.ggplot(p))
+  expect_true(ggplot2::is_ggplot(p))
 })
 
 test_that('returns a ggplot for what = "loadings"', {
@@ -19,7 +19,7 @@ test_that('returns a ggplot for what = "loadings"', {
     join_metadata(toy_metaboscape_metadata) %>%
     impute_lod() %>%
     plot_pca(what = "loadings")
-  expect_true(ggplot2::is.ggplot(p))
+  expect_true(ggplot2::is_ggplot(p))
 })
 
 test_that('returns a tbl for what = "scores" & return_tbl = TRUE', {
@@ -143,14 +143,14 @@ test_that('check_installed_wrapper("impute") is triggered', {
 })
 
 test_that("Control for tests above (with local_mocked_bindings)", {
-  expect_true(ggplot2::is.ggplot(toy_metaboscape %>%
+  expect_true(ggplot2::is_ggplot(toy_metaboscape %>%
                                    join_metadata(toy_metaboscape_metadata) %>%
                                    impute_lod() %>%
                                    plot_pca()))
 })
 
 test_that("ggplot object if group_column is provided", {
-  expect_true(ggplot2::is.ggplot(toy_metaboscape %>%
+  expect_true(ggplot2::is_ggplot(toy_metaboscape %>%
                                    join_metadata(toy_metaboscape_metadata) %>%
                                    impute_lod() %>%
                                    plot_pca(group_column = Group)))

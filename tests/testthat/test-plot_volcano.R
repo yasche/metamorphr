@@ -3,7 +3,7 @@ test_that("returns a ggplot if return_tbl = FALSE", {
     join_metadata(toy_metaboscape_metadata) %>%
     plot_volcano(group_column = Group, groups_to_compare = c("control", "treatment"), return_tbl = FALSE)
 
-  expect_true(ggplot2::is.ggplot(volc_plot))
+  expect_true(ggplot2::is_ggplot(volc_plot))
 })
 
 test_that("returns no ggplot if return_tbl = TRUE", {
@@ -11,7 +11,7 @@ test_that("returns no ggplot if return_tbl = TRUE", {
     join_metadata(toy_metaboscape_metadata) %>%
     plot_volcano(group_column = Group, groups_to_compare = c("control", "treatment"), return_tbl = TRUE)
 
-  expect_false(ggplot2::is.ggplot(volc_plot))
+  expect_false(ggplot2::is_ggplot(volc_plot))
 })
 
 test_that("returns a ggplot if return_tbl = FALSE and no colors are provided", {
@@ -19,7 +19,7 @@ test_that("returns a ggplot if return_tbl = FALSE and no colors are provided", {
     join_metadata(toy_metaboscape_metadata) %>%
     plot_volcano(group_column = Group, groups_to_compare = c("control", "treatment"), return_tbl = FALSE, colors = NULL)
 
-  expect_true(ggplot2::is.ggplot(volc_plot))
+  expect_true(ggplot2::is_ggplot(volc_plot))
 })
 
 test_that("returns a no tibble if return_tbl = FALSE", {
