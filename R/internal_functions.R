@@ -165,7 +165,7 @@ internal_mgf_to_data_metadata <- function(mgf_string) {
 
 internal_match_fragments <- function(lower, upper, msn_spec) {
   msn_spec <- msn_spec$m_z
-  msn_spec <- msn_spec[msn_spec > lower & msn_spec < upper]
+  msn_spec <- msn_spec[msn_spec >= lower & msn_spec <= upper]
   length(msn_spec) > 0
 }
 
