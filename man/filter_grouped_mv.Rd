@@ -24,7 +24,7 @@ filter_grouped_mv(
 A filtered tibble.
 }
 \description{
-One of several filter functions. Similar to \code{filter_global_mv()} it filters features that are found in a specified number of samples.
+Similar to \code{\link[metamorphr]{filter_global_mv}} it filters features that are found in a specified number of samples.
 The key difference is that \code{filter_grouped_mv()} takes groups into consideration and therefore needs sample metadata.
 For example, if \code{fraction = TRUE} and \code{min_found = 0.5}, a feature must be found in at least 50 \% of the samples of at least 1 group.
 It is very similar to the \emph{Filter features by occurrences in groups} option in Bruker MetaboScape.

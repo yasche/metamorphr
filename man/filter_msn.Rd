@@ -30,5 +30,5 @@ filter_msn(
 A filtered tibble.
 }
 \description{
-Filter Features based on occurrence of fragment ions
+Filters Features based on the presence of MSn fragments. This can help, for example with the identification of potential homologous molecules.
 }

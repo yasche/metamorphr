@@ -1,8 +1,8 @@
 #' Filter Features based on the absolute number or fraction of samples it was found in
 #'
 #' @description
-#' One of several filter functions. Can be used to filter features based on the number or fraction of samples they are found in.
-#' This is usually one of the first steps in metabolomics data analysis and often already performed when the feature table is first created.
+#' Filters features based on the number or fraction of samples they are found in.
+#' This is usually one of the first steps in metabolomics data analysis and often already performed when the feature table is first created from the raw spectral files..
 #'
 #' @param data A tidy tibble created by `metamorphr::read_featuretable()`.
 #' @param min_found In how many samples must a Feature be found? If `fraction == TRUE`, a value between 0 and 1 (_e.g._, 0.5 if a Feature must be found in at least half the samples). If `fraction == FALSE` the absolute maximum number of samples (_e.g._, 5 if a specific Feature must be found in at least 5 samples).
@@ -45,7 +45,7 @@ filter_global_mv <- function(data, min_found = 0.5, fraction = TRUE) {
 #' Group-based feature filtering
 #'
 #' @description
-#' One of several filter functions. Similar to `filter_global_mv()` it filters features that are found in a specified number of samples.
+#' Similar to \code{\link[metamorphr]{filter_global_mv}} it filters features that are found in a specified number of samples.
 #' The key difference is that `filter_grouped_mv()` takes groups into consideration and therefore needs sample metadata.
 #' For example, if `fraction = TRUE` and `min_found = 0.5`, a feature must be found in at least 50 % of the samples of at least 1 group.
 #' It is very similar to the _Filter features by occurrences in groups_ option in Bruker MetaboScape.
@@ -99,12 +99,12 @@ filter_grouped_mv <- function(data, min_found = 0.5, group_column = .data$Group,
 #' Filter Features based on their coefficient of variation
 #'
 #' @description
-#' One of several filter functions. It filters Features based on their coefficient of variation (CV).
-#' It is defined as \eqn{CV = \frac{s_i}{\overline{x_i}}} with \eqn{s_i} = Standard deviation of sample \eqn{i} and \eqn{\overline{x_i}} = Mean of sample \eqn{i}.
+#' Filters Features based on their coefficient of variation (CV).
+#' The CV is defined as \eqn{CV = \frac{s_i}{\overline{x_i}}} with \eqn{s_i} = Standard deviation of sample \eqn{i} and \eqn{\overline{x_i}} = Mean of sample \eqn{i}.
 #'
 #'
 #' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
-#' @param reference_samples The names of the samples or group which will be used to calculate the CV of a feature. Often Quality Control samples.
+#' @param reference_samples The names of the samples or group which will be used to calculate the CV of a feature. Usually Quality Control samples.
 #' @param max_cv The maximum allowed CV. 0.2 is a reasonable start.
 #' @param ref_as_group A logical indicating if `reference_samples` are the names of samples or group(s).
 #' @param group_column Only relevant if `ref_as_group = TRUE`. Which column should be used for grouping reference and non-reference samples? Usually `group_column = Group`. Uses \code{\link[rlang]{args_data_masking}}.
@@ -160,7 +160,7 @@ filter_cv <- function(data, reference_samples, max_cv = 0.2, ref_as_group = FALS
 #' Filter Features based on their occurrence in blank samples
 #'
 #' @description
-#' One of several filter functions. It filters Features based on their occurrence in blank samples.
+#' Filters Features based on their occurrence in blank samples.
 #' For example, if `min_frac = 3` the maximum intensity in samples must be at least 3 times as high as in blanks
 #' for a Feature not to be filtered out.
 #'
@@ -243,6 +243,9 @@ filter_blank <- function(data, blank_samples, min_frac = 3, blank_as_group = FAL
 
 #' Filter Features based on occurrence of fragment ions
 #'
+#' @description
+#' Filters Features based on the presence of MSn fragments. This can help, for example with the identification of potential homologous molecules.
+#'
 #' @param data A data frame containing MSn spectra.
 #' @param fragments A numeric. Exact mass of the fragment(s) to filter by.
 #' @param min_found How many of the `fragments` must be found in order to keep the row? If `min_found = length(fragments)`, all fragments must be found.
@@ -271,6 +274,7 @@ filter_msn <- function(data, fragments, min_found, tolerance = 5, tolerance_type
 
   data %>%
     dplyr::mutate(row_number = .env$rownums) %>%
+    #filter nested data frame to save time
     dplyr::group_by(.data$MSn) %>%
     tidyr::nest() %>%
     dplyr::mutate(msn_match = purrr::map(.data$MSn, internal_match_msn, fragments_lower, fragments_upper, min_found, .progress = show_progress)) %>%

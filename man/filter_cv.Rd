@@ -16,7 +16,7 @@ filter_cv(
 \arguments{
 \item{data}{A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.}
 
-\item{reference_samples}{The names of the samples or group which will be used to calculate the CV of a feature. Often Quality Control samples.}
+\item{reference_samples}{The names of the samples or group which will be used to calculate the CV of a feature. Usually Quality Control samples.}
 
 \item{max_cv}{The maximum allowed CV. 0.2 is a reasonable start.}
 
@@ -34,8 +34,8 @@ Zeros will be replaced with \code{NA} after calculation no matter if it is \code
 A filtered tibble.
 }
 \description{
-One of several filter functions. It filters Features based on their coefficient of variation (CV).
-It is defined as \eqn{CV = \frac{s_i}{\overline{x_i}}} with \eqn{s_i} = Standard deviation of sample \eqn{i} and \eqn{\overline{x_i}} = Mean of sample \eqn{i}.
+Filters Features based on their coefficient of variation (CV).
+The CV is defined as \eqn{CV = \frac{s_i}{\overline{x_i}}} with \eqn{s_i} = Standard deviation of sample \eqn{i} and \eqn{\overline{x_i}} = Mean of sample \eqn{i}.
 }
 \examples{
 # Example 1: Define reference samples by sample names

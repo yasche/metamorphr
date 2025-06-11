@@ -4,7 +4,6 @@
 #' Normalize across samples by dividing feature intensities by the sample median, making the median 1 in all samples.
 #' See References for more information.
 #'
-#'
 #' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
 #'
 #' @return A tibble with intensities normalized across samples.

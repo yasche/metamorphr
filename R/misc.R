@@ -3,7 +3,6 @@
 #' @description
 #' Joins a featuretable and associated sample metadata. Basically a wrapper around \code{\link[dplyr]{left_join}} where `by = "Sample"`.
 #'
-#'
 #' @param data A feature table created with \code{\link[metamorphr]{read_featuretable}}
 #' @param metadata Sample metadata created with \code{\link[metamorphr]{create_metadata_skeleton}}
 #'

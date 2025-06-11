@@ -29,7 +29,7 @@ The latter can only be used if sample metadata is provided.}
 A filtered tibble.
 }
 \description{
-One of several filter functions. It filters Features based on their occurrence in blank samples.
+Filters Features based on their occurrence in blank samples.
 For example, if \code{min_frac = 3} the maximum intensity in samples must be at least 3 times as high as in blanks
 for a Feature not to be filtered out.
 }

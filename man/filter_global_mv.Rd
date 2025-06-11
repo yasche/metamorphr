@@ -17,8 +17,8 @@ filter_global_mv(data, min_found = 0.5, fraction = TRUE)
 A filtered tibble.
 }
 \description{
-One of several filter functions. Can be used to filter features based on the number or fraction of samples they are found in.
-This is usually one of the first steps in metabolomics data analysis and often already performed when the feature table is first created.
+Filters features based on the number or fraction of samples they are found in.
+This is usually one of the first steps in metabolomics data analysis and often already performed when the feature table is first created from the raw spectral files..
 }
 \examples{
 # Example 1: A feature must be found in at least 50 \% of the samples

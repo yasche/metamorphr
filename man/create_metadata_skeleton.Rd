@@ -24,7 +24,7 @@ If no technical replicates exist, set \code{Replicate = 1} for all samples.}
 }
 }
 \description{
-The function takes a tidy tibble created by \code{metamorphr::read_featuretable()} and returns an empty tibble for sample metadata. The tibble can either be populated directly in R or exported and edited by hand (\emph{e.g.} in Excel). Metadata are necessary for several downstream functions. \strong{More columns may be added if necessary}.
+Takes a tidy tibble created by \code{metamorphr::read_featuretable()} and returns an empty tibble for sample metadata. The tibble can either be populated directly in R or exported and edited by hand (\emph{e.g.} in Excel). Metadata are necessary for several downstream functions. \strong{More columns may be added if necessary}.
 }
 \examples{
 featuretable_path <- system.file("extdata", "toy_metaboscape.csv", package = "metamorphr")

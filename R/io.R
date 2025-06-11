@@ -3,7 +3,6 @@
 #' @description
 #' Basically a wrapper around `readr::read_delim()` but performs some initial tidying operations such as `gather()` rearranging columns. The `label_col` will be renamed to _Feature_.
 #'
-#'
 #' @param file A path to a file but can also be a connection or literal data.
 #' @param delim The field separator or delimiter. For example "," in csv files.
 #' @param label_col The index or name of the column that will be used to label Features. For example an identifier (_e.g._, KEGG, CAS, HMDB) or a _m/z_-RT pair.
@@ -102,8 +101,7 @@ read_featuretable <- function(file, delim = ",", label_col = 1, metadata_cols = 
 #' Create a blank metadata skeleton
 #'
 #' @description
-#' The function takes a tidy tibble created by `metamorphr::read_featuretable()` and returns an empty tibble for sample metadata. The tibble can either be populated directly in R or exported and edited by hand (_e.g._ in Excel). Metadata are necessary for several downstream functions. __More columns may be added if necessary__.
-#'
+#' Takes a tidy tibble created by `metamorphr::read_featuretable()` and returns an empty tibble for sample metadata. The tibble can either be populated directly in R or exported and edited by hand (_e.g._ in Excel). Metadata are necessary for several downstream functions. __More columns may be added if necessary__.
 #'
 #' @param data A tidy tibble created by `metamorphr::read_featuretable()`.
 #'
