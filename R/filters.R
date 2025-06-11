@@ -278,9 +278,9 @@ filter_msn <- function(data, fragments, min_found, tolerance = 5, tolerance_type
     dplyr::group_by(.data$MSn) %>%
     tidyr::nest() %>%
     dplyr::mutate(msn_match = purrr::map(.data$MSn, internal_match_msn, fragments_lower, fragments_upper, min_found, .progress = show_progress)) %>%
-    dplyr::filter(.data$msn_match == TRUE) %>%
     tidyr::unnest("data") %>%
     dplyr::ungroup() %>%
+    dplyr::filter(.data$msn_match == TRUE) %>%
     dplyr::arrange(.data$row_number) %>%
     dplyr::select(-"row_number", -"msn_match") %>%
     dplyr::relocate(dplyr::all_of(col_order))
