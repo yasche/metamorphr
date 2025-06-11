@@ -13,7 +13,7 @@ create_metadata_skeleton(data)
 An empty tibble structure with the necessary columns for metadata:
 \describe{
 \item{Sample}{The sample name}
-\item{Group}{To which group does the samples belong? For example a treamtment or a background. Note that additional columns with additional grouping information can be freely added if necessary.}
+\item{Group}{To which group does the samples belong? For example a treatment or a background. Note that additional columns with additional grouping information can be freely added if necessary.}
 \item{Replicate}{If multiple technical replicates exist in the data set,
 they must have the same value for Replicate and the same value for Group so that they can be collapsed.
 Examples for technical replicates are: the same sample was injected multiple times or workup was performed multiple times with the same starting material.

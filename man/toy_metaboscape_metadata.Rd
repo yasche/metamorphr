@@ -10,7 +10,7 @@
 A data frame with 11 rows and 5 columns:
 \describe{
 \item{Sample}{The sample name}
-\item{Group}{To which group does the samples belong? For example a treamtment or a background. Note that additional columns with additional grouping information can be freely added if necessary.}
+\item{Group}{To which group does the samples belong? For example a treatment or a background. Note that additional columns with additional grouping information can be freely added if necessary.}
 \item{Replicate}{The replicate.}
 \item{Batch}{The batch in which the samples were prepared or measured.}
 \item{Factor}{A sample-specific factor, for example dry weight or protein content.}

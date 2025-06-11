@@ -9,7 +9,7 @@ filter_global_mv(data, min_found = 0.5, fraction = TRUE)
 \arguments{
 \item{data}{A tidy tibble created by \code{metamorphr::read_featuretable()}.}
 
-\item{min_found}{In how many samples must a Feature be found? If \code{fraction == TRUE}, a value between 0 and 1 (\emph{e.g.}, 0.5 if a Feature must be found un at least half the samples). If \code{fraction == FALSE} the absolute maximum number of samples (\emph{e.g.}, 5 if a specific Feature must be found in at least 5 samples).}
+\item{min_found}{In how many samples must a Feature be found? If \code{fraction == TRUE}, a value between 0 and 1 (\emph{e.g.}, 0.5 if a Feature must be found in at least half the samples). If \code{fraction == FALSE} the absolute maximum number of samples (\emph{e.g.}, 5 if a specific Feature must be found in at least 5 samples).}
 
 \item{fraction}{Either \code{TRUE} or \code{FALSE}. Should \code{min_found} be the absolute number of samples or a fraction?}
 }
