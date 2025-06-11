@@ -12,7 +12,7 @@ coverage](https://codecov.io/gh/yasche/metamorphr/graph/badge.svg)](https://app.
 
 metamorphr provides a set of wrapper functions to make working with
 metabolomics data more fun. All data is stored in one
-[tidy](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html)
+[tidy](https://cran.r-project.org/package=tidyr/vignettes/tidy-data.html)
 [tibble](https://tibble.tidyverse.org/) which facilitates integration
 with [tidyverse](https://www.tidyverse.org/) packages like
 [dplyr](https://dplyr.tidyverse.org/) and
@@ -51,7 +51,7 @@ alt="Current progress as of January 2025" />
 A prerequisite for frictionless working with
 [tidyverse](https://www.tidyverse.org/) packages is that data is stored
 in a
-[tidy](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html)
+[tidy](https://cran.r-project.org/package=tidyr/vignettes/tidy-data.html)
 format. Metabolomics feature tables usually do not fulfill the criteria
 for tidy data. They are normally a data frame or a matrix with features
 in rows and samples in columns or vice versa. This can lead to
