@@ -30,30 +30,30 @@ plot_volcano(
 
 \item{groups_to_compare}{Names of the groups which should be compared as a character vector. Those are the group names in the \code{group_column}. They are usually provided in the form of a metadata tibble and joined via \code{\link[metamorphr]{join_metadata}}.}
 
-\item{batch_column}{Which column contains the batch information? Usually \code{grouping_column = Batch}. Only relevant if \code{data} contains multiple batches. For example, if \code{data} contains 2 batches and each batch contains measurements of separate controls, \code{group_column} and \code{batch} arguments should be provided. Otherwise controls of both batches will be considered when calculating the \if{html}{\out{<i>}}p\if{html}{\out{</i>}}-value and log\if{html}{\out{<sub>}}2\if{html}{\out{</sub>}} fold change. Uses \code{\link[rlang]{args_data_masking}}.}
+\item{batch_column}{Which column contains the batch information? Usually \code{grouping_column = Batch}. Only relevant if \code{data} contains multiple batches. For example, if \code{data} contains 2 batches and each batch contains measurements of separate controls, \code{group_column} and \code{batch} arguments should be provided. Otherwise controls of both batches will be considered when calculating the \emph{p}-value and log2 fold change. Uses \code{\link[rlang]{args_data_masking}}.}
 
-\item{batch}{The names of the batch(es) that should be included when calculating \if{html}{\out{<i>}}p\if{html}{\out{</i>}}-value and log\if{html}{\out{<sub>}}2\if{html}{\out{</sub>}} fold change.}
+\item{batch}{The names of the batch(es) that should be included when calculating \emph{p}-value and log2 fold change.}
 
-\item{log2fc_cutoff}{A numeric. What cutoff should be used for the log\if{html}{\out{<sub>}}2\if{html}{\out{</sub>}} fold change? Traditionally, this is set to \code{1} which corresponds to a doubling or halving of intensity or area compared to a control. This is only important for assignment to groups and colors defined in the \code{colors} argument.}
+\item{log2fc_cutoff}{A numeric. What cutoff should be used for the log2 fold change? Traditionally, this is set to \code{1} which corresponds to a doubling or halving of intensity or area compared to a control. This is only important for assignment to groups and colors defined in the \code{colors} argument.}
 
-\item{p_value_cutoff}{A numeric. What cutoff should be used for the \if{html}{\out{<i>}}p\if{html}{\out{</i>}}-value? Traditionally, this is set to \code{0.05}. This is only important for assignment to groups and colors defined in the \code{colors} argument. Note that this is not the -log\if{html}{\out{<sub>}}10\if{html}{\out{</sub>}} transformed value.}
+\item{p_value_cutoff}{A numeric. What cutoff should be used for the \emph{p}-value? Traditionally, this is set to \code{0.05}. This is only important for assignment to groups and colors defined in the \code{colors} argument. Note that this is not the -log10 transformed value.}
 
 \item{colors}{A named list for coloring the dots in the Volcano Plot or \code{NULL} in case the points should not be colored. The list must contain colors for the following groups: \code{sig_up}, \code{sig_down}, \code{not_sig_up}, \code{not_sig_down} and \code{not_sig}.}
 
-\item{adjust_p}{Should the \if{html}{\out{<i>}}p\if{html}{\out{</i>}}-value be adjusted? Can be either \code{FALSE}, (the default) in case no adjustment should be made or any or the name from \code{\link[stats]{p.adjust.methods}} (e.g., \code{adjust_p = "fdr"}).}
+\item{adjust_p}{Should the \emph{p}-value be adjusted? Can be either \code{FALSE}, (the default) in case no adjustment should be made or any or the name from \code{\link[stats]{p.adjust.methods}} (e.g., \code{adjust_p = "fdr"}).}
 
-\item{log2_before}{A logical. Should the data be log\if{html}{\out{<sub>}}2\if{html}{\out{</sub>}} transformed prior to calculating the \if{html}{\out{<i>}}p\if{html}{\out{</i>}}-values?}
+\item{log2_before}{A logical. Should the data be log2 transformed prior to calculating the \emph{p}-values?}
 
 \item{return_tbl}{A logical. If \code{FALSE}, returns a ggplot2 object, if \code{TRUE} returns a tibble which can be used to draw the plot manually to have more control.}
 
-\item{...}{Arguments passed on to \code{\link[stats]{t.test}}. If none are provided (the default), a Welch Two Sample \if{html}{\out{<i>}}t\if{html}{\out{</i>}}-test will be performed.}
+\item{...}{Arguments passed on to \code{\link[stats]{t.test}}. If none are provided (the default), a Welch Two Sample \emph{t}-test will be performed.}
 }
 \value{
 Either a Volcano Plot in the form of a ggplot2 object or a tibble.
 }
 \description{
-Performs necessary calculations (i.e., calculate \if{html}{\out{<i>}}p\if{html}{\out{</i>}}-values and log\if{html}{\out{<sub>}}2\if{html}{\out{</sub>}}-fold changes) and creates a basic \if{html}{\out{<a href = "https://en.wikipedia.org/wiki/Volcano_plot_(statistics)">}}Volcano Plot\if{html}{\out{</a>}}.
-The plot is drawn with \if{html}{\out{<a href = "https://ggplot2.tidyverse.org/">}}ggplot2\if{html}{\out{</a>}} and can therefore be easily manipulated afterwards (e.g., changing the theme or the axis labels).
+Performs necessary calculations (i.e., calculate \emph{p}-values and log2-fold changes) and creates a basic \href{https://en.wikipedia.org/wiki/Volcano_plot_(statistics)}{Volcano Plot}.
+The plot is drawn with \href{https://ggplot2.tidyverse.org/}{ggplot2} and can therefore be easily manipulated afterwards (e.g., changing the theme or the axis labels).
 Please note that the function is intended to be easy to use and beginner friendly and therefore offers limited ability to fine-tune certain parameters of the resulting plot.
 If you wish to draw the plot yourself, you can set \code{return_tbl = TRUE}. In this case, a tibble is returned instead of a ggplot2 object which you can use to create a plot yourself.
 A Volcano Plot is used to compare two groups. Therefore grouping information must be provided. See \code{\link[metamorphr]{join_metadata}} for more information.

@@ -43,15 +43,16 @@ Either a Scores or Loadings Plot in the form of a ggplot2 object or a tibble.
 }
 \description{
 Performs PCA and creates a Scores or Loadings plot. Basically a wrapper around \verb{pcaMethods::}\code{\link[pcaMethods]{pca}}
-The plot is drawn with \if{html}{\out{<a href = "https://ggplot2.tidyverse.org/">}}ggplot2\if{html}{\out{</a>}} and can therefore be easily manipulated afterwards (e.g., changing the theme or the axis labels).
+The plot is drawn with \href{https://ggplot2.tidyverse.org/}{ggplot2} and can therefore be easily manipulated afterwards (e.g., changing the theme or the axis labels).
 Please note that the function is intended to be easy to use and beginner friendly and therefore offers limited ability to fine-tune certain parameters of the resulting plot.
 If you wish to draw the plot yourself, you can set \code{return_tbl = TRUE}. In this case, a tibble is returned instead of a ggplot2 object which you can use to create a plot yourself.
 
-\if{html}{\out{<b>}}Important Note\if{html}{\out{</b>}}\if{html}{\out{<br>}}
+\strong{Important Note}
+
 \code{plot_pca()} depends on the \code{pcaMethods} package from Bioconductor. If \code{metamorphr} was installed via \code{install.packages()}, dependencies from Bioconductor were not
 automatically installed. When \code{plot_pca()} is called without the \code{pcaMethods} package installed, you should be asked if you want to install \code{pak} and \code{pcaMethods}.
 If you want to use \code{plot_pca()} you have to install those. In case you run into trouble with the automatic installation, please install \code{pcaMethods} manually. See
-\if{html}{\out{<a href = "https://www.bioconductor.org/packages/release/bioc/html/pcaMethods.html">}}pcaMethods – a Bioconductor package providing PCA methods for incomplete data.\if{html}{\out{</a>}} for instructions on manual installation.
+\href{https://www.bioconductor.org/packages/release/bioc/html/pcaMethods.html}{pcaMethods – a Bioconductor package providing PCA methods for incomplete data} for instructions on manual installation.
 }
 \examples{
 # Draw a Scores Plot

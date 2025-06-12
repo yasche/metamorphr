@@ -2,20 +2,20 @@
 % Please edit documentation in R/transform.R
 \name{transform_power}
 \alias{transform_power}
-\title{Transforms the intensities by calculating their \if{html}{\out{<i>}}n\if{html}{\out{</i>}}th root}
+\title{Transforms the intensities by calculating their \emph{n}th root}
 \usage{
 transform_power(data, n = 2)
 }
 \arguments{
 \item{data}{A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.}
 
-\item{n}{The \if{html}{\out{<i>}}n\if{html}{\out{</i>}}th root to calculate.}
+\item{n}{The \emph{n}th root to calculate.}
 }
 \value{
 A tibble with power-transformed intensities.
 }
 \description{
-Calculates the \if{html}{\out{<i>}}n\if{html}{\out{</i>}}th root of intensities with x\if{html}{\out{<sup>}}1/n\if{html}{\out{</sup>}}. The default (n = 2) calculates the square root.
+Calculates the \emph{n}th root of intensities with x^(1/n). The default (n = 2) calculates the square root.
 This transformation can help reduce heteroscedasticity. See references for more information.
 }
 \examples{
@@ -24,9 +24,7 @@ toy_metaboscape \%>\%
   transform_power()
 }
 \references{
-For further information, see\if{html}{\out{
-<ul>
-<li>R. A. Van Den Berg, H. C. Hoefsloot, J. A. Westerhuis, A. K. Smilde, M. J. Van Der Werf, <i>BMC Genomics</i> <b>2006</b>, <i>7</i>, 142, DOI <a href = "https://doi.org/10.1186/1471-2164-7-142">10.1186/1471-2164-7-142</a>.</li>
-</ul>
-}}
+\itemize{
+\item R. A. Van Den Berg, H. C. Hoefsloot, J. A. Westerhuis, A. K. Smilde, M. J. Van Der Werf, \emph{BMC Genomics} \strong{2006}, \emph{7}, 142, DOI \href{https://doi.org/10.1186/1471-2164-7-142}{10.1186/1471-2164-7-142}.
+}
 }

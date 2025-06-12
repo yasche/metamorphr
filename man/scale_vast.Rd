@@ -28,10 +28,8 @@ toy_metaboscape \%>\%
   scale_vast()
 }
 \references{
-For further information, see\if{html}{\out{
-<ul>
-<li>R. A. Van Den Berg, H. C. Hoefsloot, J. A. Westerhuis, A. K. Smilde, M. J. Van Der Werf, <i>BMC Genomics</i> <b>2006</b>, <i>7</i>, 142, DOI <a href = "https://doi.org/10.1186/1471-2164-7-142">10.1186/1471-2164-7-142</a>.</li>
-<li>J. Sun, Y. Xia, <i>Genes & Diseases</i> <b>2024</b>, <i>11</i>, 100979, DOI <a href = "https://doi.org/10.1016/j.gendis.2023.04.018">10.1016/j.gendis.2023.04.018</a>.</li>
-</ul>
-}}
+\itemize{
+\item R. A. Van Den Berg, H. C. Hoefsloot, J. A. Westerhuis, A. K. Smilde, M. J. Van Der Werf, \emph{BMC Genomics} \strong{2006}, \emph{7}, 142, DOI \href{https://doi.org/10.1186/1471-2164-7-142}{10.1186/1471-2164-7-142}.
+\item J. Sun, Y. Xia, \emph{Genes & Diseases} \strong{2024}, \emph{11}, 100979, DOI \href{https://doi.org/10.1016/j.gendis.2023.04.018}{10.1016/j.gendis.2023.04.018}.
+}
 }

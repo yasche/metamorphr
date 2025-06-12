@@ -333,18 +333,19 @@ impute_rf <- function(data, random_seed = 1L, ...) {
 #' One of several PCA-based imputation methods. Basically a wrapper around `pcaMethods::`\code{\link[pcaMethods]{pca}}`(method = "nipals")`.
 #' For a detailed discussion, see the `vignette("pcaMethods")` and `vignette("missingValues", "pcaMethods")` as well as the References section.
 #'
-#' <b>Important Note</b><br>
+#' \emph{Important Note}
+#'
 #' `impute_nipals()` depends on the `pcaMethods` package from Bioconductor. If `metamorphr` was installed via `install.packages()`, dependencies from Bioconductor were not
 #' automatically installed. When `impute_nipals()` is called without the `pcaMethods` package installed, you should be asked if you want to install `pak` and `pcaMethods`.
 #' If you want to use `impute_nipals()` you have to install those. In case you run into trouble with the automatic installation, please install `pcaMethods` manually. See
-#' <a href = "https://www.bioconductor.org/packages/release/bioc/html/pcaMethods.html">pcaMethods – a Bioconductor package providing PCA methods for incomplete data.</a> for instructions on manual installation.
+#' \href{https://www.bioconductor.org/packages/release/bioc/html/pcaMethods.html}{pcaMethods – a Bioconductor package providing PCA methods for incomplete data} for instructions on manual installation.
 #'
 #' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
 #' @param n_pcs The number of PCs to calculate.
 #' @param center Should `data` be mean centered? See \code{\link[pcaMethods]{prep}} for details.
 #' @param scale Should `data` be scaled? See \code{\link[pcaMethods]{prep}} for details.
 #' @param direction Either `1` or `2`. `1` runs a PCA on a matrix with samples in columns and features in rows and `2` runs a PCA on a matrix with features in columns and samples in rows.
-#' Both are valid according to this <a href = "https://github.com/hredestig/pcaMethods/issues/25">discussion on GitHub</a> but give <b>different results</b>.
+#' Both are valid according to this \href{https://github.com/hredestig/pcaMethods/issues/25}{discussion on GitHub} but give \strong{different results}.
 #'
 #' @return A tibble with imputed missing values.
 #' @export
@@ -387,18 +388,19 @@ impute_nipals <- function(data, n_pcs = 2, center = TRUE, scale = "none", direct
 #' One of several PCA-based imputation methods. Basically a wrapper around `pcaMethods::`\code{\link[pcaMethods]{pca}}`(method = "bpca")`.
 #' For a detailed discussion, see the `vignette("pcaMethods")` and `vignette("missingValues", "pcaMethods")` as well as the References section.
 #'
-#' <b>Important Note</b><br>
+#' \strong{Important Note}
+#'
 #' `impute_bpca()` depends on the `pcaMethods` package from Bioconductor. If `metamorphr` was installed via `install.packages()`, dependencies from Bioconductor were not
 #' automatically installed. When `impute_bpca()` is called without the `pcaMethods` package installed, you should be asked if you want to install `pak` and `pcaMethods`.
 #' If you want to use `impute_bpca()` you have to install those. In case you run into trouble with the automatic installation, please install `pcaMethods` manually. See
-#' <a href = "https://www.bioconductor.org/packages/release/bioc/html/pcaMethods.html">pcaMethods – a Bioconductor package providing PCA methods for incomplete data.</a> for instructions on manual installation.
+#' \href{https://www.bioconductor.org/packages/release/bioc/html/pcaMethods.html}{pcaMethods – a Bioconductor package providing PCA methods for incomplete data}.
 #'
 #' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
 #' @param n_pcs The number of PCs to calculate.
 #' @param center Should `data` be mean centered? See \code{\link[pcaMethods]{prep}} for details.
 #' @param scale Should `data` be scaled? See \code{\link[pcaMethods]{prep}} for details.
 #' @param direction Either `1` or `2`. `1` runs a PCA on a matrix with samples in columns and features in rows and `2` runs a PCA on a matrix with features in columns and samples in rows.
-#' Both are valid according to this <a href = "https://github.com/hredestig/pcaMethods/issues/25">discussion on GitHub</a> but give <b>different results</b>.
+#' Both are valid according to this \href{https://github.com/hredestig/pcaMethods/issues/25}{discussion on GitHub} but give \strong{different results}.
 #'
 #' @return A tibble with imputed missing values.
 #' @export
@@ -445,18 +447,19 @@ impute_bpca <- function(data, n_pcs = 2, center = TRUE, scale = "none", directio
 #' the tibble is transformed to a matrix prior to calling `pcaMethods::`\code{\link[pcaMethods]{pca}}`(method = "ppca")` and you have limited influence on the column order of the
 #' resulting matrix.
 #'
-#' <b>Important Note</b><br>
+#' \emph{Important Note}
+#'
 #' `impute_ppca()` depends on the `pcaMethods` package from Bioconductor. If `metamorphr` was installed via `install.packages()`, dependencies from Bioconductor were not
 #' automatically installed. When `impute_ppca()` is called without the `pcaMethods` package installed, you should be asked if you want to install `pak` and `pcaMethods`.
 #' If you want to use `impute_ppca()` you have to install those. In case you run into trouble with the automatic installation, please install `pcaMethods` manually. See
-#' <a href = "https://www.bioconductor.org/packages/release/bioc/html/pcaMethods.html">pcaMethods – a Bioconductor package providing PCA methods for incomplete data.</a> for instructions on manual installation.
+#' \href{https://www.bioconductor.org/packages/release/bioc/html/pcaMethods.html}{pcaMethods – a Bioconductor package providing PCA methods for incomplete data} for instructions on manual installation.
 #'
 #' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
 #' @param n_pcs The number of PCs to calculate.
 #' @param center Should `data` be mean centered? See \code{\link[pcaMethods]{prep}} for details.
 #' @param scale Should `data` be scaled? See \code{\link[pcaMethods]{prep}} for details.
 #' @param direction Either `1` or `2`. `1` runs a PCA on a matrix with samples in columns and features in rows and `2` runs a PCA on a matrix with features in columns and samples in rows.
-#' Both are valid according to this <a href = "https://github.com/hredestig/pcaMethods/issues/25">discussion on GitHub</a> but give <b>different results</b>.
+#' Both are valid according to this \href{https://github.com/hredestig/pcaMethods/issues/25}{discussion on GitHub} but give \strong{different results}.
 #' @param random_seed An integer used as seed for the random number generator.
 #'
 #' @return A tibble with imputed missing values.
@@ -500,18 +503,18 @@ impute_ppca <- function(data, n_pcs = 2, center = TRUE, scale = "none", directio
 #' Basically a wrapper around `pcaMethods::`\code{\link[pcaMethods]{pca}}`(method = "svdImpute")`.
 #' For a detailed discussion, see the `vignette("pcaMethods")` and `vignette("missingValues", "pcaMethods")` as well as the References section.
 #'
-#' <b>Important Note</b><br>
+#' \emph{Important Note}
 #' `impute_svd()` depends on the `pcaMethods` package from Bioconductor. If `metamorphr` was installed via `install.packages()`, dependencies from Bioconductor were not
 #' automatically installed. When `impute_svd()` is called without the `pcaMethods` package installed, you should be asked if you want to install `pak` and `pcaMethods`.
 #' If you want to use `impute_svd()` you have to install those. In case you run into trouble with the automatic installation, please install `pcaMethods` manually. See
-#' <a href = "https://www.bioconductor.org/packages/release/bioc/html/pcaMethods.html">pcaMethods – a Bioconductor package providing PCA methods for incomplete data.</a> for instructions on manual installation.
+#' \href{https://www.bioconductor.org/packages/release/bioc/html/pcaMethods.html}{pcaMethods – a Bioconductor package providing PCA methods for incomplete data} for instructions on manual installation.
 #'
 #' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
 #' @param n_pcs The number of PCs to calculate.
 #' @param center Should `data` be mean centered? See \code{\link[pcaMethods]{prep}} for details.
 #' @param scale Should `data` be scaled? See \code{\link[pcaMethods]{prep}} for details.
 #' @param direction Either `1` or `2`. `1` runs `pcaMethods::`\code{\link[pcaMethods]{pca}}`(method = "svdImpute")` on a matrix with samples in columns and features in rows and `2` runs `pcaMethods::`\code{\link[pcaMethods]{pca}}`(method = "svdImpute")` on a matrix with features in columns and samples in rows.
-#' Both are valid according to this <a href = "https://github.com/hredestig/pcaMethods/issues/25">discussion on GitHub</a> but give <b>different results</b>.
+#' Both are valid according to this \href{https://github.com/hredestig/pcaMethods/issues/25}{discussion on GitHub} but give \strong{different results}.
 #'
 #' @return A tibble with imputed missing values.
 #' @export
@@ -554,11 +557,11 @@ impute_svd <- function(data, n_pcs = 2, center = TRUE, scale = "none", direction
 #' Basically a wrapper around `pcaMethods::`\code{\link[pcaMethods]{llsImpute}}.
 #' For a detailed discussion, see the `vignette("pcaMethods")` and `vignette("missingValues", "pcaMethods")` as well as the References section.
 #'
-#' <b>Important Note</b><br>
+#' \emph{Important Note}
 #' `impute_lls()` depends on the `pcaMethods` package from Bioconductor. If `metamorphr` was installed via `install.packages()`, dependencies from Bioconductor were not
 #' automatically installed. When `impute_svd()` is called without the `pcaMethods` package installed, you should be asked if you want to install `pak` and `pcaMethods`.
 #' If you want to use `impute_lls()` you have to install those. In case you run into trouble with the automatic installation, please install `pcaMethods` manually. See
-#' <a href = "https://www.bioconductor.org/packages/release/bioc/html/pcaMethods.html">pcaMethods – a Bioconductor package providing PCA methods for incomplete data.</a> for instructions on manual installation.
+#' \href{https://www.bioconductor.org/packages/release/bioc/html/pcaMethods.html}{pcaMethods – a Bioconductor package providing PCA methods for incomplete data} for instructions on manual installation.
 #'
 #' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
 #' @param correlation The method used to calculate correlations between features. One of `"pearson"`, `"spearman"` or `"kendall"`. See \code{\link[stats]{cor}}.

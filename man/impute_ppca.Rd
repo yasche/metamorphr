@@ -23,7 +23,7 @@ impute_ppca(
 \item{scale}{Should \code{data} be scaled? See \code{\link[pcaMethods]{prep}} for details.}
 
 \item{direction}{Either \code{1} or \code{2}. \code{1} runs a PCA on a matrix with samples in columns and features in rows and \code{2} runs a PCA on a matrix with features in columns and samples in rows.
-Both are valid according to this \if{html}{\out{<a href = "https://github.com/hredestig/pcaMethods/issues/25">}}discussion on GitHub\if{html}{\out{</a>}} but give \if{html}{\out{<b>}}different results\if{html}{\out{</b>}}.}
+Both are valid according to this \href{https://github.com/hredestig/pcaMethods/issues/25}{discussion on GitHub} but give \strong{different results}.}
 
 \item{random_seed}{An integer used as seed for the random number generator.}
 }
@@ -38,11 +38,12 @@ on a matrix and calling \code{metamorphr::impute()} on a tidy tibble might give 
 the tibble is transformed to a matrix prior to calling \verb{pcaMethods::}\code{\link[pcaMethods]{pca}}\code{(method = "ppca")} and you have limited influence on the column order of the
 resulting matrix.
 
-\if{html}{\out{<b>}}Important Note\if{html}{\out{</b>}}\if{html}{\out{<br>}}
+\emph{Important Note}
+
 \code{impute_ppca()} depends on the \code{pcaMethods} package from Bioconductor. If \code{metamorphr} was installed via \code{install.packages()}, dependencies from Bioconductor were not
 automatically installed. When \code{impute_ppca()} is called without the \code{pcaMethods} package installed, you should be asked if you want to install \code{pak} and \code{pcaMethods}.
 If you want to use \code{impute_ppca()} you have to install those. In case you run into trouble with the automatic installation, please install \code{pcaMethods} manually. See
-\if{html}{\out{<a href = "https://www.bioconductor.org/packages/release/bioc/html/pcaMethods.html">}}pcaMethods – a Bioconductor package providing PCA methods for incomplete data.\if{html}{\out{</a>}} for instructions on manual installation.
+\href{https://www.bioconductor.org/packages/release/bioc/html/pcaMethods.html}{pcaMethods – a Bioconductor package providing PCA methods for incomplete data} for instructions on manual installation.
 }
 \examples{
 toy_metaboscape \%>\%

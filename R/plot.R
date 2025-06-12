@@ -1,8 +1,8 @@
 #' Draws a Volcano Plot or performs calculations necessary to draw one manually
 #'
 #' @description
-#' Performs necessary calculations (i.e., calculate <i>p</i>-values and log<sub>2</sub>-fold changes) and creates a basic <a href = "https://en.wikipedia.org/wiki/Volcano_plot_(statistics)">Volcano Plot</a>.
-#' The plot is drawn with <a href = "https://ggplot2.tidyverse.org/">ggplot2</a> and can therefore be easily manipulated afterwards (e.g., changing the theme or the axis labels).
+#' Performs necessary calculations (i.e., calculate \emph{p}-values and log2-fold changes) and creates a basic \href{https://en.wikipedia.org/wiki/Volcano_plot_(statistics)}{Volcano Plot}.
+#' The plot is drawn with \href{https://ggplot2.tidyverse.org/}{ggplot2} and can therefore be easily manipulated afterwards (e.g., changing the theme or the axis labels).
 #' Please note that the function is intended to be easy to use and beginner friendly and therefore offers limited ability to fine-tune certain parameters of the resulting plot.
 #' If you wish to draw the plot yourself, you can set `return_tbl = TRUE`. In this case, a tibble is returned instead of a ggplot2 object which you can use to create a plot yourself.
 #' A Volcano Plot is used to compare two groups. Therefore grouping information must be provided. See \code{\link[metamorphr]{join_metadata}} for more information.
@@ -11,15 +11,15 @@
 #' @param group_column Which column should be used for grouping? Usually `group_column = Group`. Uses \code{\link[rlang]{args_data_masking}}.
 #' @param name_column Which column contains the feature names? Can for example be `name_column = UID` or `name_column = Feature`. Uses \code{\link[rlang]{args_data_masking}}.
 #' @param groups_to_compare Names of the groups which should be compared as a character vector. Those are the group names in the `group_column`. They are usually provided in the form of a metadata tibble and joined via \code{\link[metamorphr]{join_metadata}}.
-#' @param batch_column Which column contains the batch information? Usually `grouping_column = Batch`. Only relevant if `data` contains multiple batches. For example, if `data` contains 2 batches and each batch contains measurements of separate controls, `group_column` and `batch` arguments should be provided. Otherwise controls of both batches will be considered when calculating the <i>p</i>-value and log<sub>2</sub> fold change. Uses \code{\link[rlang]{args_data_masking}}.
-#' @param batch The names of the batch(es) that should be included when calculating <i>p</i>-value and log<sub>2</sub> fold change.
-#' @param log2fc_cutoff A numeric. What cutoff should be used for the log<sub>2</sub> fold change? Traditionally, this is set to `1` which corresponds to a doubling or halving of intensity or area compared to a control. This is only important for assignment to groups and colors defined in the `colors` argument.
-#' @param p_value_cutoff A numeric. What cutoff should be used for the <i>p</i>-value? Traditionally, this is set to `0.05`. This is only important for assignment to groups and colors defined in the `colors` argument. Note that this is not the -log<sub>10</sub> transformed value.
+#' @param batch_column Which column contains the batch information? Usually `grouping_column = Batch`. Only relevant if `data` contains multiple batches. For example, if `data` contains 2 batches and each batch contains measurements of separate controls, `group_column` and `batch` arguments should be provided. Otherwise controls of both batches will be considered when calculating the \emph{p}-value and log2 fold change. Uses \code{\link[rlang]{args_data_masking}}.
+#' @param batch The names of the batch(es) that should be included when calculating \emph{p}-value and log2 fold change.
+#' @param log2fc_cutoff A numeric. What cutoff should be used for the log2 fold change? Traditionally, this is set to `1` which corresponds to a doubling or halving of intensity or area compared to a control. This is only important for assignment to groups and colors defined in the `colors` argument.
+#' @param p_value_cutoff A numeric. What cutoff should be used for the \emph{p}-value? Traditionally, this is set to `0.05`. This is only important for assignment to groups and colors defined in the `colors` argument. Note that this is not the -log10 transformed value.
 #' @param colors A named list for coloring the dots in the Volcano Plot or `NULL` in case the points should not be colored. The list must contain colors for the following groups: `sig_up`, `sig_down`, `not_sig_up`, `not_sig_down` and `not_sig`.
-#' @param adjust_p Should the <i>p</i>-value be adjusted? Can be either `FALSE`, (the default) in case no adjustment should be made or any or the name from \code{\link[stats]{p.adjust.methods}} (e.g., `adjust_p = "fdr"`).
-#' @param log2_before A logical. Should the data be log<sub>2</sub> transformed prior to calculating the <i>p</i>-values?
+#' @param adjust_p Should the \emph{p}-value be adjusted? Can be either `FALSE`, (the default) in case no adjustment should be made or any or the name from \code{\link[stats]{p.adjust.methods}} (e.g., `adjust_p = "fdr"`).
+#' @param log2_before A logical. Should the data be log2 transformed prior to calculating the \emph{p}-values?
 #' @param return_tbl A logical. If `FALSE`, returns a ggplot2 object, if `TRUE` returns a tibble which can be used to draw the plot manually to have more control.
-#' @param ... Arguments passed on to \code{\link[stats]{t.test}}. If none are provided (the default), a Welch Two Sample <i>t</i>-test will be performed.
+#' @param ... Arguments passed on to \code{\link[stats]{t.test}}. If none are provided (the default), a Welch Two Sample \emph{t}-test will be performed.
 #'
 #' @return Either a Volcano Plot in the form of a ggplot2 object or a tibble.
 #' @export
@@ -131,15 +131,16 @@ plot_volcano <- function(data, group_column, name_column, groups_to_compare, bat
 #'
 #' @description
 #' Performs PCA and creates a Scores or Loadings plot. Basically a wrapper around `pcaMethods::`\code{\link[pcaMethods]{pca}}
-#' The plot is drawn with <a href = "https://ggplot2.tidyverse.org/">ggplot2</a> and can therefore be easily manipulated afterwards (e.g., changing the theme or the axis labels).
+#' The plot is drawn with \href{https://ggplot2.tidyverse.org/}{ggplot2} and can therefore be easily manipulated afterwards (e.g., changing the theme or the axis labels).
 #' Please note that the function is intended to be easy to use and beginner friendly and therefore offers limited ability to fine-tune certain parameters of the resulting plot.
 #' If you wish to draw the plot yourself, you can set `return_tbl = TRUE`. In this case, a tibble is returned instead of a ggplot2 object which you can use to create a plot yourself.
 #'
-#' <b>Important Note</b><br>
+#' \strong{Important Note}
+#'
 #' `plot_pca()` depends on the `pcaMethods` package from Bioconductor. If `metamorphr` was installed via `install.packages()`, dependencies from Bioconductor were not
 #' automatically installed. When `plot_pca()` is called without the `pcaMethods` package installed, you should be asked if you want to install `pak` and `pcaMethods`.
 #' If you want to use `plot_pca()` you have to install those. In case you run into trouble with the automatic installation, please install `pcaMethods` manually. See
-#' <a href = "https://www.bioconductor.org/packages/release/bioc/html/pcaMethods.html">pcaMethods – a Bioconductor package providing PCA methods for incomplete data.</a> for instructions on manual installation.
+#' \href{https://www.bioconductor.org/packages/release/bioc/html/pcaMethods.html}{pcaMethods – a Bioconductor package providing PCA methods for incomplete data} for instructions on manual installation.
 #'
 #' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
 #' @param method A character specifying one of the available methods ("svd", "nipals", "rnipals", "bpca", "ppca", "svdImpute", "robustPca", "nlpca", "llsImpute", "llsImputeAll"). If the default is used ("svd") an SVD PCA will be done, in case `data` does not contain missing values, or a NIPALS PCA if `data` does contain missing values.

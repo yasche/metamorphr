@@ -30,11 +30,11 @@ A tibble with imputed missing values.
 Basically a wrapper around \verb{pcaMethods::}\code{\link[pcaMethods]{llsImpute}}.
 For a detailed discussion, see the \code{vignette("pcaMethods")} and \code{vignette("missingValues", "pcaMethods")} as well as the References section.
 
-\if{html}{\out{<b>}}Important Note\if{html}{\out{</b>}}\if{html}{\out{<br>}}
+\emph{Important Note}
 \code{impute_lls()} depends on the \code{pcaMethods} package from Bioconductor. If \code{metamorphr} was installed via \code{install.packages()}, dependencies from Bioconductor were not
 automatically installed. When \code{impute_svd()} is called without the \code{pcaMethods} package installed, you should be asked if you want to install \code{pak} and \code{pcaMethods}.
 If you want to use \code{impute_lls()} you have to install those. In case you run into trouble with the automatic installation, please install \code{pcaMethods} manually. See
-\if{html}{\out{<a href = "https://www.bioconductor.org/packages/release/bioc/html/pcaMethods.html">}}pcaMethods – a Bioconductor package providing PCA methods for incomplete data.\if{html}{\out{</a>}} for instructions on manual installation.
+\href{https://www.bioconductor.org/packages/release/bioc/html/pcaMethods.html}{pcaMethods – a Bioconductor package providing PCA methods for incomplete data} for instructions on manual installation.
 }
 \examples{
 # The cluster size must be reduced because

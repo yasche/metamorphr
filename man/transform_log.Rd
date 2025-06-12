@@ -9,13 +9,13 @@ transform_log(data, base = 10)
 \arguments{
 \item{data}{A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.}
 
-\item{base}{Which base should be used for the log-transformation. The default (10) means that log\if{html}{\out{<sub>}}10\if{html}{\out{</sub>}} values of the intensities are calculated.}
+\item{base}{Which base should be used for the log-transformation. The default (10) means that log10 values of the intensities are calculated.}
 }
 \value{
 A tibble with log-transformed intensities.
 }
 \description{
-Log-transforms intensities. The default (base = 10) calculates the log\if{html}{\out{<sub>}}10\if{html}{\out{</sub>}}.
+Log-transforms intensities. The default (base = 10) calculates the log10.
 This transformation can help reduce heteroscedasticity. See references for more information.
 }
 \examples{
@@ -24,9 +24,7 @@ toy_metaboscape \%>\%
   transform_log()
 }
 \references{
-For further information, see\if{html}{\out{
-<ul>
-<li>R. A. Van Den Berg, H. C. Hoefsloot, J. A. Westerhuis, A. K. Smilde, M. J. Van Der Werf, <i>BMC Genomics</i> <b>2006</b>, <i>7</i>, 142, DOI <a href = "https://doi.org/10.1186/1471-2164-7-142">10.1186/1471-2164-7-142</a>.</li>
-</ul>
-}}
+\itemize{
+\item R. A. Van Den Berg, H. C. Hoefsloot, J. A. Westerhuis, A. K. Smilde, M. J. Van Der Werf, \emph{BMC Genomics} \strong{2006}, \emph{7}, 142, DOI \href{https://doi.org/10.1186/1471-2164-7-142}{10.1186/1471-2164-7-142}.
+}
 }
