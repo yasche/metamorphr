@@ -6,7 +6,7 @@
 \alias{metamorphr-package}
 \title{metamorphr: Tidy and Streamlined Metabolomics Data Workflows}
 \description{
-Functions and wrapper functions to facilitate tasks typically encountered during metabolomics data analysis including data import, filtering, missing value imputation, transformation, centering and scaling as well as some statistical tests and plotting. It offers easy integration with Tidyverse packages including dplyr and ggplot2.
+Facilitate tasks typically encountered during metabolomics data analysis including data import, filtering, missing value imputation, transformation, centering and scaling as well as statistical tests and plotting. 'metamorphr' introduces a tidy format for metabolomics data and is designed to make it easier to build elaborate analysis workflows and to integrate them with 'Tidyverse' packages including 'dplyr' and 'ggplot2'.
 }
 \seealso{
 Useful links:
@@ -17,7 +17,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Yannik Schermer \email{yannik.schermer@chem.rptu.de} (\href{https://orcid.org/0009-0002-5201-057X}{ORCID})
+\strong{Maintainer}: Yannik Schermer \email{yannik.schermer@chem.rptu.de} (\href{https://orcid.org/0009-0002-5201-057X}{ORCID}) [copyright holder]
 
 }
 \keyword{internal}
