@@ -127,10 +127,10 @@ calc_neutral_loss <- function(data, m_z_col) {
 
   data %>%
     dplyr::mutate(row_number = .env$rownums) %>%
-    dplyr::group_by(MSn, {{ m_z_col }}) %>%
+    dplyr::group_by(.data$MSn, {{ m_z_col }}) %>%
     tidyr::nest() %>%
-    dplyr::mutate(Neutral_Loss = purrr::map2({{ m_z_col }}, MSn, internal_calc_neutral_loss, .progress = TRUE)) %>%
-    tidyr::unnest(data) %>%
+    dplyr::mutate(Neutral_Loss = purrr::map2({{ m_z_col }}, .data$MSn, internal_calc_neutral_loss, .progress = TRUE)) %>%
+    tidyr::unnest("data") %>%
     dplyr::ungroup() %>%
     dplyr::arrange(.data$row_number) %>%
     dplyr::select(-"row_number") %>%

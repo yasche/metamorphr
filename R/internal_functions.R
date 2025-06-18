@@ -182,7 +182,7 @@ internal_calc_neutral_loss <- function(prec_mz, msn) {
       m_z = prec_mz - msn$m_z,
       Intensity = msn$Intensity
     ) %>%
-      dplyr::filter(m_z > 0)
+      dplyr::filter(.data$m_z > 0)
     if (nrow(neutral_losses) == 0) {
       return(NULL)
     } else {

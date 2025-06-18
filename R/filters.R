@@ -264,7 +264,7 @@ filter_msn <- function(data, fragments, min_found, tolerance = 5, tolerance_type
                          tolerance = tolerance,
                          tolerance_type = tolerance_type,
                          show_progress = show_progress,
-                         msn_col = MSn)
+                         msn_col = .data$MSn)
 }
 
 filter_neutral_loss <- function(data, losses, min_found, tolerance = 10, tolerance_type = "ppm", show_progress = TRUE) {
@@ -276,5 +276,5 @@ filter_neutral_loss <- function(data, losses, min_found, tolerance = 10, toleran
                          tolerance = tolerance,
                          tolerance_type = tolerance_type,
                          show_progress = show_progress,
-                         msn_col = Neutral_Loss)
+                         msn_col = .data$Neutral_Loss)
 }
