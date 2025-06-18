@@ -267,6 +267,25 @@ filter_msn <- function(data, fragments, min_found, tolerance = 5, tolerance_type
                          msn_col = .data$MSn)
 }
 
+#' Filter Features based on occurrence of neutral losses
+#'
+#' The occurrence of characteristic neutral losses can help with the putative annotation of molecules. See the Reference section for an example.
+#'
+#' @param data A data frame containing MSn spectra.
+#' @param losses A numeric. Exact mass of the fragment(s) to filter by.
+#' @param min_found How many of the `fragments` must be found in order to keep the row? If `min_found = length(fragments)`, all fragments must be found.
+#' @param tolerance A numeric. The tolerance to apply to the fragments. Either an absolute value in Da (if `tolerance_type = "absolute"`) or in ppm (if `tolerance_type = "ppm"`).
+#' @param tolerance_type Either `"absolute"` or `"ppm"`. Should the tolerance be an absolute value or in ppm?
+#' @param show_progress A `logical` indicating whether the progress of the filtering should be printed to the console. Only important for large tibbles.
+#'
+#' @returns A filtered tibble.
+#' @export
+#'
+#' @references \itemize{
+#'  \item A. Brink, F. Fontaine, M. Marschmann, B. Steinhuber, E. N. Cece, I. Zamora, A. Pähler, \emph{Rapid Commun. Mass Spectrom.} \strong{2014}, \emph{28}, 2695–2703, DOI \href{https://doi.org/10.1002/rcm.7062}{10.1002/rcm.7062}.
+#' }
+#'
+#' @examples
 filter_neutral_loss <- function(data, losses, min_found, tolerance = 10, tolerance_type = "ppm", show_progress = TRUE) {
   fragments <- losses
 
