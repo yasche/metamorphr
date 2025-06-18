@@ -173,3 +173,49 @@ internal_match_msn <- function(msn_spec, fragments_lower, fragments_upper, min_f
   sum_found <- sum(unlist(purrr::map2(fragments_lower, fragments_upper, internal_match_fragments, msn_spec)))
   sum_found >= min_found
 }
+
+internal_calc_neutral_loss <- function(prec_mz, msn) {
+  if (is.null(msn)) {
+    return(NULL)
+  } else {
+    neutral_losses <- tibble::tibble(
+      m_z = prec_mz - msn$m_z,
+      Intensity = msn$Intensity
+    ) %>%
+      dplyr::filter(m_z > 0)
+    if (nrow(neutral_losses) == 0) {
+      return(NULL)
+    } else {
+      neutral_losses
+    }
+  }
+}
+
+internal_filter_msn_nl <- function(data, fragments, min_found, tolerance, tolerance_type, show_progress, msn_col) {
+  if (tolerance_type == "ppm") {
+    fragments_lower <- fragments - fragments * tolerance / 1000000
+    fragments_upper <- fragments + fragments * tolerance / 1000000
+  } else if (tolerance_type == "absolute") {
+    fragments_lower <- fragments - tolerance
+    fragments_upper <- fragments + tolerance
+  } else {
+    rlang::abort(paste0('Argument `tolerance_type` must be "ppm" or "absolute", not "', tolerance_type, '".'))
+  }
+
+  col_order <- names(data)
+
+  rownums <- 1:nrow(data)
+
+  data %>%
+    dplyr::mutate(row_number = .env$rownums) %>%
+    #filter nested data frame to save time
+    dplyr::group_by({{ msn_col }}) %>%
+    tidyr::nest() %>%
+    dplyr::mutate(msn_match = purrr::map({{ msn_col }}, internal_match_msn, fragments_lower, fragments_upper, min_found, .progress = show_progress)) %>%
+    tidyr::unnest("data") %>%
+    dplyr::ungroup() %>%
+    dplyr::filter(.data$msn_match == TRUE) %>%
+    dplyr::arrange(.data$row_number) %>%
+    dplyr::select(-"row_number", -"msn_match") %>%
+    dplyr::relocate(dplyr::all_of(col_order))
+}

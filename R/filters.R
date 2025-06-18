@@ -258,30 +258,23 @@ filter_blank <- function(data, blank_samples, min_frac = 3, blank_as_group = FAL
 #'
 #' @examples
 filter_msn <- function(data, fragments, min_found, tolerance = 5, tolerance_type = "ppm", show_progress = TRUE) {
-  if (tolerance_type == "ppm") {
-    fragments_lower <- fragments - fragments * tolerance / 1000000
-    fragments_upper <- fragments + fragments * tolerance / 1000000
-  } else if (tolerance_type == "absolute") {
-    fragments_lower <- fragments - tolerance
-    fragments_upper <- fragments + tolerance
-  } else {
-    rlang::abort(paste0('Argument `tolerance_type` must be "ppm" or "absolute", not "', tolerance_type, '".'))
-  }
+  internal_filter_msn_nl(data = data,
+                         fragments = fragments,
+                         min_found = min_found,
+                         tolerance = tolerance,
+                         tolerance_type = tolerance_type,
+                         show_progress = show_progress,
+                         msn_col = MSn)
+}
 
-  col_order <- names(data)
+filter_neutral_loss <- function(data, losses, min_found, tolerance = 10, tolerance_type = "ppm", show_progress = TRUE) {
+  fragments <- losses
 
-  rownums <- 1:nrow(data)
-
-  data %>%
-    dplyr::mutate(row_number = .env$rownums) %>%
-    #filter nested data frame to save time
-    dplyr::group_by(.data$MSn) %>%
-    tidyr::nest() %>%
-    dplyr::mutate(msn_match = purrr::map(.data$MSn, internal_match_msn, fragments_lower, fragments_upper, min_found, .progress = show_progress)) %>%
-    tidyr::unnest("data") %>%
-    dplyr::ungroup() %>%
-    dplyr::filter(.data$msn_match == TRUE) %>%
-    dplyr::arrange(.data$row_number) %>%
-    dplyr::select(-"row_number", -"msn_match") %>%
-    dplyr::relocate(dplyr::all_of(col_order))
+  internal_filter_msn_nl(data = data,
+                         fragments = fragments,
+                         min_found = min_found,
+                         tolerance = tolerance,
+                         tolerance_type = tolerance_type,
+                         show_progress = show_progress,
+                         msn_col = Neutral_Loss)
 }
