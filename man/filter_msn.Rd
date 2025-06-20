@@ -32,3 +32,25 @@ A filtered tibble.
 \description{
 Filters Features based on the presence of MSn fragments. This can help, for example with the identification of potential homologous molecules.
 }
+\examples{
+# all of the given fragments (3) must be found
+# returns the first row of toy_mgf
+toy_mgf \%>\%
+  filter_msn(fragments = c(12.3456, 23.4567, 34.5678), min_found = 3)
+
+# all of the given fragments (3) must be found
+# returns an empty tibble because the third fragment
+# of row 1 (34.5678)
+# is outside of the tolerance (5 ppm):
+# Lower bound:
+# 34.5688 - 34.5688 * 5 / 1000000 = 34.5686
+# Upper bound:
+# 34.5688 + 34.5688 * 5 / 1000000 = 34.5690
+toy_mgf \%>\%
+  filter_msn(fragments = c(12.3456, 23.4567, 34.5688), min_found = 3)
+
+# only 2 of the 3 fragments must be found
+# returns the first row of toy_mgf
+toy_mgf \%>\%
+  filter_msn(fragments = c(12.3456, 23.4567, 34.5688), min_found = 2)
+}
