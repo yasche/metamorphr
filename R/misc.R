@@ -133,6 +133,8 @@ summary_featuretable_cat <- function(txt, title, n, n_max) {
 #' @export
 #'
 #' @examples
+#' toy_mgf %>%
+#'   calc_neutral_loss(m_z_col = PEPMASS)
 calc_neutral_loss <- function(data, m_z_col) {
   col_order <- names(data)
 

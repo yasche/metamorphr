@@ -19,3 +19,7 @@ Calculate neutral loss spectra for all ions with available MSn spectra in \code{
 See \code{\link[metamorphr]{read_mgf}}. This step is required for subsequent filtering based on
 neutral losses (\code{\link[metamorphr]{filter_neutral_loss}}). Resulting neutral loss spectra are stored in tibbles in a new list column named \code{Neutral_Loss}.
 }
+\examples{
+toy_mgf \%>\%
+  calc_neutral_loss(m_z_col = PEPMASS)
+}
