@@ -21,3 +21,7 @@ MS/MS spectra are stored in a list column named MSn. \if{html}{\out{<br>}}
 Please note that \href{https://fiehnlab.ucdavis.edu/projects/lipidblast/mgf-files}{MGF files are software-specific} so the variables
 and their names may vary. This function was developed with the GNPS file format exported from \href{https://mzio.io/mzmine-news/}{mzmine} in mind.
 }
+\examples{
+mgf_path <- system.file("extdata", "toy_mgf.mgf", package = "metamorphr")
+read_mgf(mgf_path)
+}

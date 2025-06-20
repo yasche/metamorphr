@@ -155,6 +155,8 @@ create_metadata_skeleton <- function(data) {
 #' @export
 #'
 #' @examples
+#' mgf_path <- system.file("extdata", "toy_mgf.mgf", package = "metamorphr")
+#' read_mgf(mgf_path)
 read_mgf <- function(file, show_progress = TRUE) {
   mgf_string <- readr::read_lines(file)
 
