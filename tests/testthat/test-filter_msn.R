@@ -7,6 +7,11 @@ test_that("returns empty tibble if no fragments are found", {
   expect_equal(colnames(filtered), c("VARIABLEONE", "VARIABLETWO", "VARIABLETHREE", "MSn"))
 })
 
+test_that("stays unchanged for min_found = 0", {
+  tbl_before <- read_mgf(test_path("data", "test_read_mgf.mgf"))
+  tbl_after <- filter_msn(tbl_before, fragments = c(1000, 2000), tolerance = 5, tolerance_type = "ppm", min_found = 0)
+  expect_equal(tbl_before, tbl_after)
+})
 
 test_that("filters correctly for tolerance_type = 'ppm'", {
   mgf_tibble <- read_mgf(test_path("data", "test_read_mgf.mgf"))
