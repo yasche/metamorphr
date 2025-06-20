@@ -306,6 +306,30 @@ filter_msn <- function(data, fragments, min_found, tolerance = 5, tolerance_type
 #' }
 #'
 #' @examples
+#' # neutral losses must be calculated first
+#' toy_mgf_nl <- toy_mgf %>%
+#'   calc_neutral_loss(m_z_col = PEPMASS)
+#'
+#' # all of the given losses (3) must be found
+#' # returns the first row of toy_mgf
+#' toy_mgf_nl %>%
+#'   filter_neutral_loss(losses = c(11.1111, 22.2222, 33.3333), min_found = 3)
+#'
+#' # all of the given fragments (3) must be found
+#' # returns an empty tibble because the third loss
+#' # of row 1 (33.3333)
+#' # is outside of the tolerance (10 ppm):
+#' # Lower bound:
+#' # 33.4333 - 33.4333 * 5 / 1000000 = 33.4333
+#' # Upper bound:
+#' # 33.4333 + 33.4333 * 5 / 1000000 = 33.4336
+#' toy_mgf_nl %>%
+#'   filter_neutral_loss(losses = c(11.1111, 22.2222, 33.4333), min_found = 3)
+#'
+#' # only 2 of the 3 fragments must be found
+#' # returns the first row of toy_mgf
+#' toy_mgf_nl %>%
+#'   filter_neutral_loss(losses = c(11.1111, 22.2222, 33.4333), min_found = 2)
 filter_neutral_loss <- function(data, losses, min_found, tolerance = 10, tolerance_type = "ppm", show_progress = TRUE) {
   fragments <- losses
 
