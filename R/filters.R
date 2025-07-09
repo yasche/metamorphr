@@ -342,6 +342,28 @@ filter_neutral_loss <- function(data, losses, min_found, tolerance = 10, toleran
                          msn_col = .data$Neutral_Loss)
 }
 
+#' Filter Features based on their mass-to-charge ratio
+#'
+#' @description
+#' Facilitates filtering by given mass-to-charge ratios (m/z) with a defined tolerance. Can also be used to filter based on exact mass.
+#'
+#' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
+#' @param m_z_col Which column holds the precursor m/z (or exact mass)? Uses \code{\link[rlang]{args_data_masking}}.
+#' @param masses The mass(es) to filter by.
+#' @param tolerance A numeric. The tolerance to apply to the masses Either an absolute value in Da (if `tolerance_type = "absolute"`) or in ppm (if `tolerance_type = "ppm"`).
+#' @param tolerance_type Either `"absolute"` or `"ppm"`. Should the tolerance be an absolute value or in ppm?
+#'
+#' @returns A filtered tibble.
+#' @export
+#'
+#' @examples
+#' # Use a tolerance of plus or minus 5 ppm
+#' toy_metaboscape %>%
+#'   filter_mz(m_z_col = `m/z`, 162.1132, tolerance = 5, tolerance_type = "ppm")
+#'
+#' # Use a tolerance of plus or minus 0.005 Da
+#' toy_metaboscape %>%
+#'   filter_mz(m_z_col = `m/z`, 162.1132, tolerance = 0.005, tolerance_type = "absolute")
 filter_mz <- function(data, m_z_col, masses, tolerance = 5, tolerance_type = "ppm") {
   dplyr::filter(data, !!internal_create_mz_filter_call(m_z_col = {{ m_z_col }}, masses = masses, tolerance = tolerance, tolerance_type = tolerance_type))
 }
