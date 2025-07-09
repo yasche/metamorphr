@@ -341,3 +341,7 @@ filter_neutral_loss <- function(data, losses, min_found, tolerance = 10, toleran
                          show_progress = show_progress,
                          msn_col = .data$Neutral_Loss)
 }
+
+filter_mz <- function(data, m_z_col, masses, tolerance = 5, tolerance_type = "ppm") {
+  dplyr::filter(data, !!internal_create_mz_filter_call(m_z_col = {{ m_z_col }}, masses = masses, tolerance = tolerance, tolerance_type = tolerance_type))
+}

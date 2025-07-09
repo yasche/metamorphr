@@ -219,3 +219,21 @@ internal_filter_msn_nl <- function(data, fragments, min_found, tolerance, tolera
     dplyr::select(-"row_number", -"msn_match") %>%
     dplyr::relocate(dplyr::all_of(col_order))
 }
+
+internal_create_mz_filter_call <- function(m_z_col, masses, tolerance, tolerance_type) {
+  m_z_col_str <- paste0("`", rlang::as_label(rlang::enquo(m_z_col)), "`")
+  if (tolerance_type == "ppm") {
+    masses_lower <- masses - masses * tolerance / 1000000
+    masses_upper <- masses + masses * tolerance / 1000000
+  } else if (tolerance_type == "absolute") {
+    masses_lower <- masses - tolerance
+    masses_upper <- masses + tolerance
+  } else {
+    rlang::abort(paste0('Argument `tolerance_type` must be "ppm" or "absolute", not "', tolerance_type, '".'))
+  }
+  lower_str <- paste(m_z_col_str, ">" , masses_lower)
+  upper_str <- paste(m_z_col_str, "<" , masses_upper)
+  expr_str <- paste(lower_str, "&", upper_str) %>%
+    paste(collapse = " | ")
+  rlang::parse_expr(expr_str)
+}
