@@ -2,7 +2,7 @@
 % Please edit documentation in R/filters.R
 \name{filter_mz}
 \alias{filter_mz}
-\title{Filter Features based on their mass-to-charge ratio}
+\title{Filter Features based on their mass-to-charge ratios}
 \usage{
 filter_mz(data, m_z_col, masses, tolerance = 5, tolerance_type = "ppm")
 }

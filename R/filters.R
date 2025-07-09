@@ -342,7 +342,7 @@ filter_neutral_loss <- function(data, losses, min_found, tolerance = 10, toleran
                          msn_col = .data$Neutral_Loss)
 }
 
-#' Filter Features based on their mass-to-charge ratio
+#' Filter Features based on their mass-to-charge ratios
 #'
 #' @description
 #' Facilitates filtering by given mass-to-charge ratios (m/z) with a defined tolerance. Can also be used to filter based on exact mass.
