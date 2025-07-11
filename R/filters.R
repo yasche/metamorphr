@@ -221,8 +221,8 @@ filter_blank <- function(data, blank_samples, min_frac = 3, blank_as_group = FAL
 
     data <- data %>%
       dplyr::mutate(
-        max_blank = dplyr::case_when({{ group_column }} == blank_samples ~ .data$Intensity, .default = NA),
-        max_sample = dplyr::case_when(!({{ group_column }} == blank_samples) ~ .data$Intensity, .default = NA)
+        max_blank = dplyr::case_when({{ group_column }} %in% blank_samples ~ .data$Intensity, .default = NA),
+        max_sample = dplyr::case_when(!({{ group_column }} %in% blank_samples) ~ .data$Intensity, .default = NA)
       ) %>%
       dplyr::group_by(.data$UID) %>%
       dplyr::mutate(
