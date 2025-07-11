@@ -140,3 +140,52 @@ test_that("filter_blank() does not throw a warning if group = .data$Group", {
 })
 
 
+test_that("returns expected results if > 1 group is provided", {
+  test_filters_group <- test_filters %>%
+    dplyr::select("Sample") %>%
+    dplyr::mutate(Group = dplyr::case_when(Sample %in% paste0("s", 0:6) ~ "sg1",
+                                           Sample %in% paste0("s", 7:12) ~ "sg2",
+                                           .default = "b")) %>%
+    dplyr::distinct()
+
+  filtered_features <- test_filters %>%
+    join_metadata(test_filters_group) %>%
+    # only look at "samples"
+    dplyr::filter(!(Sample %in% c("q1", "q2", "q3")))
+
+  filtered1 <- filtered_features %>%
+    filter_blank(blank_samples = c("sg2", "b"), min_frac = 3, blank_as_group = T, group_column = Group)
+
+  filtered2 <- filtered_features %>%
+    filter_blank(blank_samples = c("sg2", "b"), min_frac = 2, blank_as_group = T, group_column = Group)
+
+  filtered3 <- filtered_features %>%
+    filter_blank(blank_samples = c("sg2", "b"), min_frac = 1.6, blank_as_group = T, group_column = Group)
+
+  filtered4 <- filtered_features %>%
+    filter_blank(blank_samples = c("sg2", "b"), min_frac = 1.4, blank_as_group = T, group_column = Group)
+
+  filtered5 <- filtered_features %>%
+    filter_blank(blank_samples = c("sg2", "b"), min_frac = 1, blank_as_group = T, group_column = Group)
+
+  expected1 <- filtered_features %>%
+    dplyr::filter(Feature %in% c("f1", "f2"))
+
+  expected2 <- filtered_features %>%
+    dplyr::filter(Feature %in% c("f1", "f2", "f3", "f4"))
+
+  expected3 <- filtered_features %>%
+    dplyr::filter(Feature %in% c("f1", "f2", "f3", "f4", "f5"))
+
+  expected4 <- filtered_features %>%
+    dplyr::filter(Feature %in% c("f1", "f2", "f3", "f4", "f5", "f6"))
+
+  expected5 <- filtered_features %>%
+    dplyr::filter(Feature != "f0")
+
+  expect_equal(filtered1, expected1)
+  expect_equal(filtered2, expected2)
+  expect_equal(filtered3, expected3)
+  expect_equal(filtered4, expected4)
+  expect_equal(filtered5, expected5)
+})
