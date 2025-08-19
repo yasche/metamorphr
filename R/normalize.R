@@ -226,6 +226,8 @@ normalize_quantile_smooth <- function(data, group_column = .data$Group, rolling_
   }
 
   data %>%
+    #add row id to preserve row order
+    dplyr::mutate(orig_row_id = 1:nrow(.)) %>%
     dplyr::mutate(orig_Intensity = .data$Intensity) %>%
     dplyr::group_by({{ group_column }}, .data$Sample) %>%
     dplyr::mutate(Rank = rank(.data$Intensity, ties.method = "first")) %>%
@@ -271,8 +273,9 @@ normalize_quantile_smooth <- function(data, group_column = .data$Group, rolling_
     dplyr::group_by({{ group_column }}, .data$Sample, .data$Rank) %>%
     dplyr::mutate(Intensity = mean(.data$tmp_Intensity, na.rm = T)) %>%
     dplyr::ungroup() %>%
-    dplyr::select(-"Rank", -"tmp_Intensity", -"tie", -"orig_Intensity") %>%
-    dplyr::arrange(.data$UID)
+    #dplyr::arrange(.data$UID) %>%
+    dplyr::arrange(.data$orig_row_id) %>%
+    dplyr::select(-"Rank", -"tmp_Intensity", -"tie", -"orig_Intensity", -"orig_row_id")
 }
 
 #' Normalize intensities across samples using a reference feature
