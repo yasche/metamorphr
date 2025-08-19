@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r eval = !all_available, echo = FALSE, comment = NA}
-message("Can't download example files from raw.githubusercontent.com. Code in this vignette will not be evaluated.")
+message("Can't download example files from GitHub. Code in this vignette will not be evaluated.")
 ```
 
 ```{r lib}
