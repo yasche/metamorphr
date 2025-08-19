@@ -59,7 +59,7 @@ plot_volcano <- function(data, group_column, name_column, groups_to_compare, bat
   }
 
   if (length(groups_to_compare) != 2) {
-    stop(paste0("A volcano plot can only compare 2 groups! You provided ", length(groups_to_compare), ": ", paste(groups_to_compare, collapse = ", "), "."))
+    rlang::abort(paste0("A volcano plot can only compare 2 groups! You provided ", length(groups_to_compare), ": ", paste(groups_to_compare, collapse = ", "), "."))
   }
 
   adjust_p_lgl <- as.logical(adjust_p)
@@ -76,7 +76,7 @@ plot_volcano <- function(data, group_column, name_column, groups_to_compare, bat
 
   if (is.na(adjust_p_lgl)) {
     if (!(adjust_p %in% stats::p.adjust.methods)) {
-      stop(paste(
+      rlang::abort(paste(
         "The method you have provided for adjust_p does not exist!\nPlease use one of the available methods below or set adjust_p = FALSE\nAvailable methods:",
         paste(stats::p.adjust.methods, collapse = ", ")
       ))

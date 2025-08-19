@@ -69,7 +69,7 @@ collapse_helper <- function(collapse_fn, collapse_fn_string, data, feature_metad
 
   if (!length_sample_metadata == length_sample_metadata_expected) {
     print(sample_metadata, n = nrow(sample_metadata))
-    stop(paste0("\nThere is a problem in the 'sample_metadata_cols' argument you have provided.
+    rlang::abort(paste0("\nThere is a problem in the 'sample_metadata_cols' argument you have provided.
 Some observations in the columns you specified in 'sample_metadata_cols' (", paste(sample_metadata_cols, collapse = ", "), ") are not unique for a given ", group_column_string, " ", replicate_column_string, batch_column_string, " combination.
 Each combination of ", group_column_string, ", ", replicate_column_string, "and", batch_column_string, " must only appear once in the table above.\n
 Did you provide feature metadata as sample metadata? See ?collapse_", collapse_fn_string, " for more information."))
@@ -83,7 +83,7 @@ Did you provide feature metadata as sample metadata? See ?collapse_", collapse_f
 
   if (!length_feature_metadata == length_feature_metadata_expected) {
     print(feature_metadata, n = nrow(feature_metadata))
-    stop(paste0("\nThere is a problem in the 'feature_metadata_cols' argument you have provided.
+    rlang::abort(paste0("\nThere is a problem in the 'feature_metadata_cols' argument you have provided.
 Some observations in the columns you specified in 'feature_metadata_cols' (", paste(feature_metadata_cols, collapse = ", "), ") are not unique for a given UID.
 Each UID must only appear once in the table above.\n
 Did you provide sample metadata as feature metadata? See ?collapse_", collapse_fn_string, " for more information."))

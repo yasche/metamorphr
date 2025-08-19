@@ -26,7 +26,7 @@ filter_global_mv <- function(data, min_found = 0.5, fraction = TRUE) {
 
   if (fraction == TRUE) {
     if (min_found > 1) {
-      stop("Argument max_missing must be <= 1 if argument fraction is TRUE.")
+      rlang::abort("Argument max_missing must be <= 1 if argument fraction is TRUE.")
     }
 
     data %>%
@@ -72,7 +72,7 @@ filter_grouped_mv <- function(data, min_found = 0.5, group_column = .data$Group,
 
   if (fraction == TRUE) {
     if (min_found > 1) {
-      stop("Argument max_missing must be <= 1 if argument fraction is TRUE.")
+      rlang::abort("Argument max_missing must be <= 1 if argument fraction is TRUE.")
     }
 
     data %>%
@@ -131,7 +131,7 @@ filter_cv <- function(data, reference_samples, max_cv = 0.2, ref_as_group = FALS
   # perform  checks
   # if (ref_as_group == TRUE) {
   #  if (is.null(group_column)) {
-  #    stop("A grouping column must be provided if argument ref_as_group is TRUE. See ?metamorphr::filter_cv for details.")
+  #    rlang::abort("A grouping column must be provided if argument ref_as_group is TRUE. See ?metamorphr::filter_cv for details.")
   #  }
   # }
 
@@ -212,11 +212,11 @@ filter_blank <- function(data, blank_samples, min_frac = 3, blank_as_group = FAL
     #group_column_str <- gsub("`", "", group_column_str)
 
     if (group_column_str == "NULL") {
-      stop("group_column can't be NULL if `blank_as_group = TRUE`.\nUsually `group_column = Group`.")
+      rlang::abort("group_column can't be NULL if `blank_as_group = TRUE`.\nUsually `group_column = Group`.")
     }
 
     if (!(group_column_str %in% colnames(data))) {
-      stop(paste(group_column_str, " column was not found in 'data'.\nDid you forget to add metadata or did you provide `group_column` with quotation marks?"))
+      rlang::abort(paste(group_column_str, " column was not found in 'data'.\nDid you forget to add metadata or did you provide `group_column` with quotation marks?"))
     }
 
     data <- data %>%

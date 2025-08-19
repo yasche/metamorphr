@@ -216,7 +216,7 @@ normalize_quantile_batch <- function(data, group_column = .data$Group, batch_col
 #'   normalize_quantile_smooth(group_column = Group)
 normalize_quantile_smooth <- function(data, group_column = .data$Group, rolling_window = 0.05) {
   if (rolling_window > 1 | rolling_window < 0) {
-    stop(paste0("rolling_window must be between 0 and 1, not ", as.character(rolling_window), "."))
+    rlang::abort(paste0("rolling_window must be between 0 and 1, not ", as.character(rolling_window), "."))
   }
 
   k <- floor(length(unique(data$UID)) * rolling_window)
@@ -319,7 +319,7 @@ normalize_ref <- function(data, reference_feature, identifier_column, reference_
     dplyr::filter({{ identifier_column }} == reference_feature)
 
   if (length(multiple_ids) == 0) {
-    stop(paste0("\n\nreference_feature must occur exactly once in each sample.\nThere is no feature that matches '", reference_feature, "' in column ", rlang::expr_label(substitute(identifier_column)), ".\nDid you make a typo?"))
+    rlang::abort(paste0("\n\nreference_feature must occur exactly once in each sample.\nThere is no feature that matches '", reference_feature, "' in column ", rlang::expr_label(substitute(identifier_column)), ".\nDid you make a typo?"))
   }
 
   if (max(multiple_ids) > 1) {
@@ -328,14 +328,14 @@ normalize_ref <- function(data, reference_feature, identifier_column, reference_
       dplyr::pull("UID") %>%
       unique()
 
-    stop(paste0("\n\nreference_feature must occur exactly once in each sample.\nThere are ", as.character(max(multiple_ids)), " features that match '", reference_feature, "' in column ", rlang::expr_label(substitute(identifier_column)), ".\nIt is recommended to use the UID column to refer to specific features:\nYou may use `identifier_column = UID` and set the `reference_feature` argument to the correct UID of the following: ", paste(as.character(which_uids), collapse = " "), "."))
+    rlang::abort(paste0("\n\nreference_feature must occur exactly once in each sample.\nThere are ", as.character(max(multiple_ids)), " features that match '", reference_feature, "' in column ", rlang::expr_label(substitute(identifier_column)), ".\nIt is recommended to use the UID column to refer to specific features:\nYou may use `identifier_column = UID` and set the `reference_feature` argument to the correct UID of the following: ", paste(as.character(which_uids), collapse = " "), "."))
   }
 
   if (any(is.na(ref_ints$Intensity))) {
     ref_ints_na <- ref_ints %>%
       dplyr::filter(is.na(.data$Intensity)) %>%
       dplyr::pull(.data$Sample)
-    stop(paste0("\n\nThe intensity of ", reference_feature, " in Sample(s) ", paste(unique(ref_ints_na), collapse = ","), " is NA!\nPlease use any of the available 'impute_' functions first.\nStart typing 'metamorphr::impute_' in the console to see the available options."))
+    rlang::abort(paste0("\n\nThe intensity of ", reference_feature, " in Sample(s) ", paste(unique(ref_ints_na), collapse = ","), " is NA!\nPlease use any of the available 'impute_' functions first.\nStart typing 'metamorphr::impute_' in the console to see the available options."))
   }
 
   if (typeof(reference_feature_intensity) == "closure" | typeof(reference_feature_intensity) == "builtin") {
@@ -555,7 +555,7 @@ normalize_pqn <- function(data, fn = "median", normalize_sum = TRUE, reference_s
     data <- data %>%
       dplyr::mutate(Ref_Int = mean(.data$Ref_Int, na.rm = TRUE))
   } else {
-    stop('Argument fn must be "median" or "mean"')
+    rlang::abort('Argument fn must be "median" or "mean"')
   }
 
   data %>%
