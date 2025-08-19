@@ -225,9 +225,11 @@ normalize_quantile_smooth <- function(data, group_column = .data$Group, rolling_
     k <- k + 1
   }
 
+  n_rows <- nrow(data)
+
   data %>%
     #add row id to preserve row order
-    dplyr::mutate(orig_row_id = 1:nrow(.)) %>%
+    dplyr::mutate(orig_row_id = 1:.env$n_rows) %>%
     dplyr::mutate(orig_Intensity = .data$Intensity) %>%
     dplyr::group_by({{ group_column }}, .data$Sample) %>%
     dplyr::mutate(Rank = rank(.data$Intensity, ties.method = "first")) %>%
@@ -373,7 +375,7 @@ normalize_ref <- function(data, reference_feature, identifier_column, reference_
 #' @export
 #'
 #' @examples
-#' toy_metaboscabe %>%
+#' toy_metaboscape %>%
 #'   join_metadata(toy_metaboscape_metadata) %>%
 #'   normalize_factor()
 normalize_factor <- function(data, factor_column = .data$Factor) {

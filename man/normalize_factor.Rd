@@ -20,7 +20,7 @@ This function requires a sample-specific factor, usually supplied via the \code{
 See the Examples section for details.
 }
 \examples{
-toy_metaboscabe \%>\%
+toy_metaboscape \%>\%
   join_metadata(toy_metaboscape_metadata) \%>\%
   normalize_factor()
 }
