@@ -35,6 +35,6 @@ toy_metaboscape \%>\%
 \references{
 \itemize{
 \item S. C. Hicks, K. Okrah, J. N. Paulson, J. Quackenbush, R. A. Irizarry, H. C. Bravo, \emph{Biostatistics} \strong{2018}, \emph{19}, 185–198, DOI 10.1093/biostatistics/kxx028.
-\item Y. Zhao, L. Wong, W. W. B. Goh, \emph{Sci Rep} \strong{2020}, \emph{10}, 15534, DOI \href{https://doi.org/10.1038/s41598-020-72664-6}{10.1038/s41598-020-72664-6}.
+\item Y. Zhao, L. Wong, W. W. B. Goh, \emph{Sci Rep} \strong{2020}, \emph{10}, 15534, DOI 10.1038/s41598-020-72664-6.
 }
 }

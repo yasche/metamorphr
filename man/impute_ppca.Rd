@@ -51,7 +51,7 @@ toy_metaboscape \%>\%
 }
 \references{
 \itemize{
-\item H. R. Wolfram Stacklies, \strong{2017}, DOI \href{https://doi.org/10.18129/B9.BIOC.PCAMETHODS}{10.18129/B9.BIOC.PCAMETHODS}.
+\item H. R. Wolfram Stacklies, \strong{2017}, DOI 10.18129/B9.BIOC.PCAMETHODS.
 \item W. Stacklies, H. Redestig, M. Scholz, D. Walther, J. Selbig, \emph{Bioinformatics} \strong{2007}, \emph{23}, 1164–1167, DOI 10.1093/bioinformatics/btm069.
 }
 }

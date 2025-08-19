@@ -36,5 +36,5 @@ toy_metaboscape \%>\%
   normalize_quantile_group(group_column = Group)
 }
 \references{
-Y. Zhao, L. Wong, W. W. B. Goh, \emph{Sci Rep} \strong{2020}, \emph{10}, 15534, DOI \href{https://doi.org/10.1038/s41598-020-72664-6}{10.1038/s41598-020-72664-6}.
+Y. Zhao, L. Wong, W. W. B. Goh, \emph{Sci Rep} \strong{2020}, \emph{10}, 15534, DOI 10.1038/s41598-020-72664-6.
 }

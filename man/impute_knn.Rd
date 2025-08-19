@@ -35,7 +35,7 @@ toy_metaboscape \%>\%
 }
 \references{
 \itemize{
-\item Robert Tibshirani, Trevor Hastie, \strong{2017}, \href{https://doi.org/10.18129/B9.BIOC.IMPUTE}{10.18129/B9.BIOC.IMPUTE}.
-\item J. Khan, J. S. Wei, M. Ringnér, L. H. Saal, M. Ladanyi, F. Westermann, F. Berthold, M. Schwab, C. R. Antonescu, C. Peterson, P. S. Meltzer, \emph{Nat Med} \strong{2001}, \emph{7}, 673–679, DOI \href{https://doi.org/10.1038/89044}{10.1038/89044}.
+\item Robert Tibshirani, Trevor Hastie, \strong{2017}, DOI 10.18129/B9.BIOC.IMPUTE.
+\item J. Khan, J. S. Wei, M. Ringnér, L. H. Saal, M. Ladanyi, F. Westermann, F. Berthold, M. Schwab, C. R. Antonescu, C. Peterson, P. S. Meltzer, \emph{Nat Med} \strong{2001}, \emph{7}, 673–679, DOI 10.1038/89044.
 }
 }

@@ -60,6 +60,6 @@ toy_mgf_nl \%>\%
 }
 \references{
 \itemize{
-\item A. Brink, F. Fontaine, M. Marschmann, B. Steinhuber, E. N. Cece, I. Zamora, A. Pähler, \emph{Rapid Commun. Mass Spectrom.} \strong{2014}, \emph{28}, 2695–2703, DOI \href{https://doi.org/10.1002/rcm.7062}{10.1002/rcm.7062}.
+\item A. Brink, F. Fontaine, M. Marschmann, B. Steinhuber, E. N. Cece, I. Zamora, A. Pähler, \emph{Rapid Commun. Mass Spectrom.} \strong{2014}, \emph{28}, 2695–2703, DOI 10.1002/rcm.7062.
 }
 }

@@ -21,5 +21,5 @@ toy_metaboscape \%>\%
   normalize_median()
 }
 \references{
-T. Ramirez, A. Strigun, A. Verlohner, H.-A. Huener, E. Peter, M. Herold, N. Bordag, W. Mellert, T. Walk, M. Spitzer, X. Jiang, S. Sperber, T. Hofmann, T. Hartung, H. Kamp, B. Van Ravenzwaay, \emph{Arch Toxicol} \strong{2018}, \emph{92}, 893–906, DOI \href{https://doi.org/10.1007/s00204-017-2079-6}{10.1007/s00204-017-2079-6}.
+T. Ramirez, A. Strigun, A. Verlohner, H.-A. Huener, E. Peter, M. Herold, N. Bordag, W. Mellert, T. Walk, M. Spitzer, X. Jiang, S. Sperber, T. Hofmann, T. Hartung, H. Kamp, B. Van Ravenzwaay, \emph{Arch Toxicol} \strong{2018}, \emph{92}, 893–906, DOI 10.1007/s00204-017-2079-6.
 }

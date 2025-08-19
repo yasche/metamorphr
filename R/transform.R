@@ -11,7 +11,7 @@
 #' @export
 #'
 #' @references \itemize{
-#' \item R. A. Van Den Berg, H. C. Hoefsloot, J. A. Westerhuis, A. K. Smilde, M. J. Van Der Werf, \emph{BMC Genomics} \strong{2006}, \emph{7}, 142, DOI \href{https://doi.org/10.1186/1471-2164-7-142}{10.1186/1471-2164-7-142}.
+#' \item R. A. Van Den Berg, H. C. Hoefsloot, J. A. Westerhuis, A. K. Smilde, M. J. Van Der Werf, \emph{BMC Genomics} \strong{2006}, \emph{7}, 142, DOI 10.1186/1471-2164-7-142.
 #' }
 #'
 #' @examples
@@ -36,7 +36,7 @@ transform_log <- function(data, base = 10) {
 #' @export
 #'
 #' @references \itemize{
-#' \item R. A. Van Den Berg, H. C. Hoefsloot, J. A. Westerhuis, A. K. Smilde, M. J. Van Der Werf, \emph{BMC Genomics} \strong{2006}, \emph{7}, 142, DOI \href{https://doi.org/10.1186/1471-2164-7-142}{10.1186/1471-2164-7-142}.
+#' \item R. A. Van Den Berg, H. C. Hoefsloot, J. A. Westerhuis, A. K. Smilde, M. J. Van Der Werf, \emph{BMC Genomics} \strong{2006}, \emph{7}, 142, DOI 10.1186/1471-2164-7-142.
 #' }
 #'
 #'

@@ -9,7 +9,7 @@
 #' @return A tibble with intensities normalized across samples.
 #' @export
 #'
-#' @references T. Ramirez, A. Strigun, A. Verlohner, H.-A. Huener, E. Peter, M. Herold, N. Bordag, W. Mellert, T. Walk, M. Spitzer, X. Jiang, S. Sperber, T. Hofmann, T. Hartung, H. Kamp, B. Van Ravenzwaay, \emph{Arch Toxicol} \strong{2018}, \emph{92}, 893–906, DOI \href{https://doi.org/10.1007/s00204-017-2079-6}{10.1007/s00204-017-2079-6}.
+#' @references T. Ramirez, A. Strigun, A. Verlohner, H.-A. Huener, E. Peter, M. Herold, N. Bordag, W. Mellert, T. Walk, M. Spitzer, X. Jiang, S. Sperber, T. Hofmann, T. Hartung, H. Kamp, B. Van Ravenzwaay, \emph{Arch Toxicol} \strong{2018}, \emph{92}, 893–906, DOI 10.1007/s00204-017-2079-6.
 #'
 #' @examples
 #' toy_metaboscape %>%
@@ -68,7 +68,7 @@ normalize_sum <- function(data) {
 #' @return A tibble with intensities normalized across samples.
 #' @export
 #'
-#' @references Y. Zhao, L. Wong, W. W. B. Goh, \emph{Sci Rep} \strong{2020}, \emph{10}, 15534, DOI \href{https://doi.org/10.1038/s41598-020-72664-6}{10.1038/s41598-020-72664-6}.
+#' @references Y. Zhao, L. Wong, W. W. B. Goh, \emph{Sci Rep} \strong{2020}, \emph{10}, 15534, DOI 10.1038/s41598-020-72664-6.
 #'
 #' @examples
 #' toy_metaboscape %>%
@@ -113,7 +113,7 @@ normalize_quantile_all <- function(data) {
 #' @return A tibble with intensities normalized across samples.
 #' @export
 #'
-#' @references Y. Zhao, L. Wong, W. W. B. Goh, \emph{Sci Rep} \strong{2020}, \emph{10}, 15534, DOI \href{https://doi.org/10.1038/s41598-020-72664-6}{10.1038/s41598-020-72664-6}.
+#' @references Y. Zhao, L. Wong, W. W. B. Goh, \emph{Sci Rep} \strong{2020}, \emph{10}, 15534, DOI 10.1038/s41598-020-72664-6.
 #'
 #' @examples
 #' toy_metaboscape %>%
@@ -162,7 +162,7 @@ normalize_quantile_group <- function(data, group_column = .data$Group) {
 #' @return A tibble with intensities normalized across samples.
 #' @export
 #'
-#' @references Y. Zhao, L. Wong, W. W. B. Goh, \emph{Sci Rep} \strong{2020}, \emph{10}, 15534, DOI \href{https://doi.org/10.1038/s41598-020-72664-6}{10.1038/s41598-020-72664-6}.
+#' @references Y. Zhao, L. Wong, W. W. B. Goh, \emph{Sci Rep} \strong{2020}, \emph{10}, 15534, DOI 10.1038/s41598-020-72664-6.
 #'
 #' @examples
 #' toy_metaboscape %>%
@@ -206,7 +206,7 @@ normalize_quantile_batch <- function(data, group_column = .data$Group, batch_col
 #'
 #' @references \itemize{
 #'  \item S. C. Hicks, K. Okrah, J. N. Paulson, J. Quackenbush, R. A. Irizarry, H. C. Bravo, \emph{Biostatistics} \strong{2018}, \emph{19}, 185–198, DOI 10.1093/biostatistics/kxx028.
-#'  \item Y. Zhao, L. Wong, W. W. B. Goh, \emph{Sci Rep} \strong{2020}, \emph{10}, 15534, DOI \href{https://doi.org/10.1038/s41598-020-72664-6}{10.1038/s41598-020-72664-6}.
+#'  \item Y. Zhao, L. Wong, W. W. B. Goh, \emph{Sci Rep} \strong{2020}, \emph{10}, 15534, DOI 10.1038/s41598-020-72664-6.
 #' }
 #'
 #' @examples

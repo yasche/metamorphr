@@ -53,8 +53,8 @@ featuretable
 }
 \references{
 \itemize{
-\item H. Wickham, \emph{J. Stat. Soft.} \strong{2014}, \emph{59}, DOI \href{https://doi.org/10.18637/jss.v059.i10}{10.18637/jss.v059.i10}.
-\item H. Wickham, M. Averick, J. Bryan, W. Chang, L. McGowan, R. François, G. Grolemund, A. Hayes, L. Henry, J. Hester, M. Kuhn, T. Pedersen, E. Miller, S. Bache, K. Müller, J. Ooms, D. Robinson, D. Seidel, V. Spinu, K. Takahashi, D. Vaughan, C. Wilke, K. Woo, H. Yutani, \emph{JOSS} \strong{2019}, \emph{4}, 1686, DOI \href{https://doi.org/10.21105/joss.01686}{10.21105/joss.01686}.
+\item H. Wickham, \emph{J. Stat. Soft.} \strong{2014}, \emph{59}, DOI 10.18637/jss.v059.i10.
+\item H. Wickham, M. Averick, J. Bryan, W. Chang, L. McGowan, R. François, G. Grolemund, A. Hayes, L. Henry, J. Hester, M. Kuhn, T. Pedersen, E. Miller, S. Bache, K. Müller, J. Ooms, D. Robinson, D. Seidel, V. Spinu, K. Takahashi, D. Vaughan, C. Wilke, K. Woo, H. Yutani, \emph{JOSS} \strong{2019}, \emph{4}, 1686, DOI 10.21105/joss.01686.
 \item “12 Tidy data | R for Data Science,” can be found under \url{https://r4ds.had.co.nz/tidy-data.html}, \strong{2023}.
 }
 }

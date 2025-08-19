@@ -171,8 +171,8 @@ impute_lod <- function(data, div_by = 5) {
 #' @export
 #'
 #' @references \itemize{
-#' \item Robert Tibshirani, Trevor Hastie, \strong{2017}, \href{https://doi.org/10.18129/B9.BIOC.IMPUTE}{10.18129/B9.BIOC.IMPUTE}.
-#' \item J. Khan, J. S. Wei, M. Ringnér, L. H. Saal, M. Ladanyi, F. Westermann, F. Berthold, M. Schwab, C. R. Antonescu, C. Peterson, P. S. Meltzer, \emph{Nat Med} \strong{2001}, \emph{7}, 673–679, DOI \href{https://doi.org/10.1038/89044}{10.1038/89044}.
+#' \item Robert Tibshirani, Trevor Hastie, \strong{2017}, DOI 10.18129/B9.BIOC.IMPUTE.
+#' \item J. Khan, J. S. Wei, M. Ringnér, L. H. Saal, M. Ladanyi, F. Westermann, F. Berthold, M. Schwab, C. R. Antonescu, C. Peterson, P. S. Meltzer, \emph{Nat Med} \strong{2001}, \emph{7}, 673–679, DOI 10.1038/89044.
 #' }
 #' @examples
 #' toy_metaboscape %>%
@@ -351,7 +351,7 @@ impute_rf <- function(data, random_seed = 1L, ...) {
 #' @export
 #'
 #' @references \itemize{
-#' \item H. R. Wolfram Stacklies, \strong{2017}, DOI \href{https://doi.org/10.18129/B9.BIOC.PCAMETHODS}{10.18129/B9.BIOC.PCAMETHODS}.
+#' \item H. R. Wolfram Stacklies, \strong{2017}, DOI 10.18129/B9.BIOC.PCAMETHODS.
 #' \item W. Stacklies, H. Redestig, M. Scholz, D. Walther, J. Selbig, \emph{Bioinformatics} \strong{2007}, \emph{23}, 1164–1167, DOI 10.1093/bioinformatics/btm069.
 #' }
 #'
@@ -406,7 +406,7 @@ impute_nipals <- function(data, n_pcs = 2, center = TRUE, scale = "none", direct
 #' @export
 #'
 #' @references \itemize{
-#' \item H. R. Wolfram Stacklies, \strong{2017}, DOI \href{https://doi.org/10.18129/B9.BIOC.PCAMETHODS}{10.18129/B9.BIOC.PCAMETHODS}.
+#' \item H. R. Wolfram Stacklies, \strong{2017}, DOI 10.18129/B9.BIOC.PCAMETHODS.
 #' \item W. Stacklies, H. Redestig, M. Scholz, D. Walther, J. Selbig, \emph{Bioinformatics} \strong{2007}, \emph{23}, 1164–1167, DOI 10.1093/bioinformatics/btm069.
 #' }
 #'
@@ -466,7 +466,7 @@ impute_bpca <- function(data, n_pcs = 2, center = TRUE, scale = "none", directio
 #' @export
 #'
 #' @references \itemize{
-#' \item H. R. Wolfram Stacklies, \strong{2017}, DOI \href{https://doi.org/10.18129/B9.BIOC.PCAMETHODS}{10.18129/B9.BIOC.PCAMETHODS}.
+#' \item H. R. Wolfram Stacklies, \strong{2017}, DOI 10.18129/B9.BIOC.PCAMETHODS.
 #' \item W. Stacklies, H. Redestig, M. Scholz, D. Walther, J. Selbig, \emph{Bioinformatics} \strong{2007}, \emph{23}, 1164–1167, DOI 10.1093/bioinformatics/btm069.
 #' }
 #'
@@ -520,7 +520,7 @@ impute_ppca <- function(data, n_pcs = 2, center = TRUE, scale = "none", directio
 #' @export
 #'
 #' @references \itemize{
-#' \item H. R. Wolfram Stacklies, \strong{2017}, DOI \href{https://doi.org/10.18129/B9.BIOC.PCAMETHODS}{10.18129/B9.BIOC.PCAMETHODS}.
+#' \item H. R. Wolfram Stacklies, \strong{2017}, DOI 10.18129/B9.BIOC.PCAMETHODS.
 #' \item W. Stacklies, H. Redestig, M. Scholz, D. Walther, J. Selbig, \emph{Bioinformatics} \strong{2007}, \emph{23}, 1164–1167, DOI 10.1093/bioinformatics/btm069.
 #' \item O. Troyanskaya, M. Cantor, G. Sherlock, P. Brown, T. Hastie, R. Tibshirani, D. Botstein, R. B. Altman, \emph{Bioinformatics} \strong{2001}, \emph{17}, 520–525, DOI 10.1093/bioinformatics/17.6.520.
 #' }
@@ -573,7 +573,7 @@ impute_svd <- function(data, n_pcs = 2, center = TRUE, scale = "none", direction
 #' @export
 #'
 #' @references \itemize{
-#' \item H. R. Wolfram Stacklies, \strong{2017}, DOI \href{https://doi.org/10.18129/B9.BIOC.PCAMETHODS}{10.18129/B9.BIOC.PCAMETHODS}.
+#' \item H. R. Wolfram Stacklies, \strong{2017}, DOI 10.18129/B9.BIOC.PCAMETHODS.
 #' \item W. Stacklies, H. Redestig, M. Scholz, D. Walther, J. Selbig, \emph{Bioinformatics} \strong{2007}, \emph{23}, 1164–1167, DOI 10.1093/bioinformatics/btm069.
 #' }
 #'
