@@ -356,9 +356,28 @@ normalize_ref <- function(data, reference_feature, identifier_column, reference_
     dplyr::ungroup()
 }
 
-normalize_factor <- function() {
-
+#' Normalize intensities across samples using a normalization factor
+#'
+#' @description
+#' Normalization is done by dividing the intensity by a sample-specific factor (e.g., weight, protein or DNA content).
+#' This function requires a sample-specific factor, usually supplied via the `Factor` column from the sample metadata.
+#' See the Examples section for details.
+#'
+#' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
+#' @param factor_column Which column contains the sample-specific factor? Usually `factor_column = Factor`. Uses \code{\link[rlang]{args_data_masking}}.
+#'
+#' @returns A tibble with intensities normalized across samples.
+#' @export
+#'
+#' @examples
+#' toy_metaboscabe %>%
+#'   join_metadata(toy_metaboscape_metadata) %>%
+#'   normalize_factor()
+normalize_factor <- function(data, factor_column = .data$Factor) {
+  data %>%
+    dplyr::mutate(Intensity = .data$Intensity / {{ factor_column }})
 }
+
 
 #' Normalize intensities across samples using cyclic LOESS normalization
 #'
