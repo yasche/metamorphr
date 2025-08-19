@@ -45,3 +45,12 @@ test_that("normalize_ref throws error if reference feature exists multiple times
 
   expect_error(normalize_ref(toy_metaboscape_edit, reference_feature = "Multiple", identifier_column = Name))
 })
+
+
+test_that("row & column order stays unchanged", {
+  normalized_df <- toy_metaboscape %>%
+    impute_lod() %>%
+    normalize_ref(reference_feature = 2, identifier_column = UID)
+
+  expect_equal(dplyr::select(normalized_df, -Intensity), dplyr::select(toy_metaboscape, -Intensity))
+})

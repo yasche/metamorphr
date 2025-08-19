@@ -57,3 +57,11 @@ test_that("works for syntactic and non-syntactic column names", {
 
   expect_equal(res_syn, res_non_syn)
 })
+
+
+test_that("row & column order stays unchanged", {
+  filtered_df <- toy_metaboscape %>%
+    filter_mz(m_z_col = `m/z`, masses = 5000, tolerance = 5000, tolerance_type = "absolute")
+
+  expect_equal(filtered_df, toy_metaboscape)
+})

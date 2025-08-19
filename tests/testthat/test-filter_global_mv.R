@@ -5,6 +5,14 @@ test_that("filter_global_mv() does not change the structure of the input in an u
   expect_equal(filtered_features, toy_metaboscape)
 })
 
+test_that("row & column order stays unchanged", {
+  filtered_df <- test_filters %>%
+    dplyr::mutate(Intensity = 1) %>%
+    filter_global_mv(min_found = 1)
+
+  expect_equal(filtered_df, dplyr::mutate(test_filters, Intensity = 1))
+})
+
 
 test_that("filter_global_mv() filters the correct features for a 0.1 fraction cutoff", {
   filtered_features <- toy_metaboscape %>%

@@ -1,4 +1,4 @@
-test_that("filter_grouped_mv() does not change the structure of the input in an unexpected way", {
+test_that("row & column order stays unchanged", {
   feature_table_and_metadata <- test_filters %>%
     dplyr::left_join(test_filters_metadata1, by = "Sample")
 

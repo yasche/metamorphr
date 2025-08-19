@@ -21,3 +21,10 @@ test_that("Non-NAs stay unchanged", {
 
   expect_equal(intensities_before, intensities_after)
 })
+
+test_that("row & column order stays unchanged", {
+  imputed_df <- toy_metaboscape %>%
+    impute_global_lowest()
+
+  expect_equal(dplyr::select(imputed_df, -Intensity), dplyr::select(toy_metaboscape, -Intensity))
+})

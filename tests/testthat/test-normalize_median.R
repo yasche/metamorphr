@@ -9,3 +9,11 @@ test_that("normalize_median makes median = 1", {
 
   expect_true(all(nearones))
 })
+
+
+test_that("row & column order stays unchanged", {
+  normalized_df <- toy_metaboscape %>%
+    normalize_median()
+
+  expect_equal(dplyr::select(normalized_df, -Intensity), dplyr::select(toy_metaboscape, -Intensity))
+})

@@ -158,3 +158,11 @@ test_that("filter_cv() does not throw a warning if group = .data$Group", {
                       join_metadata(toy_metaboscape_metadata) %>%
                       filter_cv(reference_samples = "QC", ref_as_group = T, group_column = .data$Group))
 })
+
+test_that("row & column order stays unchanged", {
+  filtered_df <- test_filters %>%
+    dplyr::mutate(Intensity = 1) %>%
+    filter_cv(reference_samples = c("q1", "q2", "q3"), max_cv = Inf)
+
+  expect_equal(filtered_df, dplyr::mutate(test_filters, Intensity = 1))
+})

@@ -189,3 +189,11 @@ test_that("returns expected results if > 1 group is provided", {
   expect_equal(filtered4, expected4)
   expect_equal(filtered5, expected5)
 })
+
+test_that("row & column order stays unchanged", {
+  filtered_df <- test_filters %>%
+    dplyr::mutate(Intensity = 1) %>%
+    filter_blank(blank_samples = "b1", blank_as_group = F, min_frac = 1)
+
+  expect_equal(filtered_df, dplyr::mutate(test_filters, Intensity = 1))
+})

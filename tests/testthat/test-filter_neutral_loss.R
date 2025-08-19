@@ -67,3 +67,13 @@ test_that("throws error if tolerance_type != c('absolute', 'ppm')", {
 
   expect_error(filter_neutral_loss(mgf_tibble, losses = c(12.345, 23.456, 34.567), tolerance = 0, tolerance_type = "absolutexxx", min_found = 3), 'Argument `tolerance_type` must be "ppm" or "absolute", not "absolutexxx".')
 })
+
+test_that("row & column order stays unchanged", {
+  mgf_tibble <- read_mgf(test_path("data", "test_filter_msn_nl.mgf"))
+  mgf_tibble <- calc_neutral_loss(mgf_tibble, m_z_col = PEPMASS)
+
+  filtered_df <- mgf_tibble %>%
+    filter_neutral_loss(losses = 5000, tolerance = 5000, tolerance_type = "absolute", min_found = 1)
+
+  expect_equal(filtered_df, mgf_tibble)
+})

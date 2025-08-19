@@ -60,3 +60,12 @@ test_that("throws error if tolerance_type != c('absolute', 'ppm')", {
 
   expect_error(filter_msn(mgf_tibble, fragments = c(12.345, 23.456, 34.567), tolerance = 0, tolerance_type = "absolutexxx", min_found = 3), 'Argument `tolerance_type` must be "ppm" or "absolute", not "absolutexxx".')
 })
+
+test_that("row & column order stays unchanged", {
+  mgf_tibble <- read_mgf(test_path("data", "test_read_mgf.mgf"))
+
+  filtered_df <- mgf_tibble %>%
+    filter_msn(fragments = 5000, tolerance = 5000, tolerance_type = "absolute", min_found = 1)
+
+  expect_equal(filtered_df, mgf_tibble)
+})

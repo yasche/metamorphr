@@ -14,3 +14,11 @@ test_that("normalize_quantile_all produces expected results, when accounting for
 
   expect_lte(max_diff, 0.005)
 })
+
+test_that("row & column order stays unchanged", {
+  normalized_df <- toy_metaboscape %>%
+    impute_lod() %>%
+    normalize_quantile_all()
+
+  expect_equal(dplyr::select(normalized_df, -Intensity), dplyr::select(toy_metaboscape, -Intensity))
+})

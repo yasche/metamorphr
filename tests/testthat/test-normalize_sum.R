@@ -9,3 +9,11 @@ test_that("Sum of intensites is 1 after normalization", {
 
   expect_true(all(nearones))
 })
+
+test_that("row & column order stays unchanged", {
+  normalized_df <- toy_metaboscape %>%
+    impute_lod() %>%
+    normalize_sum()
+
+  expect_equal(dplyr::select(normalized_df, -Intensity), dplyr::select(toy_metaboscape, -Intensity))
+})

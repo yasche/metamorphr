@@ -34,3 +34,13 @@ test_that("Non-NAs stay unchanged", {
 
   expect_equal(intensities_before, intensities_after)
 })
+
+
+test_that("row & column order stays unchanged", {
+  imputed_df <- toy_metaboscape %>%
+    dplyr::mutate(Intensity = dplyr::case_when(UID == 1 & Sample == "Sample1" ~ NA,
+                                               .default = 1)) %>%
+    impute_user_value(value = 0.5)
+
+  expect_equal(dplyr::select(imputed_df, -Intensity), dplyr::select(toy_metaboscape, -Intensity))
+})

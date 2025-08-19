@@ -74,3 +74,15 @@ test_that("No more NA after imputation", {
   expect_true(na_before)
   expect_false(na_after)
 })
+
+
+test_that("row & column order stays unchanged", {
+  imputed_df <- toy_metaboscape %>%
+    dplyr::mutate(Intensity = dplyr::case_when(is.na(Intensity) ~ 1,
+                                               .default = Intensity)) %>%
+    dplyr::mutate(Intensity = dplyr::case_when(UID == 1 & Sample == "Sample1" ~ NA,
+                                               .default = Intensity)) %>%
+    impute_rf()
+
+  expect_equal(dplyr::select(imputed_df, -Intensity), dplyr::select(toy_metaboscape, -Intensity))
+})

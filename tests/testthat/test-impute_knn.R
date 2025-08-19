@@ -205,3 +205,13 @@ test_that('check_installed_wrapper("impute") is triggered', {
 test_that("test check_installed_wrapper function", {
   expect_error(check_installed_wrapper("abc"))
 })
+
+test_that("row & column order stays unchanged", {
+  imputed_df <- toy_metaboscape %>%
+    dplyr::mutate(Intensity = dplyr::case_when(UID == 1 & Sample == "Sample1" ~ NA,
+                                               .default = 1)) %>%
+    impute_knn()
+
+  expect_equal(dplyr::select(imputed_df, -Intensity), dplyr::select(toy_metaboscape, -Intensity))
+})
+

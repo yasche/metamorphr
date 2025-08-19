@@ -106,3 +106,20 @@ test_that("throws error if method does not exist", {
     impute_lod() %>%
     normalize_pqn(fn = "meanxxx"))
 })
+
+
+test_that("row & column order stays unchanged", {
+  joined_df <- toy_metaboscape %>%
+    join_metadata(toy_metaboscape_metadata)
+
+  normalized_df <- joined_df %>%
+    impute_lod() %>%
+    normalize_pqn(reference_samples = c("QC1", "QC2", "QC3"))
+
+  normalized_df_rag <- joined_df %>%
+    impute_lod() %>%
+    normalize_pqn(reference_samples = c("QC"), ref_as_group = TRUE, group_column = Group)
+
+  expect_equal(dplyr::select(normalized_df, -Intensity), dplyr::select(joined_df, -Intensity))
+  expect_equal(dplyr::select(normalized_df_rag, -Intensity), dplyr::select(joined_df, -Intensity))
+})

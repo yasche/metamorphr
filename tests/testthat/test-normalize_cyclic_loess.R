@@ -38,3 +38,11 @@ test_that("automatically stops if convergence is reached", {
 test_that("breaks if no convergence is reached", {
   expect_message(toy_metaboscape %>% impute_lod() %>% normalize_cyclic_loess(verbose = T, fixed_iter = F, n_iter = 1), "No convergence was reached after 1 iterations.")
 })
+
+test_that("row & column order stays unchanged", {
+  normalized_df <- toy_metaboscape %>%
+    impute_lod() %>%
+    normalize_cyclic_loess(verbose = F, n_iter = 1)
+
+  expect_equal(dplyr::select(normalized_df, -Intensity), dplyr::select(toy_metaboscape, -Intensity))
+})

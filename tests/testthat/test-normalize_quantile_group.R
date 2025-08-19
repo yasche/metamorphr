@@ -34,3 +34,14 @@ test_that("normalize_quantile_group produces expected results, when accounting f
 
   expect_lte(max_diff, 0.005)
 })
+
+test_that("row & column order stays unchanged", {
+  joined_df <- toy_metaboscape %>%
+    join_metadata(toy_metaboscape_metadata)
+
+  normalized_df <- joined_df %>%
+    impute_lod() %>%
+    normalize_quantile_group()
+
+  expect_equal(dplyr::select(normalized_df, -Intensity), dplyr::select(joined_df, -Intensity))
+})
