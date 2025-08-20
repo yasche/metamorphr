@@ -1,3 +1,3 @@
-# metamorphr (development version)
+# metamorphr 0.1.0
 
 * Initial CRAN submission.
