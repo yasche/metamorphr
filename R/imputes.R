@@ -602,11 +602,3 @@ impute_lls <- function(data, correlation = "pearson", complete_genes = FALSE, ce
 
   internal_clean_pca_results(data_list = data_list, direction = 2)
 }
-
-impute_nlpca <- function(data, n_pcs = 2, center = TRUE, scale = "none", direction = 2) {
-
-}
-
-impute_qrilc <- function() {
-
-}

@@ -570,6 +570,3 @@ normalize_pqn <- function(data, fn = "median", normalize_sum = TRUE, reference_s
     dplyr::ungroup() %>%
     dplyr::select(-"Ref_Int")
 }
-
-# potential other:
-# contrast, cubic_splines, lbs (linear baseline scaling), mstus, non-linear baseline normalization
