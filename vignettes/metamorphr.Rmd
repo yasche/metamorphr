@@ -282,4 +282,4 @@ plot_volcano(mevastatin_ft,
 
 ## References
 
-Hicks, S. C., Okrah, K., Paulson, J. N., Quackenbush, J., Irizarry, R. A., & Bravo, H. C. (2018). Smooth quantile normalization. *Biostatistics, 19*(2), 185–198. <https://doi.org/10.1093/biostatistics/kxx028>
+Hicks, S. C., Okrah, K., Paulson, J. N., Quackenbush, J., Irizarry, R. A., & Bravo, H. C. (2018). Smooth quantile normalization. *Biostatistics, 19*(2), 185–198. DOI 10.1093/biostatistics/kxx028

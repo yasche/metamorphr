@@ -4,7 +4,7 @@ Version: 0.0.0.9000
 Authors@R: 
     person("Yannik", "Schermer", , "yannik.schermer@chem.rptu.de", role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0009-0002-5201-057X"))
-Description: Facilitate tasks typically encountered during metabolomics data analysis including data import, filtering, missing value imputation, transformation, centering and scaling as well as statistical tests and plotting. 'metamorphr' introduces a tidy format for metabolomics data and is designed to make it easier to build elaborate analysis workflows and to integrate them with 'Tidyverse' packages including 'dplyr' and 'ggplot2'.
+Description: Facilitate tasks typically encountered during metabolomics data analysis including data import, filtering, missing value imputation, transformation, centering and scaling as well as statistical tests and plotting. 'metamorphr' introduces a tidy format for metabolomics data and is designed to make it easier to build elaborate analysis workflows and to integrate them with 'tidyverse' packages including 'dplyr' and 'ggplot2'.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

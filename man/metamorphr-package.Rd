@@ -6,7 +6,7 @@
 \alias{metamorphr-package}
 \title{metamorphr: Tidy and Streamlined Metabolomics Data Workflows}
 \description{
-Facilitate tasks typically encountered during metabolomics data analysis including data import, filtering, missing value imputation, transformation, centering and scaling as well as statistical tests and plotting. 'metamorphr' introduces a tidy format for metabolomics data and is designed to make it easier to build elaborate analysis workflows and to integrate them with 'Tidyverse' packages including 'dplyr' and 'ggplot2'.
+Facilitate tasks typically encountered during metabolomics data analysis including data import, filtering, missing value imputation, transformation, centering and scaling as well as statistical tests and plotting. 'metamorphr' introduces a tidy format for metabolomics data and is designed to make it easier to build elaborate analysis workflows and to integrate them with 'tidyverse' packages including 'dplyr' and 'ggplot2'.
 }
 \seealso{
 Useful links:

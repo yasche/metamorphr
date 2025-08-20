@@ -8,7 +8,8 @@
 [![Codecov test
 coverage](https://codecov.io/gh/yasche/metamorphr/graph/badge.svg)](https://app.codecov.io/gh/yasche/metamorphr)
 [![R-CMD-check](https://github.com/yasche/metamorphr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/yasche/metamorphr/actions/workflows/R-CMD-check.yaml)
-
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
 The metamorphr package is intended to make working with metabolomics
@@ -23,8 +24,14 @@ including ggplot2 and dplyr.
 
 ## 💾 Installation
 
-You can install the development version of metamorphr from
-[GitHub](https://github.com/) with:
+Install the stable version from CRAN with:
+
+``` r
+install.packages("metamorphr")
+```
+
+Alternatively, you can install the development version of metamorphr
+from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("pak")

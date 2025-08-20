@@ -148,6 +148,6 @@ Interestingly, menadione has been reported to form a GSH conjugate, thiodione, w
 
 ## References
 
-Brink, A., Fontaine, F., Marschmann, M., Steinhuber, B., Cece, E. N., Zamora, I., & Pähler, A. (2014). Post-acquisition analysis of untargeted accurate mass quadrupole time-of-flight MS E data for multiple collision-induced neutral losses and fragment ions of glutathione conjugates: Neutral losses and fragment ion analysis of glutathione conjugates. *Rapid Communications in Mass Spectrometry, 28*(24), 2695–2703. <https://doi.org/10.1002/rcm.7062>
+Brink, A., Fontaine, F., Marschmann, M., Steinhuber, B., Cece, E. N., Zamora, I., & Pähler, A. (2014). Post-acquisition analysis of untargeted accurate mass quadrupole time-of-flight MS E data for multiple collision-induced neutral losses and fragment ions of glutathione conjugates: Neutral losses and fragment ion analysis of glutathione conjugates. *Rapid Communications in Mass Spectrometry, 28*(24), 2695–2703. DOI 10.1002/rcm.7062
 
-Mauzeroll, J., Bard, A. J., Owhadian, O., & Monks, T. J. (2004). Menadione metabolism to thiodione in hepatoblastoma by scanning electrochemical microscopy. *Proceedings of the National Academy of Sciences, 101*(51), 17582–17587. <https://doi.org/10.1073/pnas.0407613101>
+Mauzeroll, J., Bard, A. J., Owhadian, O., & Monks, T. J. (2004). Menadione metabolism to thiodione in hepatoblastoma by scanning electrochemical microscopy. *Proceedings of the National Academy of Sciences, 101*(51), 17582–17587. DOI 10.1073/pnas.0407613101
