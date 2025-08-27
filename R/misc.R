@@ -65,7 +65,7 @@ summary_featuretable <- function(data, n_samples_max = 5, n_features_max = 5, n_
     n_replicates <- length(replicates)
 
     if (n_replicates > 1) {
-      cat(crayon::blue("Replicates detected: ", min(replicates), "...", max(replicates), "\n", sep = ""))
+      rlang::inform(message = paste0(crayon::blue("Replicates detected: ", min(replicates), "...", max(replicates), "\n", sep = "")))
     }
   }
 
@@ -83,7 +83,7 @@ summary_featuretable <- function(data, n_samples_max = 5, n_features_max = 5, n_
 
   n_total <- nrow(data)
 
-  cat(crayon::green(as.character(round((n_nas / n_total) * 100)), " % missing values (NA): ", sep = ""), paste0(as.character(n_nas), " out of ", as.character(n_total), "."), "\n", sep = "")
+  rlang::inform(message = paste0(crayon::green(paste0(as.character(round((n_nas / n_total) * 100)), " % missing values (NA): ", sep = "")), paste0(as.character(n_nas), " out of ", as.character(n_total), "."), "\n", sep = ""))
 
   data <- data %>%
     dplyr::group_by(.data$Sample) %>%
@@ -112,10 +112,10 @@ summary_featuretable_cat <- function(txt, title, n, n_max) {
     txt <- c(utils::head(txt, n = n_max))
   }
 
-  cat(crayon::blue(as.character(n), " ", title, ": ", sep = ""), paste(txt, collapse = ", "), "\n", sep = "")
+  rlang::inform(message = paste0(crayon::blue(as.character(n), " ", title, ": ", sep = ""), paste(txt, collapse = ", "), "\n", sep = ""))
   if (n > n_max) {
-    cat(crayon::silver("# ", as.character(n - n_max), " more ", tolower(title), "\n", sep = ""))
-    cat(crayon::silver("# ", "Use the n_", tolower(title), "_max", " argument to see more", "\n", sep = ""))
+    rlang::inform(message = paste0(crayon::silver("# ", as.character(n - n_max), " more ", tolower(title), "\n", sep = "")))
+    rlang::inform(message = paste0(crayon::silver("# ", "Use the n_", tolower(title), "_max", " argument to see more", "\n", sep = "")))
   }
 }
 

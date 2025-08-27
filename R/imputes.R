@@ -429,7 +429,7 @@ impute_bpca <- function(data, n_pcs = 2, center = TRUE, scale = "none", directio
 
   #data <- data_list$data
 
-  cat("`impute_bpca` output:\n\n")
+  rlang::inform(message = "`impute_bpca` output:\n\n")
   data_list$data <- pcaMethods::pca(data_list$data, nPcs = n_pcs, method = "bpca", center = center, scale = scale)
   data_list$data <- pcaMethods::completeObs(data_list$data)
 
