@@ -203,7 +203,7 @@ test_that('check_installed_wrapper("impute") is triggered', {
 })
 
 test_that("test check_installed_wrapper function", {
-  expect_error(check_installed_wrapper("abc"))
+  expect_error(check_installed_wrapper("THISPACKAGEDOESNOTEXIST154871451489415"))
 })
 
 test_that("row & column order stays unchanged", {
