@@ -51,6 +51,10 @@ test_that("error if rolling_window > 1", {
 })
 
 test_that("normalize_quantile_smooth returns the same values as qsmooth::qsmooth()", {
+  # the `impute` package can't be installed on some operating systems on CRAN
+  # skip this test if the package is not available
+  skip_if_not_installed("qsmooth")
+
   data(khanmiss, package = "impute")
 
   # prepare data and metadata
