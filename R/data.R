@@ -57,3 +57,27 @@
 #' }
 #' @source This data set contains fictional data!
 "toy_mgf"
+
+
+#' A tibble containing the NIST standard atomic weights
+#'
+#' @description
+#' The data set contains the atomic weights of the elements and their isotopes.
+#' It is used to calculate the exact mass in \code{\link[metamorphr]{formula_to_mass}} but can also be used as a reference.
+#'
+#'  description
+#'
+#' @format ## `atoms`
+#' A data frame with 442 rows and 7 columns:
+#' \describe{
+#'   \item{Number}{The atomic number of the element in the periodic table.}
+#'   \item{Element}{The element.}
+#'   \item{Isotope}{The mass number of the specific isotope.}
+#'   \item{Symbol}{The atomic symbol. Either only the letter (for standard isotopes) or the mass number followed by the symbol (for special isotopes).}
+#'   \item{Weight}{The monoisotopic mass of the isotope.}
+#'   \item{Composition}{The fraction of the isotope in the naturally occuring element.}
+#'   \item{Standard_Weight}{The standard atomic weight of the element.}
+#'   ...
+#' }
+#' @source The table was retrieved from the National Institute of Standards and Technology (NIST) at https://physics.nist.gov/cgi-bin/Compositions/stand_alone.pl in October 2025.
+"atoms"
