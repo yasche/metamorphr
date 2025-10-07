@@ -45,7 +45,9 @@ standard_atoms <- atoms %>%
   filter(Composition != 0) %>%
   mutate(Symbol = Element)
 
-atoms <- rbind(standard_atoms, explicit_atoms)
+atoms <- rbind(standard_atoms, explicit_atoms)%>%
+  select(-Notes) %>%
+  relocate(Symbol, .after = Isotope)
 
 
 usethis::use_data(atoms, overwrite = TRUE)
