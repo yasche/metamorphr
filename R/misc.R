@@ -168,13 +168,25 @@ formula_to_mass <- function(formula) {
     dplyr::filter(!grepl("[0-9]", .data$Symbol)) %>%
     dplyr::mutate(Weight = paste0("+", as.character(.data$Weight), "*"))
 
-  other_atoms_lookup <- as.character(other_atoms_df$Weight)
-  names(other_atoms_lookup) <- other_atoms_df$Symbol
+  # atoms with more than one letter must be replaced first
+  # otherwise: He -> "H", "e"
+  other_atoms_df_multi_let <- other_atoms_df %>%
+    dplyr::filter(stringr::str_length(Element) > 1)
+
+  other_atoms_df_single_let <- other_atoms_df %>%
+    dplyr::filter(stringr::str_length(Element) == 1)
+
+  other_atoms_multi_lookup <- as.character(other_atoms_df_multi_let$Weight)
+  names(other_atoms_multi_lookup) <- other_atoms_df_multi_let$Symbol
+
+  other_atoms_single_lookup <- as.character(other_atoms_df_single_let$Weight)
+  names(other_atoms_single_lookup) <- other_atoms_df_single_let$Symbol
 
   # special isotopes need to be replaces first, otherwise replacement does not work as expected
   weight_expr <- formula %>%
     stringr::str_replace_all(stringr::coll(special_isos_lookup)) %>%
-    stringr::str_replace_all(stringr::coll(other_atoms_lookup)) %>%
+    stringr::str_replace_all(stringr::coll(other_atoms_multi_lookup)) %>%
+    stringr::str_replace_all(stringr::coll(other_atoms_single_lookup)) %>%
     stringr::str_replace_all(stringr::coll("*)"), ")") %>%
     stringr::str_replace_all(stringr::coll("(+"), "+(") %>%
     # if there are nested brackets, the following lines are necessary
