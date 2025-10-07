@@ -168,18 +168,33 @@ formula_to_mass <- function(formula) {
     stringr::str_remove("^\\+") %>%
     stringr::str_remove("\\*{0,}$")
 
-  bracket_number <- weight_expr %>%
+  # if there are brackets, some modifications must be made in the string prior to evaluation
+  bracket_number_close <- weight_expr %>%
     stringr::str_extract_all("\\)[0-9]{1,}") %>%
     unlist()
 
-  bracket_number_lookup <- unlist(stringr::str_replace_all(bracket_number, stringr::coll(")"), ")*"))
-  names(bracket_number_lookup) <- bracket_number
+  bracket_number_close_lookup <- unlist(stringr::str_replace_all(bracket_number_close, stringr::coll(")"), ")*"))
+  names(bracket_number_close_lookup) <- bracket_number_close
 
-  if (!rlang::is_empty(bracket_number_lookup)) {
-    weight_expr <- stringr::str_replace_all(weight_expr, stringr::coll(bracket_number_lookup))
+  if (!rlang::is_empty(bracket_number_close_lookup)) {
+    weight_expr <- stringr::str_replace_all(weight_expr, stringr::coll(bracket_number_close_lookup))
   }
+
+
+  bracket_number_open <- weight_expr %>%
+    stringr::str_extract_all("[0-9]{1,}\\(") %>%
+    unlist()
+
+  bracket_number_open_lookup <- unlist(stringr::str_replace_all(bracket_number_open, stringr::coll("("), "+("))
+  names(bracket_number_open_lookup) <- bracket_number_open
+
+  if (!rlang::is_empty(bracket_number_open_lookup)) {
+    weight_expr <- stringr::str_replace_all(weight_expr, stringr::coll(bracket_number_open_lookup))
+  }
+
 
   weight_expr %>%
     rlang::parse_expr() %>%
     eval()
 }
+
