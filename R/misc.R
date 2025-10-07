@@ -154,34 +154,6 @@ calc_neutral_loss <- function(data, m_z_col) {
 
 
 formula_to_mass <- function(formula) {
-  speacial_isos_df <- metamorphr::atoms %>%
-    dplyr::filter(grepl("[0-9]", .data$Symbol)) %>%
-    dplyr::mutate(Symbol = dplyr::case_when(grepl("[0-9]", .data$Symbol) ~ paste0("[", .data$Symbol, "]"),
-                                            .default = .data$Symbol)) %>%
-    dplyr::mutate(Weight = paste0("+", as.character(.data$Weight), "*"))
-
-  special_isos_lookup <- as.character(speacial_isos_df$Weight)
-  names(special_isos_lookup) <- speacial_isos_df$Symbol
-
-
-  other_atoms_df <- metamorphr::atoms %>%
-    dplyr::filter(!grepl("[0-9]", .data$Symbol)) %>%
-    dplyr::mutate(Weight = paste0("+", as.character(.data$Weight), "*"))
-
-  # atoms with more than one letter must be replaced first
-  # otherwise: He -> "H", "e"
-  other_atoms_df_multi_let <- other_atoms_df %>%
-    dplyr::filter(stringr::str_length(Element) > 1)
-
-  other_atoms_df_single_let <- other_atoms_df %>%
-    dplyr::filter(stringr::str_length(Element) == 1)
-
-  other_atoms_multi_lookup <- as.character(other_atoms_df_multi_let$Weight)
-  names(other_atoms_multi_lookup) <- other_atoms_df_multi_let$Symbol
-
-  other_atoms_single_lookup <- as.character(other_atoms_df_single_let$Weight)
-  names(other_atoms_single_lookup) <- other_atoms_df_single_let$Symbol
-
   # special isotopes need to be replaces first, otherwise replacement does not work as expected
   weight_expr <- formula %>%
     stringr::str_replace_all(stringr::coll(special_isos_lookup)) %>%

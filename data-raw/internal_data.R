@@ -626,6 +626,37 @@ test_normalize_factor_results <- readr::read_csv("UID,Feature,Sample,Intensity,R
 9,427.02942 Da 424.84 s,Blank2,NA,7.08,428.03725,ADP,C10H15N5O10P2,blank,2,1,0.8766076548288383
 10,1284.34904 Da 498.94 s,Blank2,NA,8.32,1285.35687,NA,NA,blank,2,1,0.8766076548288383", show_col_types = FALSE)
 
+
+## code to prepare lookup tables for `formula_to_mass` goes here
+speacial_isos_df <- metamorphr::atoms %>%
+  dplyr::filter(grepl("[0-9]", .data$Symbol)) %>%
+  dplyr::mutate(Symbol = dplyr::case_when(grepl("[0-9]", .data$Symbol) ~ paste0("[", .data$Symbol, "]"),
+                                          .default = .data$Symbol)) %>%
+  dplyr::mutate(Weight = paste0("+", as.character(.data$Weight), "*"))
+
+special_isos_lookup <- as.character(speacial_isos_df$Weight)
+names(special_isos_lookup) <- speacial_isos_df$Symbol
+
+
+other_atoms_df <- metamorphr::atoms %>%
+  dplyr::filter(!grepl("[0-9]", .data$Symbol)) %>%
+  dplyr::mutate(Weight = paste0("+", as.character(.data$Weight), "*"))
+
+# atoms with more than one letter must be replaced first
+# otherwise: He -> "H", "e"
+other_atoms_df_multi_let <- other_atoms_df %>%
+  dplyr::filter(stringr::str_length(Element) > 1)
+
+other_atoms_df_single_let <- other_atoms_df %>%
+  dplyr::filter(stringr::str_length(Element) == 1)
+
+other_atoms_multi_lookup <- as.character(other_atoms_df_multi_let$Weight)
+names(other_atoms_multi_lookup) <- other_atoms_df_multi_let$Symbol
+
+other_atoms_single_lookup <- as.character(other_atoms_df_single_let$Weight)
+names(other_atoms_single_lookup) <- other_atoms_df_single_let$Symbol
+# end code for lookup tables
+
 usethis::use_data(test_read_featuretable,
   test_create_metadata_skeleton,
   test_filters,
@@ -665,5 +696,8 @@ usethis::use_data(test_read_featuretable,
   test_scale_vast_s_results,
   test_scale_level_results,
   test_normalize_factor_results,
+  special_isos_lookup,
+  other_atoms_multi_lookup,
+  other_atoms_single_lookup,
   overwrite = TRUE, internal = TRUE
 )
