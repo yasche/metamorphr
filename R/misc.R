@@ -153,6 +153,38 @@ calc_neutral_loss <- function(data, m_z_col) {
 }
 
 
+#' Calculate the monoisotopic mass from a given formula
+#'
+#' @description
+#' Calculates the monoisotopic mass from a given formula. If only the element symbols are provided, the calculated mass corresponds to that of a molecule made up from the most abundant isotopes.
+#' Other isotopes can also be provided (e.g., <sup>13</sup>C, instead of the naturally most abundant <sup>12</sup>C). See the samples for details.
+#'
+#'
+#' @param formula A formula as a string.
+#'
+#' @returns The monoisotopic mass of the formula.
+#' @export
+#'
+#' @examples
+#' # The monoisotopic mass is calculated with the most abundant isotopes
+#' # if only the element symbols are provided:
+#' formula_to_mass("CH4")
+#' formula_to_mass("NH3")
+#' formula_to_mass("C10H17N3O6S")
+#'
+#' # Other isotopes can be provided as follows:
+#' formula_to_mass("[13C]H4")
+#' formula_to_mass("[15N]H3")
+#'
+#' # Every isotope, including the most abundant ones, can be named explicitly.
+#' # Compare:
+#' formula_to_mass("[14N][1H]3")
+#' formula_to_mass("NH3")
+#'
+#' # The function also supports brackets and nested brackets:
+#' formula_to_mass("(CH3)2")
+#' formula_to_mass("(((CH3)2N)3C)2")
+#' formula_to_mass("((([13C]H3)2N)3C)2")
 formula_to_mass <- function(formula) {
   # special isotopes need to be replaces first, otherwise replacement does not work as expected
   weight_expr <- formula %>%
