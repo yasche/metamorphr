@@ -76,8 +76,8 @@
 #'   \item{Symbol}{The atomic symbol. Either only the letter (for standard isotopes) or the mass number followed by the symbol (for special isotopes).}
 #'   \item{Weight}{The monoisotopic mass of the isotope.}
 #'   \item{Composition}{The fraction of the isotope in the naturally occuring element.}
-#'   \item{Standard_Weight}{The standard atomic weight of the element.}
+#'   \item{Standard_Weight}{The standard atomic weight of the element. It is the sum of the product of the `Weight` and `Composition` column for each element. Where no composition is available, the weight of the IUPAC "ATOMIC WEIGHTS OF THE ELEMENTS 2023" table was used. See the Source section for more information.}
 #'   ...
 #' }
-#' @source The table was retrieved from the National Institute of Standards and Technology (NIST) at https://physics.nist.gov/cgi-bin/Compositions/stand_alone.pl in October 2025.
+#' @source The table was retrieved from the National Institute of Standards and Technology (NIST) at https://physics.nist.gov/cgi-bin/Compositions/stand_alone.pl, accesed in October 2025, and enriched with data from the IUPAC "ATOMIC WEIGHTS OF THE ELEMENTS 2023" table at https://iupac.qmul.ac.uk/AtWt/, accesed in October 2025
 "atoms"
