@@ -657,6 +657,37 @@ exact_other_atoms_single_lookup <- as.character(other_atoms_df_single_let$Weight
 names(exact_other_atoms_single_lookup) <- other_atoms_df_single_let$Symbol
 # end code for lookup tables
 
+
+## code to prepare lookup tables to calculate KMD from goes here
+speacial_isos_df <- metamorphr::atoms %>%
+  dplyr::filter(grepl("[0-9]", .data$Symbol)) %>%
+  dplyr::mutate(Symbol = dplyr::case_when(grepl("[0-9]", .data$Symbol) ~ paste0("[", .data$Symbol, "]"),
+                                          .default = .data$Symbol)) %>%
+  dplyr::mutate(Weight = paste0("+", as.character(.data$Isotope), "*"))
+
+iso_special_isos_lookup <- as.character(speacial_isos_df$Weight)
+names(iso_special_isos_lookup) <- speacial_isos_df$Symbol
+
+
+other_atoms_df <- metamorphr::atoms %>%
+  dplyr::filter(!grepl("[0-9]", .data$Symbol)) %>%
+  dplyr::mutate(Weight = paste0("+", as.character(.data$Isotope), "*"))
+
+# atoms with more than one letter must be replaced first
+# otherwise: He -> "H", "e"
+other_atoms_df_multi_let <- other_atoms_df %>%
+  dplyr::filter(stringr::str_length(Element) > 1)
+
+other_atoms_df_single_let <- other_atoms_df %>%
+  dplyr::filter(stringr::str_length(Element) == 1)
+
+iso_other_atoms_multi_lookup <- as.character(other_atoms_df_multi_let$Weight)
+names(iso_other_atoms_multi_lookup) <- other_atoms_df_multi_let$Symbol
+
+iso_other_atoms_single_lookup <- as.character(other_atoms_df_single_let$Weight)
+names(iso_other_atoms_single_lookup) <- other_atoms_df_single_let$Symbol
+# end code for lookup tables
+
 usethis::use_data(test_read_featuretable,
   test_create_metadata_skeleton,
   test_filters,
@@ -699,5 +730,8 @@ usethis::use_data(test_read_featuretable,
   exact_special_isos_lookup,
   exact_other_atoms_multi_lookup,
   exact_other_atoms_single_lookup,
+  iso_special_isos_lookup,
+  iso_other_atoms_multi_lookup,
+  iso_other_atoms_single_lookup,
   overwrite = TRUE, internal = TRUE
 )
