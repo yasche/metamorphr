@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# metamorphr <img src="man/figures/logo.jpg" align="right" height="138" />
+# metamorphr <img src="man/figures/logo.png" align="right" height="138" />
 
 <!-- badges: start -->
 
@@ -13,6 +13,8 @@ coverage](https://codecov.io/gh/yasche/metamorphr/graph/badge.svg)](https://app.
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
+
+## 💡 Overview
 
 The metamorphr package is intended to make working with metabolomics
 data more fun. For this, metamorphr introduces a
