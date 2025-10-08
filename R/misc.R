@@ -186,47 +186,9 @@ calc_neutral_loss <- function(data, m_z_col) {
 #' formula_to_mass("(((CH3)2N)3C)2")
 #' formula_to_mass("((([13C]H3)2N)3C)2")
 formula_to_mass <- function(formula) {
-  # special isotopes need to be replaces first, otherwise replacement does not work as expected
-  weight_expr <- formula %>%
-    stringr::str_replace_all(stringr::coll(special_isos_lookup)) %>%
-    stringr::str_replace_all(stringr::coll(other_atoms_multi_lookup)) %>%
-    stringr::str_replace_all(stringr::coll(other_atoms_single_lookup)) %>%
-    stringr::str_replace_all(stringr::coll("*)"), ")") %>%
-    stringr::str_replace_all(stringr::coll("(+"), "+(") %>%
-    # if there are nested brackets, the following lines are necessary
-    stringr::str_replace_all(stringr::coll("(+("), "((") %>%
-    stringr::str_replace_all(stringr::coll("*("), "+(") %>%
-    stringr::str_replace_all(stringr::coll("*+"), "+") %>%
-    stringr::str_remove("^\\+") %>%
-    stringr::str_remove("\\*{0,}$")
-
-  # if there are brackets, some modifications must be made in the string prior to evaluation
-  bracket_number_close <- weight_expr %>%
-    stringr::str_extract_all("\\)[0-9]{1,}") %>%
-    unlist()
-
-  bracket_number_close_lookup <- unlist(stringr::str_replace_all(bracket_number_close, stringr::coll(")"), ")*"))
-  names(bracket_number_close_lookup) <- bracket_number_close
-
-  if (!rlang::is_empty(bracket_number_close_lookup)) {
-    weight_expr <- stringr::str_replace_all(weight_expr, stringr::coll(bracket_number_close_lookup))
-  }
-
-
-  bracket_number_open <- weight_expr %>%
-    stringr::str_extract_all("[0-9]{1,}\\(") %>%
-    unlist()
-
-  bracket_number_open_lookup <- unlist(stringr::str_replace_all(bracket_number_open, stringr::coll("("), "+("))
-  names(bracket_number_open_lookup) <- bracket_number_open
-
-  if (!rlang::is_empty(bracket_number_open_lookup)) {
-    weight_expr <- stringr::str_replace_all(weight_expr, stringr::coll(bracket_number_open_lookup))
-  }
-
-
-  weight_expr %>%
-    rlang::parse_expr() %>%
-    eval()
+  internal_formula_to_mass(formula,
+                           special_isos_lookup = exact_special_isos_lookup,
+                           other_atoms_multi_lookup = exact_other_atoms_multi_lookup,
+                           other_atoms_single_lookup = exact_other_atoms_single_lookup)
 }
 

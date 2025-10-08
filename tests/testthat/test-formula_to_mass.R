@@ -1,8 +1,8 @@
 test_that("Parsing and replacement works for all standard element symbols", {
-  all_atoms_str <- paste(c(names(other_atoms_multi_lookup), names(other_atoms_single_lookup)), collapse = "")
+  all_atoms_str <- paste(c(names(exact_other_atoms_multi_lookup), names(exact_other_atoms_single_lookup)), collapse = "")
   ftm_result <- formula_to_mass(all_atoms_str)
 
-  manual_result <- c(unname(other_atoms_multi_lookup), unname(other_atoms_single_lookup)) %>%
+  manual_result <- c(unname(exact_other_atoms_multi_lookup), unname(exact_other_atoms_single_lookup)) %>%
     stringr::str_remove_all("\\+") %>%
     stringr::str_remove_all("\\*") %>%
     as.numeric() %>%
@@ -12,10 +12,10 @@ test_that("Parsing and replacement works for all standard element symbols", {
 })
 
 test_that("Parsing and replacement works for all special element symbols", {
-  all_atoms_str <- paste(names(special_isos_lookup), collapse = "")
+  all_atoms_str <- paste(names(exact_special_isos_lookup), collapse = "")
   ftm_result <- formula_to_mass(all_atoms_str)
 
-  manual_result <- unname(special_isos_lookup) %>%
+  manual_result <- unname(exact_special_isos_lookup) %>%
     stringr::str_remove_all("\\+") %>%
     stringr::str_remove_all("\\*") %>%
     as.numeric() %>%
@@ -29,7 +29,7 @@ test_that("Parsing and replacement works for all standard element symbols and ca
   # with the following string:
   # HeLiBeNeNaMgAlSiClArCaScTiCrMnFeCoNiCuZnGaGeAsSeBrKrRbSrZrNbMoRuRhPdAgCdInSnSbTeXeCsBaLaCePrNdSmEuGdTbDyHoErTmYbLuHfTaReOsIrPtAuHgTlPbBiThHBCNOFPSKVYIWU
   # Pa, D and T must be removed
-  all_atoms_str <- c(names(other_atoms_multi_lookup), names(other_atoms_single_lookup))
+  all_atoms_str <- c(names(exact_other_atoms_multi_lookup), names(exact_other_atoms_single_lookup))
   all_atoms_str <- all_atoms_str[!(all_atoms_str %in% c("D", "T", "Pa"))]
   all_atoms_str <- paste(all_atoms_str, collapse = "")
   ftm_result <- formula_to_mass(all_atoms_str)

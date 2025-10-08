@@ -634,8 +634,8 @@ speacial_isos_df <- metamorphr::atoms %>%
                                           .default = .data$Symbol)) %>%
   dplyr::mutate(Weight = paste0("+", as.character(.data$Weight), "*"))
 
-special_isos_lookup <- as.character(speacial_isos_df$Weight)
-names(special_isos_lookup) <- speacial_isos_df$Symbol
+exact_special_isos_lookup <- as.character(speacial_isos_df$Weight)
+names(exact_special_isos_lookup) <- speacial_isos_df$Symbol
 
 
 other_atoms_df <- metamorphr::atoms %>%
@@ -650,11 +650,11 @@ other_atoms_df_multi_let <- other_atoms_df %>%
 other_atoms_df_single_let <- other_atoms_df %>%
   dplyr::filter(stringr::str_length(Element) == 1)
 
-other_atoms_multi_lookup <- as.character(other_atoms_df_multi_let$Weight)
-names(other_atoms_multi_lookup) <- other_atoms_df_multi_let$Symbol
+exact_other_atoms_multi_lookup <- as.character(other_atoms_df_multi_let$Weight)
+names(exact_other_atoms_multi_lookup) <- other_atoms_df_multi_let$Symbol
 
-other_atoms_single_lookup <- as.character(other_atoms_df_single_let$Weight)
-names(other_atoms_single_lookup) <- other_atoms_df_single_let$Symbol
+exact_other_atoms_single_lookup <- as.character(other_atoms_df_single_let$Weight)
+names(exact_other_atoms_single_lookup) <- other_atoms_df_single_let$Symbol
 # end code for lookup tables
 
 usethis::use_data(test_read_featuretable,
@@ -696,8 +696,8 @@ usethis::use_data(test_read_featuretable,
   test_scale_vast_s_results,
   test_scale_level_results,
   test_normalize_factor_results,
-  special_isos_lookup,
-  other_atoms_multi_lookup,
-  other_atoms_single_lookup,
+  exact_special_isos_lookup,
+  exact_other_atoms_multi_lookup,
+  exact_other_atoms_single_lookup,
   overwrite = TRUE, internal = TRUE
 )
