@@ -35,7 +35,7 @@ calc_nominal_km(c(351.3269, 365.3425))
 
 toy_metaboscape \%>\%
   dplyr::group_by(UID, `m/z`, RT) \%>\%
-  dplyr::summarise(max_int = max(Intensity, na.rm = T)) \%>\%
+  dplyr::summarise(max_int = max(Intensity, na.rm = TRUE)) \%>\%
   dplyr::ungroup() \%>\%
   dplyr::mutate(KMD = calc_kmd(`m/z`),
                 `nominal KM` = calc_nominal_km(`m/z`)) \%>\%
