@@ -1,4 +1,4 @@
-# metamorphr (development version)
+# metamorphr 0.2.0
 
 ## New features
 * Added `formula_to_mass()` (experimental)
