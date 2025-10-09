@@ -14,6 +14,7 @@ Facilitate tasks typically encountered during metabolomics data analysis includi
 Useful links:
 \itemize{
   \item \url{https://github.com/yasche/metamorphr}
+  \item \url{https://yasche.github.io/metamorphr/}
   \item Report bugs at \url{https://github.com/yasche/metamorphr/issues}
 }
 

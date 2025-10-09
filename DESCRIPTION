@@ -39,6 +39,6 @@ Suggests:
     stringr,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
-URL: https://github.com/yasche/metamorphr
+URL: https://github.com/yasche/metamorphr, https://yasche.github.io/metamorphr/
 BugReports: https://github.com/yasche/metamorphr/issues
 VignetteBuilder: knitr
