@@ -1,5 +1,13 @@
 # metamorphr (development version)
 
+## New features
+* Added `formula_to_mass()` (experimental)
+* Added functions related to the Kendrick mass: `calc_kmd`, `calc_km` and `calc_nominal_km`
+
+## Fixes
+* Fixed typo in DESCRIPTION
+* Fixed two tests that caused an error on some operating systems on CRAN
+
 # metamorphr 0.1.1
 
 * Fixed CRAN comments.
