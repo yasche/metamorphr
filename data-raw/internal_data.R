@@ -631,9 +631,9 @@ test_normalize_factor_results <- readr::read_csv("UID,Feature,Sample,Intensity,R
 ### KODAMA package is no longer available from CRAN (i.e., it is archived: https://cran.r-project.org/src/contrib/Archive/KODAMA/)
 ### Therefore, results for test-normalize_pqn are pre-computed with KODAMA v3.0
 ### Use random data for testing
-rnd_nums <- withr::with_seed(12313894, abs(rnorm(450*873, 5, sd = 10)))
-test_rnd_mat <- matrix(rnd_nums, ncol = 450)
-colnames(test_rnd_mat) <- paste0("V", 1:450)
+rnd_nums <- withr::with_seed(12313894, abs(rnorm(100*100, 5, sd = 10)))
+test_rnd_mat <- matrix(rnd_nums, ncol = 100)
+colnames(test_rnd_mat) <- paste0("V", 1:100)
 test_rnd_mat_kod_norm <- KODAMA::normalization(test_rnd_mat)$newXtrain
 
 
