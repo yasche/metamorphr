@@ -191,6 +191,18 @@ internal_calc_neutral_loss <- function(prec_mz, msn) {
   }
 }
 
+
+internal_scale_msn <- function(msn, scale_to) {
+  if (is.null(msn)) {
+    return(NULL)
+  } else {
+    max_int <- max(msn$Intensity)
+    msn %>%
+      dplyr::mutate(Relative = Intensity / .env$max_int * .env$scale_to)
+  }
+}
+
+
 internal_filter_msn_nl <- function(data, fragments, min_found, tolerance, tolerance_type, show_progress, msn_col) {
   if (tolerance_type == "ppm") {
     fragments_lower <- fragments - fragments * tolerance / 1000000

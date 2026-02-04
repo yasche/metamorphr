@@ -225,3 +225,21 @@ scale_level <- function(data) {
     dplyr::mutate(Intensity = (.data$Intensity - mean(.data$Intensity)) / mean(.data$Intensity)) %>%
     dplyr::ungroup()
 }
+
+
+scale_msn <- function(data, scale_to = 100) {
+  col_order <- names(data)
+
+  rownums <- 1:nrow(data)
+
+  data %>%
+    dplyr::mutate(row_number = .env$rownums) %>%
+    dplyr::group_by(.data$MSn) %>%
+    tidyr::nest() %>%
+    dplyr::mutate(msn = purrr::map(.data$MSn, internal_scale_msn, scale_to = .env$scale_to)) %>%
+    tidyr::unnest("data") %>%
+    dplyr::ungroup() %>%
+    dplyr::arrange(.data$row_number) %>%
+    dplyr::select(-"row_number") %>%
+    dplyr::relocate(dplyr::all_of(col_order))
+}
