@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# metamorphr <img src="man/figures/logo.png" align="right" height="138" />
+# metamorphr <a href="https://yasche.github.io/metamorphr/"><img src="man/figures/logo.png" align="right" height="138" alt="metamorphr website" /></a>
 
 <!-- badges: start -->
 
