@@ -77,31 +77,19 @@
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">toy_metaboscape</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu">impute_rf</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The response has five or fewer unique values.  Are you sure you want to do regression?</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The response has five or fewer unique values.  Are you sure you want to do regression?</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The response has five or fewer unique values.  Are you sure you want to do regression?</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The response has five or fewer unique values.  Are you sure you want to do regression?</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The response has five or fewer unique values.  Are you sure you want to do regression?</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The response has five or fewer unique values.  Are you sure you want to do regression?</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The response has five or fewer unique values.  Are you sure you want to do regression?</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The response has five or fewer unique values.  Are you sure you want to do regression?</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The response has five or fewer unique values.  Are you sure you want to do regression?</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The response has five or fewer unique values.  Are you sure you want to do regression?</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The response has five or fewer unique values.  Are you sure you want to do regression?</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The response has five or fewer unique values.  Are you sure you want to do regression?</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 110 × 8</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      UID Feature                Sample  Intensity    RT `m/z` Name       Formula</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>     1 161.10519 Da 26.98 s   Sample1      4     0.45  162. <span style="color: #BB0000;">NA</span>         C7H15N…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>     2 276.13647 Da 27.28 s   Sample1      3     0.45  277. Octyl hyd… C16H22…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>     3 304.24023 Da 32.86 s   Sample1      5.25  0.55  305. Arachidon… C20H32…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>     3 304.24023 Da 32.86 s   Sample1      5.19  0.55  305. Arachidon… C20H32…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>     4 417.23236 Da 60.08 s   Sample1      5     1     418. <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>     5 104.10753 Da 170.31 s  Sample1      5     2.84  105. <span style="color: #BB0000;">NA</span>         C5H14NO</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>     6 105.04259 Da 199.80 s  Sample1      5     3.33  106. <span style="color: #BB0000;">NA</span>         C3H8NO3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>     7 237.09204 Da 313.24 s  Sample1      8.2   5.22  238. Ketamine   C13H16…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>     7 237.09204 Da 313.24 s  Sample1      8.33  5.22  238. Ketamine   C13H16…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>     8 745.09111 Da 382.23 s  Sample1      3     6.37  746. NADPH      C21H30…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>     9 427.02942 Da 424.84 s  Sample1      4     7.08  428. ADP        C10H15…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>    10 1284.34904 Da 498.94 s Sample1      3.23  8.32 <span style="text-decoration: underline;">1</span>285. <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>    10 1284.34904 Da 498.94 s Sample1      3.3   8.32 <span style="text-decoration: underline;">1</span>285. <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 100 more rows</span></span>
 </code></pre></div>
     </div>
@@ -114,7 +102,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>
