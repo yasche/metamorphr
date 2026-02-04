@@ -1,5 +1,9 @@
 # metamorphr (development version)
 
+## New features
+* `read_mgf()` now supports tab-separated values
+* Added `scale_msn()`
+
 # metamorphr 0.2.0
 
 ## New features
