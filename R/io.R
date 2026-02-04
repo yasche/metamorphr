@@ -141,11 +141,12 @@ create_metadata_skeleton <- function(data) {
 #' Read a MGF file into a tidy tibble
 #'
 #' @description
-#' \href{https://www.matrixscience.com/help/data_file_help.html}{MGF files} allow the storage of MS/MS spectra. With this
-#' function they can be read into a tidy tibble. Each variable is stored in a column and each ion (observation) is stored in a separate row.
+#' \href{https://www.matrixscience.com/help/data_file_help.html}{MGF files} allow the storage of MS/MS spectra. This
+#' function reads them into a tidy tibble. Each variable is stored in a column and each ion (observation) is stored in a separate row.
 #' MS/MS spectra are stored in a list column named MSn. <br>
 #' Please note that \href{https://fiehnlab.ucdavis.edu/projects/lipidblast/mgf-files}{MGF files are software-specific} so the variables
-#' and their names may vary. This function was developed with the GNPS file format exported from \href{https://mzio.io/mzmine-news/}{mzmine} in mind.
+#' and their names may vary. This function was developed with the GNPS file format exported from \href{https://mzio.io/mzmine-news/}{mzmine} in mind.<br><br>
+#' If you encounter any bugs please report them: \href{https://github.com/yasche/metamorphr/issues}{https://github.com/yasche/metamorphr/issues}
 #'
 #'
 #' @param file The path to the MGF file.
