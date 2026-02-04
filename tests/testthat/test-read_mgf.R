@@ -5,6 +5,13 @@ test_that("Column names are correct", {
   )
 })
 
+test_that("tab and space separated values produce the same result", {
+  expect_equal(
+    read_mgf(test_path("data", "test_read_mgf.mgf")),
+    read_mgf(test_path("data", "test_read_mgf_tab.mgf"))
+  )
+})
+
 test_that("Observations in columns are correct", {
   mgf_tibble <- read_mgf(test_path("data", "test_read_mgf.mgf"))
   col1 <- mgf_tibble[[1]]

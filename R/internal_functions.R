@@ -151,7 +151,7 @@ internal_mgf_to_data_metadata <- function(mgf_string) {
   data_index <- grep("^[0-9]", mgf_string)
   mgf_string_data <- mgf_string[data_index]
 
-  mgf_string_data <- stringi::stri_split_fixed(mgf_string_data, " ", 2, simplify = TRUE)
+  mgf_string_data <- stringi::stri_split_regex(mgf_string_data, " |\t", simplify = TRUE, omit_empty = TRUE)
 
   colnames(mgf_string_data) <- c("m_z", "Intensity")
 
