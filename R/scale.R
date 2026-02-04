@@ -236,7 +236,7 @@ scale_msn <- function(data, scale_to = 100) {
     dplyr::mutate(row_number = .env$rownums) %>%
     dplyr::group_by(.data$MSn) %>%
     tidyr::nest() %>%
-    dplyr::mutate(msn = purrr::map(.data$MSn, internal_scale_msn, scale_to = .env$scale_to)) %>%
+    dplyr::mutate(MSn = purrr::map(.data$MSn, internal_scale_msn, scale_to = .env$scale_to)) %>%
     tidyr::unnest("data") %>%
     dplyr::ungroup() %>%
     dplyr::arrange(.data$row_number) %>%
