@@ -20,34 +20,34 @@ test_that("scaling works as expected for some scaling factors", {
 
   exp_scale <- list(
     tibble::tribble(
-      ~m_z, ~Intensity, ~Relative,
-      12.3456, 1, 1/3,
-      23.4567, 2, 2/3,
-      34.5678, 3, 3/3
+      ~m_z, ~Intensity,
+      12.3456, 1/3,
+      23.4567, 2/3,
+      34.5678, 3/3
     ),
     tibble::tribble(
-      ~m_z, ~Intensity, ~Relative,
-      123.4567, 4, 4/8,
-      234.5678, 5, 5/8,
-      345.6789, 6, 6/8,
-      456.7890, 7, 7/8,
-      567.8901, 8, 8/8
+      ~m_z, ~Intensity,
+      123.4567, 4/8,
+      234.5678, 5/8,
+      345.6789, 6/8,
+      456.7890, 7/8,
+      567.8901, 8/8
     ),
     tibble::tribble(
-      ~m_z, ~Intensity, ~Relative,
-      1234.5678, 9, 9/14,
-      2345.6789, 10, 10/14,
-      3456.7890, 11, 11/14,
-      4567.8901, 12, 12/14,
-      5678.9012, 13, 13/14,
-      6789.0123, 14, 14/14
+      ~m_z, ~Intensity,
+      1234.5678, 9/14,
+      2345.6789, 10/14,
+      3456.7890, 11/14,
+      4567.8901, 12/14,
+      5678.9012, 13/14,
+      6789.0123, 14/14
     )
   )
 
-  exp_scale_100 <- purrr::map(exp_scale, dplyr::mutate, Relative = Relative * 100)
-  exp_scale_1000 <- purrr::map(exp_scale, dplyr::mutate, Relative = Relative * 1000)
-  exp_scale_5 <- purrr::map(exp_scale, dplyr::mutate, Relative = Relative * 5)
-  exp_scale_1 <- purrr::map(exp_scale, dplyr::mutate, Relative = Relative * 1)
+  exp_scale_100 <- purrr::map(exp_scale, dplyr::mutate, Intensity = Intensity * 100)
+  exp_scale_1000 <- purrr::map(exp_scale, dplyr::mutate, Intensity = Intensity * 1000)
+  exp_scale_5 <- purrr::map(exp_scale, dplyr::mutate, Intensity = Intensity * 5)
+  exp_scale_1 <- purrr::map(exp_scale, dplyr::mutate, Intensity = Intensity * 1)
 
   mgf_tibble_scale_100 <- scale_msn(mgf_tibble, scale_to = 100)
   mgf_tibble_scale_1000 <- scale_msn(mgf_tibble, scale_to = 1000)
@@ -67,25 +67,25 @@ test_that("highest number is correct for some scaling factors", {
 
   max_mgf_tibble_scale_100 <- scale_msn(mgf_tibble, scale_to = 100)$MSn %>%
     purrr::transpose() %>%
-    `[[`("Relative") %>%
+    `[[`("Intensity") %>%
     purrr::map(max) %>%
     unlist()
 
   max_mgf_tibble_scale_1000 <- scale_msn(mgf_tibble, scale_to = 1000)$MSn %>%
     purrr::transpose() %>%
-    `[[`("Relative") %>%
+    `[[`("Intensity") %>%
     purrr::map(max) %>%
     unlist()
 
   max_mgf_tibble_scale_5 <- scale_msn(mgf_tibble, scale_to = 5)$MSn %>%
     purrr::transpose() %>%
-    `[[`("Relative") %>%
+    `[[`("Intensity") %>%
     purrr::map(max) %>%
     unlist()
 
   max_mgf_tibble_scale_1 <- scale_msn(mgf_tibble, scale_to = 1)$MSn %>%
     purrr::transpose() %>%
-    `[[`("Relative") %>%
+    `[[`("Intensity") %>%
     purrr::map(max) %>%
     unlist()
 
