@@ -198,7 +198,7 @@ internal_scale_msn <- function(msn, scale_to) {
   } else {
     max_int <- max(msn$Intensity)
     msn %>%
-      dplyr::mutate(Relative = Intensity / .env$max_int * .env$scale_to)
+      dplyr::mutate(Intensity = .data$Intensity / .env$max_int * .env$scale_to)
   }
 }
 
