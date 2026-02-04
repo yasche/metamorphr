@@ -33,7 +33,6 @@ Depends:
 LazyData: true
 Suggests: 
     knitr,
-    KODAMA,
     qsmooth,
     rmarkdown,
     stringr,
