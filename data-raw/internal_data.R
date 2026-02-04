@@ -626,6 +626,17 @@ test_normalize_factor_results <- readr::read_csv("UID,Feature,Sample,Intensity,R
 9,427.02942 Da 424.84 s,Blank2,NA,7.08,428.03725,ADP,C10H15N5O10P2,blank,2,1,0.8766076548288383
 10,1284.34904 Da 498.94 s,Blank2,NA,8.32,1285.35687,NA,NA,blank,2,1,0.8766076548288383", show_col_types = FALSE)
 
+## code to prepare pre-computed KODAMA results goes here
+
+### KODAMA package is no longer available from CRAN (i.e., it is archived: https://cran.r-project.org/src/contrib/Archive/KODAMA/)
+### Therefore, results for test-normalize_pqn are pre-computed with KODAMA v3.0
+### Use random data for testing
+rnd_nums <- withr::with_seed(12313894, abs(rnorm(450*873, 5, sd = 10)))
+test_rnd_mat <- matrix(rnd_nums, ncol = 450)
+colnames(test_rnd_mat) <- paste0("V", 1:450)
+test_rnd_mat_kod_norm <- KODAMA::normalization(test_rnd_mat)$newXtrain
+
+
 
 ## code to prepare lookup tables for `formula_to_mass` goes here
 speacial_isos_df <- metamorphr::atoms %>%
@@ -727,6 +738,8 @@ usethis::use_data(test_read_featuretable,
   test_scale_vast_s_results,
   test_scale_level_results,
   test_normalize_factor_results,
+  test_rnd_mat_kod_norm,
+  test_rnd_mat,
   exact_special_isos_lookup,
   exact_other_atoms_multi_lookup,
   exact_other_atoms_single_lookup,

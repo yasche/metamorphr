@@ -60,44 +60,39 @@ test_that("ref_as_group = TRUE and FALSE give same results; mean", {
 
 
 test_that('result is equivalent to KODAMA::normalization(method = "pqn")', {
-  # prepare data
-  data("MetRef", package = "KODAMA")
-  MetRef_data <- MetRef$data
-  MetRef_data <- MetRef_data[, -which(colSums(MetRef_data) == 0)]
-
-  MetRef_data <- MetRef_data %>%
+  test_rnd_mat_loc <- test_rnd_mat %>%
     t() %>%
-    tibble::as_tibble()
+    tibble::as_tibble(.name_repair = "universal_quiet")
 
-  MetRef_data$UID <- 1:nrow(MetRef_data)
+  test_rnd_mat_loc$UID <- 1:nrow(test_rnd_mat_loc)
 
-  MetRef_data <- tidyr::gather(MetRef_data, key = "Sample", value = "Intensity", -UID)
 
-  MetRef_data_imputed <- MetRef_data %>%
+
+  test_rnd_mat_loc <- tidyr::gather(test_rnd_mat_loc, key = "Sample", value = "Intensity", -UID)
+
+  test_rnd_mat_loc <- test_rnd_mat_loc %>%
     dplyr::mutate(Intensity = dplyr::case_when(Intensity == 0 ~ NA,
       .default = Intensity
-    )) %>%
-    impute_lod()
+    ))
 
 
-  MetRef_data_imputed_mat <- MetRef_data_imputed %>%
-    tidyr::spread(key = "Sample", value = "Intensity") %>%
-    dplyr::select(-UID) %>%
-    dplyr::relocate(as.character(1:873)) %>%
-    as.matrix() %>%
-    t()
-
-  kod_norm <- KODAMA::normalization(MetRef_data_imputed_mat)$newXtrain
+  #kod_norm <- KODAMA::normalization(MetRef_data_imputed_mat)$newXtrain
   # for some reason, KODAMA::normalization() works with absolute Intensities
   # While this might be sensible for NMR data, I don't see the point for LC-MS data:
   # negative Intensities should not exist, at least not prior to log-transformation.
-  mm_norm <- MetRef_data_imputed %>%
+  mm_norm_man <- test_rnd_mat_loc %>%
     dplyr::group_by(Sample) %>%
-    dplyr::mutate(Intensity = Intensity / sum(abs(Intensity))) %>%
+    # Scale to abs sums is necessary if data contains negative values (e.g., in NMR data?)
+    dplyr::mutate(Intensity = .data$Intensity / sum(abs(.data$Intensity))) %>%
     dplyr::ungroup() %>%
     normalize_pqn(normalize_sum = FALSE)
 
-  expect_equal(as.numeric(t(kod_norm)), mm_norm$Intensity)
+
+  mm_norm_auto <- test_rnd_mat_loc %>%
+    normalize_pqn(normalize_sum = TRUE)
+
+  expect_equal(mm_norm_man$Intensity, as.numeric(t(test_rnd_mat_kod_norm)))
+  expect_equal(mm_norm_auto$Intensity, as.numeric(t(test_rnd_mat_kod_norm)))
 })
 
 test_that("throws error if method does not exist", {
