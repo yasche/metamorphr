@@ -1,10 +1,5 @@
 # Calculate neutral losses from precursor ion mass and fragment ion masses
 
-**\[deprecated\]**
-
-`calc_neutral_loss()` is fully replaced by
-[`msn_calc_nl`](https://yasche.github.io/metamorphr/reference/msn_calc_nl.md).
-
 Calculate neutral loss spectra for all ions with available MSn spectra
 in `data`. To calculate neutral losses, MSn spectra are required. See
 [`read_mgf`](https://yasche.github.io/metamorphr/reference/read_mgf.md).
@@ -16,7 +11,7 @@ column named `Neutral_Loss`.
 ## Usage
 
 ``` r
-calc_neutral_loss(data, m_z_col)
+msn_calc_nl(data, m_z_col)
 ```
 
 ## Arguments
@@ -40,9 +35,7 @@ named `Neutral_Loss`.
 
 ``` r
 toy_mgf %>%
-  calc_neutral_loss(m_z_col = PEPMASS)
-#> Warning: `calc_neutral_loss()` was deprecated in metamorphr 0.3.0.
-#> ℹ Please use `msn_calc_nl()` instead.
+  msn_calc_nl(m_z_col = PEPMASS)
 #> # A tibble: 3 × 6
 #>   VARIABLEONE VARIABLETWO VARIABLETHREE PEPMASS MSn              Neutral_Loss
 #>         <dbl>       <dbl>         <dbl>   <dbl> <list>           <list>      

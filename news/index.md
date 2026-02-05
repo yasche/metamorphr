@@ -7,7 +7,16 @@
 - [`read_mgf()`](https://yasche.github.io/metamorphr/reference/read_mgf.md)
   now supports tab-separated values
 - Added
-  [`scale_msn()`](https://yasche.github.io/metamorphr/reference/scale_msn.md)
+  [`msn_scale()`](https://yasche.github.io/metamorphr/reference/msn_scale.md)
+
+### Lifecycle changes
+
+#### Newly deprecated
+
+- [`calc_neutral_loss()`](https://yasche.github.io/metamorphr/reference/calc_neutral_loss.md)
+  is deprecated and replaced by
+  [`msn_calc_nl()`](https://yasche.github.io/metamorphr/reference/msn_calc_nl.md)
+  for naming consistency
 
 ## metamorphr 0.2.0
 
@@ -18,8 +27,11 @@ CRAN release: 2025-10-09
 - Added
   [`formula_to_mass()`](https://yasche.github.io/metamorphr/reference/formula_to_mass.md)
   (experimental)
-- Added functions related to the Kendrick mass: `calc_kmd`, `calc_km`
-  and `calc_nominal_km`
+- Added functions related to the Kendrick mass:
+  [`calc_kmd()`](https://yasche.github.io/metamorphr/reference/calc_kmd.md),
+  [`calc_km()`](https://yasche.github.io/metamorphr/reference/calc_km.md)
+  and
+  [`calc_nominal_km()`](https://yasche.github.io/metamorphr/reference/calc_nominal_km.md)
 
 ### Fixes
 

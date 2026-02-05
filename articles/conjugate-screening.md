@@ -145,7 +145,7 @@ GSH conjugate: A feature with an exact mass of 511.12575 Da.
 
 Prior the searching for specific neutral losses via the
 `filter_neutral_loss` function, neutral loss spectra must be calculated
-using `calc_neutral_loss`. The usage of both functions is shown below.
+using `msn_calc_nl`. The usage of both functions is shown below.
 
 ``` r
 losses <- c(75.0320,
@@ -159,7 +159,7 @@ losses <- c(75.0320,
             307.0838)
 
 menadione_ft %>%
-  calc_neutral_loss(m_z_col = PEPMASS) %>%
+  msn_calc_nl(m_z_col = PEPMASS) %>%
   filter_neutral_loss(losses = losses, 
                       min_found = 4, 
                       tolerance = 10, 

@@ -12,8 +12,8 @@
   : Calculate the Kendrick mass defect (KMD)
 
 - [`calc_neutral_loss()`](https://yasche.github.io/metamorphr/reference/calc_neutral_loss.md)
-  : Calculate neutral losses from precursor ion mass and fragment ion
-  masses
+  **\[deprecated\]** : Calculate neutral losses from precursor ion mass
+  and fragment ion masses
 
 - [`calc_nominal_km()`](https://yasche.github.io/metamorphr/reference/calc_nominal_km.md)
   : Calculate the nominal Kendrick mass
@@ -106,6 +106,14 @@
 - [`join_metadata()`](https://yasche.github.io/metamorphr/reference/join_metadata.md)
   : Join a featuretable and sample metadata
 
+- [`msn_calc_nl()`](https://yasche.github.io/metamorphr/reference/msn_calc_nl.md)
+  : Calculate neutral losses from precursor ion mass and fragment ion
+  masses
+
+- [`msn_scale()`](https://yasche.github.io/metamorphr/reference/msn_scale.md)
+  : Scale intensities in MSn spectra to the highest value within each
+  spectrum
+
 - [`normalize_cyclic_loess()`](https://yasche.github.io/metamorphr/reference/normalize_cyclic_loess.md)
   : Normalize intensities across samples using cyclic LOESS
   normalization
@@ -165,10 +173,6 @@
 
 - [`scale_level()`](https://yasche.github.io/metamorphr/reference/scale_level.md)
   : Scale intensities of features using level scaling
-
-- [`scale_msn()`](https://yasche.github.io/metamorphr/reference/scale_msn.md)
-  : Scale intensities in MSn spectra to the highest value within each
-  spectrum
 
 - [`scale_pareto()`](https://yasche.github.io/metamorphr/reference/scale_pareto.md)
   : Scale intensities of features using Pareto scaling

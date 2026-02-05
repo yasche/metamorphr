@@ -42,6 +42,8 @@
 <url><loc>https://yasche.github.io/metamorphr/reference/index.html</loc></url>
 <url><loc>https://yasche.github.io/metamorphr/reference/join_metadata.html</loc></url>
 <url><loc>https://yasche.github.io/metamorphr/reference/metamorphr-package.html</loc></url>
+<url><loc>https://yasche.github.io/metamorphr/reference/msn_calc_nl.html</loc></url>
+<url><loc>https://yasche.github.io/metamorphr/reference/msn_scale.html</loc></url>
 <url><loc>https://yasche.github.io/metamorphr/reference/normalize_cyclic_loess.html</loc></url>
 <url><loc>https://yasche.github.io/metamorphr/reference/normalize_factor.html</loc></url>
 <url><loc>https://yasche.github.io/metamorphr/reference/normalize_median.html</loc></url>
@@ -60,7 +62,6 @@
 <url><loc>https://yasche.github.io/metamorphr/reference/scale_auto.html</loc></url>
 <url><loc>https://yasche.github.io/metamorphr/reference/scale_center.html</loc></url>
 <url><loc>https://yasche.github.io/metamorphr/reference/scale_level.html</loc></url>
-<url><loc>https://yasche.github.io/metamorphr/reference/scale_msn.html</loc></url>
 <url><loc>https://yasche.github.io/metamorphr/reference/scale_pareto.html</loc></url>
 <url><loc>https://yasche.github.io/metamorphr/reference/scale_range.html</loc></url>
 <url><loc>https://yasche.github.io/metamorphr/reference/scale_vast.html</loc></url>

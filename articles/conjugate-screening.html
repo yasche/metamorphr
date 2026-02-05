@@ -202,8 +202,8 @@ Da.</p>
 </h3>
 <p>Prior the searching for specific neutral losses via the
 <code>filter_neutral_loss</code> function, neutral loss spectra must be
-calculated using <code>calc_neutral_loss</code>. The usage of both
-functions is shown below.</p>
+calculated using <code>msn_calc_nl</code>. The usage of both functions
+is shown below.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">losses</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">75.0320</span>,</span>
 <span>            <span class="fl">129.0426</span>,</span>
@@ -216,7 +216,7 @@ functions is shown below.</p>
 <span>            <span class="fl">307.0838</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">menadione_ft</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="../reference/calc_neutral_loss.html">calc_neutral_loss</a></span><span class="op">(</span>m_z_col <span class="op">=</span> <span class="va">PEPMASS</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/msn_calc_nl.html">msn_calc_nl</a></span><span class="op">(</span>m_z_col <span class="op">=</span> <span class="va">PEPMASS</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/filter_neutral_loss.html">filter_neutral_loss</a></span><span class="op">(</span>losses <span class="op">=</span> <span class="va">losses</span>, </span>
 <span>                      min_found <span class="op">=</span> <span class="fl">4</span>, </span>
 <span>                      tolerance <span class="op">=</span> <span class="fl">10</span>, </span>
