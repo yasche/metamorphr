@@ -192,7 +192,7 @@ internal_calc_neutral_loss <- function(prec_mz, msn) {
 }
 
 
-internal_scale_msn <- function(msn, scale_to) {
+internal_msn_scale <- function(msn, scale_to) {
   if (is.null(msn)) {
     return(NULL)
   } else {

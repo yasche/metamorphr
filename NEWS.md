@@ -2,7 +2,7 @@
 
 ## New features
 * `read_mgf()` now supports tab-separated values
-* Added `scale_msn()`
+* Added `msn_scale()`
 
 # metamorphr 0.2.0
 

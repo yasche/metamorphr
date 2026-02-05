@@ -1,6 +1,6 @@
 test_that("row & column order stays unchanged", {
   mgf_tibble <- read_mgf(test_path("data", "test_filter_msn_nl.mgf"))
-  mgf_tibble_scale <- scale_msn(mgf_tibble)
+  mgf_tibble_scale <- msn_scale(mgf_tibble)
 
   expect_equal(rownames(mgf_tibble_scale), rownames(mgf_tibble))
   expect_equal(colnames(mgf_tibble_scale), colnames(mgf_tibble))
@@ -9,7 +9,7 @@ test_that("row & column order stays unchanged", {
 test_that("returns NULL if no MSn spectrum is available", {
   mgf_tibble <- read_mgf(test_path("data", "test_filter_msn_nl.mgf"))
   mgf_tibble$MSn[1] <- list(NULL)
-  mgf_tibble_scale <- scale_msn(mgf_tibble)
+  mgf_tibble_scale <- msn_scale(mgf_tibble)
 
   expect_null(mgf_tibble$MSn[[1]])
   expect_null(mgf_tibble_scale$MSn[[1]])
@@ -49,10 +49,10 @@ test_that("scaling works as expected for some scaling factors", {
   exp_scale_5 <- purrr::map(exp_scale, dplyr::mutate, Intensity = Intensity * 5)
   exp_scale_1 <- purrr::map(exp_scale, dplyr::mutate, Intensity = Intensity * 1)
 
-  mgf_tibble_scale_100 <- scale_msn(mgf_tibble, scale_to = 100)
-  mgf_tibble_scale_1000 <- scale_msn(mgf_tibble, scale_to = 1000)
-  mgf_tibble_scale_5 <- scale_msn(mgf_tibble, scale_to = 5)
-  mgf_tibble_scale_1 <- scale_msn(mgf_tibble, scale_to = 1)
+  mgf_tibble_scale_100 <- msn_scale(mgf_tibble, scale_to = 100)
+  mgf_tibble_scale_1000 <- msn_scale(mgf_tibble, scale_to = 1000)
+  mgf_tibble_scale_5 <- msn_scale(mgf_tibble, scale_to = 5)
+  mgf_tibble_scale_1 <- msn_scale(mgf_tibble, scale_to = 1)
 
   expect_equal(mgf_tibble_scale_100$MSn, exp_scale_100)
   expect_equal(mgf_tibble_scale_1000$MSn, exp_scale_1000)
@@ -65,25 +65,25 @@ test_that("highest number is correct for some scaling factors", {
   mgf_tibble <- read_mgf(test_path("data", "test_filter_msn_nl.mgf"))
 
 
-  max_mgf_tibble_scale_100 <- scale_msn(mgf_tibble, scale_to = 100)$MSn %>%
+  max_mgf_tibble_scale_100 <- msn_scale(mgf_tibble, scale_to = 100)$MSn %>%
     purrr::transpose() %>%
     `[[`("Intensity") %>%
     purrr::map(max) %>%
     unlist()
 
-  max_mgf_tibble_scale_1000 <- scale_msn(mgf_tibble, scale_to = 1000)$MSn %>%
+  max_mgf_tibble_scale_1000 <- msn_scale(mgf_tibble, scale_to = 1000)$MSn %>%
     purrr::transpose() %>%
     `[[`("Intensity") %>%
     purrr::map(max) %>%
     unlist()
 
-  max_mgf_tibble_scale_5 <- scale_msn(mgf_tibble, scale_to = 5)$MSn %>%
+  max_mgf_tibble_scale_5 <- msn_scale(mgf_tibble, scale_to = 5)$MSn %>%
     purrr::transpose() %>%
     `[[`("Intensity") %>%
     purrr::map(max) %>%
     unlist()
 
-  max_mgf_tibble_scale_1 <- scale_msn(mgf_tibble, scale_to = 1)$MSn %>%
+  max_mgf_tibble_scale_1 <- msn_scale(mgf_tibble, scale_to = 1)$MSn %>%
     purrr::transpose() %>%
     `[[`("Intensity") %>%
     purrr::map(max) %>%
