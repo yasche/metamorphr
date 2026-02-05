@@ -4,11 +4,15 @@
 * `read_mgf()` now supports tab-separated values
 * Added `msn_scale()`
 
+## Lifecycle changes
+### Newly deprecated
+* `calc_neutral_loss()` is deprecated and replaced by `msn_calc_nl()` for naming consistency
+
 # metamorphr 0.2.0
 
 ## New features
 * Added `formula_to_mass()` (experimental)
-* Added functions related to the Kendrick mass: `calc_kmd`, `calc_km` and `calc_nominal_km`
+* Added functions related to the Kendrick mass: `calc_kmd()`, `calc_km()` and `calc_nominal_km()`
 
 ## Fixes
 * Fixed typo in DESCRIPTION
