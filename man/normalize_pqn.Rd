@@ -19,7 +19,7 @@ normalize_pqn(
 \item{fn}{Which function should be used to calculate the reference spectrum from the reference samples? Can be either "mean" or "median".}
 
 \item{normalize_sum}{A logical indicating whether a sum normalization (aka total area normalization) should be performed prior to PQN.
-It is \href{https://rdrr.io/github/ricoderks/Rcpm/man/pqn.html}{recommended} to do so and other packages (e.g., \CRANpkg{KODAMA}) also perform a sum normalization prior to PQN.}
+It is \href{https://github.com/ricoderks/Rcpm/blob/master/R/pqn.R}{recommended} to do so and other packages (e.g., \CRANpkg{KODAMA}) also perform a sum normalization prior to PQN.}
 
 \item{reference_samples}{Either \code{NULL} or a character or character vector containing the sample(s)
 to calculate the reference spectrum from. In the original publication, it is advised to calculate the median of control samples.

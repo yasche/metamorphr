@@ -500,7 +500,7 @@ normalize_cyclic_loess <- function(data, n_iter = 3, fixed_iter = TRUE, loess_sp
 #' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
 #' @param fn Which function should be used to calculate the reference spectrum from the reference samples? Can be either "mean" or "median".
 #' @param normalize_sum A logical indicating whether a sum normalization (aka total area normalization) should be performed prior to PQN.
-#' It is \href{https://rdrr.io/github/ricoderks/Rcpm/man/pqn.html}{recommended} to do so and other packages (e.g., \CRANpkg{KODAMA}) also perform a sum normalization prior to PQN.
+#' It is \href{https://github.com/ricoderks/Rcpm/blob/master/R/pqn.R}{recommended} to do so and other packages (e.g., \CRANpkg{KODAMA}) also perform a sum normalization prior to PQN.
 #' @param reference_samples Either `NULL` or a character or character vector containing the sample(s)
 #' to calculate the reference spectrum from. In the original publication, it is advised to calculate the median of control samples.
 #' If `NULL`, all samples will be used to calculate the reference spectrum.
