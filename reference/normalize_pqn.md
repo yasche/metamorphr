@@ -35,8 +35,8 @@ normalize_pqn(
 
   A logical indicating whether a sum normalization (aka total area
   normalization) should be performed prior to PQN. It is
-  [recommended](https://rdrr.io/github/ricoderks/Rcpm/man/pqn.html) to
-  do so and other packages (e.g.,
+  [recommended](https://github.com/ricoderks/Rcpm/blob/master/R/pqn.R)
+  to do so and other packages (e.g.,
   [KODAMA](https://CRAN.R-project.org/package=KODAMA)) also perform a
   sum normalization prior to PQN.
 

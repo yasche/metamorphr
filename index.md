@@ -9,8 +9,8 @@ data format which stores metabolomics data and associated metadata, as
 well as MS/MS spectra in one [tibble](https://tibble.tidyverse.org/) and
 includes a set of functions to facilitate tasks typically encountered
 during metabolomics data analysis. This approach allows for an easy
-integration with [Tidyverse](https://www.tidyverse.org/) packages,
-including ggplot2 and dplyr.
+integration with [Tidyverse](https://tidyverse.org/) packages, including
+ggplot2 and dplyr.
 
 ## 💾 Installation
 

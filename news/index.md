@@ -6,8 +6,9 @@
 
 - [`read_mgf()`](https://yasche.github.io/metamorphr/reference/read_mgf.md)
   now supports tab-separated values
-- Added
+- New
   [`msn_scale()`](https://yasche.github.io/metamorphr/reference/msn_scale.md)
+  to scale MSn spectra to the peaks with the highest intensity
 
 ### Lifecycle changes
 
