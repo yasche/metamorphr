@@ -1,6 +1,6 @@
 test_that("returns empty tibble if no fragments are found", {
   mgf_tibble <- read_mgf(test_path("data", "test_filter_msn_nl.mgf"))
-  mgf_tibble_nl <- calc_neutral_loss(mgf_tibble, m_z_col = PEPMASS)
+  mgf_tibble_nl <- msn_calc_nl(mgf_tibble, m_z_col = PEPMASS)
 
   filtered <- filter_neutral_loss(mgf_tibble_nl, losses = c(1000, 2000), tolerance = 5, tolerance_type = "ppm", min_found = 2)
 
@@ -10,7 +10,7 @@ test_that("returns empty tibble if no fragments are found", {
 
 test_that("stays unchanged for min_found = 0", {
   tbl_before <- read_mgf(test_path("data", "test_filter_msn_nl.mgf")) %>%
-    calc_neutral_loss(m_z_col = PEPMASS)
+    msn_calc_nl(m_z_col = PEPMASS)
 
   tbl_after <- filter_neutral_loss(tbl_before, losses = c(1000, 2000), tolerance = 5, tolerance_type = "ppm", min_found = 0)
 
@@ -19,7 +19,7 @@ test_that("stays unchanged for min_found = 0", {
 
 test_that("filters correctly for tolerance_type = 'ppm'", {
   mgf_tibble <- read_mgf(test_path("data", "test_filter_msn_nl.mgf"))
-  mgf_tibble <- calc_neutral_loss(mgf_tibble, m_z_col = PEPMASS)
+  mgf_tibble <- msn_calc_nl(mgf_tibble, m_z_col = PEPMASS)
 
   filtered_1 <- filter_neutral_loss(mgf_tibble, losses = c(11.1111, 22.2222, 33.3333), tolerance = 0.001, tolerance_type = "ppm", min_found = 3) # expect row 1; tolerance should not be 0 due to machine precission
   filtered_2 <- filter_neutral_loss(mgf_tibble, losses = c(11.1111, 22.2222, 1000), tolerance = 0.001, tolerance_type = "ppm", min_found = 3) # expect empty tibble
@@ -41,7 +41,7 @@ test_that("filters correctly for tolerance_type = 'ppm'", {
 
 test_that("filters correctly for tolerance_type = 'absolute'", {
   mgf_tibble <- read_mgf(test_path("data", "test_filter_msn_nl.mgf"))
-  mgf_tibble <- calc_neutral_loss(mgf_tibble, m_z_col = PEPMASS)
+  mgf_tibble <- msn_calc_nl(mgf_tibble, m_z_col = PEPMASS)
 
   filtered_1 <- filter_neutral_loss(mgf_tibble, losses = c(11.1111, 22.2222, 33.3333), tolerance = 0.00000000001, tolerance_type = "absolute", min_found = 3) # expect row 1
   filtered_2 <- filter_neutral_loss(mgf_tibble, losses = c(11.1111, 22.2222, 1000), tolerance = 0.00000000001, tolerance_type = "absolute", min_found = 3) # expect empty tibble
@@ -63,14 +63,14 @@ test_that("filters correctly for tolerance_type = 'absolute'", {
 
 test_that("throws error if tolerance_type != c('absolute', 'ppm')", {
   mgf_tibble <- read_mgf(test_path("data", "test_filter_msn_nl.mgf"))
-  mgf_tibble <- calc_neutral_loss(mgf_tibble, m_z_col = PEPMASS)
+  mgf_tibble <- msn_calc_nl(mgf_tibble, m_z_col = PEPMASS)
 
   expect_error(filter_neutral_loss(mgf_tibble, losses = c(12.345, 23.456, 34.567), tolerance = 0, tolerance_type = "absolutexxx", min_found = 3), 'Argument `tolerance_type` must be "ppm" or "absolute", not "absolutexxx".')
 })
 
 test_that("row & column order stays unchanged", {
   mgf_tibble <- read_mgf(test_path("data", "test_filter_msn_nl.mgf"))
-  mgf_tibble <- calc_neutral_loss(mgf_tibble, m_z_col = PEPMASS)
+  mgf_tibble <- msn_calc_nl(mgf_tibble, m_z_col = PEPMASS)
 
   filtered_df <- mgf_tibble %>%
     filter_neutral_loss(losses = 5000, tolerance = 5000, tolerance_type = "absolute", min_found = 1)
