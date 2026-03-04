@@ -1,16 +1,11 @@
 ## Release summary
 
-* Some tests that caused errors on some operating systems on CRAN should now be fixed
+* Started renaming process for `calc_neutral_loss()`. Calling `calc_neutral_loss()` still works but results in a warning.
 * Some small new features were added
 
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note 
-
-* checking for future file timestamps
-  unable to verify current time
-
-In our opinion the note does not warrant any action from our side.
+0 errors | 0 warnings | 0 notes 
 
 ## revdepcheck results
 
