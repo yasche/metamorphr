@@ -1,4 +1,4 @@
-# metamorphr (development version)
+# metamorphr 0.3.0
 
 ## New features
 * `read_mgf()` now supports tab-separated values
