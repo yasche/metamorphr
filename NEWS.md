@@ -2,7 +2,7 @@
 
 ## New features
 * `read_mgf()` now supports tab-separated values
-* Added `msn_scale()`
+* New `msn_scale()` to scale MSn spectra to the peaks with the highest intensity
 
 ## Lifecycle changes
 ### Newly deprecated
