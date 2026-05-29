@@ -1,5 +1,10 @@
 # metamorphr (development version)
 
+## New features
+* New `read_featuretable_mzmine()` to read "full_feature_table" CSV files created with 'mzmine' into a tidy tibble
+* New `convert_from_wide()` to convert wide feature tables to tidy tibbles
+* New `convert_from_matrix()` to convert a matrix to a tidy tibble
+
 # metamorphr 0.3.0
 
 ## New features
