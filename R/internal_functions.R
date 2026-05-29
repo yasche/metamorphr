@@ -294,3 +294,11 @@ internal_formula_to_mass <- function(formula, special_isos_lookup, other_atoms_m
     rlang::parse_expr() %>%
     eval()
 }
+
+
+internal_rename_datafile_cols <- function(data) {
+  # internal function for read_featuretable_mzmine
+  data_colnames <- colnames(data)
+  colnames(data) <- stringi::stri_replace_all_regex(data_colnames,  "^datafile:[^:]{1,}:", "datafile:")
+  data
+}

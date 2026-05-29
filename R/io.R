@@ -63,6 +63,69 @@ read_featuretable <- function(file, delim = ",", label_col = 1, metadata_cols = 
   convert_from_wide(data, label_col = label_col, metadata_cols = metadata_cols)
 }
 
+read_featuretable_mzmine <- function(file, intensity = "height", field_separator = ",", import_datafile_cols = FALSE) {
+  file_colnames <- readr::read_lines(file, n_max = 1) %>%
+    stringi::stri_split_fixed(pattern = field_separator) %>%
+    unlist()
+
+  #check for duplicate names
+
+  datafile_cols <- stringi::stri_detect_regex(file_colnames, pattern = "^datafile:")
+
+  metadata_colnames <- file_colnames[!datafile_cols]
+
+
+  intensity_cols <- stringi::stri_detect_regex(file_colnames, pattern = paste0("^datafile:.{1,}", intensity, "$"))
+
+  datafile_cols[intensity_cols] <- FALSE
+
+
+  datafile_colnames <- file_colnames[datafile_cols]
+  intensity_colnames <- file_colnames[intensity_cols]
+
+
+  data <- readr::read_delim(file, delim = field_separator, show_col_types = FALSE)
+
+  if (is.character(label_col)) {
+    clone_id <- label_col == "id"
+  } else {
+    clone_id <- colnames(data)[[label_col]] == "id"
+  }
+
+
+  if(import_datafile_cols == FALSE) {
+    data <- dplyr::select(data, -dplyr::all_of(datafile_colnames))
+    data <- convert_from_wide(data, label_col = label_col, metadata_cols = metadata_colnames) %>%
+      dplyr::mutate(Sample = stringi::stri_replace_all_regex(Sample, "^datafile:", "")) %>%
+      dplyr::mutate(Sample = stringi::stri_replace_all_regex(Sample, paste0(":", intensity, "$"), ""))
+    return(data)
+  } else {
+    sample_names_cleaned <- stringi::stri_replace_all_regex(datafile_colnames, "^datafile:", "")
+    sample_names_cleaned <- unique(stringi::stri_replace_all_regex(sample_names_cleaned, ":.{1,}$", ""))
+
+    datafile_cols_list <- purrr::map(sample_names_cleaned, function(x, y) {dplyr::select(y, c("id", dplyr::contains(x)))}, y = data)
+
+    datafile_cols_list <- purrr::map(datafile_cols_list, internal_rename_datafile_cols)
+
+    names(datafile_cols_list) <- sample_names_cleaned
+
+    datafile_cols_df <- dplyr::bind_rows(datafile_cols_list, .id = "Sample")
+
+    data <- dplyr::select(data, -dplyr::all_of(datafile_colnames))
+
+    data <- convert_from_wide(data, label_col = label_col, metadata_cols = metadata_colnames)
+
+    if (clone_id == TRUE) {
+      data <- dplyr::mutate(data, id = as.numeric(Feature))
+    }
+
+    data %>%
+      dplyr::mutate(Sample = stringi::stri_replace_all_regex(Sample, "^datafile:", "")) %>%
+      dplyr::mutate(Sample = stringi::stri_replace_all_regex(Sample, paste0(":", intensity, "$"), "")) %>%
+      dplyr::left_join(datafile_cols_df, by = dplyr::join_by("Sample", "id"))
+  }
+}
+
 #' Create a blank metadata skeleton
 #'
 #' @description
