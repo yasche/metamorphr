@@ -699,6 +699,53 @@ iso_other_atoms_single_lookup <- as.character(other_atoms_df_single_let$Weight)
 names(iso_other_atoms_single_lookup) <- other_atoms_df_single_let$Symbol
 # end code for lookup tables
 
+
+## code to prepare lookup tables to calculate KMD from goes here
+test_read_mzmine_area <- readr::read_csv("id,Sample,Intensityx
+1,Sample1,2.891E1
+2,Sample1,5.167E1
+5,Sample1,1.879E1
+8,Sample1,7.605E1
+9,Sample1,1.098E2
+1,Sample2,8.72E0
+2,Sample2,5.631E1
+5,Sample2,1.319E1
+8,Sample2,1.275E2
+9,Sample2,6.975E1
+1,Sample3,2.429E1
+2,Sample3,4.25E1
+5,Sample3,1.199E1
+8,Sample3,2.876E2
+9,Sample3,2.53E1
+1,Sample4,1.864E1
+2,Sample4,2.575E1
+5,Sample4,1.454E1
+8,Sample4,5.509E1
+9,Sample4,9.08E2")
+
+test_read_mzmine_height <- readr::read_csv("id,Sample,Intensity
+1,Sample1,8.09E2
+2,Sample1,9.513E2
+5,Sample1,3.52E2
+8,Sample1,2.174E3
+9,Sample1,2.871E3
+1,Sample2,6.7E2
+2,Sample2,1.071E3
+5,Sample2,2.61E2
+8,Sample2,1.404E3
+9,Sample2,3.278E3
+1,Sample3,9.27E2
+2,Sample3,7.66E2
+5,Sample3,5.01E2
+8,Sample3,1.466E3
+9,Sample3,1.792E3
+1,Sample4,7.51E2
+2,Sample4,1.073E3
+5,Sample4,3.76E2
+8,Sample4,2.161E3
+9,Sample4,3.074E3")
+
+
 usethis::use_data(test_read_featuretable,
   test_create_metadata_skeleton,
   test_filters,
@@ -746,5 +793,6 @@ usethis::use_data(test_read_featuretable,
   iso_special_isos_lookup,
   iso_other_atoms_multi_lookup,
   iso_other_atoms_single_lookup,
+  test_read_mzmine_area,
   overwrite = TRUE, internal = TRUE
 )
