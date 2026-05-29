@@ -13,5 +13,6 @@ test_that("works for matrix with toy data set", {
   expect_true(is.matrix(dataset))
   expect_equal(convert_from_matrix(dataset), test_read_convert_from_matrix)
   expect_equal(convert_from_matrix(dataset_t, samples_in_cols = FALSE), test_read_convert_from_matrix)
+  expect_equal(convert_from_matrix(dataset_t, samples_in_cols = FALSE), convert_from_matrix(dataset))
 })
 
