@@ -47,10 +47,6 @@
 #'
 read_featuretable <- function(file, delim = ",", label_col = 1, metadata_cols = NULL, ...) {
   # perform some checks
-  if (length(label_col) > 1) {
-    rlang::abort("label_col must be of length 1.")
-  }
-
 
   # if (!is.null(drop_cols)) {
   #  if (label_col %in% drop_cols) {
