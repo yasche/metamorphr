@@ -769,6 +769,19 @@ test_read_mzmine_datafile <- readr::read_delim("id	Sample	datafile:feature_state
 9	Sample4	DETECTED	257.24759	257.24429	257.25194	0.2656	0.0054	0.4066	0.3713	0.8168	0.8732		Vs/cm^2	9.08E2	3.074E3	1.363E3	3.074E3		6		0.771	0.542	0.844	7	-0.2553
 ", delim = "\t")
 
+test_read_convert_from_matrix <- readr::read_delim(
+  "UID	Feature	Sample	Intensity
+1	feature1	sample1	1
+2	feature2	sample1	2
+3	feature3	sample1	3
+1	feature1	sample2	4
+2	feature2	sample2	5
+3	feature3	sample2	6
+1	feature1	sample3	7
+2	feature2	sample3	8
+3	feature3	sample3	9
+", delim = "\t"
+)
 
 usethis::use_data(test_read_featuretable,
   test_create_metadata_skeleton,
@@ -820,5 +833,6 @@ usethis::use_data(test_read_featuretable,
   test_read_mzmine_area,
   test_read_mzmine_height,
   test_read_mzmine_datafile,
+  test_read_convert_from_matrix,
   overwrite = TRUE, internal = TRUE
 )
