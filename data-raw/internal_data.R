@@ -723,7 +723,7 @@ test_read_mzmine_area <- readr::read_csv("id,Sample,Intensityx
 8,Sample4,5.509E1
 9,Sample4,9.08E2")
 
-test_read_mzmine_height <- readr::read_csv("id,Sample,Intensity
+test_read_mzmine_height <- readr::read_csv("id,Sample,Intensityx
 1,Sample1,8.09E2
 2,Sample1,9.513E2
 5,Sample1,3.52E2
