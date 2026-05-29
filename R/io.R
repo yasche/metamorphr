@@ -72,7 +72,7 @@ read_featuretable <- function(file, delim = ",", label_col = 1, metadata_cols = 
 #' @param intensity A character that specifies what should be used as the (semi-)quantitative measure. Either `"height"` or `"area"`.
 #' @param field_separator The field separator as specified in 'mzmine'. Usually `","` if the file is in common CSV format.
 #' @param label_col The index or name of the column that will be used to label Features. For example an identifier (_e.g._, KEGG, CAS, HMDB) or a _m/z_-RT pair.
-#' @param import_datafile_cols Should columns that begin with `datafile:` be imported? Those columns contain sample-specific information, for example the retention time of a feature measured in a specific sample. Usually, this information is not necessary for downstream analysis but it can be used for quaility control purposes.
+#' @param import_datafile_cols Should columns that begin with `datafile:` be imported? Those columns contain sample-specific information, for example the retention time of a feature measured in a specific sample. Usually, this information is not necessary for downstream analysis but it can be used for quaility control purposes. If `TRUE`, `datafile:` columns are imported and the sample names are removed from the column names. This allows for tidy storage of the information in one column per variable.
 #'
 #' @return A tidy tibble.
 #' @export
