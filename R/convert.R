@@ -23,6 +23,7 @@ convert_from_wide <- function(data, label_col = 1, metadata_cols = NULL) {
 
   # renamed Measurement -> Sample; label -> Feature
   data %>%
+    tibble::as_tibble() %>%
     dplyr::rename("Feature" = dplyr::all_of(label_col)) %>%
     # select(- {{ drop_cols }}) %>%
     dplyr::mutate(Feature = as.character(.data$Feature)) %>%
