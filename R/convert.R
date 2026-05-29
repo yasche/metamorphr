@@ -13,7 +13,11 @@
 #' @export
 #'
 #' @examples
-#' system.file("extdata", "toy_metaboscape.csv", package = "metamorphr"
+#' featuretable_path <- system.file("extdata", "toy_metaboscape.csv", package = "metamorphr")
+#' featuretable_wide <- read.csv(featuretable_path)
+#'
+#' convert_from_wide(featuretable_wide, metadata_cols = 2:5)
+#'
 convert_from_wide <- function(data, label_col = 1, metadata_cols = NULL) {
   # perform some checks
   if (length(label_col) > 1) {
