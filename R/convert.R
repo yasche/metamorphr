@@ -30,7 +30,6 @@ convert_from_wide <- function(data, label_col = 1, metadata_cols = NULL) {
     } else {
       rlang::abort("`data` must be of class `tibble` or `data.frame`, not `matrix`. To convert a matrix use function `convert_from_matrix`.")
     }
-
   }
 
   data_colnames <- colnames(data)
@@ -69,5 +68,18 @@ convert_from_wide <- function(data, label_col = 1, metadata_cols = NULL) {
 }
 
 convert_from_matrix <- function(data, samples_in_cols = TRUE) {
+  if (!is.matrix(data)) {
+    if (!is.data.frame(data)) {
+      rlang::abort(paste0("`data` must be of class `matrix`, not `", paste0(class(data), collapse = ", "), "`."))
+    } else {
+      rlang::abort("`data` must be of class `matrix`, not `data.frame`. To convert a data frame use function `convert_from_wide`.")
+    }
+  }
 
+  if (samples_in_cols == FALSE) {
+    data <- t(data)
+  }
+
+  data %>% tibble::as_tibble(rownames = "Feature") %>%
+    convert_from_wide(label_col = "Feature")
 }
