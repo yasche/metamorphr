@@ -63,7 +63,7 @@ read_featuretable <- function(file, delim = ",", label_col = 1, metadata_cols = 
   convert_from_wide(data, label_col = label_col, metadata_cols = metadata_cols)
 }
 
-read_featuretable_mzmine <- function(file, intensity = "height", field_separator = ",", import_datafile_cols = FALSE) {
+read_featuretable_mzmine <- function(file, intensity = "height", field_separator = ",", label_col = 1, import_datafile_cols = FALSE) {
   file_colnames <- readr::read_lines(file, n_max = 1) %>%
     stringi::stri_split_fixed(pattern = field_separator) %>%
     unlist()
@@ -96,8 +96,8 @@ read_featuretable_mzmine <- function(file, intensity = "height", field_separator
   if(import_datafile_cols == FALSE) {
     data <- dplyr::select(data, -dplyr::all_of(datafile_colnames))
     data <- convert_from_wide(data, label_col = label_col, metadata_cols = metadata_colnames) %>%
-      dplyr::mutate(Sample = stringi::stri_replace_all_regex(Sample, "^datafile:", "")) %>%
-      dplyr::mutate(Sample = stringi::stri_replace_all_regex(Sample, paste0(":", intensity, "$"), ""))
+      dplyr::mutate(Sample = stringi::stri_replace_all_regex(.data$Sample, "^datafile:", "")) %>%
+      dplyr::mutate(Sample = stringi::stri_replace_all_regex(.data$Sample, paste0(":", intensity, "$"), ""))
     return(data)
   } else {
     sample_names_cleaned <- stringi::stri_replace_all_regex(datafile_colnames, "^datafile:", "")
@@ -116,12 +116,12 @@ read_featuretable_mzmine <- function(file, intensity = "height", field_separator
     data <- convert_from_wide(data, label_col = label_col, metadata_cols = metadata_colnames)
 
     if (clone_id == TRUE) {
-      data <- dplyr::mutate(data, id = as.numeric(Feature))
+      data <- dplyr::mutate(data, id = as.numeric(.data$Feature))
     }
 
     data %>%
-      dplyr::mutate(Sample = stringi::stri_replace_all_regex(Sample, "^datafile:", "")) %>%
-      dplyr::mutate(Sample = stringi::stri_replace_all_regex(Sample, paste0(":", intensity, "$"), "")) %>%
+      dplyr::mutate(Sample = stringi::stri_replace_all_regex(.data$Sample, "^datafile:", "")) %>%
+      dplyr::mutate(Sample = stringi::stri_replace_all_regex(.data$Sample, paste0(":", intensity, "$"), "")) %>%
       dplyr::left_join(datafile_cols_df, by = dplyr::join_by("Sample", "id"))
   }
 }
