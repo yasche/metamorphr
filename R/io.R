@@ -63,10 +63,26 @@ read_featuretable <- function(file, delim = ",", label_col = 1, metadata_cols = 
   convert_from_wide(data, label_col = label_col, metadata_cols = metadata_cols)
 }
 
+#' Read a 'full_feature_table' from 'mzmine' into a tidy tibble
+#'
+#' @param file A path to a file but can also be a connection or literal data.
+#' @param intensity A character that specifies what should be used as the (semi-)quantitative measure. Either `"height"` or `"area"`.
+#' @param field_separator The field separator as specified in 'mzmine'. Usually `","` if the file is in common CSV format.
+#' @param label_col The index or name of the column that will be used to label Features. For example an identifier (_e.g._, KEGG, CAS, HMDB) or a _m/z_-RT pair.
+#' @param import_datafile_cols Should columns that begin with `datafile:` be imported? Those columns contain sample-specific information, for example the retention time of a feature measured in a specific sample. Usually, this information is not necessary for downstream analysis but it can be used for quaility control purposes.
+#'
+#' @returns
+#' @export
+#'
+#' @examples
 read_featuretable_mzmine <- function(file, intensity = "height", field_separator = ",", label_col = 1, import_datafile_cols = FALSE) {
   file_colnames <- readr::read_lines(file, n_max = 1) %>%
     stringi::stri_split_fixed(pattern = field_separator) %>%
     unlist()
+
+  if (!(intensity %in% c("heigh", "area"))) {
+    rlang::abort(paste0('Argument `intensity` must be "height" or "area", not "', intensity, '".'))
+  }
 
   #check for duplicate names
 
