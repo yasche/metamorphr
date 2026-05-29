@@ -65,22 +65,58 @@ read_featuretable <- function(file, delim = ",", label_col = 1, metadata_cols = 
 
 #' Read a 'full_feature_table' from 'mzmine' into a tidy tibble
 #'
+#' @description
+#' Similar to \code{\link[metamorphr]{read_featuretable}} but specifically for full_feature_table' files created with 'mzmine'. For more information, see \href{https://mzmine.github.io/mzmine_documentation/module_docs/io/feat-list-export.html}{the 'mzmine' documentation}.
+#'
 #' @param file A path to a file but can also be a connection or literal data.
 #' @param intensity A character that specifies what should be used as the (semi-)quantitative measure. Either `"height"` or `"area"`.
 #' @param field_separator The field separator as specified in 'mzmine'. Usually `","` if the file is in common CSV format.
 #' @param label_col The index or name of the column that will be used to label Features. For example an identifier (_e.g._, KEGG, CAS, HMDB) or a _m/z_-RT pair.
 #' @param import_datafile_cols Should columns that begin with `datafile:` be imported? Those columns contain sample-specific information, for example the retention time of a feature measured in a specific sample. Usually, this information is not necessary for downstream analysis but it can be used for quaility control purposes.
 #'
-#' @returns
+#' @return A tidy tibble.
 #' @export
 #'
+#' @references \itemize{
+#'  \item H. Wickham, \emph{J. Stat. Soft.} \strong{2014}, \emph{59}, DOI 10.18637/jss.v059.i10.
+#'  \item H. Wickham, M. Averick, J. Bryan, W. Chang, L. McGowan, R. François, G. Grolemund, A. Hayes, L. Henry, J. Hester, M. Kuhn, T. Pedersen, E. Miller, S. Bache, K. Müller, J. Ooms, D. Robinson, D. Seidel, V. Spinu, K. Takahashi, D. Vaughan, C. Wilke, K. Woo, H. Yutani, \emph{JOSS} \strong{2019}, \emph{4}, 1686, DOI 10.21105/joss.01686.
+#'  \item “12 Tidy data | R for Data Science,” can be found under \url{https://r4ds.had.co.nz/tidy-data.html}, \strong{2023}.
+#' }
+#'
 #' @examples
+#' # Read a toy dataset in the format produced with mzmine.
+#'
+#' featuretable_path <- system.file("extdata", "toy_mzmine.csv", package = "metamorphr")
+#'
+#' # Example 1: Use feature height as the metric
+#' featuretable <- read_featuretable_mzmine(
+#'   featuretable_path,
+#'   intensity = "height"
+#' )
+#'
+#' featuretable
+#'
+#' # Example 2: Use feature area as the metric
+#' featuretable <- read_featuretable_mzmine(
+#'   featuretable_path,
+#'   intensity = "area"
+#' )
+#'
+#' featuretable
+#'
+#' # Example 3: Use the 'mz' column as a Feature label
+#' featuretable <- read_featuretable_mzmine(
+#'   featuretable_path,
+#'   label_col = "mz"
+#' )
+#'
+#' featuretable
 read_featuretable_mzmine <- function(file, intensity = "height", field_separator = ",", label_col = 1, import_datafile_cols = FALSE) {
   file_colnames <- readr::read_lines(file, n_max = 1) %>%
     stringi::stri_split_fixed(pattern = field_separator) %>%
     unlist()
 
-  if (!(intensity %in% c("heigh", "area"))) {
+  if (!(intensity %in% c("height", "area"))) {
     rlang::abort(paste0('Argument `intensity` must be "height" or "area", not "', intensity, '".'))
   }
 
