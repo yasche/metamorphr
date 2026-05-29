@@ -67,6 +67,34 @@ convert_from_wide <- function(data, label_col = 1, metadata_cols = NULL) {
     dplyr::mutate(Intensity = dplyr::na_if(.data$Intensity, 0))
 }
 
+#'  Convert a wide matrix to a tidy tibble
+#'
+#' @description
+#' This functions transforms a matrix holding a wide feature table into a "long" and tidy tibble to use it with functions provided in the `metamorphr` package.
+#' `convert_from_matrix` works with objects of class `matrix.` To convert a data frame or tibble, see \code{\link[metamorphr]{convert_from_wide}}.
+#'
+#' @param data A feature table matrix in wide format. To convert a wide data frame, see \code{\link[metamorphr]{convert_from_wide}}.
+#' @param samples_in_cols `TRUE` if samples are in columns and features in rows, `FALSE` if it is reversed. See examples for more information.
+#'
+#' @returns A tidy tibble.
+#' @export
+#'
+#' @examples
+#' # Using a small fictional data set
+#' dataset <- matrix(1:9, ncol = 3)
+#' colnames(dataset) <- paste0("sample", 1:3)
+#' rownames(dataset) <- paste0("feature", 1:3)
+#'
+#'
+#' # Example 1: Samples in columns
+#' dataset
+#' convert_from_matrix(dataset)
+#'
+#' # Example 2: Samples in rows
+#' dataset_transposed <- t(dataset)
+#' dataset_transposed
+#'
+#' convert_from_matrix(dataset, samples_in_cols = FALSE)
 convert_from_matrix <- function(data, samples_in_cols = TRUE) {
   if (!is.matrix(data)) {
     if (!is.data.frame(data)) {
