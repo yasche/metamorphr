@@ -1,6 +1,7 @@
 # metamorphr
 
 ``` r
+
 library(metamorphr)
 ```
 
@@ -38,6 +39,7 @@ native pipe as a drop-in replacement for the magrittr pipe, if you
 wish.*
 
 ``` r
+
 mevastatin_ft <- read_featuretable(
   "https://raw.githubusercontent.com/yasche/metamorphr-data/main/RP18/pos/MetaboScape/mevastatin/mevastatin.csv", 
   label_col = 3, 
@@ -94,6 +96,7 @@ latter to download data from a [GitHub
 repository](https://github.com/yasche/metamorphr-data).
 
 ``` r
+
 mevastatin_ft <- read_featuretable(
   "https://raw.githubusercontent.com/yasche/metamorphr-data/main/RP18/pos/MetaboScape/mevastatin/mevastatin.csv", 
   label_col = 3, 
@@ -121,6 +124,7 @@ several other columns are created automatically by `read_featuretable`:
   `Feature` combination.
 
 ``` r
+
 head(mevastatin_ft)
 #> # A tibble: 6 × 18
 #>     UID Feature    Sample           Intensity FEATURE_ID    RT   CCS SIGMA_SCORE
@@ -149,6 +153,7 @@ into R using
 [`readr::read_csv`](https://readr.tidyverse.org/reference/read_delim.html).
 
 ``` r
+
 mevastatin_ft %>%
   create_metadata_skeleton() %>%
   readr::write_csv(file = "some/path/menadione_metadata.csv")
@@ -160,12 +165,14 @@ In this case, there is already a file containing the relevant metadata
 in the GitHub repository.
 
 ``` r
+
 mevastatin_metadata <- readr::read_csv(
   "https://raw.githubusercontent.com/yasche/metamorphr-data/main/RP18/pos/MetaboScape/mevastatin/mevastatin_metadata.csv", 
   show_col_types = FALSE)
 ```
 
 ``` r
+
 head(mevastatin_metadata)
 #> # A tibble: 6 × 5
 #>   Sample                    Group      Replicate Batch Factor
@@ -200,6 +207,7 @@ metamorphr provides a convenience function, `join_metadata`, for joining
 together a feature table and associated metadata.
 
 ``` r
+
 mevastatin_ft <- join_metadata(mevastatin_ft, mevastatin_metadata)
 ```
 
@@ -213,6 +221,7 @@ to see all available filter functions.
 used to remove blank samples afterwards.
 
 ``` r
+
 mevastatin_ft <- mevastatin_ft %>%
   filter_grouped_mv(min_found = 0.75,
                     group_column = Group) %>%
@@ -256,6 +265,7 @@ visualize the data using ‘ggplot2’. Below, a simple visualization is
 used to verify that the imputation worked as expected.
 
 ``` r
+
 mevastatin_ft_before_impute <- mevastatin_ft %>%
   dplyr::mutate(State = "Before imputation")
   
@@ -263,6 +273,7 @@ mevastatin_ft <- impute_knn(mevastatin_ft)
 ```
 
 ``` r
+
 mevastatin_ft %>%
   dplyr::mutate(State = "After imputation") %>%
   dplyr::bind_rows(mevastatin_ft_before_impute) %>%
@@ -293,6 +304,7 @@ information. Other available options can be viewed by typing
 `metamorphr::normalize_` into the R console.
 
 ``` r
+
 mevastatin_ft_before_norm <- mevastatin_ft %>%
   dplyr::mutate(State = "Before normalization")
 
@@ -302,6 +314,7 @@ mevastatin_ft <- normalize_quantile_smooth(mevastatin_ft)
 Again, we can use a ‘ggplot2’ visualization as verification.
 
 ``` r
+
 mevastatin_ft %>%
   dplyr::mutate(State = "After normalization") %>%
   dplyr::bind_rows(mevastatin_ft_before_norm) %>%
@@ -333,6 +346,7 @@ calculate the mean of the technical replicates using `collapse_mean`. It
 is important that sample metadata are provided for this approach.
 
 ``` r
+
 mevastatin_metadata
 #> # A tibble: 73 × 5
 #>    Sample                    Group      Replicate Batch Factor
@@ -357,6 +371,7 @@ same value for `Group`, `Batch` and `Replicate`. For example,
 indicated by the three samples with replicate number 1.
 
 ``` r
+
 mevastatin_ft <- collapse_mean(mevastatin_ft,
                                sample_metadata_cols = "Group",
                                feature_metadata_cols = "Feature")
@@ -368,6 +383,7 @@ Finally, data can be plotted with `plot_volcano`. The resulting plot can
 be easily modified with ‘ggplot2’ functions.
 
 ``` r
+
 plot_volcano(mevastatin_ft,
              group_column = Group,
              name_column = Feature, 

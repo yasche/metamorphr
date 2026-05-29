@@ -17,6 +17,7 @@ ggplot2 and dplyr.
 Install the stable version from CRAN with:
 
 ``` r
+
 install.packages("metamorphr")
 ```
 
@@ -24,6 +25,7 @@ Alternatively, you can install the development version of metamorphr
 from [GitHub](https://github.com/) with:
 
 ``` r
+
 # install.packages("pak")
 pak::pak("yasche/metamorphr")
 ```
@@ -39,6 +41,7 @@ Here is an overview of currently implemented functions.
 ### ✨ Create your analysis workflows in no time
 
 ``` r
+
 library(metamorphr)
 library(ggplot2)
 
@@ -62,6 +65,7 @@ toy_metaboscape %>%
 Easily plot the distribution of all intensities across samples
 
 ``` r
+
 library(dplyr)
 
 toy_metaboscape %>%
@@ -76,6 +80,7 @@ toy_metaboscape %>%
 … or compare the intensity of specific features across groups
 
 ``` r
+
 toy_metaboscape %>%
   join_metadata(toy_metaboscape_metadata) %>%
   dplyr::filter(Name %in% c("Arachidonic acid", "ADP", "NADPH")) %>%

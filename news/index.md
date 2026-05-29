@@ -2,7 +2,22 @@
 
 ## metamorphr (development version)
 
+### New features
+
+- New
+  [`read_featuretable_mzmine()`](https://yasche.github.io/metamorphr/reference/read_featuretable_mzmine.md)
+  to read “full_feature_table” CSV files created with ‘mzmine’ into a
+  tidy tibble
+- New
+  [`convert_from_wide()`](https://yasche.github.io/metamorphr/reference/convert_from_wide.md)
+  to convert wide feature tables to tidy tibbles
+- New
+  [`convert_from_matrix()`](https://yasche.github.io/metamorphr/reference/convert_from_matrix.md)
+  to convert a matrix to a tidy tibble
+
 ## metamorphr 0.3.0
+
+CRAN release: 2026-03-04
 
 ### New features
 

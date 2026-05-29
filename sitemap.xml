@@ -17,6 +17,8 @@
 <url><loc>https://yasche.github.io/metamorphr/reference/collapse_mean.html</loc></url>
 <url><loc>https://yasche.github.io/metamorphr/reference/collapse_median.html</loc></url>
 <url><loc>https://yasche.github.io/metamorphr/reference/collapse_min.html</loc></url>
+<url><loc>https://yasche.github.io/metamorphr/reference/convert_from_matrix.html</loc></url>
+<url><loc>https://yasche.github.io/metamorphr/reference/convert_from_wide.html</loc></url>
 <url><loc>https://yasche.github.io/metamorphr/reference/create_metadata_skeleton.html</loc></url>
 <url><loc>https://yasche.github.io/metamorphr/reference/filter_blank.html</loc></url>
 <url><loc>https://yasche.github.io/metamorphr/reference/filter_cv.html</loc></url>
@@ -58,6 +60,7 @@
 <url><loc>https://yasche.github.io/metamorphr/reference/plot_pca.html</loc></url>
 <url><loc>https://yasche.github.io/metamorphr/reference/plot_volcano.html</loc></url>
 <url><loc>https://yasche.github.io/metamorphr/reference/read_featuretable.html</loc></url>
+<url><loc>https://yasche.github.io/metamorphr/reference/read_featuretable_mzmine.html</loc></url>
 <url><loc>https://yasche.github.io/metamorphr/reference/read_mgf.html</loc></url>
 <url><loc>https://yasche.github.io/metamorphr/reference/scale_auto.html</loc></url>
 <url><loc>https://yasche.github.io/metamorphr/reference/scale_center.html</loc></url>

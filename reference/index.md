@@ -34,6 +34,12 @@
   : Collapse intensities of technical replicates by calculating their
   minimum
 
+- [`convert_from_matrix()`](https://yasche.github.io/metamorphr/reference/convert_from_matrix.md)
+  : Convert a wide matrix to a tidy tibble
+
+- [`convert_from_wide()`](https://yasche.github.io/metamorphr/reference/convert_from_wide.md)
+  : Convert a wide feature table to a tidy tibble
+
 - [`create_metadata_skeleton()`](https://yasche.github.io/metamorphr/reference/create_metadata_skeleton.md)
   : Create a blank metadata skeleton
 
@@ -161,6 +167,9 @@
 
 - [`read_featuretable()`](https://yasche.github.io/metamorphr/reference/read_featuretable.md)
   : Read a feature table into a tidy tibble
+
+- [`read_featuretable_mzmine()`](https://yasche.github.io/metamorphr/reference/read_featuretable_mzmine.md)
+  : Read a 'full_feature_table' from 'mzmine' into a tidy tibble
 
 - [`read_mgf()`](https://yasche.github.io/metamorphr/reference/read_mgf.md)
   : Read a MGF file into a tidy tibble
