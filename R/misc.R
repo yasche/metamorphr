@@ -272,7 +272,7 @@ calc_nominal_km <- function(mass, repeating_unit = "CH2") {
 #' @description
 #' The Kendrick mass defect (KMD) is calculated by subtracting the Kendrick mass
 #' (\code{\link[metamorphr]{calc_km}}) from the nominal Kendrick mass
-#' (\code{\link[metamorphr]{calc_nominal_km}}). The the References section for
+#' (\code{\link[metamorphr]{calc_nominal_km}}). See the References section for
 #' more information.
 #'
 #'
@@ -312,3 +312,5 @@ calc_nominal_km <- function(mass, repeating_unit = "CH2") {
 calc_kmd <- function(mass, repeating_unit = "CH2") {
   calc_nominal_km(mass, repeating_unit = repeating_unit) - calc_km(mass, repeating_unit = repeating_unit)
 }
+
+

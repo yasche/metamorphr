@@ -17,7 +17,7 @@ The Kendrick mass defect (KMD)
 \description{
 The Kendrick mass defect (KMD) is calculated by subtracting the Kendrick mass
 (\code{\link[metamorphr]{calc_km}}) from the nominal Kendrick mass
-(\code{\link[metamorphr]{calc_nominal_km}}). The the References section for
+(\code{\link[metamorphr]{calc_nominal_km}}). See the References section for
 more information.
 }
 \examples{
