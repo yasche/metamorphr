@@ -314,6 +314,21 @@ calc_kmd <- function(mass, repeating_unit = "CH2") {
 }
 
 
+#' Remove empty columns from a tibble or data frame
+#'
+#' @description
+#' Remove empty columns (i.e., columns that _only_ contain `NA`) from a tibble or data frame.
+#'
+#' @param data A tibble or data frame in wide format.
+#'
+#' @returns A tibble or data frame in wide format without empty columns.
+#' @export
+#'
+#' @examples
+#' # Column `d` contains only `NA` and should be removed
+#' na_tibble <- tibble::tibble(a = c(1,2,3), b = c(NA, 2,3), c = c(NA, NA, 3), d = c(NA,NA,NA))
+#'
+#' remove_empty_cols(na_tibble)
 remove_empty_cols <- function(data) {
   empty_cols <- purrr::map(data, function(x) all(is.na(x)))
   empty_cols <- unlist(empty_cols)
@@ -321,10 +336,12 @@ remove_empty_cols <- function(data) {
   empty_col_names <- names(empty_cols)
   if(length(empty_cols) > 0) {
     if (length(empty_cols) > 1) {
-      rlang::inform(paste0("The following columns were removed: ", paste(paste0("`", empty_col_names, "`"), collapse = ", ")))
+      rlang::inform(paste0("The following columns were removed: ", paste(paste0("`", empty_col_names, "`"), collapse = ", "), "."))
     } else {
-      rlang::inform(paste0("The following column was removed: ", paste0("`", empty_col_names, "`")))
+      rlang::inform(paste0("The following column was removed: ", paste0("`", empty_col_names, "`"), "."))
     }
+  } else {
+    rlang::inform(paste0("No columns were removed."))
   }
   dplyr::select(data, -dplyr::all_of(empty_col_names))
 }
