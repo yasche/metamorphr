@@ -71,7 +71,7 @@ convert_from_wide <- function(data, label_col = 1, metadata_cols = NULL) {
 #'
 #' @description
 #' This functions transforms a matrix holding a wide feature table into a "long" and tidy tibble to use it with functions provided in the `metamorphr` package.
-#' `convert_from_matrix` works with objects of class `matrix.` To convert a data frame or tibble, see \code{\link[metamorphr]{convert_from_wide}}.
+#' `convert_from_matrix` works with objects of class `matrix`. To convert a data frame or tibble, see \code{\link[metamorphr]{convert_from_wide}}.
 #'
 #' @param data A feature table matrix in wide format. To convert a wide data frame, see \code{\link[metamorphr]{convert_from_wide}}.
 #' @param samples_in_cols `TRUE` if samples are in columns and features in rows, `FALSE` if it is reversed. See examples for more information.

@@ -16,7 +16,7 @@ A tidy tibble.
 }
 \description{
 This functions transforms a matrix holding a wide feature table into a "long" and tidy tibble to use it with functions provided in the \code{metamorphr} package.
-\code{convert_from_matrix} works with objects of class \code{matrix.} To convert a data frame or tibble, see \code{\link[metamorphr]{convert_from_wide}}.
+\code{convert_from_matrix} works with objects of class \code{matrix}. To convert a data frame or tibble, see \code{\link[metamorphr]{convert_from_wide}}.
 }
 \examples{
 # Using a small fictional data set
