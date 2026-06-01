@@ -314,3 +314,17 @@ calc_kmd <- function(mass, repeating_unit = "CH2") {
 }
 
 
+remove_empty_cols <- function(data) {
+  empty_cols <- purrr::map(data, function(x) all(is.na(x)))
+  empty_cols <- unlist(empty_cols)
+  empty_cols <- empty_cols[empty_cols]
+  empty_col_names <- names(empty_cols)
+  if(length(empty_cols) > 0) {
+    if (length(empty_cols) > 1) {
+      rlang::inform(paste0("The following columns were removed: ", paste(paste0("`", empty_col_names, "`"), collapse = ", ")))
+    } else {
+      rlang::inform(paste0("The following column was removed: ", paste0("`", empty_col_names, "`")))
+    }
+  }
+  dplyr::select(data, -dplyr::all_of(empty_col_names))
+}
