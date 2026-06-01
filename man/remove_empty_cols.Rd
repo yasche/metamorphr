@@ -4,10 +4,12 @@
 \alias{remove_empty_cols}
 \title{Remove empty columns from a tibble or data frame}
 \usage{
-remove_empty_cols(data)
+remove_empty_cols(data, show_removed_cols = TRUE)
 }
 \arguments{
 \item{data}{A tibble or data frame in wide format.}
+
+\item{show_removed_cols}{If \code{TRUE} prints a message that shows which columns were removed.}
 }
 \value{
 A tibble or data frame in wide format without empty columns.

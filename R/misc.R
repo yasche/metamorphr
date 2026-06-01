@@ -320,6 +320,7 @@ calc_kmd <- function(mass, repeating_unit = "CH2") {
 #' Remove empty columns (i.e., columns that _only_ contain `NA`) from a tibble or data frame.
 #'
 #' @param data A tibble or data frame in wide format.
+#' @param show_removed_cols If `TRUE` prints a message that shows which columns were removed.
 #'
 #' @returns A tibble or data frame in wide format without empty columns.
 #' @export
@@ -329,19 +330,21 @@ calc_kmd <- function(mass, repeating_unit = "CH2") {
 #' na_tibble <- tibble::tibble(a = c(1,2,3), b = c(NA, 2,3), c = c(NA, NA, 3), d = c(NA,NA,NA))
 #'
 #' remove_empty_cols(na_tibble)
-remove_empty_cols <- function(data) {
+remove_empty_cols <- function(data, show_removed_cols = TRUE) {
   empty_cols <- purrr::map(data, function(x) all(is.na(x)))
   empty_cols <- unlist(empty_cols)
   empty_cols <- empty_cols[empty_cols]
   empty_col_names <- names(empty_cols)
-  if(length(empty_cols) > 0) {
-    if (length(empty_cols) > 1) {
-      rlang::inform(paste0("The following columns were removed: ", paste(paste0("`", empty_col_names, "`"), collapse = ", "), "."))
+  if (show_removed_cols == TRUE) {
+    if(length(empty_cols) > 0) {
+      if (length(empty_cols) > 1) {
+        rlang::inform(paste0("The following columns were removed: ", paste(paste0("`", empty_col_names, "`"), collapse = ", "), "."))
+      } else {
+        rlang::inform(paste0("The following column was removed: ", paste0("`", empty_col_names, "`"), "."))
+      }
     } else {
-      rlang::inform(paste0("The following column was removed: ", paste0("`", empty_col_names, "`"), "."))
+      rlang::inform(paste0("No columns were removed."))
     }
-  } else {
-    rlang::inform(paste0("No columns were removed."))
   }
   dplyr::select(data, -dplyr::all_of(empty_col_names))
 }
