@@ -330,11 +330,15 @@ calc_kmd <- function(mass, repeating_unit = "CH2") {
 #' na_tibble <- tibble::tibble(a = c(1,2,3), b = c(NA, 2,3), c = c(NA, NA, 3), d = c(NA,NA,NA))
 #'
 #' remove_empty_cols(na_tibble)
-remove_empty_cols <- function(data, show_removed_cols = TRUE) {
+remove_empty_cols <- function(data, always_keep = "Feature", show_removed_cols = TRUE) {
+  if (!rlang::is_null(always_keep) & is.numeric(always_keep)) {
+    always_keep <- colnames(data)[always_keep]
+  }
   empty_cols <- purrr::map(data, function(x) all(is.na(x)))
   empty_cols <- unlist(empty_cols)
   empty_cols <- empty_cols[empty_cols]
   empty_col_names <- names(empty_cols)
+  empty_col_names <- empty_col_names[!(empty_col_names %in% always_keep)]
   if (show_removed_cols == TRUE) {
     if(length(empty_cols) > 0) {
       if (length(empty_cols) > 1) {
