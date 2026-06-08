@@ -153,6 +153,11 @@ test_that("`always_keep` argument works as expected with numeric, character and 
   )
 
   expect_equal(
+    remove_empty_cols(test_tibble2, show_removed_cols = FALSE, always_keep = c(2, "d")),
+    test_tibble2
+  )
+
+  expect_equal(
     remove_empty_cols(test_tibble4, show_removed_cols = FALSE, always_keep = "d"),
     test_tibble4
   )
