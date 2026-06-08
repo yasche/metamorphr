@@ -4,10 +4,12 @@
 \alias{remove_empty_cols}
 \title{Remove empty columns from a tibble or data frame}
 \usage{
-remove_empty_cols(data, show_removed_cols = TRUE)
+remove_empty_cols(data, always_keep = NULL, show_removed_cols = TRUE)
 }
 \arguments{
 \item{data}{A tibble or data frame in wide format.}
+
+\item{always_keep}{Specify columns that should \emph{always} be kept, regardless if they only contain \code{NA} or not. Columns can be specified as a vector with column indices (e.g., c(1, 2)), column names as characters (e.g., c("a", "b")), as symbols (e.g., c(a, b)), or combinations thereof (e.g., c(1, b))}
 
 \item{show_removed_cols}{If \code{TRUE} prints a message that shows which columns were removed.}
 }
@@ -18,8 +20,17 @@ A tibble or data frame in wide format without empty columns.
 Remove empty columns (i.e., columns that \emph{only} contain \code{NA}) from a tibble or data frame.
 }
 \examples{
-# Column `d` contains only `NA` and should be removed
-na_tibble <- tibble::tibble(a = c(1,2,3), b = c(NA, 2,3), c = c(NA, NA, 3), d = c(NA,NA,NA))
+# Columns `a` and `d` contains only `NA` and should be removed
+na_tibble <- tibble::tibble(
+  a = c(NA, NA, NA),
+  b = c(1, 2, 3),
+  c = c(NA, 2, 3),
+  d = c(NA, NA, 3),
+  e = c(NA, NA, NA)
+)
 
 remove_empty_cols(na_tibble)
+
+# Columns `a` and `d` contains only `NA` but `a` should be kept anyways
+remove_empty_cols(na_tibble, always_keep = a)
 }

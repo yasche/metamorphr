@@ -321,6 +321,7 @@ calc_kmd <- function(mass, repeating_unit = "CH2") {
 #'
 #' @param data A tibble or data frame in wide format.
 #' @param show_removed_cols If `TRUE` prints a message that shows which columns were removed.
+#' @param always_keep Specify columns that should *always* be kept, regardless if they only contain `NA` or not. Columns can be specified as a vector with column indices (e.g., c(1, 2)), column names as characters (e.g., c("a", "b")), as symbols (e.g., c(a, b)), or combinations thereof (e.g., c(1, b))
 #'
 #' @returns A tibble or data frame in wide format without empty columns.
 #' @export
@@ -340,15 +341,11 @@ calc_kmd <- function(mass, repeating_unit = "CH2") {
 #' # Columns `a` and `d` contains only `NA` but `a` should be kept anyways
 #' remove_empty_cols(na_tibble, always_keep = a)
 remove_empty_cols <- function(data, always_keep = NULL, show_removed_cols = TRUE) {
-  #if (!rlang::is_null(always_keep) & is.numeric(always_keep)) {
-  #  always_keep <- colnames(data)[always_keep]
-  #}
   col_order <- colnames(data)
   empty_cols <- purrr::map(data, function(x) all(is.na(x)))
   empty_cols <- unlist(empty_cols)
   empty_cols <- empty_cols[empty_cols]
   empty_col_names <- names(empty_cols)
-  #empty_col_names <- empty_col_names[!(empty_col_names %in% always_keep)]
   data <- data %>%
     dplyr::select(-dplyr::all_of(empty_col_names), {{ always_keep }}) %>%
     dplyr::relocate(dplyr::any_of(col_order))
