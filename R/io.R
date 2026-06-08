@@ -115,9 +115,10 @@ read_featuretable <- function(file, delim = ",", label_col = 1, metadata_cols = 
 #'
 #' featuretable
 read_featuretable_mzmine <- function(file, intensity = "height", field_separator = ",", label_col = 1, import_datafile_cols = FALSE) {
-  file_colnames <- readr::read_lines(file, n_max = 1) %>%
-    stringi::stri_split_fixed(pattern = field_separator) %>%
-    unlist()
+  data <- readr::read_delim(file, delim = field_separator, show_col_types = FALSE)
+
+
+  file_colnames <- colnames(data)
 
   if (!(intensity %in% c("height", "area"))) {
     rlang::abort(paste0('Argument `intensity` must be "height" or "area", not "', intensity, '".'))
@@ -139,7 +140,6 @@ read_featuretable_mzmine <- function(file, intensity = "height", field_separator
   intensity_colnames <- file_colnames[intensity_cols]
 
 
-  data <- readr::read_delim(file, delim = field_separator, show_col_types = FALSE)
 
   if (is.character(label_col)) {
     clone_id <- label_col == "id"
