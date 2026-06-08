@@ -50,13 +50,6 @@
 read_featuretable <- function(file, delim = ",", label_col = 1, metadata_cols = NULL, remove_empty_cols = FALSE, show_removed_cols = TRUE, ...) {
   # perform some checks
 
-  # if (!is.null(drop_cols)) {
-  #  if (label_col %in% drop_cols) {
-  #    rlang::abort("label_col can not be dropped.")
-  #  }
-  # }
-
-
   data <- readr::read_delim(file = file, delim = delim, show_col_types = FALSE, ...)
 
   if (remove_empty_cols == TRUE) {
