@@ -4,7 +4,15 @@
 \alias{read_featuretable}
 \title{Read a feature table into a tidy tibble}
 \usage{
-read_featuretable(file, delim = ",", label_col = 1, metadata_cols = NULL, ...)
+read_featuretable(
+  file,
+  delim = ",",
+  label_col = 1,
+  metadata_cols = NULL,
+  remove_empty_cols = FALSE,
+  show_removed_cols = TRUE,
+  ...
+)
 }
 \arguments{
 \item{file}{A path to a file but can also be a connection or literal data.}
@@ -14,6 +22,10 @@ read_featuretable(file, delim = ",", label_col = 1, metadata_cols = NULL, ...)
 \item{label_col}{The index or name of the column that will be used to label Features. For example an identifier (\emph{e.g.}, KEGG, CAS, HMDB) or a \emph{m/z}-RT pair.}
 
 \item{metadata_cols}{The index/indices or name(s) of column(s) that hold additional feature metadata (\emph{e.g.}, retention times, additional identifiers or \emph{m/z} values).}
+
+\item{remove_empty_cols}{Either \code{TRUE} or \code{FALSE}. Should empty columns be removed after reading the feature table? For a more fine-grained control, you can use a combination of \code{\link[readr]{read_delim}}, \code{\link[metamorphr]{remove_empty_cols}} and \code{\link[metamorphr]{convert_from_wide}}.See the respective function documentation for more details.}
+
+\item{show_removed_cols}{Only relevant if \code{remove_empty_cols = TRUE}. If \code{TRUE} prints a message that shows which columns were removed.}
 
 \item{...}{Additional arguments passed on to \code{readr::read_delim()}}
 }

@@ -7,6 +7,8 @@
 #' @param delim The field separator or delimiter. For example "," in csv files.
 #' @param label_col The index or name of the column that will be used to label Features. For example an identifier (_e.g._, KEGG, CAS, HMDB) or a _m/z_-RT pair.
 #' @param metadata_cols The index/indices or name(s) of column(s) that hold additional feature metadata (_e.g._, retention times, additional identifiers or _m/z_ values).
+#' @param remove_empty_cols Either `TRUE` or `FALSE`. Should empty columns be removed after reading the feature table? For a more fine-grained control, you can use a combination of \code{\link[readr]{read_delim}}, \code{\link[metamorphr]{remove_empty_cols}} and \code{\link[metamorphr]{convert_from_wide}}.See the respective function documentation for more details.
+#' @param show_removed_cols Only relevant if `remove_empty_cols = TRUE`. If `TRUE` prints a message that shows which columns were removed.
 #' @param ... Additional arguments passed on to `readr::read_delim()`
 #'
 #' @return A tidy tibble.
@@ -45,7 +47,7 @@
 #'
 #' featuretable
 #'
-read_featuretable <- function(file, delim = ",", label_col = 1, metadata_cols = NULL, ...) {
+read_featuretable <- function(file, delim = ",", label_col = 1, metadata_cols = NULL, remove_empty_cols = FALSE, show_removed_cols = TRUE, ...) {
   # perform some checks
 
   # if (!is.null(drop_cols)) {
@@ -56,6 +58,11 @@ read_featuretable <- function(file, delim = ",", label_col = 1, metadata_cols = 
 
 
   data <- readr::read_delim(file = file, delim = delim, show_col_types = FALSE, ...)
+
+  if(remove_empty_cols == TRUE) {
+    data <- remove_empty_cols(data, always_keep = label_col, show_removed_cols = show_removed_cols)
+  }
+
   convert_from_wide(data, label_col = label_col, metadata_cols = metadata_cols)
 }
 
