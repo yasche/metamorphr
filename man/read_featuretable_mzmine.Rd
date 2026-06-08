@@ -21,7 +21,7 @@ read_featuretable_mzmine(
 
 \item{field_separator}{The field separator as specified in 'mzmine'. Usually \code{","} if the file is in common CSV format.}
 
-\item{label_col}{The index or name of the column that will be used to label Features. For example an identifier (\emph{e.g.}, KEGG, CAS, HMDB) or a \emph{m/z}-RT pair.}
+\item{label_col}{The index or name (as a character) of the column that will be used to label Features. For example an identifier (\emph{e.g.}, KEGG, CAS, HMDB) or a \emph{m/z}-RT pair.}
 
 \item{import_datafile_cols}{Should columns that begin with \verb{datafile:} be imported? Those columns contain sample-specific information, for example the retention time of a feature measured in a specific sample. Usually, this information is not necessary for downstream analysis but it can be used for quaility control purposes. If \code{TRUE}, \verb{datafile:} columns are imported and the sample names are removed from the column names. This allows for tidy storage of the information in one column per variable.}
 

@@ -19,7 +19,7 @@ read_featuretable(
 
 \item{delim}{The field separator or delimiter. For example "," in csv files.}
 
-\item{label_col}{The index or name of the column that will be used to label Features. For example an identifier (\emph{e.g.}, KEGG, CAS, HMDB) or a \emph{m/z}-RT pair.}
+\item{label_col}{The index or name (as a character) of the column that will be used to label Features. For example an identifier (\emph{e.g.}, KEGG, CAS, HMDB) or a \emph{m/z}-RT pair.}
 
 \item{metadata_cols}{The index/indices or name(s) of column(s) that hold additional feature metadata (\emph{e.g.}, retention times, additional identifiers or \emph{m/z} values).}
 
