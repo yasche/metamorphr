@@ -20,11 +20,11 @@ The metamorphr package is intended to make working with metabolomics
 data more fun. For this, metamorphr introduces a
 [tidy](https://cran.r-project.org/package=tidyr/vignettes/tidy-data.html)
 data format which stores metabolomics data and associated metadata, as
-well as MS/MS spectra in one [tibble](https://tibble.tidyverse.org/) and
-includes a set of functions to facilitate tasks typically encountered
-during metabolomics data analysis. This approach allows for an easy
-integration with [Tidyverse](https://tidyverse.org/) packages, including
-ggplot2 and dplyr.
+well as MS/MS spectra in one [tibble](https://tibble.tidyverse.org/). It
+also includes a set of functions to facilitate tasks typically
+encountered during metabolomics data analysis. This approach allows for
+an easy integration with [Tidyverse](https://tidyverse.org/) packages,
+including ggplot2 and dplyr.
 
 ## 💾 Installation
 
