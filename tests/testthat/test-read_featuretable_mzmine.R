@@ -69,3 +69,16 @@ test_that("datafile columns contain correct information", {
 
   expect_equal(ft_area, test_read_mzmine_datafile)
 })
+
+test_that("`remove_empty_cols = TRUE` removed correct cols", {
+  featuretable_path <- system.file("extdata", "toy_mzmine.csv", package = "metamorphr")
+
+  expect_message(read_featuretable_mzmine(featuretable_path, import_datafile_cols = TRUE, label_col = "id", remove_empty_cols = TRUE, show_removed_cols = TRUE),
+                 "The following columns were removed: `ion_identities:iin_id`, `ion_identities:ion_identities`, `ion_identities:list_size`, `ion_identities:neutral_mass`, `ion_identities:partner_row_ids`, `ion_identities:iin_relationship`, `ion_identities:consensus_formulas`, `ion_identities:simple_formulas`, `preferred_annotation:compound_name`, `preferred_annotation:mol_formula`, `preferred_annotation:adduct`, `preferred_annotation:score`, `preferred_annotation:precursor_mz`, `preferred_annotation:annotation_method`, `lipid_annotations:lipid_annotations`, `lipid_annotations:ion_adduct`, `lipid_annotations:mol_formula`, `lipid_annotations:mz_diff_ppm`, `lipid_annotations:explained_intensity_percent`, `feature_group`, `datafile:Sample1:ccs`, `datafile:Sample1:charge`, `datafile:Sample1:isotopes`, `datafile:Sample2:ccs`, `datafile:Sample2:charge`, `datafile:Sample2:isotopes`, `datafile:Sample3:ccs`, `datafile:Sample3:charge`, `datafile:Sample3:isotopes`, `datafile:Sample4:ccs`, `datafile:Sample4:charge`, `datafile:Sample4:isotopes`.")
+
+  expect_equal(read_featuretable_mzmine(featuretable_path, import_datafile_cols = TRUE, label_col = "id", remove_empty_cols = TRUE, show_removed_cols = FALSE),
+               read_featuretable_mzmine(test_path("data", "test_read_featuretable_mzmine_no_empty_cols.csv"), label_col = "id", remove_empty_cols = FALSE, import_datafile_cols = TRUE))
+
+  expect_equal(read_featuretable_mzmine(featuretable_path, import_datafile_cols = FALSE, label_col = "id", remove_empty_cols = TRUE, show_removed_cols = FALSE),
+               read_featuretable_mzmine(test_path("data", "test_read_featuretable_mzmine_no_empty_cols.csv"), label_col = "id", remove_empty_cols = FALSE, import_datafile_cols = FALSE))
+})
