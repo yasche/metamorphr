@@ -326,29 +326,45 @@ calc_kmd <- function(mass, repeating_unit = "CH2") {
 #' @export
 #'
 #' @examples
-#' # Column `d` contains only `NA` and should be removed
-#' na_tibble <- tibble::tibble(a = c(1,2,3), b = c(NA, 2,3), c = c(NA, NA, 3), d = c(NA,NA,NA))
+#' # Columns `a` and `d` contains only `NA` and should be removed
+#' na_tibble <- tibble::tibble(
+#'   a = c(NA, NA, NA),
+#'   b = c(1, 2, 3),
+#'   c = c(NA, 2, 3),
+#'   d = c(NA, NA, 3),
+#'   e = c(NA, NA, NA)
+#' )
 #'
 #' remove_empty_cols(na_tibble)
-remove_empty_cols <- function(data, always_keep = "Feature", show_removed_cols = TRUE) {
-  if (!rlang::is_null(always_keep) & is.numeric(always_keep)) {
-    always_keep <- colnames(data)[always_keep]
-  }
+#'
+#' # Columns `a` and `d` contains only `NA` but `a` should be kept anyways
+#' remove_empty_cols(na_tibble, always_keep = a)
+remove_empty_cols <- function(data, always_keep = NULL, show_removed_cols = TRUE) {
+  #if (!rlang::is_null(always_keep) & is.numeric(always_keep)) {
+  #  always_keep <- colnames(data)[always_keep]
+  #}
+  col_order <- colnames(data)
   empty_cols <- purrr::map(data, function(x) all(is.na(x)))
   empty_cols <- unlist(empty_cols)
   empty_cols <- empty_cols[empty_cols]
   empty_col_names <- names(empty_cols)
-  empty_col_names <- empty_col_names[!(empty_col_names %in% always_keep)]
+  #empty_col_names <- empty_col_names[!(empty_col_names %in% always_keep)]
+  data <- data %>%
+    dplyr::select(-dplyr::all_of(empty_col_names), {{ always_keep }}) %>%
+    dplyr::relocate(dplyr::any_of(col_order))
+
   if (show_removed_cols == TRUE) {
-    if(length(empty_cols) > 0) {
-      if (length(empty_cols) > 1) {
-        rlang::inform(paste0("The following columns were removed: ", paste(paste0("`", empty_col_names, "`"), collapse = ", "), "."))
+    removed_cols <- setdiff(col_order, colnames(data))
+    if(length(removed_cols) > 0) {
+      if (length(removed_cols) > 1) {
+        rlang::inform(paste0("The following columns were removed: ", paste(paste0("`", removed_cols, "`"), collapse = ", "), "."))
       } else {
-        rlang::inform(paste0("The following column was removed: ", paste0("`", empty_col_names, "`"), "."))
+        rlang::inform(paste0("The following column was removed: ", paste0("`", removed_cols, "`"), "."))
       }
     } else {
       rlang::inform(paste0("No columns were removed."))
     }
   }
-  dplyr::select(data, -dplyr::all_of(empty_col_names))
+
+  data
 }
