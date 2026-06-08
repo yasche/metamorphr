@@ -38,9 +38,9 @@ read_featuretable_mzmine(
 
 - label_col:
 
-  The index or name of the column that will be used to label Features.
-  For example an identifier (*e.g.*, KEGG, CAS, HMDB) or a *m/z*-RT
-  pair.
+  The index or name (as a character) of the column that will be used to
+  label Features. For example an identifier (*e.g.*, KEGG, CAS, HMDB) or
+  a *m/z*-RT pair.
 
 - import_datafile_cols:
 
