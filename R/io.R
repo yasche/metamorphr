@@ -59,7 +59,7 @@ read_featuretable <- function(file, delim = ",", label_col = 1, metadata_cols = 
 
   data <- readr::read_delim(file = file, delim = delim, show_col_types = FALSE, ...)
 
-  if(remove_empty_cols == TRUE) {
+  if (remove_empty_cols == TRUE) {
     data <- remove_empty_cols(data, always_keep = label_col, show_removed_cols = show_removed_cols)
   }
 
@@ -76,6 +76,8 @@ read_featuretable <- function(file, delim = ",", label_col = 1, metadata_cols = 
 #' @param field_separator The field separator as specified in 'mzmine'. Usually `","` if the file is in common CSV format.
 #' @param label_col The index or name of the column that will be used to label Features. For example an identifier (_e.g._, KEGG, CAS, HMDB) or a _m/z_-RT pair.
 #' @param import_datafile_cols Should columns that begin with `datafile:` be imported? Those columns contain sample-specific information, for example the retention time of a feature measured in a specific sample. Usually, this information is not necessary for downstream analysis but it can be used for quaility control purposes. If `TRUE`, `datafile:` columns are imported and the sample names are removed from the column names. This allows for tidy storage of the information in one column per variable.
+#' @param remove_empty_cols Either `TRUE` or `FALSE`. Should empty columns be removed after reading the feature table? For a more fine-grained control, you can use a combination of \code{\link[readr]{read_delim}}, \code{\link[metamorphr]{remove_empty_cols}} and \code{\link[metamorphr]{convert_from_wide}}.See the respective function documentation for more details.
+#' @param show_removed_cols Only relevant if `remove_empty_cols = TRUE`. If `TRUE` prints a message that shows which columns were removed.
 #'
 #' @return A tidy tibble.
 #' @export
@@ -114,9 +116,12 @@ read_featuretable <- function(file, delim = ",", label_col = 1, metadata_cols = 
 #' )
 #'
 #' featuretable
-read_featuretable_mzmine <- function(file, intensity = "height", field_separator = ",", label_col = 1, import_datafile_cols = FALSE) {
+read_featuretable_mzmine <- function(file, intensity = "height", field_separator = ",", label_col = 1, import_datafile_cols = FALSE, remove_empty_cols = FALSE, show_removed_cols = TRUE) {
   data <- readr::read_delim(file, delim = field_separator, show_col_types = FALSE)
 
+  if (remove_empty_cols == TRUE) {
+    data <- remove_empty_cols(data, always_keep = label_col, show_removed_cols = show_removed_cols)
+  }
 
   file_colnames <- colnames(data)
 

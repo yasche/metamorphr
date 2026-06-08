@@ -9,7 +9,9 @@ read_featuretable_mzmine(
   intensity = "height",
   field_separator = ",",
   label_col = 1,
-  import_datafile_cols = FALSE
+  import_datafile_cols = FALSE,
+  remove_empty_cols = FALSE,
+  show_removed_cols = TRUE
 )
 }
 \arguments{
@@ -22,6 +24,10 @@ read_featuretable_mzmine(
 \item{label_col}{The index or name of the column that will be used to label Features. For example an identifier (\emph{e.g.}, KEGG, CAS, HMDB) or a \emph{m/z}-RT pair.}
 
 \item{import_datafile_cols}{Should columns that begin with \verb{datafile:} be imported? Those columns contain sample-specific information, for example the retention time of a feature measured in a specific sample. Usually, this information is not necessary for downstream analysis but it can be used for quaility control purposes. If \code{TRUE}, \verb{datafile:} columns are imported and the sample names are removed from the column names. This allows for tidy storage of the information in one column per variable.}
+
+\item{remove_empty_cols}{Either \code{TRUE} or \code{FALSE}. Should empty columns be removed after reading the feature table? For a more fine-grained control, you can use a combination of \code{\link[readr]{read_delim}}, \code{\link[metamorphr]{remove_empty_cols}} and \code{\link[metamorphr]{convert_from_wide}}.See the respective function documentation for more details.}
+
+\item{show_removed_cols}{Only relevant if \code{remove_empty_cols = TRUE}. If \code{TRUE} prints a message that shows which columns were removed.}
 }
 \value{
 A tidy tibble.
