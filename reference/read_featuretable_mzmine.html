@@ -48,7 +48,9 @@
 <span>  intensity <span class="op">=</span> <span class="st">"height"</span>,</span>
 <span>  field_separator <span class="op">=</span> <span class="st">","</span>,</span>
 <span>  label_col <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>  import_datafile_cols <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  import_datafile_cols <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  remove_empty_cols <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  show_removed_cols <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -74,6 +76,14 @@
 
 <dt id="arg-import-datafile-cols">import_datafile_cols<a class="anchor" aria-label="anchor" href="#arg-import-datafile-cols"></a></dt>
 <dd><p>Should columns that begin with <code>datafile:</code> be imported? Those columns contain sample-specific information, for example the retention time of a feature measured in a specific sample. Usually, this information is not necessary for downstream analysis but it can be used for quaility control purposes. If <code>TRUE</code>, <code>datafile:</code> columns are imported and the sample names are removed from the column names. This allows for tidy storage of the information in one column per variable.</p></dd>
+
+
+<dt id="arg-remove-empty-cols">remove_empty_cols<a class="anchor" aria-label="anchor" href="#arg-remove-empty-cols"></a></dt>
+<dd><p>Either <code>TRUE</code> or <code>FALSE</code>. Should empty columns be removed after reading the feature table? For a more fine-grained control, you can use a combination of <code><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_delim</a></code>, <code><a href="remove_empty_cols.html">remove_empty_cols</a></code> and <code><a href="convert_from_wide.html">convert_from_wide</a></code>.See the respective function documentation for more details.</p></dd>
+
+
+<dt id="arg-show-removed-cols">show_removed_cols<a class="anchor" aria-label="anchor" href="#arg-show-removed-cols"></a></dt>
+<dd><p>Only relevant if <code>remove_empty_cols = TRUE</code>. If <code>TRUE</code> prints a message that shows which columns were removed.</p></dd>
 
 </dl></div>
     <div class="section level2">

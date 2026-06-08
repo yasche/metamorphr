@@ -14,7 +14,9 @@ read_featuretable_mzmine(
   intensity = "height",
   field_separator = ",",
   label_col = 1,
-  import_datafile_cols = FALSE
+  import_datafile_cols = FALSE,
+  remove_empty_cols = FALSE,
+  show_removed_cols = TRUE
 )
 ```
 
@@ -49,6 +51,22 @@ read_featuretable_mzmine(
   control purposes. If `TRUE`, `datafile:` columns are imported and the
   sample names are removed from the column names. This allows for tidy
   storage of the information in one column per variable.
+
+- remove_empty_cols:
+
+  Either `TRUE` or `FALSE`. Should empty columns be removed after
+  reading the feature table? For a more fine-grained control, you can
+  use a combination of
+  [`read_delim`](https://readr.tidyverse.org/reference/read_delim.html),
+  [`remove_empty_cols`](https://yasche.github.io/metamorphr/reference/remove_empty_cols.md)
+  and
+  [`convert_from_wide`](https://yasche.github.io/metamorphr/reference/convert_from_wide.md).See
+  the respective function documentation for more details.
+
+- show_removed_cols:
+
+  Only relevant if `remove_empty_cols = TRUE`. If `TRUE` prints a
+  message that shows which columns were removed.
 
 ## Value
 

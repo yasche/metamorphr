@@ -8,7 +8,15 @@ rearranging columns. The `label_col` will be renamed to *Feature*.
 ## Usage
 
 ``` r
-read_featuretable(file, delim = ",", label_col = 1, metadata_cols = NULL, ...)
+read_featuretable(
+  file,
+  delim = ",",
+  label_col = 1,
+  metadata_cols = NULL,
+  remove_empty_cols = FALSE,
+  show_removed_cols = TRUE,
+  ...
+)
 ```
 
 ## Arguments
@@ -32,6 +40,22 @@ read_featuretable(file, delim = ",", label_col = 1, metadata_cols = NULL, ...)
   The index/indices or name(s) of column(s) that hold additional feature
   metadata (*e.g.*, retention times, additional identifiers or *m/z*
   values).
+
+- remove_empty_cols:
+
+  Either `TRUE` or `FALSE`. Should empty columns be removed after
+  reading the feature table? For a more fine-grained control, you can
+  use a combination of
+  [`read_delim`](https://readr.tidyverse.org/reference/read_delim.html),
+  [`remove_empty_cols`](https://yasche.github.io/metamorphr/reference/remove_empty_cols.md)
+  and
+  [`convert_from_wide`](https://yasche.github.io/metamorphr/reference/convert_from_wide.md).See
+  the respective function documentation for more details.
+
+- show_removed_cols:
+
+  Only relevant if `remove_empty_cols = TRUE`. If `TRUE` prints a
+  message that shows which columns were removed.
 
 - ...:
 

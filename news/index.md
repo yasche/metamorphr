@@ -14,6 +14,14 @@
 - New
   [`convert_from_matrix()`](https://yasche.github.io/metamorphr/reference/convert_from_matrix.md)
   to convert a matrix to a tidy tibble
+- New
+  [`remove_empty_cols()`](https://yasche.github.io/metamorphr/reference/remove_empty_cols.md)
+  to remove empty columns (i.e., columns that *only* contain `NA`) from
+  a tibble or data frame
+- [`read_featuretable()`](https://yasche.github.io/metamorphr/reference/read_featuretable.md)
+  and
+  [`read_featuretable_mzmine()`](https://yasche.github.io/metamorphr/reference/read_featuretable_mzmine.md)
+  now have a `remove_empty_cols` argument
 
 ## metamorphr 0.3.0
 

@@ -5,7 +5,7 @@ mass
 ([`calc_km`](https://yasche.github.io/metamorphr/reference/calc_km.md))
 from the nominal Kendrick mass
 ([`calc_nominal_km`](https://yasche.github.io/metamorphr/reference/calc_nominal_km.md)).
-The the References section for more information.
+See the References section for more information.
 
 ## Usage
 

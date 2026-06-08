@@ -3,7 +3,7 @@
 This functions transforms a matrix holding a wide feature table into a
 "long" and tidy tibble to use it with functions provided in the
 `metamorphr` package. `convert_from_matrix` works with objects of class
-`matrix.` To convert a data frame or tibble, see
+`matrix`. To convert a data frame or tibble, see
 [`convert_from_wide`](https://yasche.github.io/metamorphr/reference/convert_from_wide.md).
 
 ## Usage

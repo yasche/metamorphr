@@ -269,6 +269,9 @@ toy_metaboscape %>%
 - [`read_mgf()`](https://yasche.github.io/metamorphr/reference/read_mgf.md)
   : Read a MGF file into a tidy tibble
 
+- [`remove_empty_cols()`](https://yasche.github.io/metamorphr/reference/remove_empty_cols.md)
+  : Remove empty columns from a tibble or data frame
+
 - [`scale_auto()`](https://yasche.github.io/metamorphr/reference/scale_auto.md)
   : Scale intensities of features using autoscale
 
