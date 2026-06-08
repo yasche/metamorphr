@@ -89,6 +89,7 @@ test_that("`remove_empty_cols` argument works as expected", {
                      ))
   )
 
+  # doesn't drop label col even if it is empty
   expect_true(
     all(is.na(read_featuretable(test_path("data", "test_read_featuretable_empty_cols.csv"),
                       label_col = 7,
@@ -96,4 +97,12 @@ test_that("`remove_empty_cols` argument works as expected", {
                       remove_empty_cols = T,
                       show_removed_cols = F)$Feature))
   )
+
+  expect_message(
+    read_featuretable(test_path("data", "test_read_featuretable_empty_cols.csv"),
+                      label_col = 7,
+                      metadata_cols = c(1:3),
+                      remove_empty_cols = T,
+                      show_removed_cols = T),
+    "The following column was removed: `more_empty_col`.")
 })
