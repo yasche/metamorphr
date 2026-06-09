@@ -32,7 +32,7 @@ test_that("datafile columns are present if `import_datafile_cols = TRUE`", {
 
   ft_area <- read_featuretable_mzmine(featuretable_path, import_datafile_cols = TRUE)
 
-  expected_colnames <- readr::read_lines("datafile:feature_state
+  expected_colnames <- readr::read_lines(I("datafile:feature_state
 datafile:mz
 datafile:mz_range:min
 datafile:mz_range:max
@@ -55,7 +55,7 @@ datafile:tailing_factor
 datafile:asymmetry_factor
 datafile:ion_mobility
 datafile:msms_info
-datafile:rt_ms2_apex_distance")
+datafile:rt_ms2_apex_distance"))
 
   expect_true(all(unlist(purrr::map(expected_colnames, `%in%`, colnames(ft_area)))))
   expect_true(rlang::is_empty(setdiff(expected_colnames, colnames(ft_area))))

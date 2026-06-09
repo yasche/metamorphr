@@ -9,7 +9,7 @@ test_that("read_featuretable() reads a feature table from a string and transform
 
 
   expect_equal(
-    read_featuretable('"some_metadata1","some_metadata2","some_label","s1","s2","s3"\na,c,f1,1,2,3\nb,d,f2,4,5,6', label_col = 3, metadata_cols = 1:2),
+    read_featuretable(I('"some_metadata1","some_metadata2","some_label","s1","s2","s3"\na,c,f1,1,2,3\nb,d,f2,4,5,6'), label_col = 3, metadata_cols = 1:2),
     test_read_featuretable
   )
 })
