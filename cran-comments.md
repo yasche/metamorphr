@@ -1,7 +1,6 @@
 ## Release summary
 
-* Started renaming process for `calc_neutral_loss()`. Calling `calc_neutral_loss()` still works but results in a warning.
-* Some small new features were added
+* Added several new functions: `read_featuretable_mzmine()`, `convert_from_wide()`, `convert_from_matrix()` and `remove_empty_cols()`.
 
 ## R CMD check results
 
