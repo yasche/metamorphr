@@ -47,7 +47,7 @@ read_featuretable_mzmine(
   Should columns that begin with `datafile:` be imported? Those columns
   contain sample-specific information, for example the retention time of
   a feature measured in a specific sample. Usually, this information is
-  not necessary for downstream analysis but it can be used for quaility
+  not necessary for downstream analysis but it can be used for quality
   control purposes. If `TRUE`, `datafile:` columns are imported and the
   sample names are removed from the column names. This allows for tidy
   storage of the information in one column per variable.
@@ -131,45 +131,7 @@ featuretable
 #> #   `alignment_scores:aligned_features_n` <dbl>,
 #> #   `alignment_scores:align_extra_features` <dbl>, …
 
-# Example 2: Use feature area as the metric
-featuretable <- read_featuretable_mzmine(
-  featuretable_path,
-  intensity = "area"
-)
-
-featuretable
-#> # A tibble: 20 × 54
-#>      UID Feature Sample  Intensity    mz `mz_range:min` `mz_range:max`    rt
-#>    <int> <chr>   <chr>       <dbl> <dbl>          <dbl>          <dbl> <dbl>
-#>  1     1 1       Sample1     28.9   218.           218.           218. 0.207
-#>  2     2 2       Sample1     51.7   161.           161.           161. 0.179
-#>  3     3 5       Sample1     18.8   153.           153.           153. 0.194
-#>  4     4 8       Sample1     76.0   285.           285.           285. 0.206
-#>  5     5 9       Sample1    110.    257.           257.           257. 0.256
-#>  6     1 1       Sample2      8.72  218.           218.           218. 0.207
-#>  7     2 2       Sample2     56.3   161.           161.           161. 0.179
-#>  8     3 5       Sample2     13.2   153.           153.           153. 0.194
-#>  9     4 8       Sample2    128.    285.           285.           285. 0.206
-#> 10     5 9       Sample2     69.8   257.           257.           257. 0.256
-#> 11     1 1       Sample3     24.3   218.           218.           218. 0.207
-#> 12     2 2       Sample3     42.5   161.           161.           161. 0.179
-#> 13     3 5       Sample3     12.0   153.           153.           153. 0.194
-#> 14     4 8       Sample3    288.    285.           285.           285. 0.206
-#> 15     5 9       Sample3     25.3   257.           257.           257. 0.256
-#> 16     1 1       Sample4     18.6   218.           218.           218. 0.207
-#> 17     2 2       Sample4     25.8   161.           161.           161. 0.179
-#> 18     3 5       Sample4     14.5   153.           153.           153. 0.194
-#> 19     4 8       Sample4     55.1   285.           285.           285. 0.206
-#> 20     5 9       Sample4    908     257.           257.           257. 0.256
-#> # ℹ 46 more variables: `rt_range:min` <dbl>, `rt_range:max` <dbl>,
-#> #   `ion_mobility_range:min` <dbl>, `ion_mobility_range:max` <dbl>, ccs <dbl>,
-#> #   ion_mobility_unit <chr>, area <dbl>, height <dbl>,
-#> #   `intensity_range:min` <dbl>, `intensity_range:max` <dbl>, charge <dbl>,
-#> #   fragment_scans <dbl>, `alignment_scores:rate` <dbl>,
-#> #   `alignment_scores:aligned_features_n` <dbl>,
-#> #   `alignment_scores:align_extra_features` <dbl>, …
-
-# Example 3: Use the 'mz' column as a Feature label
+# Example 2: Use the 'mz' column as a Feature label
 featuretable <- read_featuretable_mzmine(
   featuretable_path,
   label_col = "mz"

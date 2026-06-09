@@ -75,7 +75,7 @@
 
 
 <dt id="arg-import-datafile-cols">import_datafile_cols<a class="anchor" aria-label="anchor" href="#arg-import-datafile-cols"></a></dt>
-<dd><p>Should columns that begin with <code>datafile:</code> be imported? Those columns contain sample-specific information, for example the retention time of a feature measured in a specific sample. Usually, this information is not necessary for downstream analysis but it can be used for quaility control purposes. If <code>TRUE</code>, <code>datafile:</code> columns are imported and the sample names are removed from the column names. This allows for tidy storage of the information in one column per variable.</p></dd>
+<dd><p>Should columns that begin with <code>datafile:</code> be imported? Those columns contain sample-specific information, for example the retention time of a feature measured in a specific sample. Usually, this information is not necessary for downstream analysis but it can be used for quality control purposes. If <code>TRUE</code>, <code>datafile:</code> columns are imported and the sample names are removed from the column names. This allows for tidy storage of the information in one column per variable.</p></dd>
 
 
 <dt id="arg-remove-empty-cols">remove_empty_cols<a class="anchor" aria-label="anchor" href="#arg-remove-empty-cols"></a></dt>
@@ -142,45 +142,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   `alignment_scores:aligned_features_n` &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   `alignment_scores:align_extra_features` &lt;dbl&gt;, …</span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Example 2: Use feature area as the metric</span></span></span>
-<span class="r-in"><span><span class="va">featuretable</span> <span class="op">&lt;-</span> <span class="fu">read_featuretable_mzmine</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="va">featuretable_path</span>,</span></span>
-<span class="r-in"><span>  intensity <span class="op">=</span> <span class="st">"area"</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">featuretable</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 20 × 54</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      UID Feature Sample  Intensity    mz `mz_range:min` `mz_range:max`    rt</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>     1 1       Sample1     28.9   218.           218.           218. 0.207</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>     2 2       Sample1     51.7   161.           161.           161. 0.179</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>     3 5       Sample1     18.8   153.           153.           153. 0.194</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>     4 8       Sample1     76.0   285.           285.           285. 0.206</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>     5 9       Sample1    110.    257.           257.           257. 0.256</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>     1 1       Sample2      8.72  218.           218.           218. 0.207</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>     2 2       Sample2     56.3   161.           161.           161. 0.179</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>     3 5       Sample2     13.2   153.           153.           153. 0.194</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>     4 8       Sample2    128.    285.           285.           285. 0.206</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>     5 9       Sample2     69.8   257.           257.           257. 0.256</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span>     1 1       Sample3     24.3   218.           218.           218. 0.207</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span>     2 2       Sample3     42.5   161.           161.           161. 0.179</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span>     3 5       Sample3     12.0   153.           153.           153. 0.194</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span>     4 8       Sample3    288.    285.           285.           285. 0.206</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span>     5 9       Sample3     25.3   257.           257.           257. 0.256</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">16</span>     1 1       Sample4     18.6   218.           218.           218. 0.207</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">17</span>     2 2       Sample4     25.8   161.           161.           161. 0.179</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">18</span>     3 5       Sample4     14.5   153.           153.           153. 0.194</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">19</span>     4 8       Sample4     55.1   285.           285.           285. 0.206</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">20</span>     5 9       Sample4    908     257.           257.           257. 0.256</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 46 more variables: `rt_range:min` &lt;dbl&gt;, `rt_range:max` &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   `ion_mobility_range:min` &lt;dbl&gt;, `ion_mobility_range:max` &lt;dbl&gt;, ccs &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ion_mobility_unit &lt;chr&gt;, area &lt;dbl&gt;, height &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   `intensity_range:min` &lt;dbl&gt;, `intensity_range:max` &lt;dbl&gt;, charge &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   fragment_scans &lt;dbl&gt;, `alignment_scores:rate` &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   `alignment_scores:aligned_features_n` &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   `alignment_scores:align_extra_features` &lt;dbl&gt;, …</span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Example 3: Use the 'mz' column as a Feature label</span></span></span>
+<span class="r-in"><span><span class="co"># Example 2: Use the 'mz' column as a Feature label</span></span></span>
 <span class="r-in"><span><span class="va">featuretable</span> <span class="op">&lt;-</span> <span class="fu">read_featuretable_mzmine</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="va">featuretable_path</span>,</span></span>
 <span class="r-in"><span>  label_col <span class="op">=</span> <span class="st">"mz"</span></span></span>
