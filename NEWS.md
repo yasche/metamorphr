@@ -1,4 +1,4 @@
-# metamorphr (development version)
+# metamorphr 0.4.0
 
 ## New features
 * New `read_featuretable_mzmine()` to read "full_feature_table" CSV files created with 'mzmine' into a tidy tibble
