@@ -68,7 +68,7 @@ read_featuretable <- function(file, delim = ",", label_col = 1, metadata_cols = 
 #' @param intensity A character that specifies what should be used as the (semi-)quantitative measure. Either `"height"` or `"area"`.
 #' @param field_separator The field separator as specified in 'mzmine'. Usually `","` if the file is in common CSV format.
 #' @param label_col The index or name (as a character) of the column that will be used to label Features. For example an identifier (_e.g._, KEGG, CAS, HMDB) or a _m/z_-RT pair.
-#' @param import_datafile_cols Should columns that begin with `datafile:` be imported? Those columns contain sample-specific information, for example the retention time of a feature measured in a specific sample. Usually, this information is not necessary for downstream analysis but it can be used for quaility control purposes. If `TRUE`, `datafile:` columns are imported and the sample names are removed from the column names. This allows for tidy storage of the information in one column per variable.
+#' @param import_datafile_cols Should columns that begin with `datafile:` be imported? Those columns contain sample-specific information, for example the retention time of a feature measured in a specific sample. Usually, this information is not necessary for downstream analysis but it can be used for quality control purposes. If `TRUE`, `datafile:` columns are imported and the sample names are removed from the column names. This allows for tidy storage of the information in one column per variable.
 #' @param remove_empty_cols Either `TRUE` or `FALSE`. Should empty columns be removed after reading the feature table? For a more fine-grained control, you can use a combination of \code{\link[readr]{read_delim}}, \code{\link[metamorphr]{remove_empty_cols}} and \code{\link[metamorphr]{convert_from_wide}}.See the respective function documentation for more details.
 #' @param show_removed_cols Only relevant if `remove_empty_cols = TRUE`. If `TRUE` prints a message that shows which columns were removed.
 #'
@@ -94,15 +94,7 @@ read_featuretable <- function(file, delim = ",", label_col = 1, metadata_cols = 
 #'
 #' featuretable
 #'
-#' # Example 2: Use feature area as the metric
-#' featuretable <- read_featuretable_mzmine(
-#'   featuretable_path,
-#'   intensity = "area"
-#' )
-#'
-#' featuretable
-#'
-#' # Example 3: Use the 'mz' column as a Feature label
+#' # Example 2: Use the 'mz' column as a Feature label
 #' featuretable <- read_featuretable_mzmine(
 #'   featuretable_path,
 #'   label_col = "mz"
