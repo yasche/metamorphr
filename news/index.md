@@ -1,6 +1,6 @@
 # Changelog
 
-## metamorphr (development version)
+## metamorphr 0.4.1
 
 ### Fixes
 
