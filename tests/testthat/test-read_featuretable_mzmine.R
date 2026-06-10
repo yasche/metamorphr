@@ -81,4 +81,7 @@ test_that("`remove_empty_cols = TRUE` removed correct cols", {
 
   expect_equal(read_featuretable_mzmine(featuretable_path, import_datafile_cols = FALSE, label_col = "id", remove_empty_cols = TRUE, show_removed_cols = FALSE),
                read_featuretable_mzmine(test_path("data", "test_read_featuretable_mzmine_no_empty_cols.csv"), label_col = "id", remove_empty_cols = FALSE, import_datafile_cols = FALSE))
+
+  expect_equal(read_featuretable_mzmine(featuretable_path, import_datafile_cols = FALSE, label_col = 1, remove_empty_cols = TRUE, show_removed_cols = FALSE),
+               read_featuretable_mzmine(test_path("data", "test_read_featuretable_mzmine_no_empty_cols.csv"), label_col = "id", remove_empty_cols = FALSE, import_datafile_cols = FALSE))
 })
