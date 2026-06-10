@@ -1,6 +1,6 @@
 ## Release summary
 
-* Added several new functions: `read_featuretable_mzmine()`, `convert_from_wide()`, `convert_from_matrix()` and `remove_empty_cols()`.
+* This release contains an urgent fix for a critical bug in the `read_featuretable` function.
 
 ## R CMD check results
 
