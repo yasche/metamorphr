@@ -52,6 +52,14 @@ read_featuretable <- function(file, delim = ",", label_col = 1, metadata_cols = 
 
   data <- readr::read_delim(file = file, delim = delim, show_col_types = FALSE, ...)
 
+  if (is.numeric(label_col)) {
+    label_col <- colnames(data)[label_col]
+  }
+
+  if (!is.null(metadata_cols) & is.numeric(metadata_cols)) {
+    metadata_cols <- colnames(data)[metadata_cols]
+  }
+
   if (remove_empty_cols == TRUE) {
     data <- remove_empty_cols(data, always_keep = dplyr::all_of(label_col), show_removed_cols = show_removed_cols)
   }
