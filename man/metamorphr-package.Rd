@@ -22,5 +22,10 @@ Useful links:
 \author{
 \strong{Maintainer}: Yannik Schermer \email{yannik.schermer@chem.rptu.de} (\href{https://orcid.org/0009-0002-5201-057X}{ORCID}) [copyright holder]
 
+Authors:
+\itemize{
+  \item Yannik Schermer \email{yannik.schermer@chem.rptu.de} (\href{https://orcid.org/0009-0002-5201-057X}{ORCID}) [copyright holder]
+}
+
 }
 \keyword{internal}
