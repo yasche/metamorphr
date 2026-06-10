@@ -39,3 +39,8 @@ Useful links:
 
 **Maintainer**: Yannik Schermer <yannik.schermer@chem.rptu.de>
 ([ORCID](https://orcid.org/0009-0002-5201-057X)) \[copyright holder\]
+
+Authors:
+
+- Yannik Schermer <yannik.schermer@chem.rptu.de>
+  ([ORCID](https://orcid.org/0009-0002-5201-057X)) \[copyright holder\]

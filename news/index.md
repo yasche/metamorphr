@@ -2,7 +2,14 @@
 
 ## metamorphr (development version)
 
+### Fixes
+
+- Fixed critical bug in `read_featuretable` where empty metadata columns
+  caused issues if `metadata_col`s were supplied as numerics.
+
 ## metamorphr 0.4.0
+
+CRAN release: 2026-06-09
 
 ### New features
 
