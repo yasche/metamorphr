@@ -106,3 +106,13 @@ test_that("`remove_empty_cols` argument works as expected", {
                       show_removed_cols = T),
     "The following column was removed: `more_empty_col`.")
 })
+
+test_that("Metadata columns are handled correctly if supplied as numerics & if they are empty; fix bug introduced in version 0.4.0", {
+  expect_samples <- paste0("S", 1:3)
+
+  expect_message(read_featuretable(I("metadata1,label,metadata2,metadata3,S1,S2,S3
+  ABC,DEF,,,1,2,3"), label_col = 2, metadata_cols = 1:3, remove_empty_cols = TRUE), "The following columns were removed: `metadata2`, `metadata3`.")
+  expect_equal(read_featuretable(I("metadata1,label,metadata2,metadata3,S1,S2,S3
+  ABC,DEF,,,1,2,3"), label_col = 2, metadata_cols = 1:3, remove_empty_cols = TRUE, show_removed_cols = FALSE)$Sample,
+               expect_samples)
+})
