@@ -4,6 +4,8 @@
 
 ## metamorphr 0.4.1
 
+CRAN release: 2026-06-10
+
 ### Fixes
 
 - Fixed critical bug in `read_featuretable` where empty metadata columns
