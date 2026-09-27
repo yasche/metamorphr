@@ -6,6 +6,12 @@ test_that("correct number of features", {
   expect_message(summary_featuretable(toy_metaboscape), "10 Features")
 })
 
+test_that("correct number of features in case of duplicates", {
+  #f2 is duplicated
+  ft <- read_featuretable(I('"some_metadata1","some_metadata2","some_label","s1","s2","s3"\na,c,f1,1,2,3\nb,d,f2,4,5,6\ne,f,f2,7,8,9'), label_col = 3, metadata_cols = 1:2)
+  expect_message(summary_featuretable(ft), "3 Features")
+})
+
 test_that("number of NA and percentage and total number of observations are correct", {
   calced_na <- toy_metaboscape %>%
     summary_featuretable() %>%
