@@ -41,7 +41,7 @@ summary_featuretable <- function(data, n_samples_max = 5, n_features_max = 5, n_
   column_names <- colnames(data)
 
   samples <- summary_featuretable_pull(data = data, select_what = "Sample")
-  features <- summary_featuretable_pull(data = data, select_what = 2)
+  features <- summary_featuretable_pull(data = data, select_what = c("UID", "Feature"))
 
   n_samples <- length(samples)
   n_features <- length(features)
