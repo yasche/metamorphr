@@ -1,15 +1,15 @@
 # metamorphr (development version)
 
 ## New features
-New `read_featuretable_mzmine()` to convert feature tables to a format for the "Functional Analysis" module in 'MetaboAnalyst'.
+* New `read_featuretable_mzmine()` to convert feature tables to a format for the "Functional Analysis" module in 'MetaboAnalyst'.
 
 ## Fixes
-Fixed bug in `summary_featuretable` where the wrong number of features is printed if the `Feature` column contains duplicates.
+* Fixed bug in `summary_featuretable()` where the wrong number of features is printed if the `Feature` column contains duplicates.
 
 # metamorphr 0.4.1
 
 ## Fixes
-* Fixed critical bug in `read_featuretable` where empty metadata columns caused issues if `metadata_col`s were supplied as numerics.
+* Fixed critical bug in `read_featuretable()` where empty metadata columns caused issues if `metadata_col`s were supplied as numerics.
 
 # metamorphr 0.4.0
 
