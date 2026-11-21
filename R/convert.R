@@ -110,6 +110,39 @@ convert_from_matrix <- function(data, samples_in_cols = TRUE) {
     convert_from_wide(label_col = "Feature")
 }
 
+#' Convert a tidy tibble into a format compatible with the "Functional Analysis" module in 'MetaboAnalyst'
+#'
+#' @description
+#' Creates a tibble with columns `m.z`, `p.value`, `t.score` and optionally
+#' `r.t` to use in the "Functional Analysis" module in 'MetaboAnalyst'.
+#' Metrics are calculated using a \code{\link[stats]{t.test}}.
+#'
+#' @param data A tidy tibble created by \code{\link[metamorphr]{read_featuretable}}.
+#' @param m_z_col Which column holds the precursor m/z? Uses \code{\link[rlang]{args_data_masking}}.
+#' @param rt_col Optional. Which column holds the precursor retention times? Uses \code{\link[rlang]{args_data_masking}}.
+#' @param group_column Which column should be used for grouping? Usually `group_column = Group`. Uses \code{\link[rlang]{args_data_masking}}.
+#' @param groups_to_compare Names of the groups which should be compared as a character vector. Those are the group names in the `group_column`. They are usually provided in the form of a metadata tibble and joined via \code{\link[metamorphr]{join_metadata}}.
+#' @param batch_column Which column contains the batch information? Usually `batch_column = Batch`. Only relevant if `data` contains multiple batches. For example, if `data` contains 2 batches and each batch contains measurements of separate controls, `group_column` and `batch` arguments should be provided. Otherwise controls of both batches will be considered when calculating the \emph{p}-value and log2 fold change. Uses \code{\link[rlang]{args_data_masking}}.
+#' @param batch The names of the batch(es) that should be included when calculating \emph{p}-value and log2 fold change.
+#' @param adjust_p Should the \emph{p}-value be adjusted? Can be either `FALSE`, (the default) in case no adjustment should be made or any or the name from \code{\link[stats]{p.adjust.methods}} (e.g., `adjust_p = "fdr"`).
+#' @param log2_before A logical. Should the data be log2 transformed prior to calculating the \emph{p}-values?
+#' @param ... Arguments passed on to \code{\link[stats]{t.test}}. If none are provided (the default), a Welch Two Sample \emph{t}-test will be performed.
+#'
+#' @returns A tibble with columns `m.z`, `p.value`, `t.score` and optionally
+#' `r.t`.
+#'
+#' @export
+#'
+#' @examples
+#' # Without optional retention time column
+#' toy_metaboscape %>%
+#'   join_metadata(toy_metaboscape_metadata) %>%
+#'   convert_to_fa(group_column = Group, groups_to_compare = c("control", "treatment"), return_tbl = TRUE, alternative = "two.sided", m_z_col = `m/z`)
+#'
+#' # With optional retention time column
+#' toy_metaboscape %>%
+#'   join_metadata(toy_metaboscape_metadata) %>%
+#'   convert_to_fa(group_column = Group, groups_to_compare = c("control", "treatment"), return_tbl = TRUE, alternative = "two.sided", m_z_col = `m/z`, rt_col = RT)
 convert_to_fa <- function(data, m_z_col, rt_col = NULL, group_column, groups_to_compare, batch_column = NULL, batch = NULL, adjust_p = FALSE, log2_before = FALSE, ...) {
   batch_column_string <- gsub("`$", "", gsub("^`", "", rlang::expr_label(substitute(batch_column))))
   if (batch_column_string != "NULL") {
