@@ -150,16 +150,18 @@ convert_to_fa <- function(data, m_z_col, rt_col = NULL, group_column, groups_to_
       dplyr::filter({{ batch_column }} %in% batch)
   }
 
-
   if (nrow(data) == 0) {
-    data <- dplyr::select({{ rt_col }})
+    data <- dplyr::select(data, {{ rt_col }})
 
     data <- tibble::tibble(
       m.z = numeric(),
       p.value = numeric(),
       t.score = numeric()
     ) %>%
-      dplyr::bind_cols(data)
+      dplyr::bind_cols(data) %>%
+      dplyr::rename("r.t" = {{ rt_col }})
+
+
 
     return(data)
   }
