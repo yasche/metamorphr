@@ -20,9 +20,9 @@ glance_safely <- function(...) {
   purrr::safely(broom::glance, otherwise = NA)(...)$result
 }
 
-pull_safely <- function(...) {
-  purrr::safely(dplyr::pull, otherwise = NA)(...)$result
-}
+#pull_safely <- function(...) {
+#  purrr::safely(dplyr::pull, otherwise = NA)(...)$result
+#}
 
 # wrapper functions to use with testthat::local_mocked_bindings
 # See https://testthat.r-lib.org/reference/local_mocked_bindings.html
