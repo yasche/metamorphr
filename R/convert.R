@@ -145,6 +145,7 @@ convert_to_fa <- function(data, m_z_col, rt_col = NULL, group_column, groups_to_
                          log2_before = log2_before,
                          ...)
 
+
   data %>%
     dplyr::left_join(feature_metadata, by = "UID") %>%
     dplyr::ungroup() %>%
@@ -152,5 +153,6 @@ convert_to_fa <- function(data, m_z_col, rt_col = NULL, group_column, groups_to_
                                   "p.value",
                                   "statistic",
                                   "r.t"))) %>%
-    dplyr::rename("t.score" = "statistic")
+    dplyr::rename("t.score" = "statistic") %>%
+    dplyr::arrange("m.z")
 }
