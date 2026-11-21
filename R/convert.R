@@ -109,3 +109,48 @@ convert_from_matrix <- function(data, samples_in_cols = TRUE) {
   data %>% tibble::as_tibble(rownames = "Feature") %>%
     convert_from_wide(label_col = "Feature")
 }
+
+convert_to_fa <- function(data, m_z_col, rt_col = NULL, group_column, groups_to_compare, batch_column = NULL, batch = NULL, adjust_p = FALSE, log2_before = FALSE, ...) {
+  batch_column_string <- gsub("`$", "", gsub("^`", "", rlang::expr_label(substitute(batch_column))))
+  if (batch_column_string != "NULL") {
+    data <- data %>%
+      dplyr::filter({{ batch_column }} %in% batch)
+  }
+
+
+  if (nrow(data) == 0) {
+    data <- dplyr::select({{ rt_col }})
+
+    data <- tibble::tibble(
+      m.z = numeric(),
+      p.value = numeric(),
+      t.score = numeric()
+    ) %>%
+      dplyr::bind_cols(data)
+
+    return(data)
+  }
+
+  feature_metadata <- data %>%
+    dplyr::select("UID",
+                  m.z = {{ m_z_col }},
+                  r.t = {{ rt_col }}) %>%
+    dplyr::distinct()
+
+  data <- internal_t_test_tibble(data = data,
+                         group_column = {{ group_column }},
+                         name_column = NULL,
+                         groups_to_compare = groups_to_compare,
+                         adjust_p = adjust_p,
+                         log2_before = log2_before,
+                         ...)
+
+  data %>%
+    dplyr::left_join(feature_metadata, by = "UID") %>%
+    dplyr::ungroup() %>%
+    dplyr::select(dplyr::any_of(c("m.z",
+                                  "p.value",
+                                  "statistic",
+                                  "r.t"))) %>%
+    dplyr::rename("t.score" = "statistic")
+}
