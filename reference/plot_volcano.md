@@ -65,7 +65,7 @@ plot_volcano(
 - batch_column:
 
   Which column contains the batch information? Usually
-  `grouping_column = Batch`. Only relevant if `data` contains multiple
+  `batch_column = Batch`. Only relevant if `data` contains multiple
   batches. For example, if `data` contains 2 batches and each batch
   contains measurements of separate controls, `group_column` and `batch`
   arguments should be provided. Otherwise controls of both batches will

@@ -40,6 +40,10 @@
 - [`convert_from_wide()`](https://yasche.github.io/metamorphr/reference/convert_from_wide.md)
   : Convert a wide feature table to a tidy tibble
 
+- [`convert_to_fa()`](https://yasche.github.io/metamorphr/reference/convert_to_fa.md)
+  : Convert a tidy tibble into a format compatible with the "Functional
+  Analysis" module in 'MetaboAnalyst'
+
 - [`create_metadata_skeleton()`](https://yasche.github.io/metamorphr/reference/create_metadata_skeleton.md)
   : Create a blank metadata skeleton
 
