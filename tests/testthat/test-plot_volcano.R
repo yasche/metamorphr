@@ -117,3 +117,25 @@ test_that("filtering does not affect tibble if done correctly", {
 
   expect_equal(volc_tbl_filtered, volc_tbl_not_filtered)
 })
+
+test_that("tibble has correct column names", {
+  tbl_no_name <- toy_metaboscape %>%
+    join_metadata(toy_metaboscape_metadata) %>%
+    plot_volcano(group_column = Group, groups_to_compare = c("control", "treatment"), return_tbl = TRUE) %>%
+    colnames()
+
+  tbl_name_1 <- toy_metaboscape %>%
+    join_metadata(toy_metaboscape_metadata) %>%
+    plot_volcano(group_column = Group, name_column = Feature, groups_to_compare = c("control", "treatment"), return_tbl = TRUE) %>%
+    colnames()
+
+  tbl_name_2 <- toy_metaboscape %>%
+    join_metadata(toy_metaboscape_metadata) %>%
+    dplyr::mutate(NewName = Feature) %>%
+    plot_volcano(group_column = Group, name_column = NewName, groups_to_compare = c("control", "treatment"), return_tbl = TRUE) %>%
+    colnames()
+
+  expect_equal(tbl_no_name, c("UID", "log2fc", "p_val", "n_log_p_val"))
+  expect_equal(tbl_name_1, c("UID", "Feature", "log2fc", "p_val", "n_log_p_val"))
+  expect_equal(tbl_name_2, c("UID", "NewName", "log2fc", "p_val", "n_log_p_val"))
+})
