@@ -137,12 +137,20 @@ convert_from_matrix <- function(data, samples_in_cols = TRUE) {
 #' # Without optional retention time column
 #' toy_metaboscape %>%
 #'   join_metadata(toy_metaboscape_metadata) %>%
-#'   convert_to_fa(group_column = Group, groups_to_compare = c("control", "treatment"), return_tbl = TRUE, alternative = "two.sided", m_z_col = `m/z`)
+#'   convert_to_fa(group_column = Group,
+#'                 groups_to_compare = c("control", "treatment"),
+#'                 return_tbl = TRUE,
+#'                 alternative = "two.sided",
+#'                 m_z_col = `m/z`)
 #'
 #' # With optional retention time column
 #' toy_metaboscape %>%
 #'   join_metadata(toy_metaboscape_metadata) %>%
-#'   convert_to_fa(group_column = Group, groups_to_compare = c("control", "treatment"), return_tbl = TRUE, alternative = "two.sided", m_z_col = `m/z`, rt_col = RT)
+#'   convert_to_fa(group_column = Group,
+#'                 groups_to_compare = c("control", "treatment"),
+#'                 return_tbl = TRUE,
+#'                 m_z_col = `m/z`,
+#'                 rt_col = RT)
 convert_to_fa <- function(data, m_z_col, rt_col = NULL, group_column, groups_to_compare, batch_column = NULL, batch = NULL, adjust_p = FALSE, log2_before = FALSE, ...) {
   batch_column_string <- gsub("`$", "", gsub("^`", "", rlang::expr_label(substitute(batch_column))))
   if (batch_column_string != "NULL") {

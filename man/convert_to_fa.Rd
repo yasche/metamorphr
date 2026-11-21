@@ -51,10 +51,18 @@ Metrics are calculated using a \code{\link[stats]{t.test}}.
 # Without optional retention time column
 toy_metaboscape \%>\%
   join_metadata(toy_metaboscape_metadata) \%>\%
-  convert_to_fa(group_column = Group, groups_to_compare = c("control", "treatment"), return_tbl = TRUE, alternative = "two.sided", m_z_col = `m/z`)
+  convert_to_fa(group_column = Group,
+                groups_to_compare = c("control", "treatment"),
+                return_tbl = TRUE,
+                alternative = "two.sided",
+                m_z_col = `m/z`)
 
 # With optional retention time column
 toy_metaboscape \%>\%
   join_metadata(toy_metaboscape_metadata) \%>\%
-  convert_to_fa(group_column = Group, groups_to_compare = c("control", "treatment"), return_tbl = TRUE, alternative = "two.sided", m_z_col = `m/z`, rt_col = RT)
+  convert_to_fa(group_column = Group,
+                groups_to_compare = c("control", "treatment"),
+                return_tbl = TRUE,
+                m_z_col = `m/z`,
+                rt_col = RT)
 }
