@@ -19,7 +19,7 @@ A tidy tibble holding MS/MS spectra.
 function reads them into a tidy tibble. Each variable is stored in a column and each ion (observation) is stored in a separate row.
 MS/MS spectra are stored in a list column named MSn. \if{html}{\out{<br>}}
 Please note that \href{https://fiehnlab.ucdavis.edu/projects/lipidblast/mgf-files}{MGF files are software-specific} so the variables
-and their names may vary. This function was developed with the GNPS file format exported from \href{https://mzio.io/mzmine-news/}{mzmine} in mind.\if{html}{\out{<br>}}\if{html}{\out{<br>}}
+and their names may vary. This function was developed with the GNPS file format exported from \href{https://mzio.io/mzmine/}{mzmine} in mind.\if{html}{\out{<br>}}\if{html}{\out{<br>}}
 If you encounter any bugs please report them: \href{https://github.com/yasche/metamorphr/issues}{https://github.com/yasche/metamorphr/issues}
 }
 \examples{

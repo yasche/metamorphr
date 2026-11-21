@@ -33,7 +33,7 @@ read_featuretable_mzmine(
 A tidy tibble.
 }
 \description{
-Similar to \code{\link[metamorphr]{read_featuretable}} but specifically for full_feature_table' files created with 'mzmine'. For more information, see \href{https://mzmine.github.io/mzmine_documentation/module_docs/io/feat-list-export.html}{the 'mzmine' documentation}.
+Similar to \code{\link[metamorphr]{read_featuretable}} but specifically for full_feature_table' files created with 'mzmine'. For more information, see \href{https://mzmine.github.io/mzmine_documentation/latest/module_docs/io/feat-list-export.html}{the 'mzmine' documentation}.
 }
 \examples{
 # Read a toy dataset in the format produced with mzmine.

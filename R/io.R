@@ -70,7 +70,7 @@ read_featuretable <- function(file, delim = ",", label_col = 1, metadata_cols = 
 #' Read a 'full_feature_table' from 'mzmine' into a tidy tibble
 #'
 #' @description
-#' Similar to \code{\link[metamorphr]{read_featuretable}} but specifically for full_feature_table' files created with 'mzmine'. For more information, see \href{https://mzmine.github.io/mzmine_documentation/module_docs/io/feat-list-export.html}{the 'mzmine' documentation}.
+#' Similar to \code{\link[metamorphr]{read_featuretable}} but specifically for full_feature_table' files created with 'mzmine'. For more information, see \href{https://mzmine.github.io/mzmine_documentation/latest/module_docs/io/feat-list-export.html}{the 'mzmine' documentation}.
 #'
 #' @param file A path to a file but can also be a connection or literal data.
 #' @param intensity A character that specifies what should be used as the (semi-)quantitative measure. Either `"height"` or `"area"`.
@@ -227,7 +227,7 @@ create_metadata_skeleton <- function(data) {
 #' function reads them into a tidy tibble. Each variable is stored in a column and each ion (observation) is stored in a separate row.
 #' MS/MS spectra are stored in a list column named MSn. <br>
 #' Please note that \href{https://fiehnlab.ucdavis.edu/projects/lipidblast/mgf-files}{MGF files are software-specific} so the variables
-#' and their names may vary. This function was developed with the GNPS file format exported from \href{https://mzio.io/mzmine-news/}{mzmine} in mind.<br><br>
+#' and their names may vary. This function was developed with the GNPS file format exported from \href{https://mzio.io/mzmine/}{mzmine} in mind.<br><br>
 #' If you encounter any bugs please report them: \href{https://github.com/yasche/metamorphr/issues}{https://github.com/yasche/metamorphr/issues}
 #'
 #'
