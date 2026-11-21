@@ -64,8 +64,8 @@ plot_volcano <- function(data, group_column, name_column, groups_to_compare, bat
     return(data)
   }
 
-  names_df <- dplyr::select(data, "UID", {{ name_column }}) %>%
-    dplyr::distinct()
+  #names_df <- dplyr::select(data, "UID", {{ name_column }}) %>%
+  #  dplyr::distinct()
 
   data <- internal_t_test_tibble(data,
                                  group_column = {{ group_column }},
@@ -79,6 +79,7 @@ plot_volcano <- function(data, group_column, name_column, groups_to_compare, bat
   data <- data %>%
     dplyr::rename("p_val" = "p.value") %>%
     dplyr::select("UID",
+                  {{ name_column }},
                   "log2fc",
                   "p_val") %>%
     #dplyr::mutate(p_val = as.numeric(.data$p_val)) %>%
@@ -87,7 +88,7 @@ plot_volcano <- function(data, group_column, name_column, groups_to_compare, bat
     #dplyr::select(-"data", -"t_test") %>%
     dplyr::ungroup()
 
-  data <- dplyr::left_join(names_df, data, by = "UID")
+  #data <- dplyr::left_join(names_df, data, by = "UID")
 
   if (return_tbl == TRUE) {
     return(data)

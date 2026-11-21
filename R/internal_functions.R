@@ -329,8 +329,8 @@ internal_t_test_tibble <- function(data,
     dplyr::mutate(t_test = purrr::map(.data$data, internal_t_test, group_column = {{ group_column }}, groups_to_compare = groups_to_compare, ...)) %>%
     dplyr::mutate(t_test = purrr::map(.data$t_test, glance_safely)) %>%
     dplyr::mutate(log2fc = purrr::map(.data$data, internal_l2fc, group_column = {{ group_column }}, groups_to_compare = groups_to_compare, log2_before)) %>%
-    tidyr::unnest("t_test") %>%
-    dplyr::ungroup()
+    tidyr::unnest("t_test") #%>%
+    #dplyr::ungroup()
 
   #dplyr::mutate(p_val = purrr::map(.data$t_test, pull_safely, .data$p.value)) #%>%
   #dplyr::mutate(t_score = purrr::map(.data$t_test, pull_safely, .data$statistic))
