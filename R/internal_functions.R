@@ -302,3 +302,54 @@ internal_rename_datafile_cols <- function(data) {
   colnames(data) <- stringi::stri_replace_all_regex(data_colnames,  "^datafile:[^:]{1,}:", "datafile:")
   data
 }
+
+internal_t_test_tibble <- function(data,
+                                   group_column,
+                                   name_column,
+                                   groups_to_compare,
+                                   adjust_p,
+                                   log2_before,
+                                   ...) {
+  if (log2_before == TRUE) {
+    data <- data %>%
+      dplyr::mutate(Intensity = log2(.data$Intensity))
+  }
+
+  if (length(groups_to_compare) != 2) {
+    rlang::abort(paste0("A volcano plot can only compare 2 groups! You provided ", length(groups_to_compare), ": ", paste(groups_to_compare, collapse = ", "), "."))
+  }
+
+  adjust_p_lgl <- as.logical(adjust_p)
+
+  data <- data %>%
+    dplyr::select("UID", {{ group_column }}, {{ name_column }}, "Intensity") %>%
+    dplyr::filter({{ group_column }} %in% groups_to_compare) %>%
+    dplyr::group_by(.data$UID, {{ name_column }}) %>%
+    tidyr::nest() %>%
+    dplyr::mutate(t_test = purrr::map(.data$data, internal_t_test, group_column = {{ group_column }}, groups_to_compare = groups_to_compare, ...)) %>%
+    dplyr::mutate(t_test = purrr::map(.data$t_test, glance_safely)) %>%
+    dplyr::mutate(log2fc = purrr::map(.data$data, internal_l2fc, group_column = {{ group_column }}, groups_to_compare = groups_to_compare, log2_before)) %>%
+    tidyr::unnest("t_test") %>%
+    dplyr::ungroup()
+
+  #dplyr::mutate(p_val = purrr::map(.data$t_test, pull_safely, .data$p.value)) #%>%
+  #dplyr::mutate(t_score = purrr::map(.data$t_test, pull_safely, .data$statistic))
+
+  if (is.na(adjust_p_lgl)) {
+    if (!(adjust_p %in% stats::p.adjust.methods)) {
+      rlang::abort(paste(
+        "The method you have provided for adjust_p does not exist!\nPlease use one of the available methods below or set adjust_p = FALSE\nAvailable methods:",
+        paste(stats::p.adjust.methods, collapse = ", ")
+      ))
+    }
+
+    data$p.value <- stats::p.adjust(data$p.value, method = adjust_p)
+  }
+
+  data %>%
+    dplyr::mutate(log2fc = as.numeric(.data$log2fc)) %>%
+    dplyr::mutate(log2fc = dplyr::case_when(is.nan(.data$log2fc) ~ NA,
+                                            .default = .data$log2fc
+    ))
+
+}
