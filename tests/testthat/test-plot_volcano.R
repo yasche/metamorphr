@@ -139,3 +139,24 @@ test_that("tibble has correct column names", {
   expect_equal(tbl_name_1, c("UID", "Feature", "log2fc", "p_val", "n_log_p_val"))
   expect_equal(tbl_name_2, c("UID", "NewName", "log2fc", "p_val", "n_log_p_val"))
 })
+
+test_that("providing additional arguments to t.test works", {
+  two_sided_impl <- toy_metaboscape %>%
+    join_metadata(toy_metaboscape_metadata) %>%
+    plot_volcano(group_column = Group, groups_to_compare = c("control", "treatment"), return_tbl = TRUE)
+
+  two_sided_expl <- toy_metaboscape %>%
+    join_metadata(toy_metaboscape_metadata) %>%
+    plot_volcano(group_column = Group, groups_to_compare = c("control", "treatment"), return_tbl = TRUE, alternative = "two.sided")
+
+  greater_expl <- toy_metaboscape %>%
+    join_metadata(toy_metaboscape_metadata) %>%
+    plot_volcano(group_column = Group, groups_to_compare = c("control", "treatment"), return_tbl = TRUE, alternative = "greater")
+
+  less_expl <- toy_metaboscape %>%
+    join_metadata(toy_metaboscape_metadata) %>%
+    plot_volcano(group_column = Group, groups_to_compare = c("control", "treatment"), return_tbl = TRUE, alternative = "less")
+
+  expect_equal(two_sided_impl, two_sided_expl)
+  expect_false(isTRUE(all.equal(greater_expl, less_expl)))
+})
