@@ -1,6 +1,6 @@
 # Changelog
 
-## metamorphr (development version)
+## metamorphr 0.5.0
 
 ### New features
 
