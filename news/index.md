@@ -4,15 +4,17 @@
 
 ### New features
 
-New
-[`read_featuretable_mzmine()`](https://yasche.github.io/metamorphr/reference/read_featuretable_mzmine.md)
-to convert feature tables to a format for the “Functional Analysis”
-module in ‘MetaboAnalyst’.
+- New
+  [`read_featuretable_mzmine()`](https://yasche.github.io/metamorphr/reference/read_featuretable_mzmine.md)
+  to convert feature tables to a format for the “Functional Analysis”
+  module in ‘MetaboAnalyst’.
 
 ### Fixes
 
-Fixed bug in `summary_featuretable` where the wrong number of features
-is printed if the `Feature` column contains duplicates.
+- Fixed bug in
+  [`summary_featuretable()`](https://yasche.github.io/metamorphr/reference/summary_featuretable.md)
+  where the wrong number of features is printed if the `Feature` column
+  contains duplicates.
 
 ## metamorphr 0.4.1
 
@@ -20,8 +22,10 @@ CRAN release: 2026-06-10
 
 ### Fixes
 
-- Fixed critical bug in `read_featuretable` where empty metadata columns
-  caused issues if `metadata_col`s were supplied as numerics.
+- Fixed critical bug in
+  [`read_featuretable()`](https://yasche.github.io/metamorphr/reference/read_featuretable.md)
+  where empty metadata columns caused issues if `metadata_col`s were
+  supplied as numerics.
 
 ## metamorphr 0.4.0
 

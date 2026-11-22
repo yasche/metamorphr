@@ -4,7 +4,7 @@ Similar to
 [`read_featuretable`](https://yasche.github.io/metamorphr/reference/read_featuretable.md)
 but specifically for full_feature_table' files created with 'mzmine'.
 For more information, see [the 'mzmine'
-documentation](https://mzmine.github.io/mzmine_documentation/module_docs/io/feat-list-export.html).
+documentation](https://mzmine.github.io/mzmine_documentation/latest/module_docs/io/feat-list-export.html).
 
 ## Usage
 

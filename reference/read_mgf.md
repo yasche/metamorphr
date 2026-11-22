@@ -9,7 +9,7 @@ Please note that [MGF files are
 software-specific](https://fiehnlab.ucdavis.edu/projects/lipidblast/mgf-files)
 so the variables and their names may vary. This function was developed
 with the GNPS file format exported from
-[mzmine](https://mzio.io/mzmine-news/) in mind.  
+[mzmine](https://mzio.io/mzmine/) in mind.  
   
 If you encounter any bugs please report them:
 <https://github.com/yasche/metamorphr/issues>
