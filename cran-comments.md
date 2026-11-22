@@ -1,6 +1,6 @@
 ## Release summary
 
-* This release contains an urgent fix for a critical bug in the `read_featuretable` function.
+* This release contains the new function `read_featuretable_mzmine()` a minor bug fix in `summary_featuretable()`.
 
 ## R CMD check results
 
