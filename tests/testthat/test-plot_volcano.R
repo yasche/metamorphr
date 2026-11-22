@@ -96,6 +96,7 @@ test_that("returns the expected results for log2_before = TRUE", {
   expect_equal(calced_result$log2fc, test_plot_volcano_results_log2_before$log2fc)
   expect_equal(calced_result$p_val, test_plot_volcano_results_log2_before$p_val)
   expect_equal(calced_result$n_log_p_val, test_plot_volcano_results_log2_before$n_log_p_val)
+  expect_equal(colnames(calced_result), colnames(test_plot_volcano_results_log2_before))
 })
 
 test_that("returns an empty tibble if return_tbl = TRUE  and batch does not exist; filtering works", {
