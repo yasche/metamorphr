@@ -1,4 +1,4 @@
-# metamorphr (development version)
+# metamorphr 0.5.0
 
 ## New features
 * New `read_featuretable_mzmine()` to convert feature tables to a format for the "Functional Analysis" module in 'MetaboAnalyst'.
