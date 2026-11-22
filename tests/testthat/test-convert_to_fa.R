@@ -94,3 +94,50 @@ test_that("p.values, adjusted p.values and t.scores contain non-NA values; adjus
   #tbl_non_adj
   #tbl_non_adj
 })
+
+test_that("tibble has correct dimensions", {
+  tbl_rt_non_adj <- toy_metaboscape %>%
+    join_metadata(toy_metaboscape_metadata) %>%
+    convert_to_fa(group_column = Group,
+                  m_z_col = `m/z`,
+                  groups_to_compare = c("control", "treatment"),
+                  rt_col = RT,
+                  adjust_p = FALSE)
+
+  tbl_rt_adj <- toy_metaboscape %>%
+    join_metadata(toy_metaboscape_metadata) %>%
+    convert_to_fa(group_column = Group,
+                  m_z_col = `m/z`,
+                  groups_to_compare = c("control", "treatment"),
+                  rt_col = RT,
+                  adjust_p = "fdr")
+
+  tbl_non_rt_filtered <- toy_metaboscape %>%
+    join_metadata(toy_metaboscape_metadata) %>%
+    convert_to_fa(group_column = Group,
+                  m_z_col = `m/z`,
+                  groups_to_compare = c("control", "treatment"),
+                  batch_column = Batch,
+                  batch = 1)
+
+  tbl_rt_filtered <- toy_metaboscape %>%
+    join_metadata(toy_metaboscape_metadata) %>%
+    convert_to_fa(group_column = Group,
+                  m_z_col = `m/z`,
+                  groups_to_compare = c("control", "treatment"),
+                  rt_col = RT,
+                  batch_column = Batch,
+                  batch = 1)
+
+  expect_equal(colnames(tbl_rt_non_adj), c("m.z", "p.value", "t.score", "r.t"))
+  expect_equal(colnames(tbl_rt_adj), c("m.z", "p.value", "t.score", "r.t"))
+  expect_equal(colnames(tbl_rt_filtered), c("m.z", "p.value", "t.score", "r.t"))
+  expect_equal(colnames(tbl_non_rt_filtered), c("m.z", "p.value", "t.score"))
+
+  expect_equal(nrow(tbl_rt_non_adj), length(unique(dplyr::pull(toy_metaboscape, UID))))
+  expect_equal(nrow(tbl_rt_adj), length(unique(dplyr::pull(toy_metaboscape, UID))))
+  expect_equal(nrow(tbl_rt_filtered), length(unique(dplyr::pull(toy_metaboscape, UID))))
+  expect_equal(nrow(tbl_non_rt_filtered), length(unique(dplyr::pull(toy_metaboscape, UID))))
+  #tbl_non_adj
+  #tbl_non_adj
+})
